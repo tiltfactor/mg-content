@@ -1,0 +1,10 @@
+1. Place content of folder on server
+2. Goto yourdomain.org/requirements
+3. Ensure that your server passes
+   xxxx ensure that safe_mode is off. place links to how to's about safe_mode disabling 
+4. remove requirements folder from the server
+5. Define database parameter and install sql (this will have to be adapted to suit basic needs. Ask for admin user name, email and password.
+
+
+
+Disable giix before   
