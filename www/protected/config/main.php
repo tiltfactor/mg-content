@@ -10,7 +10,7 @@ return array(
 	'name'=>'My Web Application',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log', 'fbvStorage'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -91,6 +91,10 @@ return array(
 			),
 		),
 		
+    'fbvStorage'=>array(
+      'class'=>'application.components.FBVStorage'
+    ),
+    
     'clientScript' => array(
       'class' => 'ext.components.NLSClientScript',
       'hashMode' => 'PATH', //PATH|CONTENT
