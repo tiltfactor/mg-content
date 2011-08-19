@@ -236,3 +236,10 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 .clearfix:after, .container:after {content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
 .clearfix, .container {display:block;}
 .clear {clear:both;}
+
+
+/* meta data games */
+.flash {margin:5px;font-size:14px;font-weight:bold;}
+.flash .success {margin-bottom:5px;padding:5px;border:2px solid #006600; background-color:#f0f0f0;}
+.flash .warning {margin-bottom:5px;padding:5px;border:2px solid #FFCC00; background-color:#f0f0f0;}
+.flash .error {margin-bottom:5px;padding:5px;border:2px solid #FF0000; background-color:#f0f0f0;}

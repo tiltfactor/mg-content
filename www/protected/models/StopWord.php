@@ -1,8 +1,8 @@
 <?php
 
-Yii::import('application.models._base.BaseStopWords');
+Yii::import('application.models._base.BaseStopWord');
 
-class StopWords extends BaseStopWords
+class StopWord extends BaseStopWord
 {
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

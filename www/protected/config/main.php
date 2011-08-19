@@ -16,10 +16,10 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'application.modules.user.models.*',
-    'application.modules.user.components.*',
     'ext.giix-components.*',
     'ext.components.*',
+    'ext.mg-helper.*',
+    'application.modules.plugins.components.*'
 	),
 
 	'modules'=>array(
@@ -35,6 +35,7 @@ return array(
 		),
 		'admin',
 		'user',
+		'plugins',
 	),
 
 	// application components
@@ -53,8 +54,8 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
-			  'user/restore-password'=>'user/recovery/recovery',
-			  'user/register'=>'user/registration',
+			  'user/restore-password' => 'user/recovery/recovery',
+			  'user/register' => 'user/registration',
         
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
@@ -62,6 +63,8 @@ return array(
 			),
 		),
 		
+    // xxx rest api http://stackoverflow.com/questions/6656219/routing-requests-to-module-in-yii-framework
+    
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=mg',
 			'emulatePrepare' => true,

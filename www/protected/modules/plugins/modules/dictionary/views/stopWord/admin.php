@@ -6,7 +6,6 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-		array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index')),
 		array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
 	);
 
@@ -16,7 +15,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('user-grid', {
+	$.fn.yiiGridView.update('stop-word-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -38,23 +37,16 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'user-grid',
+	'id' => 'stop-word-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'columns' => array(
 		'id',
-		'username',
-		'password',
-		'email',
-		'activkey',
-		'lastvisit',
-		/*
-		'role',
-		'status',
-		'edited_count',
+		'word',
+		'counter',
+		'active',
 		'created',
 		'modified',
-		*/
 		array(
 			'class' => 'CButtonColumn',
 		),

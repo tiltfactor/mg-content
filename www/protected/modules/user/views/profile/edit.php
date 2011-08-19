@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 ?><h2><?php echo UserModule::t('Edit profile'); ?></h2>
 <ul class="actions">
 <?php if(UserModule::isAssigned('dbmanager')) : ?>
-<li><?php echo CHtml::link(UserModule::t('Manage User'),array('/user/admin')); ?></li>
+<li><?php echo CHtml::link(UserModule::t('Manage User'),array('/admin/user')); ?></li>
 <?php endif; ?>
 <li><?php echo CHtml::link(UserModule::t('Profile'),array('/user/profile')); ?></li>
 </ul>

@@ -1,6 +1,6 @@
 <?php
 
-class BlockedIpController extends GxController {
+class StopWordController extends GxController {
 
 public function filters() {
 	return array(
@@ -26,26 +26,25 @@ public function accessRules() {
 
 	public function actionView($id) {
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'BlockedIp'),
+			'model' => $this->loadModel($id, 'StopWord'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new BlockedIp;
+		$model = new StopWord;
     $model->created = date('Y-m-d H:i:s');
     $model->modified = date('Y-m-d H:i:s');
     
-		$this->performAjaxValidation($model, 'blocked-ip-form');
+		$this->performAjaxValidation($model, 'stop-word-form');
 
-		if (isset($_POST['BlockedIp'])) {
-			$model->setAttributes($_POST['BlockedIp']);
+		if (isset($_POST['StopWord'])) {
+			$model->setAttributes($_POST['StopWord']);
 
 			if ($model->save()) {
-        FlashMessage::add('success', Yii::t('app', "BlockedIp created"));
-        if (Yii::app()->getRequest()->getIsAjaxRequest())
-          Yii::app()->end();
-        else 
-				  $this->redirect(array('view', 'id' => $model->id));
+				if (Yii::app()->getRequest()->getIsAjaxRequest())
+					Yii::app()->end();
+				else
+					$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -53,15 +52,14 @@ public function accessRules() {
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'BlockedIp');
+		$model = $this->loadModel($id, 'StopWord');
     $model->modified = date('Y-m-d H:i:s');
-		$this->performAjaxValidation($model, 'blocked-ip-form');
+		$this->performAjaxValidation($model, 'stop-word-form');
 
-		if (isset($_POST['BlockedIp'])) {
-			$model->setAttributes($_POST['BlockedIp']);
+		if (isset($_POST['StopWord'])) {
+			$model->setAttributes($_POST['StopWord']);
 
 			if ($model->save()) {
-        FlashMessage::add('success', Yii::t('app', "BlockedIp updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -73,8 +71,7 @@ public function accessRules() {
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$this->loadModel($id, 'BlockedIp')->delete();
-      FlashMessage::add('success', Yii::t('app', "BlockedIp deleted"));
+			$this->loadModel($id, 'StopWord')->delete();
 
 			if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				$this->redirect(array('admin'));
@@ -83,11 +80,11 @@ public function accessRules() {
 	}
 
 	public function actionIndex() {
-		$model = new BlockedIp('search');
+		$model = new StopWord('search');
     $model->unsetAttributes();
 
-    if (isset($_GET['BlockedIp']))
-      $model->setAttributes($_GET['BlockedIp']);
+    if (isset($_GET['StopWord']))
+      $model->setAttributes($_GET['StopWord']);
 
     $this->render('admin', array(
       'model' => $model,
@@ -95,11 +92,11 @@ public function accessRules() {
 	}
 
 	public function actionAdmin() {
-		$model = new BlockedIp('search');
+		$model = new StopWord('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['BlockedIp']))
-			$model->setAttributes($_GET['BlockedIp']);
+		if (isset($_GET['StopWord']))
+			$model->setAttributes($_GET['StopWord']);
 
 		$this->render('admin', array(
 			'model' => $model,

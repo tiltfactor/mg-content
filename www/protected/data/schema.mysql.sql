@@ -6,11 +6,11 @@ CREATE SCHEMA IF NOT EXISTS `mg` DEFAULT CHARACTER SET utf8 ;
 USE `mg` ;
 
 -- -----------------------------------------------------
--- Table `mg`.`stop_words`
+-- Table `mg`.`stop_word`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mg`.`stop_words` ;
+DROP TABLE IF EXISTS `mg`.`stop_word` ;
 
-CREATE  TABLE IF NOT EXISTS `mg`.`stop_words` (
+CREATE  TABLE IF NOT EXISTS `mg`.`stop_word` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `word` VARCHAR(64) NOT NULL ,
   `counter` INT UNSIGNED NOT NULL DEFAULT 0 ,

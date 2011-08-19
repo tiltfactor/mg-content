@@ -1,2 +1,5 @@
 www/TODO.txt
 www/protected/controllers/VVUTestController.php
+www/protected/runtime
+documentation/*.bak
+www/assets

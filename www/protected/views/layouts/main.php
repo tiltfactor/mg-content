@@ -45,7 +45,13 @@
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
 	<?php endif?>
+  <?php $this->widget('application.extensions.yii-flash.Flash', array(
+    'keys'=>array('success', 'warning','error'), 
+    'htmlOptions'=>array('class'=>'flash'),
+  )); ?><!-- flashes -->
 
+  
+  
 	<?php echo $content; ?>
 
 	<div id="footer">
