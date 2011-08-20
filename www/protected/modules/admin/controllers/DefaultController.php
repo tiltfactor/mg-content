@@ -25,7 +25,7 @@ class DefaultController extends Controller
       $tools["tool-licence"] = array(
                               "name" => Yii::t('app', "Licences"),
                               "description" => Yii::t('app', "Some short description"),
-                              "url" => $this->createUrl('/admin/imageset'),
+                              "url" => $this->createUrl('/admin/licence'),
                            );
       
       if (Yii::app()->user->checkAccess('dbmanager')) {

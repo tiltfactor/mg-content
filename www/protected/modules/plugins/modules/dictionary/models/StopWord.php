@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('application.models._base.BaseStopWord');
+Yii::import('application.modules.plugins.modules.dictionary.models._base.BaseStopWord');
 
 class StopWord extends BaseStopWord
 {

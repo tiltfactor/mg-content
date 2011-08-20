@@ -5,9 +5,9 @@
  *  
  */
 
-class StopWordPlugin extends DictionaryPlugin  {
+class StopWordPlugin extends MGDictionaryPlugin  {
   public $hasAdmin = TRUE;
-  public $adminPath = "/plugins/dictionary/stopword/";
+  public $accessRole = "editor";
   
   function lookup(array $tags, $user_id=NULL, $image_id=NULL) {
     foreach ($tags as $key=>$tag) {

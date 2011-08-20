@@ -4,6 +4,7 @@
 <?php $form = $this->beginWidget('GxActiveForm', array(
 	'id' => 'stop-word-form',
 	'enableAjaxValidation' => true,
+	  'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 
@@ -25,7 +26,7 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'active'); ?>
-    <?php echo $form->textField($model, 'active'); ?>
+    <?php echo $form->dropDownList($model,'active', MGHelper::itemAlias('active')); ?>
     <?php echo $form->error($model,'active'); ?>
     </div><!-- row -->
     <div class="row">

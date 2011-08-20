@@ -37,4 +37,51 @@ class PluginsModule extends CWebModule
 		else
 			return false;
 	}
+  
+  public static function pluginAdminLink($uid, $label="") {
+    try {
+      $component = Yii::createComponent(self::getPluginClassName($uid));
+      if ($component->hasAdmin) {
+        if ($component->adminPath != "") {
+          print "here";
+          $url = $component->adminPath;
+        } else {
+          $info = split("-", $uid);
+          $type = $info[0];
+          $class = $info[1];
+          $controller = str_replace("Plugin", "", $class);
+          $url = array("/plugins/$type/$controller");  
+        }
+        return CHtml::link(Yii::t('app','Manage') . ' '  . (($label != "")? $label : $controller . " Plugin"), $url);          
+      }
+    } catch (Exception $e) {}
+    return "";
+  }
+  
+  public static function getPluginClassName($uid) {
+    $info = split("-", $uid);
+    return $info[1];
+  }
+  
+  /**
+   * This method lists all active plug-ins the current user has got access to.
+   */
+  public static function getAccessiblePlugins($active=1) {
+    $plugins = Plugin::model()->findAll('active=:a', array(':a'=>$active));
+    $list = array();
+    foreach ($plugins as $plugin) {
+      try {
+        $info = split("-", $plugin->unique_id);
+        $type = $info[0];
+        $class = $info[1];
+        $component_name = str_replace("Plugin", "", $class);
+        $component = Yii::createComponent($class);
+        
+        if (Yii::app()->user->checkAccess($component->accessRole)) {
+          $list[] = (object) array('id' => null, 'name' => $component_name, 'link' => self::pluginAdminLink($plugin->unique_id));    
+        }
+      } catch (Exception $e) {}
+    }
+    return $list;
+  }
 }

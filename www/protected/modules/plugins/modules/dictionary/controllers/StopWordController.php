@@ -2,27 +2,27 @@
 
 class StopWordController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
-
-public function accessRules() {
-	return array(
-			array('allow',
-				'actions'=>array('view'),
-				'roles'=>array('*'),
-				),
-			array('allow', 
-				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
-				'roles'=>array('dbmanager', 'admin', 'xxx'),
-				),
-			array('deny', 
-				'users'=>array('*'),
-				),
-			);
-}
+  public function filters() {
+  	return array(
+  			'accessControl', 
+  			);
+  }
+  
+  public function accessRules() {
+  	return array(
+  			array('allow',
+  				'actions'=>array('view'),
+  				'roles'=>array('*'),
+  				),
+  			array('allow', 
+  				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
+  				'roles'=>array('editor'),
+  				),
+  			array('deny', 
+  				'users'=>array('*'),
+  				),
+  			);
+  }
 
 	public function actionView($id) {
 		$this->render('view', array(
@@ -41,7 +41,8 @@ public function accessRules() {
 			$model->setAttributes($_POST['StopWord']);
 
 			if ($model->save()) {
-				if (Yii::app()->getRequest()->getIsAjaxRequest())
+				Flash::add('success', Yii::t('app', "Stop word created"));
+        if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else
 					$this->redirect(array('view', 'id' => $model->id));
@@ -60,6 +61,7 @@ public function accessRules() {
 			$model->setAttributes($_POST['StopWord']);
 
 			if ($model->save()) {
+			  Flash::add('success', Yii::t('app', "Stop word updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -72,7 +74,7 @@ public function accessRules() {
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$this->loadModel($id, 'StopWord')->delete();
-
+      Flash::add('success', Yii::t('app', "Stop word deleted"));
 			if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				$this->redirect(array('admin'));
 		} else

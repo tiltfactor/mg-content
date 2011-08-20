@@ -1,13 +1,10 @@
 <?php
 
 /**
- * This is the base implementation of a dictionary plugin 
+ * This is the base implementation of a dictionary plug-in 
  */
 
-class DictionaryPlugin extends CApplicationComponent {  
-  public $hasAdmin = FALSE;
-  public $adminPath = "";
-  
+class MGDictionaryPlugin extends MGPlugin {  
   function init() {
     parent::init();
   }
@@ -19,9 +16,5 @@ class DictionaryPlugin extends CApplicationComponent {
   function cleanUp() {}
   
   function expand() {} 
-  
-  function install() {
-    return TRUE;
-  }
   
 }

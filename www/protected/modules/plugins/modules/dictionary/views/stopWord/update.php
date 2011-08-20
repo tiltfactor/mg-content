@@ -2,6 +2,8 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
+  Yii::t('app', 'Plugins')=>array('/plugins'),
+  Yii::t('app', 'Dictionary'),
 	$model->label(2) => array('index'),
 	GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
 	Yii::t('app', 'Update'),

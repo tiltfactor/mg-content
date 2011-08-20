@@ -56,15 +56,15 @@ foreach ($this->tableSchema->columns as $column) {
 		echo "\t\t/*\n";
   
   switch ($column->name) {
-    /*case "created":
-    case "modified":
-      echo "\t\t array(
+    case "active":
+       echo "\t\t array(
         'name' => '{$column->name}',
         'type' => 'raw',
-        'value' => 'date(\"d.m.Y H:i:s\",\$data->{$column->name})'
+        'value' => 'MGHelper::itemAlias(\"active\",\$data->active)',
+        'filter'=> MGHelper::itemAlias(\"active\"),
       ),\n";
+           
       break;
-      */
     default:
       echo "\t\t" . $this->generateGridViewColumn($this->modelClass, $column).",\n";    
       break;

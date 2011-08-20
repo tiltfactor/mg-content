@@ -25,7 +25,7 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'active'); ?>
-    <?php echo $form->dropDownList($model,'active', Plugin::itemAlias('active')); ?>
+    <?php echo $form->dropDownList($model,'active', MGHelper::itemAlias('active')); ?>
     <?php echo $form->error($model,'active'); ?>
     </div><!-- row -->
     <div class="row">

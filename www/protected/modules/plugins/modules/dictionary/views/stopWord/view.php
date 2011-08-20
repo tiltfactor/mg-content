@@ -2,6 +2,8 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
+  Yii::t('app', 'Plugins')=>array('/plugins'),
+  Yii::t('app', 'Dictionary'),
 	$model->label(2) => array('index'),
 	GxHtml::valueEx($model),
 );
@@ -22,7 +24,10 @@ $this->menu=array(
 'id',
 'word',
 'counter',
-'active',
+array(
+  'name' => 'active',
+  'value' => MGHelper::itemAlias("active",$model->active),
+),
 'created',
 'modified',
 	),

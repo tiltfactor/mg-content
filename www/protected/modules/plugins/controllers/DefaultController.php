@@ -11,12 +11,12 @@ class DefaultController extends GxController
   public function accessRules() {
     return array(
         array('allow',
-          'actions'=>array('view'),
-          'roles'=>array('*'),
+          'actions'=>array('view', 'index'),
+          'roles'=>array('editor'),
           ),
         array('allow', 
-          'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
-          'roles'=>array('admin'),
+          'actions'=>array('view', 'create', 'update', 'admin','delete'),
+          'roles'=>array('admin', 'xxx'),
           ),
         array('deny', 
           'users'=>array('*'),
@@ -39,6 +39,7 @@ class DefaultController extends GxController
       $model->setAttributes($_POST['Plugin']);
 
       if ($model->save()) {
+        Flash::add('success', Yii::t('app', "Plugin updated"));
         $this->redirect(array('view', 'id' => $model->id));
       }
     }
@@ -49,10 +50,17 @@ class DefaultController extends GxController
   }
   
   public function actionDelete($id) {
-    // xxx delete settings
     if (Yii::app()->getRequest()->getIsPostRequest()) {
-      $this->loadModel($id, 'Plugin')->delete();
-
+      $model = $this->loadModel($id, 'Plugin');
+      $class = PluginsModule::getPluginClassName($model->unique_id);
+      $model->delete();
+      Flash::add('success', Yii::t('app', "Plugin deleted"));
+      try {
+        $component = Yii::createComponent($class);
+        Flash::add('success', Yii::t('app', "Plugin uninstalled")); 
+      } catch (Exception $e) {
+        Flash::add("error", Yii::t('app', "The uninstall method of the plugin of type {$listed_plugin->type} with the unique id {$listed_plugin->unique_id} could not be called!"), TRUE);
+      }
       if (!Yii::app()->getRequest()->getIsAjaxRequest())
         $this->redirect(array('admin'));
     } else
@@ -60,7 +68,24 @@ class DefaultController extends GxController
   }
 
   public function actionIndex() {
-    $this->actionAdmin();
+    $model = new Plugin();
+    
+    $dataProvider=new CArrayDataProvider(PluginsModule::getAccessiblePlugins(), array(
+        'id'=>'user',
+        'sort'=>array(
+            'attributes'=>array(
+                 'name',
+            ),
+        ),
+        'pagination'=>array(
+            'pageSize'=>10,
+        ),
+    ));
+    
+    $this->render('index', array(
+      'model' => $model,
+      'dataProvider' => $dataProvider,
+    ));
   }
 
   public function actionAdmin() {
@@ -85,7 +110,6 @@ class DefaultController extends GxController
       }
     }
     
-
     $model = new Plugin('search');
     $model->unsetAttributes();
 
@@ -174,10 +198,14 @@ class DefaultController extends GxController
     $model->unique_id = $plugin["uid"];
     $model->active = 0;
     
-    
-    $component = new $plugin["class"]();
-    
+    $installed = FALSE;
+    try {
+      $component = Yii::createComponent($plugin["class"]);
+      $installed = $component->install(); 
+    } catch (Exception $e) {
+      Flash::add("error", Yii::t('app', "The install method of the plugin of type {$listed_plugin->type} with the unique id {$listed_plugin->unique_id} could not be called!"), TRUE);
+    }
         
-    return $model->save() && $component->install();  
+    return $model->save() && $installed;  
   }
 }

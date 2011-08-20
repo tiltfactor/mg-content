@@ -37,6 +37,15 @@ $form = $this->beginWidget('GxActiveForm', array(
     </div><!-- row -->
 <?php
       break;
+    case "active":
+      ?>
+    <div class="row">
+    <?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
+    <?php echo "<?php echo \$form->dropDownList(\$model,'{$column->name}', MGHelper::itemAlias('active')); ?>\n"; ?>
+    <?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
+    </div><!-- row -->
+<?php
+      break;
     default:
       if (strpos($column->dbType, "enum") !== FALSE) { // this is a special handler for mysql enum column types
         $arr_list = array();

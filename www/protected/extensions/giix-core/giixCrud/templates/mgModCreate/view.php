@@ -28,19 +28,14 @@ $this->menu=array(
 	'attributes' => array(
 <?php
 foreach ($this->tableSchema->columns as $column) {
-   /*  
-   if ($column->name == "created" || $column->name == "modified") {
-     ?>array(
-      'label' => Yii::t('app', '<?php echo $column->name; ?>'),
-      'type' => 'raw',
-      'value' => date("d.m.Y H:i:s",$model-><?php echo $column->name; ?>)  
-    ),
-<?php
-   } else { 
-       
-   }
-*/
-echo $this->generateDetailViewAttribute($this->modelClass, $column) . ",\n";
+  if ($column->name == "active") {
+   ?>array(
+    'name' => 'active',
+    'value' => MGHelper::itemAlias("active",$model->active),
+  ),<?php
+  } else { 
+     echo $this->generateDetailViewAttribute($this->modelClass, $column) . ",\n";
+  }
 }
 ?>
 	),

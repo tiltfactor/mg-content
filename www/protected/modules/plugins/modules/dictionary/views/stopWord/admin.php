@@ -2,6 +2,8 @@
 
 $this->breadcrumbs = array(
 	Yii::t('app', 'Admin')=>array('/admin'),
+	Yii::t('app', 'Plugins')=>array('/plugins'),
+  Yii::t('app', 'Dictionary'),
 	$model->label(2),
 );
 
@@ -44,7 +46,12 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 		'id',
 		'word',
 		'counter',
-		'active',
+		array(
+      'name' => 'active',
+      'type' => 'raw',
+      'value' => 'MGHelper::itemAlias("active",$data->active)',
+      'filter'=> MGHelper::itemAlias("active"),
+    ),
 		'created',
 		'modified',
 		array(

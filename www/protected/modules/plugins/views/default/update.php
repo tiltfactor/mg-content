@@ -7,11 +7,15 @@ $this->breadcrumbs = array(
 	Yii::t('app', 'Update'),
 );
 
-$this->menu = array(
-	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
-  array('label' => Yii::t('app', 'View') . ' ' . $model->label(), 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
-  array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?')),
-);
+if (($link = PluginsModule::pluginAdminLink($model->unique_id)) != "") {
+  $arr_menu[] = array('label'=>$link, 'visible' => Yii::app()->user->checkAccess('admin'));
+} 
+$arr_menu[] = array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index'), 'visible' => Yii::app()->user->checkAccess('editor'));
+$arr_menu[] = array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin'), 'visible' => Yii::app()->user->checkAccess('admin'));
+$arr_menu[] = array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin'));
+$arr_menu[] = array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?'), 'visible' => Yii::app()->user->checkAccess('admin'));
+
+$this->menu = $arr_menu;
 ?>
 
 <h1><?php echo Yii::t('app', 'Update') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model, "unique_id")); ?></h1>

@@ -5,7 +5,10 @@ $this->breadcrumbs = array(
 	$model->label(2),
 );
 
-$this->menu = array();
+$arr_menu[] = array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index'), 'visible' => Yii::app()->user->checkAccess('editor'));
+$arr_menu[] = array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin'), 'visible' => Yii::app()->user->checkAccess('admin'));
+
+$this->menu = $arr_menu;
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -19,6 +22,7 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+
 ?>
 
 <h1><?php echo Yii::t('app', 'Manage') . ' ' . GxHtml::encode($model->label(2)); ?></h1>
@@ -49,11 +53,14 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 		array(
       'name' => 'active',
       'type' => 'raw',
-      'value' => 'Plugin::itemAlias("active",$data->active)',
-      'filter'=> Plugin::itemAlias("active"),
+      'value' => 'MGHelper::itemAlias("active",$data->active)',
+      'filter'=> MGHelper::itemAlias("active"),
     ),
-		'created',
-		'modified',
+    array(
+      'header' => Yii::t('app', 'Manage'),
+      'type' => 'raw',
+      'value' => 'PluginsModule::pluginAdminLink($data->unique_id)',
+    ),
 		array(
 			'class' => 'CButtonColumn',
 		),

@@ -12,7 +12,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'active'); ?>
-		<?php echo $form->dropDownList($model,'active', Plugin::itemAlias('active')); ?>
+		<?php echo $form->dropDownList($model,'active', MGHelper::itemAlias('active')); ?>
 	</div>
 
 	<div class="row">
