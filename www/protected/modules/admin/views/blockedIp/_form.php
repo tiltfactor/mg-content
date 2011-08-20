@@ -4,6 +4,7 @@
 <?php $form = $this->beginWidget('GxActiveForm', array(
 	'id' => 'blocked-ip-form',
 	'enableAjaxValidation' => true,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 
@@ -20,7 +21,10 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'type'); ?>
-    <?php echo $form->textField($model, 'type', array('maxlength' => 10)); ?>
+    <?php echo $form->dropDownList($model,'type', array (
+  'deny' => 'deny',
+  'allow' => 'allow',
+)); ?>
     <?php echo $form->error($model,'type'); ?>
     </div><!-- row -->
     <div class="row">

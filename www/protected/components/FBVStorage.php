@@ -157,9 +157,90 @@ class FBVStorage extends CApplicationComponent {
         if ($i == $c-1) {
           $data[$scopes[$i]] = $value;
         }
-         $s[] = $scopes[$i];
+        $s[] = $scopes[$i];
       } else {
         throw new CException(Yii::t('yii','Cannot write onto leaf of array. "{scope}" has no children.',
+          array('{scope}'=>implode(".", $s))));
+      }
+    }
+    
+    if ($c > 0)
+      $this->saveToFile(FBVStorage::$data, $this->settingsFile);
+  }
+  
+  /**
+   * Removes a value or branch from the settings file. You can address several levels of the storage 
+   * array by using a application path like syntax. 
+   * 
+   * E.g. calling remove() with remove('plugins.import.import-image.active') will remove the array key  
+   * 'active' in the array 
+   * 
+   * Out of 
+   * 
+   * array (
+   * 'plugins' => 
+   * array(
+   *   'import' =>
+   *     array(
+   *       array(
+   *         'name' => 'import-image',
+   *         'description' => 'import-image',
+   *         'active' => TRUE,
+   *         'settings' =>
+   *         array(
+   *         ),
+   *       ),
+   *     ),
+   *   ),
+   * );
+   * 
+   * becomes 
+   *  
+   * array (
+   * 'plugins' => 
+   * array(
+   *   'import' =>
+   *     array(
+   *       array(
+   *         'name' => 'import-image',
+   *         'description' => 'import-image',
+   *         'settings' =>
+   *         array(
+   *         ),
+   *       ),
+   *     ),
+   *   ),
+   * );
+   * 
+   * @param string $scope the scope of the setting.
+   * @param mixed $value the value to which the element should be set
+   */
+  public function remove($scope) {
+    $scopes = explode(".", (string)$scope);
+    $data =& FBVStorage::$data;
+    
+    $c = count($scopes);
+    $s = array();
+    for ($i=0; $i<$c;$i++) {
+      if (is_array($data)) {
+        if ($i < $c-1) {
+          if (!array_key_exists($scopes[$i], $data)) {
+            throw new CException(Yii::t('yii','Cannot find leaf of array. "{scope}" has no children.',
+              array('{scope}'=>implode(".", $s))));
+          }
+          if (is_array($data)) {
+            $data =& $data[$scopes[$i]];
+          } else {
+            throw new CException(Yii::t('yii','Cannot find leaf of array. "{scope}" has no children.',
+              array('{scope}'=>implode(".", $s))));
+          } 
+        }
+        if ($i == $c-1) {
+          unset($data[$scopes[$i]]);
+        }
+        $s[] = $scopes[$i];
+      } else {
+        throw new CException(Yii::t('yii','Cannot find leaf of array. "{scope}" has no children.',
           array('{scope}'=>implode(".", $s))));
       }
     }

@@ -18,7 +18,7 @@ return array(
 		'application.components.*',
     'ext.giix-components.*',
     'ext.components.*',
-    'ext.mg-helper.*',
+    'ext.yii-flash.*',
     'application.modules.plugins.components.*'
 	),
 

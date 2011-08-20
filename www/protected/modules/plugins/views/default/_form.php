@@ -15,18 +15,18 @@
 
     <div class="row">
     <?php echo $form->labelEx($model,'type'); ?>
-    <?php echo $form->textField($model, 'type', array('maxlength' => 20)); ?>
+    <?php echo $model->type; ?>
     <?php echo $form->error($model,'type'); ?>
     </div><!-- row -->
     <div class="row">
-    <?php echo $form->labelEx($model,'active'); ?>
-    <?php echo $form->textField($model, 'active'); ?>
-    <?php echo $form->error($model,'active'); ?>
+    <?php echo $form->labelEx($model,'unique_id'); ?>
+    <?php echo $model->unique_id; ?>
+    <?php echo $form->error($model,'unique_id'); ?>
     </div><!-- row -->
     <div class="row">
-    <?php echo $form->labelEx($model,'unique_id'); ?>
-    <?php echo $form->textField($model, 'unique_id', array('maxlength' => 254)); ?>
-    <?php echo $form->error($model,'unique_id'); ?>
+    <?php echo $form->labelEx($model,'active'); ?>
+    <?php echo $form->dropDownList($model,'active', Plugin::itemAlias('active')); ?>
+    <?php echo $form->error($model,'active'); ?>
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>

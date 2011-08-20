@@ -40,7 +40,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 <?php else: ?>
 			if ($model->save()) {
 <?php endif; ?>
-				FlashMessage::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> created"));
+				Flash::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else 
@@ -69,7 +69,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 <?php else: ?>
 			if ($model->save()) {
 <?php endif; ?>
-        FlashMessage::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> updated"));
+        Flash::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> updated"));
 				$this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
 			}
 		}
@@ -82,7 +82,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$this->loadModel($id, '<?php echo $this->modelClass; ?>')->delete();
-      FlashMessage::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> deleted"));
+      Flash::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> deleted"));
 
 			if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				$this->redirect(array('admin'));

@@ -34,6 +34,11 @@ class DefaultController extends Controller
                               "description" => Yii::t('app', "Some short description"),
                               "url" => $this->createUrl('/admin/user'),
                            );
+        $tools["tool-plugins"] = array(
+                              "name" => Yii::t('app', "Plugins"),
+                              "description" => Yii::t('app', "Some short description"),
+                              "url" => $this->createUrl('/plugins'),
+                           );
       }
                            
       $this->render('index',

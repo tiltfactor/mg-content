@@ -12,6 +12,7 @@
 $form = $this->beginWidget('GxActiveForm', array(
 	'id' => '<?php echo $this->class2id($this->modelClass); ?>-form',
 	'enableAjaxValidation' => <?php echo $ajax; ?>,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 <?php echo '?>'; ?>
 
@@ -37,13 +38,26 @@ $form = $this->beginWidget('GxActiveForm', array(
 <?php
       break;
     default:
-      ?>
+      if (strpos($column->dbType, "enum") !== FALSE) { // this is a special handler for mysql enum column types
+        $arr_list = array();
+        $arr = explode(",", str_replace(array("enum", "ENUM", "(", ")", "'"), "", $column->dbType));
+        foreach ($arr as $option) {
+          $arr_list[$option] = Yii::t('app', $option); 
+        }
+        $arr = var_export($arr_list, TRUE);
+        ?>
+    <div class="row">
+    <?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
+    <?php echo "<?php echo \$form->dropDownList(\$model,'{$column->name}', $arr); ?>\n"; ?>
+    <?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
+    </div><!-- row -->
+<?php } else { ?>
     <div class="row">
     <?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
     <?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
     <?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
     </div><!-- row -->
-<?php
+<?php } 
       break;
   }
 endif; ?>

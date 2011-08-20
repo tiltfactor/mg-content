@@ -5,6 +5,8 @@
  */
 
 class DictionaryPlugin extends CApplicationComponent {  
+  public $hasAdmin = FALSE;
+  public $adminPath = "";
   
   function init() {
     parent::init();
@@ -17,5 +19,9 @@ class DictionaryPlugin extends CApplicationComponent {
   function cleanUp() {}
   
   function expand() {} 
+  
+  function install() {
+    return TRUE;
+  }
   
 }

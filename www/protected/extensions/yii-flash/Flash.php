@@ -28,8 +28,19 @@ class Flash extends CWidget
 	/**
 	 * @property string the associated JavaScript.
 	 */
-	public $js="jQuery('.flash').hide().fadeIn(500).animate({opacity: 1.0}, 3000, function () {jQuery('.flash .fade').fadeOut('slow');});";
-
+	public $js="\$('.flash').hide().fadeIn(500).animate({opacity: 1.0}, 3000, function () {jQuery('.flash .fade').fadeOut('slow');});";
+  
+  /**
+   * Adds a message that will be shown to the user 
+   * 
+   * @param string $scope the scope of the message (success|warning|error)
+   * @param string $message the message to be displayed to the user
+   * @param boolean $fixed the message fades out after a certain interval if false
+   */
+  public static function add($scope, $message, $fixed=FALSE) {
+    Yii::app()->user->setflash(uniqid(), array('scope' => $scope, 'message' => $message, 'fixed' => $fixed) );
+  }
+  
 	/**
 	 * Runs the widget.
 	 */
@@ -70,9 +81,9 @@ class Flash extends CWidget
 			echo CHtml::openTag('div',$this->htmlOptions);
 			echo $markup;
 			echo CHtml::closeTag('div');
+      
+      Yii::app()->clientScript->registerScript(__CLASS__.'#'.$id,
+        strtr($this->js,array('{id}'=>$id)),CClientScript::POS_READY);  
 		}
-
-		Yii::app()->clientScript->registerScript(__CLASS__.'#'.$id,
-				strtr($this->js,array('{id}'=>$id)),CClientScript::POS_READY);
 	}
 }

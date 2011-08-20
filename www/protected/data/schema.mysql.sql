@@ -525,7 +525,7 @@ DROP TABLE IF EXISTS `mg`.`blocked_ip` ;
 CREATE  TABLE IF NOT EXISTS `mg`.`blocked_ip` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `ip` VARCHAR(45) NOT NULL ,
-  `type` VARCHAR(10) NOT NULL DEFAULT 'deny' ,
+  `type` ENUM('deny', 'allow') NOT NULL DEFAULT 'deny' ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )

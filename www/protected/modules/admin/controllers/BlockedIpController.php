@@ -41,10 +41,10 @@ public function accessRules() {
 			$model->setAttributes($_POST['BlockedIp']);
 
 			if ($model->save()) {
-        FlashMessage::add('success', Yii::t('app', "BlockedIp created"));
+				Flash::add('success', Yii::t('app', "BlockedIp created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
-          Yii::app()->end();
-        else 
+					Yii::app()->end();
+				else 
 				  $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -61,7 +61,7 @@ public function accessRules() {
 			$model->setAttributes($_POST['BlockedIp']);
 
 			if ($model->save()) {
-        FlashMessage::add('success', Yii::t('app', "BlockedIp updated"));
+        Flash::add('success', Yii::t('app', "BlockedIp updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -74,7 +74,7 @@ public function accessRules() {
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$this->loadModel($id, 'BlockedIp')->delete();
-      FlashMessage::add('success', Yii::t('app', "BlockedIp deleted"));
+      Flash::add('success', Yii::t('app', "BlockedIp deleted"));
 
 			if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				$this->redirect(array('admin'));

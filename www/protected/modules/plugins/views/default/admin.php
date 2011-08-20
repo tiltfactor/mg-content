@@ -5,9 +5,7 @@ $this->breadcrumbs = array(
 	$model->label(2),
 );
 
-$this->menu = array(
-		array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-	);
+$this->menu = array();
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,6 +31,7 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 <div class="search-form">
 <?php $this->renderPartial('_search', array(
 	'model' => $model,
+	'type_filter' => $type_filter,
 )); ?>
 </div><!-- search-form -->
 
@@ -41,10 +40,18 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'columns' => array(
-		'id',
-		'type',
-		'active',
+		array(
+      'name' => 'type',
+      'value' => '$data->type',
+      'filter'=> $type_filter,
+    ),
 		'unique_id',
+		array(
+      'name' => 'active',
+      'type' => 'raw',
+      'value' => 'Plugin::itemAlias("active",$data->active)',
+      'filter'=> Plugin::itemAlias("active"),
+    ),
 		'created',
 		'modified',
 		array(

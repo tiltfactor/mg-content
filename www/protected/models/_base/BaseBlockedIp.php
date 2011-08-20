@@ -38,7 +38,7 @@ abstract class BaseBlockedIp extends GxActiveRecord {
 		return array(
 			array('ip, created, modified', 'required'),
 			array('ip', 'length', 'max'=>45),
-			array('type', 'length', 'max'=>10),
+			array('type', 'length', 'max'=>5),
 			array('type', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, ip, type, created, modified', 'safe', 'on'=>'search'),
 		);

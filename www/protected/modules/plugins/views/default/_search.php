@@ -6,18 +6,13 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->textField($model, 'id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model, 'type'); ?>
-		<?php echo $form->textField($model, 'type', array('maxlength' => 20)); ?>
+		<?php echo $form->dropDownList($model,'type', $type_filter); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'active'); ?>
-		<?php echo $form->textField($model, 'active'); ?>
+		<?php echo $form->dropDownList($model,'active', Plugin::itemAlias('active')); ?>
 	</div>
 
 	<div class="row">
