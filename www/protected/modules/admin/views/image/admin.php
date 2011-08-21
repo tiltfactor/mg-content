@@ -15,7 +15,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('image-set-grid', {
+	$.fn.yiiGridView.update('image-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -37,36 +37,19 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'image-set-grid',
+	'id' => 'image-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'columns' => array(
 		'id',
-		'name',
-		 array(
-        'name' => 'locked',
-        'type' => 'raw',
-        'value' => 'MGHelper::itemAlias(\'locked\',$data->locked)',
-        'filter'=> MGHelper::itemAlias('locked'),
-      ),
-		'more_information',
-		array(
-				'name'=>'licence_id',
-				'value'=>'GxHtml::valueEx($data->licence)',
-				'filter'=>GxHtml::listDataEx(Licence::model()->findAllAttributes(null, true)),
-				),
+		'file',
 		'created',
-		/*
 		'modified',
-		*/
+		'last_access',
     array (
   'class' => 'CButtonColumn',
   'buttons' => 
   array (
-    'delete' => 
-    array (
-      'visible' => '$data->locked == 0',
-    ),
   ),
 )  ),
 )); ?>

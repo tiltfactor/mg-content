@@ -7,13 +7,14 @@
 <?php
 echo "<?php\n
 \$this->breadcrumbs = array(
+  Yii::t('app', 'Admin')=>array('/admin'),
 	\$model->label(2) => array('index'),
 	Yii::t('app', 'Create'),
 );\n";
 ?>
 
+
 $this->menu = array(
-	array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url' => array('index')),
 	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
 );
 ?>

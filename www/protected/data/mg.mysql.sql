@@ -2,9 +2,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-CREATE SCHEMA IF NOT EXISTS `mg` DEFAULT CHARACTER SET utf8 ;
-USE `mg` ;
-
 -- -----------------------------------------------------
 -- Table `mg`.`stop_word`
 -- -----------------------------------------------------
@@ -196,7 +193,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mg`.`image` ;
 
 CREATE  TABLE IF NOT EXISTS `mg`.`image` (
-  `id` INT(11) NOT NULL ,
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `file` VARCHAR(254) NOT NULL ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
@@ -639,6 +636,15 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `mg`;
 INSERT INTO `mg`.`licence` (`id`, `name`, `description`, `created`, `modified`) VALUES (1, 'Default Licence', 'This is the default licence. The images used are not licenced', '2011-01-01 12:00', '2011-01-01 12:00');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mg`.`image_set`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mg`;
+INSERT INTO `mg`.`image_set` (`id`, `name`, `locked`, `more_information`, `licence_id`, `created`, `modified`) VALUES (1, 'All', 1, 'This is the default image set. All images will be automatically assigned to it. It cannot be deleted.', 1, '2011-01-01 12:00', '2011-01-01 12:00');
 
 COMMIT;
 

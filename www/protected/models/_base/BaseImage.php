@@ -38,8 +38,7 @@ abstract class BaseImage extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('id, file, created, modified', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
+			array('file, created, modified', 'required'),
 			array('file', 'length', 'max'=>254),
 			array('last_access', 'safe'),
 			array('last_access', 'default', 'setOnEmpty' => true, 'value' => null),

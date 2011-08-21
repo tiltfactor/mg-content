@@ -11,6 +11,10 @@ class MGHelper {
         0 => Yii::t('app', 'Not active'),
         1 => Yii::t('app', 'Active'),
       ),
+      'locked' => array(
+        0 => Yii::t('app', 'Item not locked'),
+        1 => Yii::t('app', 'Item locked'),
+      ),
     );
     if (isset($code))
       return isset($_items[$type][$code]) ? $_items[$type][$code] : false;

@@ -7,13 +7,12 @@
 <?php
 echo "<?php\n
 \$this->breadcrumbs = array(
-	\$model->label(2) => array('index'),
-	Yii::t('app', 'Manage'),
+	Yii::t('app', 'Admin')=>array('/admin'),
+	\$model->label(2),
 );\n";
 ?>
 
 $this->menu = array(
-		array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index')),
 		array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
 	);
 
@@ -52,16 +51,33 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 	'columns' => array(
 <?php
 $count = 0;
+$arr_buttons = array('class' => 'CButtonColumn', "buttons"=> array());
 foreach ($this->tableSchema->columns as $column) {
 	if (++$count == 7)
 		echo "\t\t/*\n";
-	echo "\t\t" . $this->generateGridViewColumn($this->modelClass, $column).",\n";
+  
+  switch ($column->name) {
+    case "active":
+    case "locked":
+       echo "\t\t array(
+        'name' => '{$column->name}',
+        'type' => 'raw',
+        'value' => 'MGHelper::itemAlias(\'{$column->name}\',\$data->{$column->name})',
+        'filter'=> MGHelper::itemAlias('{$column->name}'),
+      ),\n";
+      
+      if ($column->name == "locked") {
+        $arr_buttons["buttons"]['delete'] = array ('visible'=>'$data->locked == 0');
+      }
+      break;
+    default:
+      echo "\t\t" . $this->generateGridViewColumn($this->modelClass, $column).",\n";    
+      break;
+  }
 }
 if ($count >= 7)
 	echo "\t\t*/\n";
 ?>
-		array(
-			'class' => 'CButtonColumn',
-		),
-	),
+    <?php echo var_export($arr_buttons, TRUE) ; ?>
+  ),
 )); ?>

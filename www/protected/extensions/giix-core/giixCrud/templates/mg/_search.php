@@ -11,9 +11,20 @@
 	'method' => 'get',
 )); ?>\n"; ?>
 
-<?php foreach($this->tableSchema->columns as $column): ?>
-<?php
-	$field = $this->generateInputField($this->modelClass, $column);
+<?php foreach($this->tableSchema->columns as $column): 
+  switch ($column->name) :
+    case "active":
+    case "locked":
+      ?>
+  <div class="row">
+    <?php echo "<?php echo \$form->label(\$model, '{$column->name}'); ?>\n"; ?>
+    <?php echo "<?php echo \$form->dropDownList(\$model,'{$column->name}', MGHelper::itemAlias('{$column->name}')); ?>\n"; ?>
+  </div>
+<?php 
+      break;
+      
+    default:
+  $field = $this->generateInputField($this->modelClass, $column);
 	if (strpos($field, 'password') !== false)
 		continue;
 ?>
@@ -22,7 +33,9 @@
 		<?php echo "<?php " . $this->generateSearchField($this->modelClass, $column)."; ?>\n"; ?>
 	</div>
 
-<?php endforeach; ?>
+<?php 
+  endswitch;
+endforeach; ?>
 	<div class="row buttons">
 		<?php echo "<?php echo GxHtml::submitButton(Yii::t('app', 'Search')); ?>\n"; ?>
 	</div>
