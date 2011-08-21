@@ -28,6 +28,12 @@ class DefaultController extends Controller
                               "url" => $this->createUrl('/admin/licence'),
                            );
       
+      $tools["tool-licence"] = array(
+                              "name" => Yii::t('app', "Import"),
+                              "description" => Yii::t('app', "Tools to import images or tags (? xxx) into the system"),
+                              "url" => $this->createUrl('/admin/import'),
+                           );
+      
       if (Yii::app()->user->checkAccess('dbmanager')) {
         $tools["tool-user"] = array(
                               "name" => Yii::t('app', "User Manager"),

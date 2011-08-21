@@ -98,6 +98,10 @@ return array(
       'class'=>'application.components.FBVStorage'
     ),
     
+    'xUploadWidget' => array(
+      'class' => 'ext.xupload.XUploadWidget',
+    ),
+    
     'clientScript' => array(
       'class' => 'ext.components.NLSClientScript',
       'hashMode' => 'PATH', //PATH|CONTENT

@@ -22,10 +22,13 @@ $this->menu=array(
 	'data' => $model,
 	'attributes' => array(
 'id',
-'file',
+'name',
+'size',
+'mime_type',
+'last_access',
+'locked',
 'created',
 'modified',
-'last_access',
 	),
 )); ?>
 

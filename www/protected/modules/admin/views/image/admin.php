@@ -42,14 +42,28 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 	'filter' => $model,
 	'columns' => array(
 		'id',
-		'file',
+		'name',
+		'size',
+		'mime_type',
+		'last_access',
+		 array(
+        'name' => 'locked',
+        'type' => 'raw',
+        'value' => 'MGHelper::itemAlias(\'locked\',$data->locked)',
+        'filter'=> MGHelper::itemAlias('locked'),
+      ),
+		/*
 		'created',
 		'modified',
-		'last_access',
+		*/
     array (
   'class' => 'CButtonColumn',
   'buttons' => 
   array (
+    'delete' => 
+    array (
+      'visible' => '$data->locked == 0',
+    ),
   ),
 )  ),
 )); ?>

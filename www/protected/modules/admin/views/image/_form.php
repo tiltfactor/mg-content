@@ -15,9 +15,29 @@
 	<?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-    <?php echo $form->labelEx($model,'file'); ?>
-    <?php echo $form->textField($model, 'file', array('maxlength' => 254)); ?>
-    <?php echo $form->error($model,'file'); ?>
+    <?php echo $form->labelEx($model,'name'); ?>
+    <?php echo $form->textField($model, 'name', array('maxlength' => 254)); ?>
+    <?php echo $form->error($model,'name'); ?>
+    </div><!-- row -->
+    <div class="row">
+    <?php echo $form->labelEx($model,'size'); ?>
+    <?php echo $form->textField($model, 'size'); ?>
+    <?php echo $form->error($model,'size'); ?>
+    </div><!-- row -->
+    <div class="row">
+    <?php echo $form->labelEx($model,'mime_type'); ?>
+    <?php echo $form->textField($model, 'mime_type', array('maxlength' => 45)); ?>
+    <?php echo $form->error($model,'mime_type'); ?>
+    </div><!-- row -->
+    <div class="row">
+    <?php echo $form->labelEx($model,'last_access'); ?>
+    <?php echo $form->textField($model, 'last_access'); ?>
+    <?php echo $form->error($model,'last_access'); ?>
+    </div><!-- row -->
+    <div class="row">
+    <?php echo $form->labelEx($model,'locked'); ?>
+    <b><?php echo MGHelper::itemAlias('locked',$model->locked); ?>
+</b>
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>
@@ -30,11 +50,6 @@
     <?php echo $form->labelEx($model,'modified'); ?>
     <?php echo $model->modified; ?>
     <?php endif; ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php echo $form->labelEx($model,'last_access'); ?>
-    <?php echo $form->textField($model, 'last_access'); ?>
-    <?php echo $form->error($model,'last_access'); ?>
     </div><!-- row -->
 
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>

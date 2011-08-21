@@ -194,10 +194,13 @@ DROP TABLE IF EXISTS `mg`.`image` ;
 
 CREATE  TABLE IF NOT EXISTS `mg`.`image` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `file` VARCHAR(254) NOT NULL ,
+  `name` VARCHAR(254) NOT NULL ,
+  `size` INT(11) NOT NULL ,
+  `mime_type` VARCHAR(45) NOT NULL ,
+  `last_access` DATETIME NULL ,
+  `locked` INT(1) NOT NULL DEFAULT 0 ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
-  `last_access` DATETIME NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 

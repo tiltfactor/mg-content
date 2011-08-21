@@ -10,10 +10,31 @@ Choose the folder that represents the category of you plugin
 Please place all models representing database tables into the
 
 
+USED Libraries
+JQuery http://jquery.org/ MIT/GPL 
+JQuery UI http://jqueryui.com/ MIT/GPL
+Colorbox http://colorpowered.com/colorbox/ MIT
+
+
+jQuery Template
+  https://github.com/jquery/jquery-tmpl MIT/GPL
+  CDN 
+  http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js
+  http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js
 
 USED Extensions
-
 http://www.yiiframework.com/extension/yii-flash/ NEW BSD
 http://www.yiiframework.com/extension/giix/ NEW BSD
 http://www.yiiframework.com/extension/yii-user/ NEW BSD
-http://www.yiiframework.com/extension/nlsclientscript/ NEW BSD   
+http://www.yiiframework.com/extension/nlsclientscript/ NEW BSD
+
+http://www.yiiframework.com/extension/jcolorbox/ NEW BSD
+  which included Colorbox  http://colorpowered.com/colorbox/ MIT
+  
+http://www.yiiframework.com/extension/xupload MIT 
+  which includes  https://github.com/blueimp/jQuery-File-Upload MIT
+  
+  
+
+NOT sure if used
+

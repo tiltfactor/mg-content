@@ -20,4 +20,16 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+  
+  /**
+   * Returns a JSON encoded response. Sets needed header and end the app gracefully
+   * 
+   * @param mixed $var the response that will be json_encoded before it will be returned 
+   */
+  public function jsonResponse($var) {
+    $this->layout=false;
+    header('Content-type: application/json');
+    echo json_encode($var);
+    Yii::app()->end(); 
+  }
 }

@@ -11,10 +11,29 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'file'); ?>
-		<?php echo $form->textField($model, 'file', array('maxlength' => 254)); ?>
+		<?php echo $form->label($model, 'name'); ?>
+		<?php echo $form->textField($model, 'name', array('maxlength' => 254)); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->label($model, 'size'); ?>
+		<?php echo $form->textField($model, 'size'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model, 'mime_type'); ?>
+		<?php echo $form->textField($model, 'mime_type', array('maxlength' => 45)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model, 'last_access'); ?>
+		<?php echo $form->textField($model, 'last_access'); ?>
+	</div>
+
+  <div class="row">
+    <?php echo $form->label($model, 'locked'); ?>
+    <?php echo $form->dropDownList($model,'locked', MGHelper::itemAlias('locked')); ?>
+  </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>
@@ -23,11 +42,6 @@
 	<div class="row">
 		<?php echo $form->label($model, 'modified'); ?>
 		<?php echo $form->textField($model, 'modified'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model, 'last_access'); ?>
-		<?php echo $form->textField($model, 'last_access'); ?>
 	</div>
 
 	<div class="row buttons">

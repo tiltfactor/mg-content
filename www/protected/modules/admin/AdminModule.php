@@ -9,7 +9,7 @@ class AdminModule extends CWebModule
 
 		// import the module-level models and components
 		$this->setImport(array(
-			// 'admin.models.*', all models representing database tables are stores in application.models to keep them easily re-usable
+			'admin.models.*', // all models representing database tables are stores in application.models to keep them easily re-usable
 			'admin.components.*',
 		));
 	}

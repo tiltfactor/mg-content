@@ -10,10 +10,13 @@
  * followed by relations of table "image" available as properties of the model.
  *
  * @property integer $id
- * @property string $file
+ * @property string $name
+ * @property integer $size
+ * @property string $mime_type
+ * @property string $last_access
+ * @property integer $locked
  * @property string $created
  * @property string $modified
- * @property string $last_access
  *
  * @property ImageSet[] $imageSets
  * @property TagUse[] $tagUses
@@ -33,16 +36,18 @@ abstract class BaseImage extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'file';
+		return 'name';
 	}
 
 	public function rules() {
 		return array(
-			array('file, created, modified', 'required'),
-			array('file', 'length', 'max'=>254),
+			array('name, size, mime_type, created, modified', 'required'),
+			array('size, locked', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>254),
+			array('mime_type', 'length', 'max'=>45),
 			array('last_access', 'safe'),
-			array('last_access', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, file, created, modified, last_access', 'safe', 'on'=>'search'),
+			array('last_access, locked', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, size, mime_type, last_access, locked, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,10 +67,13 @@ abstract class BaseImage extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'id' => Yii::t('app', 'ID'),
-			'file' => Yii::t('app', 'File'),
+			'name' => Yii::t('app', 'Name'),
+			'size' => Yii::t('app', 'Size'),
+			'mime_type' => Yii::t('app', 'Mime Type'),
+			'last_access' => Yii::t('app', 'Last Access'),
+			'locked' => Yii::t('app', 'Locked'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
-			'last_access' => Yii::t('app', 'Last Access'),
 			'imageSets' => null,
 			'tagUses' => null,
 		);
@@ -75,10 +83,13 @@ abstract class BaseImage extends GxActiveRecord {
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('file', $this->file, true);
+		$criteria->compare('name', $this->name, true);
+		$criteria->compare('size', $this->size);
+		$criteria->compare('mime_type', $this->mime_type, true);
+		$criteria->compare('last_access', $this->last_access, true);
+		$criteria->compare('locked', $this->locked);
 		$criteria->compare('created', $this->created, true);
 		$criteria->compare('modified', $this->modified, true);
-		$criteria->compare('last_access', $this->last_access, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
