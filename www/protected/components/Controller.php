@@ -30,6 +30,12 @@ class Controller extends CController
     $this->layout=false;
     header('Content-type: application/json');
     echo json_encode($var);
-    Yii::app()->end(); 
+    if(Yii::app()->hasEventHandler('onEndRequest')) {
+      ob_start();
+          Yii::app()->onEndRequest(new CEvent(Yii::app()));
+      $output = ob_get_contents();
+      ob_end_clean();
+    }
+    exit();
   }
 }

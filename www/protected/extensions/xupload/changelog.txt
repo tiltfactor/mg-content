@@ -1,5 +1,9 @@
 ##Changelog
 
+#### V 0.3 Sun August 21 17:39:42 BST 2011
+Vincent Van Uffelen: Nearly fully rewritten. Updated to latest fileupload-ui. 
+Ammended xUploadWidget to meet MG's needs.
+
 #### V 0.2 Sun May  8 19:28:43 COT 2011
 
 - Added Multiple file uploading functionality

@@ -75,9 +75,6 @@ class XUploadWidget extends CJuiInputWidget {
               echo "\t\t\t\t\t" . CHtml::fileField($name,$this->value, array("multiple"=>"multiple"));
             }
           echo "</label>";
-          echo "\t\t\t\t" . CHtml::tag("button", array("type"=>"submit", "class"=>"start"), Yii::t('app', "Start upload"));
-          echo "\t\t\t\t" . CHtml::tag("button", array("type"=>"reset", "class"=>"cancel"), Yii::t('app', "Cancel upload"));
-          echo "\t\t\t\t" . CHtml::tag("button", array("type"=>"button", "class"=>"delete"), Yii::t('app', "Delete files"));
         echo "\t\t\t" . "</div>";
       echo "\t\t" . CHtml::endForm();
       echo "\t\t" . CHtml::tag("div", array("class"=>"fileupload-content"), FALSE, FALSE);
@@ -146,11 +143,12 @@ EOD;
                 {{else}}\${error}
                 {{/if}}
             </td>
+            <td class="cancel"><button>Cancel</button></td>
         {{else}}
             <td class="progress"><div></div></td>
             <td class="start"><button>Start</button></td>
+            <td class="cancel"><button>Cancel</button></td>
         {{/if}}
-        <td class="cancel"><button>Cancel</button></td>
     </tr>
 </script>
 <script id="template-download" type="text/x-jquery-tmpl">
@@ -176,21 +174,22 @@ EOD;
                 {{else}}\${error}
                 {{/if}}
             </td>
+            <td class="delete">
+                <button data-type="\${delete_type}" data-url="\${delete_url}">Delete</button>
+            </td>
         {{else}}
             <td class="preview">
                 {{if thumbnail_url}}
-                    <a href="\${url}" target="_blank"><img src="\${thumbnail_url}"></a>
+                    <img src="\${thumbnail_url}">
                 {{/if}}
             </td>
             <td class="name">
-                <a href="\${url}"{{if thumbnail_url}} target="_blank"{{/if}}>\${name}</a>
+                \${name}
             </td>
             <td class="size">\${sizef}</td>
-            <td colspan="2"></td>
+            <td colspan="3"></td>
         {{/if}}
-        <td class="delete">
-            <button data-type="\${delete_type}" data-url="\${delete_url}">Delete</button>
-        </td>
+        
     </tr>
 </script>
 EOD;

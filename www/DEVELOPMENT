@@ -1,3 +1,13 @@
+Installer
+
+- make sure the folder 
+- uploads
+- uploads/images
+- uploads/thumbs - for each format in fbv settings.php
+- uploads/large
+- uploads/small 
+
+
 THIS IS A SHORT DEVELOPERS DOCUMENTATION
 
 We recommend to use gii and giix shipped with this install. Please use the mg templates while creating models or CRUD code. 
@@ -27,6 +37,7 @@ http://www.yiiframework.com/extension/yii-flash/ NEW BSD
 http://www.yiiframework.com/extension/giix/ NEW BSD
 http://www.yiiframework.com/extension/yii-user/ NEW BSD
 http://www.yiiframework.com/extension/nlsclientscript/ NEW BSD
+http://www.yiiframework.com/extension/image/ New BSD
 
 http://www.yiiframework.com/extension/jcolorbox/ NEW BSD
   which included Colorbox  http://colorpowered.com/colorbox/ MIT
@@ -38,3 +49,35 @@ http://www.yiiframework.com/extension/xupload MIT
 
 NOT sure if used
 
+Documentation default settings in fbvsettings.php 
+
+return array (
+  'arcade' => 
+  array (
+    'description' => 'This is a short description of the project',
+  ),
+  'image' => 
+  array (
+    'formats' => 
+    array (
+      "thumbnail" => array (
+        "width" => 100,
+        "height" => 75,
+        "quality" => FALSE, // set to integer 0 ... 100 to activate quality rendering
+        "sharpen" => FALSE, // set to integer 0 ... 100 to activate sharpen
+      ),
+      "large" => array (
+        "width" => 750,
+        "height" => 750,
+        "quality" => 80, // set to integer 0 ... 100 to activate quality rendering quality and sharpen 
+        "sharpen" => 20, // set to integer 0 ... 100 to activate sharpen
+      ),
+      "medium" => array (
+        "width" => 450,
+        "height" => 450,
+        "quality" => 80, // set to integer 0 ... 100 to activate quality rendering quality and sharpen 
+        "sharpen" => 20, // set to integer 0 ... 100 to activate sharpen
+      ),
+    ),
+  ),
+);
