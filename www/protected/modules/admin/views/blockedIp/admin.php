@@ -36,18 +36,38 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php echo CHtml::beginForm('','post',array('id'=>'blocked-ip-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'blocked-ip-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
+	'selectableRows'=>2,
 	'columns' => array(
-		'id',
+	  array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'blocked-ip-ids',
+    ),
 		'ip',
 		'type',
 		'created',
 		'modified',
-		array(
-			'class' => 'CButtonColumn',
-		),
-	),
-)); ?>
+    array (
+  'class' => 'CButtonColumn',
+  'buttons' => 
+  array (
+  ),
+)  ),
+)); 
+echo CHtml::endForm();
+
+$this->widget('ext.gridbatchaction.GridBatchAction', array(
+      'formId'=>'blocked-ip-form',
+      'checkBoxId'=>'blocked-ip-ids',
+      'ajaxGridId'=>'blocked-ip-grid', 
+      'items'=>array(
+          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
+      ),
+      'htmlOptions'=>array('class'=>'batchActions'),
+  ));
+
+?>

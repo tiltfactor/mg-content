@@ -152,7 +152,7 @@ class ImportController extends GxController {
           'name' => $image->name,
           'size' => $image->size,
           'type' => $image->mime_type,
-          'thumbnail_url' => Yii::app()->getBaseUrl() . "/uploads/thumbs/". $model->name,  
+          'thumbnail_url' => Yii::app()->getBaseUrl() . Yii::app()->params['upload_url'] . "/thumbs/". $model->name,  
           'error' => null
         );
       } else {

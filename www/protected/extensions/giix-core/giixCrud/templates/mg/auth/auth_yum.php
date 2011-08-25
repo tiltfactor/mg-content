@@ -11,7 +11,7 @@
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin','delete'),
   				'roles'=>array('dbmanager', 'admin', 'xxx'),
   				),
   			array('deny', 

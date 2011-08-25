@@ -13,6 +13,9 @@
 
 <?php foreach($this->tableSchema->columns as $column): 
   switch ($column->name) :
+    case "id":
+      break;
+      
     case "active":
     case "locked":
       ?>

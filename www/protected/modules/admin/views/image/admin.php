@@ -42,7 +42,11 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 	'filter' => $model,
 	'columns' => array(
 		'id',
-		'name',
+		 array(
+          'name' => 'name',
+          'type' => 'image',
+          'value' => 'Yii::app()->getBaseUrl() . Yii::app()->params[\'upload_url\'] . \'/thumbs/\'. $data->name',
+        ),
 		'size',
 		'mime_type',
 		'last_access',

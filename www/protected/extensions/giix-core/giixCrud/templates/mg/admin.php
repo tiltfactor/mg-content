@@ -44,11 +44,17 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>\n"; ?>
 </div><!-- search-form -->
 
-<?php echo '<?php'; ?> $this->widget('zii.widgets.grid.CGridView', array(
+<?php echo '<?php'; ?> echo CHtml::beginForm('','post',array('id'=>'<?php echo $this->class2id($this->modelClass); ?>-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id' => '<?php echo $this->class2id($this->modelClass); ?>-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
+	'selectableRows'=>2,
 	'columns' => array(
+	  array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'<?php echo $this->class2id($this->modelClass); ?>-ids',
+    ),
 <?php
 $count = 0;
 $arr_buttons = array('class' => 'CButtonColumn', "buttons"=> array());
@@ -57,6 +63,17 @@ foreach ($this->tableSchema->columns as $column) {
 		echo "\t\t/*\n";
   
   switch ($column->name) {
+    case "name":
+      if ($this->modelClass == "Image") {
+        echo "\t\t array(
+          'name' => '{$column->name}',
+          'type' => 'image',
+          'value' => 'Yii::app()->getBaseUrl() . Yii::app()->params[\'upload_url\'] . \'/thumbs/\'. \$data->{$column->name}',
+        ),\n";
+      } else {
+        echo "\t\t" . $this->generateGridViewColumn($this->modelClass, $column).",\n";
+      }
+      break;
     case "active":
     case "locked":
        echo "\t\t array(
@@ -70,6 +87,9 @@ foreach ($this->tableSchema->columns as $column) {
         $arr_buttons["buttons"]['delete'] = array ('visible'=>'$data->locked == 0');
       }
       break;
+    case "id":
+      break;
+      
     default:
       echo "\t\t" . $this->generateGridViewColumn($this->modelClass, $column).",\n";    
       break;
@@ -80,4 +100,17 @@ if ($count >= 7)
 ?>
     <?php echo var_export($arr_buttons, TRUE) ; ?>
   ),
-)); ?>
+)); 
+echo CHtml::endForm();
+
+$this->widget('ext.gridbatchaction.GridBatchAction', array(
+      'formId'=>'<?php echo $this->class2id($this->modelClass); ?>-form',
+      'checkBoxId'=>'<?php echo $this->class2id($this->modelClass); ?>-ids',
+      'ajaxGridId'=>'<?php echo $this->class2id($this->modelClass); ?>-grid', 
+      'items'=>array(
+          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
+      ),
+      'htmlOptions'=>array('class'=>'batchActions'),
+  ));
+
+?>

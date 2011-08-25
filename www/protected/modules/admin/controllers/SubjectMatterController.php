@@ -15,7 +15,7 @@ class SubjectMatterController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin','delete'),
   				'roles'=>array('dbmanager', 'admin', 'xxx'),
   				),
   			array('deny', 
@@ -119,5 +119,28 @@ class SubjectMatterController extends GxController {
 			'model' => $model,
 		));
 	}
+  
+  public function actionBatch($op) {
+    if (Yii::app()->getRequest()->getIsPostRequest()) {
+      switch ($op) {
+        case "delete":
+          $this->_batchDelete();
+          break;
+      }
+      if (!Yii::app()->getRequest()->getIsAjaxRequest())
+        $this->redirect(array('admin'));
+    } else
+      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
+    
+  }
 
+  private function _batchDelete() {
+    if (isset($_POST['subject-matter-ids'])) {
+      $criteria=new CDbCriteria;
+      $criteria->addInCondition("id", $_POST['subject-matter-ids']);
+      $criteria->addInCondition("locked", array(0));      
+      $model = new SubjectMatter;
+      $model->deleteAll($criteria);  
+    } 
+  }
 }

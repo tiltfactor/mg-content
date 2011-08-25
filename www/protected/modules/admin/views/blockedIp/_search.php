@@ -6,11 +6,6 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->textField($model, 'id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model, 'ip'); ?>
 		<?php echo $form->textField($model, 'ip', array('maxlength' => 45)); ?>
 	</div>

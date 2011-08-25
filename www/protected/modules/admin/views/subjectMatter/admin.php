@@ -36,12 +36,17 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php echo CHtml::beginForm('','post',array('id'=>'subject-matter-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'subject-matter-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
+	'selectableRows'=>2,
 	'columns' => array(
-		'id',
+	  array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'subject-matter-ids',
+    ),
 		'name',
 		 array(
         'name' => 'locked',
@@ -61,4 +66,17 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
     ),
   ),
 )  ),
-)); ?>
+)); 
+echo CHtml::endForm();
+
+$this->widget('ext.gridbatchaction.GridBatchAction', array(
+      'formId'=>'subject-matter-form',
+      'checkBoxId'=>'subject-matter-ids',
+      'ajaxGridId'=>'subject-matter-grid', 
+      'items'=>array(
+          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
+      ),
+      'htmlOptions'=>array('class'=>'batchActions'),
+  ));
+
+?>
