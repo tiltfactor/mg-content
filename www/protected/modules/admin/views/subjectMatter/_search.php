@@ -15,11 +15,10 @@
 		<?php echo $form->textField($model, 'name', array('maxlength' => 64)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model, 'locked'); ?>
-		<?php echo $form->textField($model, 'locked'); ?>
-	</div>
-
+  <div class="row">
+    <?php echo $form->label($model, 'locked'); ?>
+    <?php echo $form->dropDownList($model,'locked', MGHelper::itemAlias('locked')); ?>
+  </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>

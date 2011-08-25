@@ -21,4 +21,25 @@ class MGHelper {
     else
       return isset($_items[$type]) ? $_items[$type] : false;
   }
+  
+  /**
+   * This method attempts to read the front end theme setting from fbvSettings and 
+   * sets this as current theme. It is mainly used in controller showing arcade pages 
+   */
+  public static function setFrontendTheme() {
+    $theme = Yii::app()->fbvStorage->get("frontend_theme", "");
+    if ($theme != "")
+      Yii::app()->setTheme($theme);
+  }
+  
+  /**
+   * This is the shortcut to Yii::app()->request->baseUrl
+   * If the parameter is given, it will be returned and prefixed with the app baseUrl.
+   */
+  public static function bu($url=null) {
+    static $baseUrl;
+    if ($baseUrl===null)
+        $baseUrl=Yii::app()->getRequest()->getBaseUrl();
+    return $url===null ? $baseUrl : $baseUrl.'/'.ltrim($url,'/');
+  }
 }

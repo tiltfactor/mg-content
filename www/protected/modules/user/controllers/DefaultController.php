@@ -4,11 +4,11 @@ class DefaultController extends Controller
 {
 	
 	/**
-	 * Lists all models.
+	 * As 
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Users', array(
+		$dataProvider=new CActiveDataProvider('User', array(
 			'criteria'=>array(
 		        'condition'=>'status>'.User::STATUS_BANNED,
 		    ),

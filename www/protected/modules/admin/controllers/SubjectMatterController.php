@@ -2,27 +2,27 @@
 
 class SubjectMatterController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
-
-public function accessRules() {
-	return array(
-			array('allow',
-				'actions'=>array('view'),
-				'roles'=>array('*'),
-				),
-			array('allow', 
-				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
-				'roles'=>array('dbmanager', 'admin', 'xxx'),
-				),
-			array('deny', 
-				'users'=>array('*'),
-				),
-			);
-}
+  public function filters() {
+  	return array(
+  			'accessControl', 
+  			);
+  }
+  
+  public function accessRules() {
+  	return array(
+  			array('allow',
+  				'actions'=>array('view'),
+  				'roles'=>array('*'),
+  				),
+  			array('allow', 
+  				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
+  				'roles'=>array('dbmanager', 'admin', 'xxx'),
+  				),
+  			array('deny', 
+  				'users'=>array('*'),
+  				),
+  			);
+  }
 
 	public function actionView($id) {
 		$this->render('view', array(
@@ -32,8 +32,8 @@ public function accessRules() {
 
 	public function actionCreate() {
 		$model = new SubjectMatter;
-    $model->created = date('Y-m-d H:i:s');
-    $model->modified = date('Y-m-d H:i:s');
+		$model->created = date('Y-m-d H:i:s'); 
+    $model->modified = date('Y-m-d H:i:s'); 
     
 		$this->performAjaxValidation($model, 'subject-matter-form');
 
@@ -45,10 +45,11 @@ public function accessRules() {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
-				if (Yii::app()->getRequest()->getIsAjaxRequest())
+				Flash::add('success', Yii::t('app', "SubjectMatter created"));
+        if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
-				else
-					$this->redirect(array('view', 'id' => $model->id));
+				else 
+				  $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -58,6 +59,7 @@ public function accessRules() {
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'SubjectMatter');
     $model->modified = date('Y-m-d H:i:s');
+;
 		$this->performAjaxValidation($model, 'subject-matter-form');
 
 		if (isset($_POST['SubjectMatter'])) {
@@ -68,6 +70,7 @@ public function accessRules() {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
+        Flash::add('success', Yii::t('app', "SubjectMatter updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -79,10 +82,16 @@ public function accessRules() {
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$this->loadModel($id, 'SubjectMatter')->delete();
+			$model = $this->loadModel($id, 'SubjectMatter');
+			if ($model->hasAttribute("locked") && $model->locked) {
+			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+			} else {
+			 $model->delete();
+        Flash::add('success', Yii::t('app', "SubjectMatter deleted"));
 
-			if (!Yii::app()->getRequest()->getIsAjaxRequest())
-				$this->redirect(array('admin'));
+			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
+				  $this->redirect(array('admin'));
+		  }
 		} else
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}

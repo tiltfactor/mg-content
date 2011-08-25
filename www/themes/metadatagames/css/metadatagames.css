@@ -3,19 +3,28 @@ body
 	margin: 0;
 	padding: 0;
 	color: #555;
-	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #EFEFEF;
+	font: normal 10pt Helvetica,Arial,sans-serif;
+	background: #fff;
 }
 
-#page
-{
-	background: white;
-}
+#page {}
 
 #header
 {
 	margin: 0;
 	padding: 0;
+	background-color:#424040;
+	height:30px;
+	border-bottom: 2px solid #000;
+	margin-bottom: 5px;
+}
+
+#page_title {
+  width: 129px;
+  height:14px;
+  background: url(../images/metadatagames.png) 0px 0px no-repeat transparent;
+  float:left;
+  margin:10px 0px 0px 8px;
 }
 
 #content
@@ -30,57 +39,43 @@ body
 
 #footer
 {
-	padding: 20px;
-	font-size: 0.8em;
 	text-align: center;
+  color: #666;
+  font-size: 10px;
+  padding: 20px 0 20px 0;
 }
 
-#logo
-{
-	padding: 10px 20px;
-	font-size: 200%;
+#mainmenu {
+	float: right;
 }
 
-#mainmenu,
-#submenu 
+#mainmenu ul
 {
-	background:white url(bg.gif) repeat-x left top;
-}
-
-#mainmenu ul,
-#submenu ul
-{
-	padding:6px 20px 5px 20px;
+	padding:8px 8px 4px 8px;
 	margin:0px;
 }
 
-#mainmenu ul li,
-#submenu ul li
-{
+#mainmenu ul li {
 	display: inline;
+	border-left:1px solid #ff0;
 }
 
-#mainmenu ul li a,
-#submenu ul li a
+#mainmenu ul li:first-child {
+  border-left:none;
+}
+
+#mainmenu ul li a
 {
 	color:#ffffff;
-	background-color:transparent;
-	font-size:12px;
+	font-size:14px;
 	font-weight:bold;
-	text-decoration:none;
 	padding:5px 8px;
-}
-
-#submenu ul li a {
-  font-size:11px;
-}
-
-#mainmenu ul li a:hover, #mainmenu ul li.active a,
-#submenu ul li a:hover, #submenu ul li.active a
-{
-	color: #6399cd;
-	background-color:#EFF4FA;
 	text-decoration:none;
+}
+
+#mainmenu ul li a:hover, #mainmenu ul li.active a
+{
+	color: #FF0;
 }
 
 div.flash-error, div.flash-notice, div.flash-success
@@ -230,4 +225,10 @@ div.search-form
 .operations li a:hover
 {
 	background: #80CFFF;
+}
+
+.ir {
+  display:block;
+  text-indent: -3000px;
+  outline:none;
 }

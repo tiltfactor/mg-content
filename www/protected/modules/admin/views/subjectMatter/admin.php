@@ -43,11 +43,22 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 	'columns' => array(
 		'id',
 		'name',
-		'locked',
+		 array(
+        'name' => 'locked',
+        'type' => 'raw',
+        'value' => 'MGHelper::itemAlias(\'locked\',$data->locked)',
+        'filter'=> MGHelper::itemAlias('locked'),
+      ),
 		'created',
 		'modified',
-		array(
-			'class' => 'CButtonColumn',
-		),
-	),
+    array (
+  'class' => 'CButtonColumn',
+  'buttons' => 
+  array (
+    'delete' => 
+    array (
+      'visible' => '$data->locked == 0',
+    ),
+  ),
+)  ),
 )); ?>

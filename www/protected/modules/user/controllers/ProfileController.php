@@ -13,6 +13,7 @@ class ProfileController extends Controller
 	 */
 	public function actionProfile()
 	{
+		MGHelper::setFrontendTheme();  
 		$model = $this->loadUser();
 	    $this->render('profile',array(
 	    	'model'=>$model,
@@ -27,6 +28,7 @@ class ProfileController extends Controller
 	 */
 	public function actionEdit()
 	{
+		MGHelper::setFrontendTheme();  
 		$model = $this->loadUser();
 		$profile = $model->profile;
 		
@@ -69,6 +71,7 @@ class ProfileController extends Controller
 	 * Change password
 	 */
 	public function actionChangepassword() {
+		MGHelper::setFrontendTheme();  
 		$model = new UserChangePassword;
 		if (Yii::app()->user->id) {
 			

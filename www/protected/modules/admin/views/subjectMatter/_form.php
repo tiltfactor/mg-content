@@ -4,6 +4,7 @@
 <?php $form = $this->beginWidget('GxActiveForm', array(
 	'id' => 'subject-matter-form',
 	'enableAjaxValidation' => true,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 
@@ -20,8 +21,8 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'locked'); ?>
-    <?php echo $form->textField($model, 'locked'); ?>
-    <?php echo $form->error($model,'locked'); ?>
+    <b><?php echo MGHelper::itemAlias('locked',$model->locked); ?>
+</b>
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>

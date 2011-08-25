@@ -13,6 +13,11 @@ return array (
         'bizRule' => NULL,
         'data' => NULL,
       ),
+      3 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
     ),
   ),
   'editor' => 
@@ -24,6 +29,14 @@ return array (
     'children' => 
     array (
       0 => 'player',
+    ),
+    'assignments' => 
+    array (
+      3 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
     ),
   ),
   'dbmanager' => 

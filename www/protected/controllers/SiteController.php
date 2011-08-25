@@ -26,6 +26,8 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		MGHelper::setFrontendTheme();
+    $this->layout = '//layouts/arcade';
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render('index');
@@ -36,13 +38,14 @@ class SiteController extends Controller
 	 */
 	public function actionError()
 	{
-	    if($error=Yii::app()->errorHandler->error)
-	    {
-	    	if(Yii::app()->request->isAjaxRequest)
-	    		echo $error['message'];
-	    	else
-	        	$this->render('error', $error);
-	    }
+	  MGHelper::setFrontendTheme();
+    
+    if($error=Yii::app()->errorHandler->error) {
+    	if(Yii::app()->request->isAjaxRequest)
+    		echo $error['message'];
+    	else
+        	$this->render('error', $error);
+    }
 	}
 
 	/**
@@ -50,9 +53,10 @@ class SiteController extends Controller
 	 */
 	public function actionContact()
 	{
+		MGHelper::setFrontendTheme();
+    
 		$model=new ContactForm;
-		if(isset($_POST['ContactForm']))
-		{
+		if(isset($_POST['ContactForm'])) {
 			$model->attributes=$_POST['ContactForm'];
 			if($model->validate())
 			{
@@ -63,52 +67,5 @@ class SiteController extends Controller
 			}
 		}
 		$this->render('contact',array('model'=>$model));
-	}
-
-	/**
-	 * Displays the login page
-	 */
-	public function actionLogin()
-	{
-		$model=new LoginForm;
-
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
-		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
-		}
-		// display the login form
-		$this->render('login',array('model'=>$model));
-	}
-
-	/**
-	 * Logs out the current user, revokes all assigned roles, and redirectsand redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		// revoke assigned roles 
-		$assigned_roles = Yii::app()->authManager->getRoles(Yii::app()->user->id); //obtains all assigned roles for this user id
-    if(!empty($assigned_roles)) //checks that there are assigned roles
-    {
-        $auth=Yii::app()->authManager; //initializes the authManager
-        foreach($assigned_roles as $n=>$role)
-        {
-            if($auth->revoke($n,Yii::app()->user->id)) //remove each assigned role for this user
-                Yii::app()->authManager->save(); //again always save the result
-        }
-    }  
-      
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
 	}
 }

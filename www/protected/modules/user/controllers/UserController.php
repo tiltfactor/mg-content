@@ -58,7 +58,7 @@ class UserController extends Controller
 		/*  
      the public user listing is disabled
       
-     $dataProvider=new CActiveDataProvider('Users', array(
+     $dataProvider=new CActiveDataProvider('User', array(
 			'criteria'=>array(
 		        'condition'=>'status>'.User::STATUS_BANNED,
 		    ),

@@ -13,7 +13,21 @@ class AdminModule extends CWebModule
 			'admin.components.*',
 		));
 	}
-
+  
+  public function getAdminToolsSubMenuLinks() {
+    $links = array();  
+    $registered_tools = Yii::app()->fbvStorage->get("admin-tools");
+    foreach ($registered_tools as $tool) {
+      if (Yii::app()->user->checkAccess($tool['role'])) {
+        $links[] = array(
+          'label' => $tool["name"],
+          'url' => array($tool['url'])
+        );
+      }
+    }
+    return $links;
+  }
+  
 	public function beforeControllerAction($controller, $action)
 	{
 		if(parent::beforeControllerAction($controller, $action))

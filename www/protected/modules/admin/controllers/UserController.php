@@ -75,7 +75,6 @@ class UserController extends Controller
 			$model->created = date('Y-m-d H:i:s');
       $model->modified = date('Y-m-d H:i:s');
 			$model->lastvisit=date('Y-m-d H:i:s');
-      $model->role = 'player';
       
       if (isset($_POST['Profile']))
 			 $profile->attributes=$_POST['Profile'];
