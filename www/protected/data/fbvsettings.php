@@ -23,6 +23,7 @@ return array (
       ),
     ),
   ),
+  'throttle_interval' => 10, 
   'admin-tools' =>
   array (
    'tool-subject-matter' => array(

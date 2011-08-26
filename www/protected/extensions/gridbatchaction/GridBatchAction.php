@@ -1,6 +1,4 @@
 <?php
-Yii::import('zii.widgets.CMenu');
-
 /**
  * GridBatchMenuWidget extension for Yii.
  *

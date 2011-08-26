@@ -1,5 +1,5 @@
 <?php
-class JQueryUiUploadForm extends CFormModel
+class XUploadForm extends CFormModel
 {
 	public $file;
 	public $mime_type;

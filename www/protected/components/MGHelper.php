@@ -35,6 +35,8 @@ class MGHelper {
   /**
    * This is the shortcut to Yii::app()->request->baseUrl
    * If the parameter is given, it will be returned and prefixed with the app baseUrl.
+   *
+   * @param $url if set the url to append 
    */
   public static function bu($url=null) {
     static $baseUrl;
@@ -42,4 +44,29 @@ class MGHelper {
         $baseUrl=Yii::app()->getRequest()->getBaseUrl();
     return $url===null ? $baseUrl : $baseUrl.'/'.ltrim($url,'/');
   }
+  
+  /**
+   * Parses all HTTP_X_... request header values and stores it in an static array.
+   * If an header is specified it's value or null will be returned
+   * 
+   * @param mixed $header The header which value should be retrieved. Omit the leading HTTP_X_ 
+   */
+  public static function HTTPXHeader($header="") {
+    static $headers = array();
+    foreach($_SERVER as $key => $value) {
+        if (substr($key, 0, 7) <> 'HTTP_X_') {
+            continue;
+        }
+        $h = str_replace(' ', '-', substr($key, 7));
+        $headers[$h] = $value;
+    }
+    $header = str_replace("HTTP_X_", "", $header);
+    
+    if (array_key_exists($header, $headers)) {
+      return $headers[$header];
+    } else {
+      return null;
+    }
+    return $headers;
+  } 
 }

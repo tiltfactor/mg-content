@@ -9,7 +9,7 @@ class UserIdentity extends CUserIdentity
 {
 	private $_id;
 	CONST ERROR_EMAIL_INVALID=3;
-	CONST ERROR_STATUS_NOTACTIV=4;
+	CONST ERROR_STATUS_NOTACTIVE=4;
 	CONST ERROR_STATUS_BAN=5;
   CONST ERROR_STATUS_BLOCKED=6; // xxx enable blocked via ip address here ...
 	/**
@@ -22,7 +22,7 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		//   
+		// xxx add blocked IP check.  
 		if (strpos($this->username,"@")) {
 			$user=User::model()->notsafe()->findByAttributes(array('email'=>$this->username));
 		} else {
@@ -37,7 +37,7 @@ class UserIdentity extends CUserIdentity
 		else if(Yii::app()->getModule('user')->encrypting($this->password)!==$user->password)
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else if($user->status==0&&Yii::app()->getModule('user')->loginNotActiv==false)
-			$this->errorCode=self::ERROR_STATUS_NOTACTIV;
+			$this->errorCode=self::ERROR_STATUS_NOTACTIVE;
 		else if($user->status==-1)
 			$this->errorCode=self::ERROR_STATUS_BAN;
 		else {

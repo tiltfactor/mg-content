@@ -62,7 +62,7 @@ class UserLogin extends CFormModel
 				case UserIdentity::ERROR_USERNAME_INVALID:
 					$this->addError("username",UserModule::t("Username is incorrect."));
 					break;
-				case UserIdentity::ERROR_STATUS_NOTACTIV:
+				case UserIdentity::ERROR_STATUS_NOTACTIVE:
 					$this->addError("status",UserModule::t("You account is not activated."));
 					break;
 				case UserIdentity::ERROR_STATUS_BAN:
@@ -72,9 +72,15 @@ class UserLogin extends CFormModel
 					$this->addError("password",UserModule::t("Password is incorrect."));
           break;
         case UserIdentity::ERROR_STATUS_BLOCKED:
-          $this->addError("password",UserModule::t("The IP address you are accessing from is blocked."));
+          $this->addError("status",UserModule::t("The IP address you are accessing from is blocked."));
 					break;
 			}
 		}
 	}
+
+  public function setLastVisit() {
+    $user = User::model()->notsafe()->findByPk(Yii::app()->user->id);
+    $user->lastvisit = date('Y-m-d H:i:s');
+    $user->save(FALSE);
+  }
 }

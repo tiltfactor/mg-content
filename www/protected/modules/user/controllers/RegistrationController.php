@@ -68,13 +68,13 @@ class RegistrationController extends Controller
 							$this->redirect(Yii::app()->controller->module->returnUrl);
 					} else {
 						if (!Yii::app()->controller->module->activeAfterRegister&&!Yii::app()->controller->module->sendActivationMail) {
-							Yii::app()->user->setFlash('registration',UserModule::t("Thank you for your registration. Contact Admin to activate your account."));
+						  Flash::add('success', UserModule::t("Thank you for your registration. Contact Admin to activate your account."));
 						} elseif(Yii::app()->controller->module->activeAfterRegister&&Yii::app()->controller->module->sendActivationMail==false) {
-							Yii::app()->user->setFlash('registration',UserModule::t("Thank you for your registration. Please {{login}}.",array('{{login}}'=>CHtml::link(UserModule::t('Login'),Yii::app()->controller->module->loginUrl))));
+							Flash::add('success', UserModule::t("Thank you for your registration. Please {{login}}.",array('{{login}}'=>CHtml::link(UserModule::t('Login'),Yii::app()->controller->module->loginUrl))));
 						} elseif(Yii::app()->controller->module->loginNotActiv) {
-							Yii::app()->user->setFlash('registration',UserModule::t("Thank you for your registration. Please check your email or login."));
+						  Flash::add('success', UserModule::t("Thank you for your registration. Please check your email or login."));
 						} else {
-							Yii::app()->user->setFlash('registration',UserModule::t("Thank you for your registration. Please check your email."));
+						  Flash::add('success', UserModule::t("Thank you for your registration. Please check your email."));
 						}
 						$this->refresh();
 					}

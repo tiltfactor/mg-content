@@ -1,4 +1,6 @@
 <?php
+Yii::import("ext.xupload.models.XUploadForm");
+
 class ImportController extends GxController {
   /**
    * Full path of the main uploading folder.
@@ -73,7 +75,7 @@ class ImportController extends GxController {
   public function actionUploadFromLocal() {
     $this->layout='//layouts/column1';  
     
-    $model = new JQueryUiUploadForm;
+    $model = new XUploadForm;
     $this->render('uploadfromlocal', array(
       'model' => $model,
     ));
@@ -84,7 +86,7 @@ class ImportController extends GxController {
       
     $this->checkUploadFolder();
     
-    $model = new JQueryUiUploadForm;
+    $model = new XUploadForm;
     $model->file = CUploadedFile::getInstance($model, 'file');
     
     if (isset($model->file)) {
