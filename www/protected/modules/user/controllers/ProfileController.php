@@ -56,7 +56,7 @@ class ProfileController extends Controller
 			if($model->validate() && $profile->validate()) {
 				$model->save();
 				$profile->save();
-        Flash::add('success', UserModule::t("Profile changes are saved."));
+        Flash::add('success', UserModule::t("Profile saved."));
 				$this->redirect(array('/user/profile'));
 			} else $profile->validate();
 		}

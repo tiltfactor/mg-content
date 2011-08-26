@@ -31,7 +31,7 @@ class ProfileFieldController extends Controller
 		return array(
 			array('allow', // allow dbmanager user to perform all actions
 				'actions'=>array('index', 'create','update','view','admin','delete'),
-				'roles'=>array('dbmanager', 'xxx'),
+				'roles'=>array('dbmanager', 'admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),

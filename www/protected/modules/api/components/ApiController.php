@@ -32,14 +32,6 @@ class ApiController extends Controller
   
   public function accessRules() {
     return array(
-      array('allow',
-        'actions'=>array('index', 'sharedsecret', 'login', 'user', 'passwordrecovery'),
-        'users'=>array('*'),
-        ),
-      array('allow', 
-        'actions'=>array('profile', 'passwordchange', 'logout'),
-        'roles'=>array('player'),
-        ),
       array('deny', 
         'users'=>array('*'),
         ),

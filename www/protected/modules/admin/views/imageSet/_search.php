@@ -6,18 +6,13 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->textField($model, 'id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model, 'name'); ?>
 		<?php echo $form->textField($model, 'name', array('maxlength' => 64)); ?>
 	</div>
 
   <div class="row">
     <?php echo $form->label($model, 'locked'); ?>
-    <?php echo $form->dropDownList($model,'locked', MGHelper::itemAlias('locked')); ?>
+    <?php echo $form->dropDownList($model,'locked', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('locked'))); ?>
   </div>
 	<div class="row">
 		<?php echo $form->label($model, 'more_information'); ?>

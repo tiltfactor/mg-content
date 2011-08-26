@@ -21,7 +21,7 @@
       ?>
   <div class="row">
     <?php echo "<?php echo \$form->label(\$model, '{$column->name}'); ?>\n"; ?>
-    <?php echo "<?php echo \$form->dropDownList(\$model,'{$column->name}', MGHelper::itemAlias('{$column->name}')); ?>\n"; ?>
+    <?php echo "<?php echo \$form->dropDownList(\$model,'{$column->name}', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('{$column->name}'))); ?>\n"; ?>
   </div>
 <?php 
       break;

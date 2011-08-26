@@ -53,7 +53,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, '<?php echo $this->modelClass; ?>');
-    <?php echo ($this->tableSchema->getColumn("modified") !== null)? "\$model->modified = date('Y-m-d H:i:s');\n" : ""; ?>;
+    <?php echo ($this->tableSchema->getColumn("modified") !== null)? "\$model->modified = date('Y-m-d H:i:s');\n" : ""; ?>
 <?php if ($this->enable_ajax_validation): ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
 <?php endif; ?>
