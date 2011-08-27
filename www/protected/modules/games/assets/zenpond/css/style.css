@@ -1,0 +1,244 @@
+/** -*- Mode: css; css-indent-offset: 2; indent-tabs-mode: nil -*-
+ *
+ * Metadata Games - A FOSS Electronic Game for Archival Data Systems
+ * Copyright (C) 2010 Mary Flanagan, Tiltfactor Laboratory
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+/* 
+ * ZARA's css styles 20100929, modified by sukie
+ */
+
+body {
+  font-family: Helvetica, Verdana, Arial, Sans-Serif;
+  color: black;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+  background-image: url(../images/bg.png);
+  background-position: center;
+}
+
+#gamearea {
+  font-size: 14px;
+  padding: 20px 0 10px 0;
+  margin: 0 auto;
+}
+
+A:link {
+  font-weight: 600;
+  color: #f3611a;
+  text-decoration: none;
+}
+
+A:hover {
+  font-weight: 600;
+  color: #f3611a;
+  text-decoration: none;
+}
+
+A:visited {
+  font-weight: 600;
+  color: #f3611a;
+  text-decoration: none;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 24px;
+  color: #999;
+  text-align: left;
+  list-style: none;
+}
+
+h1 a:link {
+  text-decoration: none;
+  color: #999;
+  font-size: 18px;
+}
+
+h1 a:visited {
+  text-decoration: none;
+  color: #999;
+  font-size: 18px;
+}
+
+h1 a:hover {
+  text-decoration: none;
+  color: #666;
+}
+
+/* The primary gameplay image */
+#gameimage {
+  max-width: 485px;
+  max-height: 366px;
+}
+
+.scoreimages {
+  max-width: 204px;
+  max-height: 153px;
+  border: 0;
+}
+
+#holder {
+  width: 500px;
+  height: 390px;
+  padding-top:18px;
+  margin: 0px auto;
+  background-color: #3a3014;
+  border: thin solid #BEC638;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#holder img {
+  border: thin solid #9AA699;
+}
+
+#holder2 {
+  width: 485px;
+  height: 388px;
+  padding-top:12px;
+  padding-bottom:10px;
+  padding-left:15px;
+  margin: 0px auto;
+  background-color: #3A3014;
+  border: thin solid #BEC638;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#holder2 img {
+  padding-top: 15px;
+}
+
+#smallholder0 {
+  width: 232px;
+  height: 191px;
+  float:left;
+  margin: 0px auto;
+  background-color: #958f81;
+  border-top: thin solid #BEC638;
+  border-left: thin solid #BEC638;
+  border-bottom: thin solid #BEC638;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#smallholder1 {
+  width: 232px;
+  height: 191px;
+  float:left;
+  margin: 0px auto;
+  background-color: #b5af9d;
+  border: thin solid #BEC638;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#smallholder2 {
+  width: 232px;
+  height: 191px;
+  float:left;
+  margin: 0px auto;
+  background-color: #b5af9d;
+  border-left: thin solid #BEC638;
+  border-bottom: thin solid #BEC638;
+  border-right: thin solid #BEC638;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#smallholder3 {
+  width: 232px;
+  height: 191px;
+  float:left;
+  margin: 0px auto;
+  background-color: #958f81;
+  border-right: thin solid #BEC638;
+  border-bottom: thin solid #BEC638;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#fieldholder {
+  width: 500px;
+  height: 70px;
+  padding-top:10px;
+  padding-bottom:10px;
+  margin: 0px auto;
+  background-color: #5b5341;
+  border-left: thin solid #BEC638;
+  border-right: thin solid #BEC638;
+  color: #eef0e3;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Style the Text Area inside the fieldholder DIV */
+#fieldholder textarea {
+  width: 475px;
+  height: 50px;
+  font-size: 14px;
+  color: #3a3014;
+  background-color: #b5af9d;
+  border: thin solid #3a3014;
+  padding: 5px
+}
+
+#zentag {
+  width: 290px;
+  height: 58px;
+  margin: 0px auto;
+  text-align: center;
+}
+
+#box1 {
+  width: 400px;
+  height: 24px;
+  margin: 0px auto;
+  background-color: #958f81;
+  border: thin solid #BEC638;
+}
+
+#box2 {
+  width: 375px;
+  height: 24px;
+  margin: 0px auto;
+  background-color: #5b5341;
+  border-left: thin solid #BEC638;
+  border-right: thin solid #BEC638;
+}
+
+#box3 {
+  width: 285px;
+  height: 24px;
+  margin: 0px auto;
+  background-color: #3a3014;
+  border-left: thin solid #BEC638;
+  border-right: thin solid #BEC638;
+  text-align: center;
+}
+
+#tiltfactor {
+  width: 100%;
+  height: auto;
+  margin: 0px auto;
+  position: fixed;
+  bottom: 0px;
+}

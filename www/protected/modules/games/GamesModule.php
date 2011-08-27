@@ -2,6 +2,8 @@
 
 class GamesModule extends CWebModule
 {
+	private $_assetsUrl;   
+    
 	public function init()
 	{
 		// this method is called when the module is being created
@@ -26,7 +28,12 @@ class GamesModule extends CWebModule
 			return false;
 	}
   
-  public static function getGameID($game) {
-    
+  
+ 
+  public function getAssetsUrl() {
+      if ($this->_assetsUrl === null)
+          $this->_assetsUrl = Yii::app()->getAssetManager()->publish(
+              Yii::getPathOfAlias('application.modules.games.assets'),false,-1,YII_DEBUG);
+      return $this->_assetsUrl;
   }
 }

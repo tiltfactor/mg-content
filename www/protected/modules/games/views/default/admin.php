@@ -60,7 +60,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
      'visible' => 'false',
     ),
     'view' => array(
-     'url'=>"Yii::app()->createUrl('games/' . \$data->unique_id );"
+     'url'=>"Yii::app()->createUrl('games/' . \$data->unique_id . '/view' );"
     ),
     'update' => array(
      'url'=>"Yii::app()->createUrl('games/' . \$data->unique_id . '/update');"

@@ -3,7 +3,16 @@
 3. Ensure that your server passes
    xxxx ensure that safe_mode is off. place links to how to's about safe_mode disabling 
 4. remove requirements folder from the server
-5. Define database parameter and install sql (this will have to be adapted to suit basic needs. Ask for admin user name, email and password.
+6. make sure the folder 
+  /assets
+  /uploads
+  /uploads/images
+  /upload/thumbs
+  /protected/runtime 
+  are writeable for the web server
+7. remove any folder and files in /assets if needed (the clean install should ship without any files)
+ 
+8. Define database parameter and install sql (this will have to be adapted to suit basic needs. Ask for admin user name, email and password.
 
 
 
