@@ -32,8 +32,6 @@ class MGPlugin extends CApplicationComponent {
   }
   
   function uninstall() {
-    // xxx remove value from settings.
-    // __CLASS__
     return TRUE;
   }
 }

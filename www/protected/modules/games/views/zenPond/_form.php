@@ -2,44 +2,68 @@
 
 
 <?php $form = $this->beginWidget('GxActiveForm', array(
-	'id' => 'blocked-ip-form',
+	'id' => 'zenpond-form',
 	'enableAjaxValidation' => true,
     'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 
-	<p class="note">
-		<?php echo Yii::t('app', 'Fields with'); ?> <span class="required">*</span> <?php echo Yii::t('app', 'are required'); ?>.
-	</p>
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model); ?>
+  <?php echo $form->errorSummary($model); ?>
 
-    <div class="row">
-    <?php echo $form->labelEx($model,'ip'); ?>
-    <?php echo $form->textField($model, 'ip', array('maxlength' => 45)); ?>
-    <?php echo $form->error($model,'ip'); ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php echo $form->labelEx($model,'type'); ?>
-    <?php echo $form->dropDownList($model,'type', array (
-  'deny' => 'deny',
-  'allow' => 'allow',
-)); ?>
-    <?php echo $form->error($model,'type'); ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php if($model->created != 0) : ?>
-    <?php echo $form->labelEx($model,'created'); ?>
-    <?php echo $model->created; ?>
-    <?php endif; ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php if($model->modified != 0) : ?>
-    <?php echo $form->labelEx($model,'modified'); ?>
-    <?php echo $model->modified; ?>
-    <?php endif; ?>
-    </div><!-- row -->
+  <div class="row">
+    <?php echo $form->labelEx($model,'name'); ?>
+    <?php echo $form->textField($model,'name'); ?>
+    <?php echo $form->error($model,'name'); ?>
+  </div>
 
+  <div class="row">
+    <?php echo $form->labelEx($model,'description'); ?>
+    <?php echo $form->textArea($model,'description', array("rows"=>6, "cols"=>40)); ?>
+    <?php echo $form->error($model,'description'); ?>
+  </div>
+
+  <div class="row">
+    <?php echo $form->labelEx($model,'more_info_url'); ?>
+    <?php echo $form->textField($model,'more_info_url'); ?>
+    <?php echo $form->error($model,'more_info_url'); ?>
+  </div>
+  <div class="row">
+    <?php echo $form->labelEx($model,'active'); ?>
+    <?php echo $form->dropDownList($model,'active', MGHelper::itemAlias('active')); ?>
+    <?php echo $form->error($model,'active'); ?>
+  </div>
+  
+  <div class="row">
+    <?php echo $form->labelEx($model,'play_once_and_move_on'); ?>
+    <?php echo $form->dropDownList($model,'play_once_and_move_on', MGHelper::itemAlias('yes-no')); ?>
+    <?php echo $form->error($model,'play_once_and_move_on'); ?>
+  </div>
+  
+  <div class="row">
+    <?php echo $form->labelEx($model,'score_new'); ?>
+    <?php echo $form->textField($model,'score_new'); ?>
+    <?php echo $form->error($model,'score_new'); ?>
+  </div>
+
+  <div class="row">
+    <?php echo $form->labelEx($model,'score_match'); ?>
+    <?php echo $form->textField($model,'score_match'); ?>
+    <?php echo $form->error($model,'score_match'); ?>
+  </div>
+
+  <div class="row">
+    <?php echo $form->labelEx($model,'score_expert'); ?>
+    <?php echo $form->textField($model,'score_expert'); ?>
+    <?php echo $form->error($model,'score_expert'); ?>
+  </div>
+
+  <div class="row">
+    <?php echo $form->labelEx($model,'turns'); ?>
+    <?php echo $form->textField($model,'turns'); ?>
+    <?php echo $form->error($model,'turns'); ?>
+  </div>
 
 <?php
 echo GxHtml::submitButton($buttons);

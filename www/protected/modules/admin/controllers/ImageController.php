@@ -15,8 +15,8 @@ class ImageController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
-  				'roles'=>array('dbmanager', 'admin', 'xxx'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
   				'users'=>array('*'),
@@ -58,7 +58,6 @@ class ImageController extends GxController {
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'Image');
     $model->modified = date('Y-m-d H:i:s');
-;
 		$this->performAjaxValidation($model, 'image-form');
 
 		if (isset($_POST['Image'])) {
@@ -117,5 +116,29 @@ class ImageController extends GxController {
 			'model' => $model,
 		));
 	}
+  
+  
+  public function actionBatch($op) {
+    if (Yii::app()->getRequest()->getIsPostRequest()) {
+      switch ($op) {
+        case "delete":
+          $this->_batchDelete();
+          break;
+      }
+      if (!Yii::app()->getRequest()->getIsAjaxRequest())
+        $this->redirect(array('admin'));
+    } else
+      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
+    
+  }
 
+  private function _batchDelete() {
+    if (isset($_POST['image-ids'])) {
+      $criteria=new CDbCriteria;
+      $criteria->addInCondition("id", $_POST['image-ids']);
+      $criteria->addInCondition("locked", array(0));      
+      $model = new Image;
+      $model->deleteAll($criteria);  
+    } 
+  }
 }

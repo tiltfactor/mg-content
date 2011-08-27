@@ -23,7 +23,11 @@ $this->menu=array(
 	'attributes' => array(
 'id',
 'name',
-'locked',
+		 array(
+          'name' => 'locked',
+          'type' => 'image',
+          'value' => MGHelper::itemAlias('locked',$model->locked),
+        ),
 'more_information',
 array(
 			'name' => 'licence',

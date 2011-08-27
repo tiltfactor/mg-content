@@ -25,4 +25,8 @@ class GamesModule extends CWebModule
 		else
 			return false;
 	}
+  
+  public static function getGameID($game) {
+    
+  }
 }

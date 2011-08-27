@@ -2,22 +2,18 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
-	$model->label(2) => array('index'),
-	GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
+	Yii::t('app', 'Games') => array('/games'),
+	$model->name => array('view'),
 	Yii::t('app', 'Update'),
 );
 
 $this->menu = array(
-	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
-	array('label' => Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-	array('label' => Yii::t('app', 'View') . ' ' . $model->label(), 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
-	array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 
-	'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?'),
-  'visible' => !($model->hasAttribute("locked") && $model->locked)),
+	array('label'=>Yii::t('app', 'Manage') . ' ' . Yii::t('app', 'Games'), 'url'=>array('/games')),
+	array('label' => Yii::t('app', 'View') . ' ' . $model->name, 'url'=>array('view')),
 );
 ?>
 
-<h1><?php echo Yii::t('app', 'Update') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
+<h1><?php echo Yii::t('app', 'Update') . ' ' . GxHtml::encode($model->name); ?></h1>
 
 <?php
 $this->renderPartial('_form', array(

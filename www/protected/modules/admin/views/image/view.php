@@ -22,12 +22,18 @@ $this->menu=array(
 	'data' => $model,
 	'attributes' => array(
 'id',
-'name',
+		 array(
+          'name' => 'Image',
+          'type' => 'image',
+          'value' => Yii::app()->getBaseUrl() . Yii::app()->params['upload_url'] . '/thumbs/'. $model->name,
+        ),
 'size',
 'mime_type',
 'last_access',
-'locked',
-'created',
+array(
+    'name' => 'locked',
+    'value' => MGHelper::itemAlias("locked",$model->locked),
+  ),'created',
 'modified',
 	),
 )); ?>

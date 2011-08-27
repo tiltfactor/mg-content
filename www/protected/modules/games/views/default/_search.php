@@ -5,24 +5,18 @@
 	'method' => 'get',
 )); ?>
 
+  <div class="row">
+    <?php echo $form->label($model, 'active'); ?>
+    <?php echo $form->dropDownList($model,'active', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('active'))); ?>
+  </div>
 	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->textField($model, 'id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model, 'type'); ?>
-		<?php echo $form->textField($model, 'type', array('maxlength' => 20)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model, 'active'); ?>
-		<?php echo $form->textField($model, 'active'); ?>
+		<?php echo $form->label($model, 'number_played'); ?>
+		<?php echo $form->textField($model, 'number_played'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'unique_id'); ?>
-		<?php echo $form->textField($model, 'unique_id', array('maxlength' => 254)); ?>
+		<?php echo $form->textField($model, 'unique_id', array('maxlength' => 45)); ?>
 	</div>
 
 	<div class="row">

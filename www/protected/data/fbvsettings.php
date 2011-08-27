@@ -9,58 +9,99 @@ return array (
   array (
     'formats' => 
     array (
-      'thumbnail' => array (
+      'thumbnail' => 
+      array (
         'width' => 100,
         'height' => 60,
-        'quality' => FALSE, // set to integer 0 ... 100 to activate quality rendering
-        'sharpen' => FALSE, // set to integer 0 ... 100 to activate sharpen
+        'quality' => false,
+        'sharpen' => false,
       ),
-      'large' => array (
+      'large' => 
+      array (
         'width' => 750,
         'height' => 750,
-        'quality' => 80, // set to integer 0 ... 100 to activate quality rendering quality and sharpen 
-        'sharpen' => 20, // set to integer 0 ... 100 to activate sharpen
+        'quality' => 80,
+        'sharpen' => 20,
       ),
     ),
   ),
-  'throttle_interval' => 10, 
-  'admin-tools' =>
+  'throttle_interval' => 10,
+  'admin-tools' => 
   array (
-   'tool-subject-matter' => array(
-      'name' => Yii::t('app', 'Subject Matters'),
-      'description' => Yii::t('app', 'Some short description'),
+    'tool-subject-matter' => 
+    array (
+      'name' => 'Subject Matters',
+      'description' => 'Some short description',
       'url' => '/admin/subjectmatter',
       'role' => 'editor',
     ),
-    'tool-image-set' => array(
-      'name' => Yii::t('app', 'Image Sets'),
-      'description' => Yii::t('app', 'Some short description'),
+    'tool-image-set' => 
+    array (
+      'name' => 'Image Sets',
+      'description' => 'Some short description',
       'url' => '/admin/imageset',
       'role' => 'editor',
     ),
-    'tool-licence' => array(
-      'name' => Yii::t('app', 'Licences'),
-      'description' => Yii::t('app', 'Some short description'),
+    'tool-licence' => 
+    array (
+      'name' => 'Licences',
+      'description' => 'Some short description',
       'url' => '/admin/licence',
       'role' => 'editor',
-    ),   
-    'tool-import' => array(
-      'name' => Yii::t('app', 'Import'),
-      'description' => Yii::t('app', 'Tools to import images or tags (? xxx) into the system'),
+    ),
+    'tool-import' => 
+    array (
+      'name' => 'Import',
+      'description' => 'Tools to import images or tags (? xxx) into the system',
       'url' => '/admin/import',
       'role' => 'editor',
     ),
-    'tool-user' => array(
-      'name' => Yii::t('app', 'User Manager'),
-      'description' => Yii::t('app', 'Some short description'),
+    'tool-user' => 
+    array (
+      'name' => 'User Manager',
+      'description' => 'Some short description',
       'url' => '/admin/user',
       'role' => 'dbmanager',
     ),
-    'tool-plugins' => array(
-      'name' => Yii::t('app', 'Plugins'),
-      'description' => Yii::t('app', 'Some short description'),
+    'tool-plugins' => 
+    array (
+      'name' => 'Plugins',
+      'description' => 'Some short description',
       'url' => '/plugins',
       'role' => 'dbmanager',
+    ),
+    'tool-games' => 
+    array (
+      'name' => 'Games',
+      'description' => 'Some short description',
+      'url' => '/games',
+      'role' => 'dbmanager',
+    ),
+  ),
+  'games' => 
+  array (
+    'zenpond' => 
+    array (
+      'name' => 'Zen Pond',
+      'description' => 'This is a short description of Zen PondThis is a short description of Zen PondThis is a short description of Zen Pond',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'turns' => '10',
+      'score_new' => '22',
+      'score_match' => '12',
+      'score_expert' => '32',
+    ),
+    'ZenPond' => 
+    array (
+      'name' => 'Zen Pond',
+      'description' => 'This is a short description of Zen Pond, This is a short description of Zen Pond,
+This is a short description of Zen Pond',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'turns' => '5',
+      'score_new' => '2',
+      'score_match' => '1',
+      'score_expert' => '3',
     ),
   ),
 );

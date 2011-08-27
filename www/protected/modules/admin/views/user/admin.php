@@ -50,11 +50,16 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
       'type' => 'raw',
       'value' => "((\$data->lastvisit)?\$data->lastvisit:UserModule::t('Not visited'))" 
     ),
-    'role',
+    array(
+      'name'=>'role',
+      'value'=>'$data->role',
+      'filter'=>User::listRoles(),
+    ),
     array(
       'name' => 'status',
       'type' => 'raw',
-      'value' => "User::itemAlias('UserStatus', \$data->status)" 
+      'value' => "User::itemAlias('UserStatus', \$data->status)",
+      'filter'=> User::itemAlias('UserStatus'),
     ),
     'edited_count',
     'created',

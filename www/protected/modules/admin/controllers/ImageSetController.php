@@ -15,8 +15,8 @@ class ImageSetController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin','delete'),
-  				'roles'=>array('dbmanager', 'admin', 'xxx'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
   				'users'=>array('*'),
@@ -60,7 +60,6 @@ class ImageSetController extends GxController {
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'ImageSet');
     $model->modified = date('Y-m-d H:i:s');
-;
 		$this->performAjaxValidation($model, 'image-set-form');
 
 		if (isset($_POST['ImageSet'])) {

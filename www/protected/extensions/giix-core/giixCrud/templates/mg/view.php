@@ -30,14 +30,32 @@ $this->menu=array(
 	'attributes' => array(
 <?php
 foreach ($this->tableSchema->columns as $column) {
-  if ($column->name == "active") {
-   ?>array(
-    'name' => 'active',
-    'value' => MGHelper::itemAlias("active",$model->active),
-  ),<?php
-  } else { 
-     echo $this->generateDetailViewAttribute($this->modelClass, $column) . ",\n";
-  }
+  switch ($column->name) {
+    case "name":
+      if ($this->modelClass == "Image") {
+        echo "\t\t array(
+          'name' => 'Image',
+          'type' => 'image',
+          'value' => Yii::app()->getBaseUrl() . Yii::app()->params['upload_url'] . '/thumbs/'. \$model->{$column->name},
+        ),\n";
+      } else {
+        echo $this->generateDetailViewAttribute($this->modelClass, $column) . ",\n";
+      }
+      break;
+      
+    case "active":
+    case "locked":
+      echo "\t\t array(
+          'name' => '{$column->name}',
+          'type' => 'image',
+          'value' => MGHelper::itemAlias('{$column->name}',\$model->{$column->name}),
+        ),\n";
+      break;
+       
+    default:
+      echo $this->generateDetailViewAttribute($this->modelClass, $column) . ",\n";
+      break;
+  }  
 }
 ?>
 	),

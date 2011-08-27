@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends Controller
+class ZenPondController extends GxController
 {
 	public $defaultAction='view';
   
@@ -13,7 +13,7 @@ class DefaultController extends Controller
   public function accessRules() {
     return array(
         array('allow', 
-          'actions'=>array('index'),
+          'actions'=>array('view', 'update'),
           'roles'=>array('dbmanager', 'admin'),
           ),
         array('deny', 
@@ -22,28 +22,48 @@ class DefaultController extends Controller
         );
   }  
     
-  public function actionView($id) {
+  public function actionView() {
+    $model = new ZenPondForm;  
+    $model->load();
+    
+    $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
+    if ($game) {
+      $model->active = $game->active;
+    }
+    
     $this->render('view', array(
-      'model' => $this->loadModel($id, 'BlockedIp'),
+      'model' => $model,
+      'game' => $game,
     ));
   }
   
   public function actionUpdate() {
     $model = new ZenPondForm;
-
-    $this->performAjaxValidation($model, 'zen-pond-form');
-
-    if (isset($_POST['ZenPond'])) {
-      $model->setAttributes($_POST['ZenPond']);
-
-      if ($model->save()) {
-        Flash::add('success', Yii::t('app', "ZenPond updated"));
-        $this->redirect(array('view', 'id' => $model->id));
+    $model->load();
+    $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
+    
+    $this->performAjaxValidation($model, 'zenpond-form');
+    
+    if (isset($_POST['ZenPondForm'])) {
+      
+      $model->setAttributes($_POST['ZenPondForm']);
+      
+      if ($model->validate()) {
+        $game->active = $model->active;
+        $game->save();
+        $model->save();
+        
+        Flash::add('success', $model->name . ' ' . Yii::t('app', "Updated"));
+        $this->redirect(array('view'));
       }
     }
-
+    
+    if ($game) {
+      $model->active = $game->active;
+    }
+    
     $this->render('update', array(
-        'model' => $model,
-        ));
+      'model' => $model,
+      ));
   }
 }

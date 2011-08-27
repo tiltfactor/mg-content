@@ -15,7 +15,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('plugin-grid', {
+	$.fn.yiiGridView.update('game-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -36,19 +36,38 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'plugin-grid',
+<?php echo CHtml::beginForm('','post',array('id'=>'game-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
+	'id' => 'game-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'columns' => array(
-		'id',
-		'type',
-		'active',
+		 array(
+        'name' => 'active',
+        'type' => 'raw',
+        'value' => 'MGHelper::itemAlias(\'active\',$data->active)',
+        'filter'=> MGHelper::itemAlias('active'),
+      ),
+		'number_played',
 		'unique_id',
 		'created',
 		'modified',
-		array(
-			'class' => 'CButtonColumn',
-		),
-	),
-)); ?>
+    array (
+  'class' => 'CButtonColumn',
+  'buttons' => 
+  array (
+   'delete' => array(
+     'visible' => 'false',
+    ),
+    'view' => array(
+     'url'=>"Yii::app()->createUrl('games/' . \$data->unique_id );"
+    ),
+    'update' => array(
+     'url'=>"Yii::app()->createUrl('games/' . \$data->unique_id . '/update');"
+    ),
+  ),
+)),
+)); 
+echo CHtml::endForm();
+
+?>

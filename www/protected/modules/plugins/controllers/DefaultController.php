@@ -54,9 +54,9 @@ class DefaultController extends GxController
       $model = $this->loadModel($id, 'Plugin');
       $class = PluginsModule::getPluginClassName($model->unique_id);
       $model->delete();
-      Flash::add('success', Yii::t('app', "Plugin deleted"));
       try {
         $component = Yii::createComponent($class);
+        $component->uninstall();
         Flash::add('success', Yii::t('app', "Plugin uninstalled")); 
       } catch (Exception $e) {
         Flash::add("error", Yii::t('app', "The uninstall method of the plugin of type {$listed_plugin->type} with the unique id {$listed_plugin->unique_id} could not be called!"), TRUE);
@@ -172,22 +172,6 @@ class DefaultController extends GxController
         Flash::add("error", Yii::t('app', "The plugin of type {$listed_plugin->type} with the unique id {$listed_plugin->unique_id} is registered in the database but its code is either not accessible in the file system or not registered in the plugins module. It has been automatically disabled!"), TRUE);
       }
     }
-    
-    /*
-     * get all plugins as array;
-     * 
-     * for each folder in modules 
-     *  look into components 
-     *    each file that has name Plugin.php
-     *      take name and look up in database
-     *    
-     *    if plugin present fine
-     * 
-     *    if plugin in db but not in file raise erro
-     * 
-     *    if plugin in folder but not db add new entry  
-     * 
-     */
   }
 
   protected function addPlugin($plugin) {
