@@ -14,6 +14,6 @@
  
 8. Define database parameter and install sql (this will have to be adapted to suit basic needs. Ask for admin user name, email and password.
 
-
+9. Make sure that debug and gii(x) is commented out in /index.php and /protected/config/main.php
 
 Disable giix before   

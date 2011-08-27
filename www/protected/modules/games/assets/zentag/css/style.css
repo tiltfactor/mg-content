@@ -19,7 +19,7 @@
  */
 
 /* 
- * ZARA's css styles 20100929, modified by sukie
+ * ZARA's css styles 20100929, modified by sukie, modified by Vincent Van Uffelen
  */
 
 body {
@@ -39,19 +39,19 @@ body {
   margin: 0 auto;
 }
 
-A:link {
+a:link {
   font-weight: 600;
   color: #f3611a;
   text-decoration: none;
 }
 
-A:hover {
+a:hover {
   font-weight: 600;
   color: #f3611a;
   text-decoration: none;
 }
 
-A:visited {
+a:visited {
   font-weight: 600;
   color: #f3611a;
   text-decoration: none;
@@ -93,6 +93,10 @@ h1 a:hover {
   max-width: 204px;
   max-height: 153px;
   border: 0;
+}
+
+#stage {
+  display:none;
 }
 
 #holder {
@@ -241,4 +245,16 @@ h1 a:hover {
   margin: 0px auto;
   position: fixed;
   bottom: 0px;
+}
+
+#button-play {
+  display: block;
+  width: 182px;
+  height: 24px;
+  margin: 0px auto 0px auto;
+  background:url(../images/button.png) 0px 0px no-repeat transparent;
+}
+
+#button-play.again {
+  background:url(../images/button_playagain.png) 0px 0px no-repeat transparent;
 }

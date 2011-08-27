@@ -2,4 +2,15 @@
 
 <h1>Welcome</h1>
 
-<p>This is the arcade page. Here should be a listing of all active games and if the user is logged in his/her scores</p>
+<ul id="arcade-games">
+  <?php foreach ($games as $game) :?>
+  <li class="clearfix">
+    <a href="<?php echo $game["url"]; ?>" class="image"><?php echo CHtml::image($game["image_url"]); ?></a>
+    <h2><?php echo CHtml::link($game["name"], $game["url"]); ?><?php echo ($game["user_score"] != "")? ' (' . $game["user_score"] . ')' :''; ?></h2>
+    <p><?php echo $game["description"];?></p>
+  </li>
+  <?php endforeach; ?>
+</ul>
+
+<p>This is the arcade page. Activate user scores his/her scores</p>
+

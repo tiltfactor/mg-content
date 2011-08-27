@@ -1,6 +1,6 @@
 <?php
 
-class ZenPondController extends GxController
+class ZenTagController extends GxController
 {
   
 	public function filters() {
@@ -24,18 +24,33 @@ class ZenPondController extends GxController
           ),
         );
   }  
+  
   public function actionIndex() {
     MGHelper::setFrontendTheme();
     
-    $model = new ZenPondForm;  
+    $model = new ZenTagForm;  
     $model->load();
     
-    $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
+    $game = GamesModule::loadGame($model->getGameID());
     
-    if ($game->active) {
-      Yii::app()->clientScript->registerCssFile($this->module->getAssetsUrl() . '/zenpond/css/style.css');
-      Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
-      Yii::app()->clientScript->registerScriptFile($this->module->getAssetsUrl() . '/zenpond/js/mg.game.zenpond.js', CClientScript::POS_END);
+    if ($game) {
+      $cs = Yii::app()->clientScript;
+      $cs->registerCoreScript('jquery');
+      $cs->registerCssFile(Yii::app()->baseUrl . '/css/colorbox.css');
+      $cs->registerCssFile(GamesModule::getAssetsUrl() . '/zentag/css/style.css');
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.colorbox-min.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
+      $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/zentag/js/mg.game.zentag.js', CClientScript::POS_END);
+      
+      $js = <<<EOD
+    MG_API.base_init({
+        api_url : '{$game->api_base_url}',
+        msg_url : '{$game->base_url}/mg_api_messages.php',
+        play_once_and_move_on : {$game->play_once_and_move_on},
+        play_once_and_move_on_url : '{$game->play_once_and_move_on_url}'
+      });
+EOD;
+      Yii::app()->clientScript->registerScript(__CLASS__.'#game', $js, CClientScript::POS_READY);
       
       if ($model->play_once_and_move_on == 1) {
         $this->layout = '//layouts/main_no_menu';
@@ -52,7 +67,7 @@ class ZenPondController extends GxController
   }
   
   public function actionView() {
-    $model = new ZenPondForm;  
+    $model = new ZenTagForm;  
     $model->load();
     
     $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
@@ -67,15 +82,15 @@ class ZenPondController extends GxController
   }
   
   public function actionUpdate() {
-    $model = new ZenPondForm;
+    $model = new ZenTagForm;
     $model->load();
     $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
     
-    $this->performAjaxValidation($model, 'zenpond-form');
+    $this->performAjaxValidation($model, 'zentag-form');
     
-    if (isset($_POST['ZenPondForm'])) {
+    if (isset($_POST['ZenTagForm'])) {
       
-      $model->setAttributes($_POST['ZenPondForm']);
+      $model->setAttributes($_POST['ZenTagForm']);
       
       if ($model->validate()) {
         $game->active = $model->active;

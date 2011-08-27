@@ -48,13 +48,8 @@ class ImportController extends GxController {
                               "url" => $this->createUrl('/admin/import/uploadfromlocal'),
                            );
       
-      $tools["import-process"] = array(
-                              "name" => Yii::t('app', "Process Imported Images"),
-                              "description" => Yii::t('app', "Some short description"),
-                              "url" => $this->createUrl('/admin/import/processimportedimages'),
-                           );
-                           
       if (Yii::app()->user->checkAccess('dbmanager')) {
+        
       }
                            
       $this->render('index',
@@ -128,7 +123,11 @@ class ImportController extends GxController {
         $image->created = date('Y-m-d H:i:s'); 
         $image->modified = date('Y-m-d H:i:s');
         $image->locked = 0; 
-        $image->save();
+        
+        $relatedData = array(
+          'imageSets' => array(1),
+        );
+        $image->saveWithRelated($relatedData);
         
         // create thumbnail
         $imgCPNT = Yii::app()->image->load($path.$model->name);

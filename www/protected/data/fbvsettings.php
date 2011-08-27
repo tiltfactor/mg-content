@@ -56,6 +56,13 @@ return array (
       'url' => '/admin/import',
       'role' => 'editor',
     ),
+    'tool-image' => 
+    array (
+      'name' => 'Images',
+      'description' => 'Tools to administer images the system',
+      'url' => '/admin/image',
+      'role' => 'editor',
+    ),
     'tool-user' => 
     array (
       'name' => 'User Manager',
@@ -77,27 +84,24 @@ return array (
       'url' => '/games',
       'role' => 'dbmanager',
     ),
+    'tool-tag' => 
+    array (
+      'name' => 'Tags',
+      'description' => 'Some short description',
+      'url' => '/admin/tag',
+      'role' => 'editor',
+    ),
   ),
   'games' => 
   array (
-    'zenpond' => 
+    'ZenTag' => 
     array (
-      'name' => 'Zen Pond',
-      'description' => 'This is a short description of Zen PondThis is a short description of Zen PondThis is a short description of Zen Pond',
+      'name' => 'Zen Tag',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'zentag_arcade.png',
       'more_info_url' => '',
       'play_once_and_move_on' => '0',
-      'turns' => '10',
-      'score_new' => '22',
-      'score_match' => '12',
-      'score_expert' => '32',
-    ),
-    'ZenPond' => 
-    array (
-      'name' => 'Zen Pond',
-      'description' => 'This is a short description of Zen Pond, This is a short description of Zen Pond,
-This is a short description of Zen Pond',
-      'more_info_url' => '',
-      'play_once_and_move_on' => '0',
+      'play_once_and_move_on_url' => '',
       'turns' => '5',
       'score_new' => '2',
       'score_match' => '1',

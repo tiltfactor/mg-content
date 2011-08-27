@@ -45,6 +45,7 @@ class UserController extends ApiController {
       Yii::app()->session[self::API_APP_ID .'_SHARED_SECRET'] = uniqid(self::API_APP_ID) . substr(Yii::app()->session->sessionID, 0, 5);
     }
     $data = array();
+    $data['status'] = "ok";
     $data['shared_secret'] = Yii::app()->session[self::API_APP_ID .'_SHARED_SECRET'];
     $this->sendResponse($data);
   }
@@ -81,6 +82,7 @@ class UserController extends ApiController {
         $this->sendResponse($data);
       } else {
         $data = array();
+        $data['status'] = "error";
         $data['errors'] = $model->getErrors();
         $this->sendResponse($data, 403);
       }

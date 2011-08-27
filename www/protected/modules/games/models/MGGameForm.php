@@ -7,6 +7,7 @@
  */
 class MGGameForm extends CFormModel {
   public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Game database entry
+  public $arcade_image = "";
   public $name = "";
   public $description = "";
   public $more_info_url = "";

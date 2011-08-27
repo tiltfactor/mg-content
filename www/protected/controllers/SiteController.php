@@ -28,9 +28,14 @@ class SiteController extends Controller
 	{
 		MGHelper::setFrontendTheme();
     $this->layout = '//layouts/arcade';
+    
+    $games = GamesModule::listActiveGames();
+    
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+		$this->render('index', array(
+		  'games' => $games,
+    ));
 	}
 
 	/**

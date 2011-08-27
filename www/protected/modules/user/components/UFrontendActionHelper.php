@@ -94,6 +94,7 @@ class UFrontendActionHelper extends CApplicationComponent {
         } else {
           if(Yii::app()->getRequest()->getIsAjaxRequest()) {
             $data = array();
+            $data['status'] = "error";
             $data['errors'] = $form->getErrors();
             $controller->sendResponse($data, 400);
           } else {

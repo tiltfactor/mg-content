@@ -1,6 +1,6 @@
 <?php
 
-class ImageController extends GxController {
+class TagController extends GxController {
 
   public function filters() {
   	return array(
@@ -26,25 +26,22 @@ class ImageController extends GxController {
 
 	public function actionView($id) {
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'Image'),
+			'model' => $this->loadModel($id, 'Tag'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new Image;
+		$model = new Tag;
 		$model->created = date('Y-m-d H:i:s'); 
     $model->modified = date('Y-m-d H:i:s'); 
     
-		$this->performAjaxValidation($model, 'image-form');
+		$this->performAjaxValidation($model, 'tag-form');
 
-		if (isset($_POST['Image'])) {
-			$model->setAttributes($_POST['Image']);
-			$relatedData = array(
-				'imageSets' => $_POST['Image']['imageSets'] === '' ? null : $_POST['Image']['imageSets'],
-				);
+		if (isset($_POST['Tag'])) {
+			$model->setAttributes($_POST['Tag']);
 
-			if ($model->saveWithRelated($relatedData)) {
-				Flash::add('success', Yii::t('app', "Image created"));
+			if ($model->save()) {
+				Flash::add('success', Yii::t('app', "Tag created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else 
@@ -56,22 +53,15 @@ class ImageController extends GxController {
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'Image');
+		$model = $this->loadModel($id, 'Tag');
     $model->modified = date('Y-m-d H:i:s');
-		$this->performAjaxValidation($model, 'image-form');
+		$this->performAjaxValidation($model, 'tag-form');
 
-		if (isset($_POST['Image'])) {
-			$model->setAttributes($_POST['Image']);
-      
-      print_r($_POST['Image']['imageSets']);
-      exit();
-      
-			$relatedData = array(
-				'imageSets' => $_POST['Image']['imageSets'] === '' ? null : $_POST['Image']['imageSets'],
-				);
+		if (isset($_POST['Tag'])) {
+			$model->setAttributes($_POST['Tag']);
 
-			if ($model->saveWithRelated($relatedData)) {
-        Flash::add('success', Yii::t('app', "Image updated"));
+			if ($model->save()) {
+        Flash::add('success', Yii::t('app', "Tag updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -83,12 +73,12 @@ class ImageController extends GxController {
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$model = $this->loadModel($id, 'Image');
+			$model = $this->loadModel($id, 'Tag');
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
 			 $model->delete();
-        Flash::add('success', Yii::t('app', "Image deleted"));
+        Flash::add('success', Yii::t('app', "Tag deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				  $this->redirect(array('admin'));
@@ -98,11 +88,11 @@ class ImageController extends GxController {
 	}
 
 	public function actionIndex() {
-		$model = new Image('search');
+		$model = new Tag('search');
     $model->unsetAttributes();
 
-    if (isset($_GET['Image']))
-      $model->setAttributes($_GET['Image']);
+    if (isset($_GET['Tag']))
+      $model->setAttributes($_GET['Tag']);
 
     $this->render('admin', array(
       'model' => $model,
@@ -110,11 +100,11 @@ class ImageController extends GxController {
 	}
 
 	public function actionAdmin() {
-		$model = new Image('search');
+		$model = new Tag('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['Image']))
-			$model->setAttributes($_GET['Image']);
+		if (isset($_GET['Tag']))
+			$model->setAttributes($_GET['Tag']);
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -137,11 +127,11 @@ class ImageController extends GxController {
   }
 
   private function _batchDelete() {
-    if (isset($_POST['image-ids'])) {
+    if (isset($_POST['tag-ids'])) {
       $criteria=new CDbCriteria;
-      $criteria->addInCondition("id", $_POST['image-ids']);
-      $criteria->addInCondition("locked", array(0));      
-      $model = new Image;
+      $criteria->addInCondition("id", $_POST['tag-ids']);
+            
+      $model = new Tag;
       $model->deleteAll($criteria);  
     } 
   }

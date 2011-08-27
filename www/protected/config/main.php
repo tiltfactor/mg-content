@@ -20,7 +20,8 @@ return array(
     'ext.components.*',
     'ext.yii-flash.*',
     'application.helpers.*',
-    'application.modules.plugins.components.*'
+    'application.modules.games.*',
+    'application.modules.plugins.components.*',
 	),
 
 	'modules'=>array(

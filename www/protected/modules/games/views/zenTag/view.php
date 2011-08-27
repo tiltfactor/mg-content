@@ -27,10 +27,12 @@ $this->menu = array(
 	'attributes' => array(
     'name',
     'description',
+    'arcade_image',
      array(
       'name' => 'play_once_and_move_on',
       'value' => MGHelper::itemAlias('yes-no',$model->play_once_and_move_on),
     ),
+    'play_once_and_move_on_url',
     'turns',
     'score_new',
     'score_match',
