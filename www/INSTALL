@@ -16,4 +16,5 @@
 
 9. Make sure that debug and gii(x) is commented out in /index.php and /protected/config/main.php
 
+10. Goto games admin tool and activate at least one game
 Disable giix before   

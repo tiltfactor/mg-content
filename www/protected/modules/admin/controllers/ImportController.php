@@ -94,7 +94,6 @@ class ImportController extends GxController {
       $model->name = trim(basename(stripslashes($model->file->getName())), ".\x00..\x20");
   
       if ($model->validate()) {
-        Yii::log("drei", "error");
         $path = $this->path . "/" . $this->subfolder."/";
         if(!is_dir($path)){
           mkdir($path);

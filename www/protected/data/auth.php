@@ -18,6 +18,11 @@ return array (
         'bizRule' => NULL,
         'data' => NULL,
       ),
+      4 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
     ),
   ),
   'editor' => 
@@ -49,6 +54,14 @@ return array (
     array (
       0 => 'player',
       1 => 'editor',
+    ),
+    'assignments' => 
+    array (
+      2 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
     ),
   ),
   'admin' => 

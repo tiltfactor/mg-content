@@ -1,8 +1,7 @@
 MG_GAME_API = function ($) {
   return $.extend(MG_API, {
-    turn : {
-      
-    },
+    turns : [],
+    turn : 0,
     
     game : {
       name : '',
@@ -30,7 +29,7 @@ MG_GAME_API = function ($) {
     },
     
     loadGame : function () {
-      MG_API.ajaxCall('/games/play/game/' + MG_GAME_API.settings.game_id , function(response) {
+      MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
         MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
         
         MG_GAME_API.settings.ongameinit();

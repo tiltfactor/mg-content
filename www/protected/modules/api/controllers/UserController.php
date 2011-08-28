@@ -32,7 +32,7 @@ class UserController extends ApiController {
   /**
    * Returns a shared secret for the user that will be saved in the session. Each further request has 
    * to be signed with this shared secret. This should happen by setting a custom header 
-   * HTTP_X_<self::API_APP_ID>_SHARED_SECRET
+   * HTTP_X_<fbvStorage(api_id)>_SHARED_SECRET
    * 
    * It will return the following array
    * 
@@ -41,12 +41,33 @@ class UserController extends ApiController {
    * 
    */
   public function actionSharedSecret() {
-    if (!isset(Yii::app()->session[self::API_APP_ID .'_SHARED_SECRET'])) {
-      Yii::app()->session[self::API_APP_ID .'_SHARED_SECRET'] = uniqid(self::API_APP_ID) . substr(Yii::app()->session->sessionID, 0, 5);
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    if (!isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
+      Yii::app()->session[$api_id .'_SHARED_SECRET'] = uniqid($api_id) . substr(Yii::app()->session->sessionID, 0, 5);
+    }
+    if (!isset(Yii::app()->session[$api_id .'_SESSION_ID'])) {
+      $session = new Session;
+      $session->username = Yii::app()->user->name;
+      $session->ip_address = ip2long(Yii::app()->request->userHostAddress);
+      $session->php_sid = Yii::app()->session->sessionID;
+      $session->shared_secret = Yii::app()->session[$api_id .'_SHARED_SECRET'];
+      if (Yii::app()->user->id) {
+        $session->user_id = Yii::app()->user->id;
+      }
+      $session->created = date('Y-m-d H:i:s'); 
+      $session->modified = date('Y-m-d H:i:s');   
+      
+      if ($session->validate()) {
+        $session->save();  
+      } else {
+        throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      }
+      
+      Yii::app()->session[$api_id .'_SESSION_ID'] = $session->id;
     }
     $data = array();
     $data['status'] = "ok";
-    $data['shared_secret'] = Yii::app()->session[self::API_APP_ID .'_SHARED_SECRET'];
+    $data['shared_secret'] = Yii::app()->session[$api_id .'_SHARED_SECRET'];
     $this->sendResponse($data);
   }
   

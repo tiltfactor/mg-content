@@ -76,7 +76,18 @@
     <?php echo $form->textField($model,'turns'); ?>
     <?php echo $form->error($model,'turns'); ?>
   </div>
-
+  
+  <div class="row">
+    <?php echo $form->labelEx($model,'image_width'); ?>
+    <?php echo $form->textField($model,'image_width'); ?>
+    <?php echo $form->error($model,'image_width'); ?>
+  </div>
+  
+  <div class="row">
+    <?php echo $form->labelEx($model,'image_height'); ?>
+    <?php echo $form->textField($model,'image_height'); ?>
+    <?php echo $form->error($model,'image_height'); ?>
+  </div>
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

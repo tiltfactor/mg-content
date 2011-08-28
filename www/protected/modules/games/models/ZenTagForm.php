@@ -18,6 +18,8 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
   public $score_new = 2;
   public $score_match = 1;
   public $score_expert = 3;
+  public $image_width = 450;
+  public $image_height = 450;
   
   public function rules() {
     return array(
@@ -25,6 +27,7 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
         array('name', 'length', 'min'=>1, 'max'=>100),
         array('description', 'length', 'min'=>50, 'max'=>500),
         array('more_info_url, play_once_and_move_on_url','url'),
+        array('image_width, image_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('active, play_once_and_move_on', 'numerical', 'min'=>0, 'max'=>1),
         array('score_new, score_match, score_expert, turns', 'numerical', 'min'=>1, 'max'=>1000),
     );
@@ -40,6 +43,8 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
       'score_new' => Yii::t('app', 'Score (new)'),
       'score_match' => Yii::t('app', 'Score (match)'),
       'score_expert' => Yii::t('app', 'Score (expert)'),
+      'image_width' => Yii::t('app', 'Stage Image max. Width'),
+      'image_height' => Yii::t('app', 'Stage Image max. Height'),
       'turns' => Yii::t('app', 'Turns'),
     );
   }
@@ -57,6 +62,8 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
       $this->score_new = (int)$game_data["score_new"];
       $this->score_match = (int)$game_data["score_match"];
       $this->score_expert = (int)$game_data["score_expert"];
+      $this->image_width = (int)$game_data["image_width"];
+      $this->image_height = (int)$game_data["image_height"];
     }
   }
   
@@ -72,6 +79,8 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
       'score_new' => $this->score_new,
       'score_match' => $this->score_match,
       'score_expert' => $this->score_expert,
+      'image_width' => $this->image_width,
+      'image_height' => $this->image_height,
     );
     Yii::app()->fbvStorage->set("games." . $this->getGameID(), $game_data);
   }

@@ -11,6 +11,8 @@ class MGGameForm extends CFormModel {
   public $name = "";
   public $description = "";
   public $more_info_url = "";
+  public $image_width = 450;
+  public $image_height = 450;
   
   public function load() {}
   
@@ -18,7 +20,7 @@ class MGGameForm extends CFormModel {
 }
 
 /**
- * Unfortunately in PHP 5.2 it is not possible to retrive the child class name 
+ * Unfortunately in PHP 5.2 it is not possible to retrieve the child class name 
  * in a parent class method usind __CLASS__ or get_class.
  * 
  * Hence we have to make sure getGameID is implemented in each GameForm by making use 

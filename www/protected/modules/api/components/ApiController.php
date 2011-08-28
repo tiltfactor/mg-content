@@ -5,11 +5,6 @@
  */
 class ApiController extends Controller
 {
-  /**
-   * This app id has to be present in all api call comming from the user
-   * @const API_APP_ID
-   */
-  Const API_APP_ID = 'MG_API';
   
   /**
    * The data format the api is responding with. Currently only JSON is allowed.
@@ -55,7 +50,7 @@ class ApiController extends Controller
    * @param mixed The data that should be returned with the response handler
    */
   public function sendResponse($data = "", $status = NULL) {
-    if (!is_null($status)) {
+    if ($status) {
       switch ($status) {
         case 403:
           header('HTTP/1.1 403 Forbidden');
@@ -102,15 +97,16 @@ class ApiController extends Controller
    * to the current sessions one. This is to protect the users data.
    * 
    * You have to sign every request with the shared secret that can be retrieved via /API/sharedsecret
-   * Place it in the request header as HTTP_X_<self::API_APP_ID>_SHARED_SECRET and you are fine. 
+   * Place it in the request header as HTTP_X_<fbvStorage(api_id)>_SHARED_SECRET and you are fine. 
    * 
    * @param CFilterChain $filterChain the filter chain that the filter is on.
    * @throws CHttpException if the current request is not an AJAX request.
    */
   public function filterSharedSecret($filterChain)
   {
-    $ss = MGHelper::HTTPXHeader(self::API_APP_ID . "_SHARED_SECRET");
-    if (!is_null($ss) && $ss === Yii::app()->session[self::API_APP_ID .'_SHARED_SECRET']) {
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");  
+    $ss = MGHelper::HTTPXHeader($api_id . "_SHARED_SECRET");
+    if ($ss && $ss === Yii::app()->session[$api_id .'_SHARED_SECRET']) {
       $filterChain->run();
     } else  
       throw new CHttpException(400, Yii::t('app', 'Please Share Your True And Well Kept Secret.'));

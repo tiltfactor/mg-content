@@ -48,7 +48,7 @@ class ZenTagController extends GxController
       $throttleInterval = (int)Yii::app()->fbvStorage->get("throttleInterval", 5);
       $js = <<<EOD
     MG_GAME_ZENTAG.init({
-        game_id : 'ZenTag',
+        gid : 'ZenTag',
         app_id : 'MG_API',
         api_url : '{$game->api_base_url}',
         msg_url : '{$game->base_url}/mg_api_messages.php',

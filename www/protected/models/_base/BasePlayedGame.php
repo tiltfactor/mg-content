@@ -10,16 +10,19 @@
  * followed by relations of table "played_game" available as properties of the model.
  *
  * @property integer $id
- * @property integer $session_id
+ * @property integer $session_id_1
+ * @property integer $session_id_2
  * @property integer $game_id
- * @property integer $score
+ * @property integer $score_1
+ * @property integer $score_2
  * @property string $created
  * @property string $modified
  * @property string $finished
  *
  * @property GameSubmission[] $gameSubmissions
  * @property Game $game
- * @property Session $session
+ * @property Session $sessionId1
+ * @property Session $sessionId2
  */
 abstract class BasePlayedGame extends GxActiveRecord {
 
@@ -41,11 +44,11 @@ abstract class BasePlayedGame extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('session_id, game_id, created, modified', 'required'),
-			array('session_id, game_id, score', 'numerical', 'integerOnly'=>true),
+			array('session_id_1, game_id, created, modified', 'required'),
+			array('session_id_1, session_id_2, game_id, score_1, score_2', 'numerical', 'integerOnly'=>true),
 			array('finished', 'safe'),
-			array('score, finished', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, session_id, game_id, score, created, modified, finished', 'safe', 'on'=>'search'),
+			array('session_id_2, score_1, score_2, finished', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, session_id_1, session_id_2, game_id, score_1, score_2, created, modified, finished', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +56,8 @@ abstract class BasePlayedGame extends GxActiveRecord {
 		return array(
 			'gameSubmissions' => array(self::HAS_MANY, 'GameSubmission', 'played_game_id'),
 			'game' => array(self::BELONGS_TO, 'Game', 'game_id'),
-			'session' => array(self::BELONGS_TO, 'Session', 'session_id'),
+			'sessionId1' => array(self::BELONGS_TO, 'Session', 'session_id_1'),
+			'sessionId2' => array(self::BELONGS_TO, 'Session', 'session_id_2'),
 		);
 	}
 
@@ -65,15 +69,18 @@ abstract class BasePlayedGame extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'id' => Yii::t('app', 'ID'),
-			'session_id' => null,
+			'session_id_1' => null,
+			'session_id_2' => null,
 			'game_id' => null,
-			'score' => Yii::t('app', 'Score'),
+			'score_1' => Yii::t('app', 'Score 1'),
+			'score_2' => Yii::t('app', 'Score 2'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
 			'finished' => Yii::t('app', 'Finished'),
 			'gameSubmissions' => null,
 			'game' => null,
-			'session' => null,
+			'sessionId1' => null,
+			'sessionId2' => null,
 		);
 	}
 
@@ -81,9 +88,11 @@ abstract class BasePlayedGame extends GxActiveRecord {
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('session_id', $this->session_id);
+		$criteria->compare('session_id_1', $this->session_id_1);
+		$criteria->compare('session_id_2', $this->session_id_2);
 		$criteria->compare('game_id', $this->game_id);
-		$criteria->compare('score', $this->score);
+		$criteria->compare('score_1', $this->score_1);
+		$criteria->compare('score_2', $this->score_2);
 		$criteria->compare('created', $this->created, true);
 		$criteria->compare('modified', $this->modified, true);
 		$criteria->compare('finished', $this->finished, true);

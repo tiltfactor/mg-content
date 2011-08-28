@@ -37,6 +37,8 @@ $this->menu = array(
     'score_new',
     'score_match',
     'score_expert',
+    'image_width',
+    'image_height',
 	),
 )); ?>
 

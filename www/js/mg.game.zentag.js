@@ -11,10 +11,10 @@ MG_GAME_ZENTAG = function ($) {
       //score box
       var score_info = {
         user_name : MG_GAME_ZENTAG.game.user_name,
-        user_score : MG_GAME_ZENTAG.game.user_score,
+        user_score : MG_GAME_ZENTAG.game.user_score + " xxx not implemented",
         current_score : 0,
         turns : MG_GAME_ZENTAG.game.turns,
-        current_turn : 0
+        current_turn : (MG_GAME_API.turn + 1)
       };
       $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
       if (!MG_GAME_ZENTAG.game.user_authenticated) {

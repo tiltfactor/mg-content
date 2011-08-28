@@ -18,9 +18,11 @@
  * @property string $created
  * @property string $modified
  *
+ * @property GamePartner[] $gamePartners
  * @property GameSubmission[] $gameSubmissions
  * @property Message $message
  * @property PlayedGame[] $playedGames
+ * @property PlayedGame[] $playedGames1
  * @property User $user
  */
 abstract class BaseSession extends GxActiveRecord {
@@ -43,19 +45,22 @@ abstract class BaseSession extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('username, ip_address, php_sid, shared_secret, user_id, created, modified', 'required'),
+			array('username, ip_address, php_sid, shared_secret, created, modified', 'required'),
 			array('ip_address, user_id', 'numerical', 'integerOnly'=>true),
-			array('username', 'length', 'max'=>64),
+			array('username', 'length', 'max'=>32),
 			array('php_sid, shared_secret', 'length', 'max'=>45),
+			array('user_id', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, username, ip_address, php_sid, shared_secret, user_id, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
+			'gamePartners' => array(self::HAS_MANY, 'GamePartner', 'session_id'),
 			'gameSubmissions' => array(self::HAS_MANY, 'GameSubmission', 'session_id'),
 			'message' => array(self::HAS_ONE, 'Message', 'session_id'),
-			'playedGames' => array(self::HAS_MANY, 'PlayedGame', 'session_id'),
+			'playedGames' => array(self::HAS_MANY, 'PlayedGame', 'session_id_1'),
+			'playedGames1' => array(self::HAS_MANY, 'PlayedGame', 'session_id_2'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
@@ -75,9 +80,11 @@ abstract class BaseSession extends GxActiveRecord {
 			'user_id' => null,
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
+			'gamePartners' => null,
 			'gameSubmissions' => null,
 			'message' => null,
 			'playedGames' => null,
+			'playedGames1' => null,
 			'user' => null,
 		);
 	}

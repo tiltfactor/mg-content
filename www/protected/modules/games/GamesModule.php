@@ -63,17 +63,19 @@ class GamesModule extends CWebModule
     
     if ($active) {
       $criteria=new CDbCriteria;
-      $criteria->select='unique_id';
       $criteria->params='unique_id=:unique_id';
       $criteria->condition='active=1';
-      $registered_game = Game::model()->find($criteria, array(':unique_id'=>$unique_id));  
+      $registered_game = Game::model()->find($criteria, array(':unique_id'=>$unique_id)); 
     }
     
-    if (!is_null($registered_game) || !$active) {
+    if ($registered_game || !$active) {
       $game = (object)Yii::app()->fbvStorage->get("games." . $unique_id, array(
           'name' => '',
           'description' => '',
         ));
+      if ($registered_game) {
+        $game->game_id = $registered_game->id;  
+      }
       $game->url =  Yii::app()->createUrl('games/'.$unique_id);
       $game->image_url =  self::getAssetsUrl() . '/' . strtolower($unique_id) . '/images/' . (isset($game->arcade_image)? $game->arcade_image : '');
       $game->api_base_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/api');
@@ -88,5 +90,19 @@ class GamesModule extends CWebModule
       $game->user_authenticated = !Yii::app()->user->isGuest;
     }
     return $game;
+  }
+
+  public static function getGameEngine($unique_id) {
+    
+    $game_engine = null;
+    
+    try {
+      Yii::import("games.components.*");
+      $game_engine = Yii::createComponent($unique_id. "Game");
+    } catch (Exception $e) {
+      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+    } 
+    
+    return $game_engine;
   }
 }

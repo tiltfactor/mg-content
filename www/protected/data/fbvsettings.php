@@ -1,5 +1,6 @@
 <?php
 return array (
+  'api_id' => 'MG_API',
   'frontend_theme' => 'metadatagames',
   'arcade' => 
   array (
@@ -107,6 +108,8 @@ return array (
       'score_new' => '2',
       'score_match' => '1',
       'score_expert' => '3',
+      'image_width' => '450',
+      'image_height' => '450',
     ),
   ),
 );
