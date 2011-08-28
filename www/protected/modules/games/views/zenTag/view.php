@@ -13,18 +13,13 @@ $this->menu = array(
 ?>
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->name); ?></h1>
 <?php $this->widget('zii.widgets.CDetailView', array(
-  'data' => $game,
-  'attributes' => array(
-    array(
+	'data' => $model,
+	'attributes' => array(
+	array(
       'name' => 'active',
       'value' => MGHelper::itemAlias('active', $model->active),
     ),
     'number_played',
-  ),
-)); ?>
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data' => $model,
-	'attributes' => array(
     'name',
     'description',
     'arcade_image',
@@ -41,4 +36,20 @@ $this->menu = array(
     'image_height',
 	),
 )); ?>
+
+<h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
+<?php
+  echo GxHtml::openTag('ul');
+  
+  if (count($model->imageSets) == 0) {
+    echo "<li>no item(s) assigned</li>";
+  }
+  
+  foreach($model->imageSets as $relatedModel) {
+    echo GxHtml::openTag('li');
+    echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('/admin/imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
+    echo GxHtml::closeTag('li');
+  }
+  echo GxHtml::closeTag('ul');
+?>
 

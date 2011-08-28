@@ -32,7 +32,7 @@ MG_GAME_API = function ($) {
       MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
         MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
         
-        MG_GAME_API.settings.ongameinit();
+        MG_GAME_API.settings.ongameinit(response);
       });
     },
     

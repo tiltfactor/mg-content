@@ -28,11 +28,7 @@ class ZenTagController extends GxController
   public function actionIndex() {
     MGHelper::setFrontendTheme();
     
-    $model = new ZenTagForm;  
-    $model->load();
-    
-    $game = GamesModule::loadGame($model->getGameID());
-    
+    $game = GamesModule::loadGame("ZenTag");
     if ($game) {
       $cs = Yii::app()->clientScript;
       $cs->registerCoreScript('jquery');
@@ -59,13 +55,12 @@ class ZenTagController extends GxController
 EOD;
       Yii::app()->clientScript->registerScript(__CLASS__.'#game', $js, CClientScript::POS_READY);
       
-      if ($model->play_once_and_move_on == 1) {
+      if ($game->play_once_and_move_on == 1) {
         $this->layout = '//layouts/main_no_menu';
       } else {
         $this->layout = '//layouts/column1';
       }
       $this->render('index', array(
-        'model' => $model,
         'game' => $game,
       ));  
     } else {
@@ -74,43 +69,32 @@ EOD;
   }
   
   public function actionView() {
-    $model = new ZenTagForm;  
-    $model->load();
-    
-    $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
-    if ($game) {
-      $model->active = $game->active;
-    }
+    $model = $this->loadModel(array("unique_id" => "ZenTag"), 'ZenTag');  
+    $model->fbvLoad();
     
     $this->render('view', array(
       'model' => $model,
-      'game' => $game,
     ));
   }
   
   public function actionUpdate() {
-    $model = new ZenTagForm;
-    $model->load();
-    $game = $this->loadModel(array("unique_id" => $model->getGameID()), 'Game');
+    $model = $this->loadModel(array("unique_id" => "ZenTag"), 'ZenTag');
+    $model->fbvLoad();
     
     $this->performAjaxValidation($model, 'zentag-form');
-    
-    if (isset($_POST['ZenTagForm'])) {
+    if (isset($_POST['ZenTag'])) {
+      $model->setAttributes($_POST['ZenTag']);
       
-      $model->setAttributes($_POST['ZenTagForm']);
+      $relatedData = array(
+        'imageSets' => $_POST['ZenTag']['imageSets'] === '' ? null : $_POST['ZenTag']['imageSets'],
+        );
       
-      if ($model->validate()) {
-        $game->active = $model->active;
-        $game->save();
-        $model->save();
+      if ($model->saveWithRelated($relatedData)) {
         
+        $model->fbvSave();
         Flash::add('success', $model->name . ' ' . Yii::t('app', "Updated"));
         $this->redirect(array('view'));
       }
-    }
-    
-    if ($game) {
-      $model->active = $game->active;
     }
     
     $this->render('update', array(

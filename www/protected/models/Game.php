@@ -8,6 +8,14 @@ class Game extends BaseGame
 		return parent::model($className);
 	}
   
+  public function relations() {
+    return array(
+      'imageSets' => array(self::MANY_MANY, 'ImageSet', 'game_to_image_set(game_id, image_set_id)'),
+      'playedGames' => array(self::HAS_MANY, 'PlayedGame', 'game_id'),
+      'users' => array(self::MANY_MANY, 'User', 'user_to_game(game_id, user_id)'),
+    );
+  }
+  
   public function attributeLabels() {
     return array(
       'id' => Yii::t('app', 'ID'),

@@ -16,5 +16,5 @@
 
 9. Make sure that debug and gii(x) is commented out in /index.php and /protected/config/main.php
 
-10. Goto games admin tool and activate at least one game
+10. Goto games admin tool and activate at least one game make sure to configure the imageSets
 Disable giix before   

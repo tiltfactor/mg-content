@@ -63,9 +63,6 @@ class ImageController extends GxController {
 		if (isset($_POST['Image'])) {
 			$model->setAttributes($_POST['Image']);
       
-      print_r($_POST['Image']['imageSets']);
-      exit();
-      
 			$relatedData = array(
 				'imageSets' => $_POST['Image']['imageSets'] === '' ? null : $_POST['Image']['imageSets'],
 				);

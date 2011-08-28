@@ -72,11 +72,15 @@ class GamesController extends ApiController {
   public function actionPlay($gid) {
     $game = GamesModule::loadGame($gid);
     
-    if($game) {
+    if($game && $game->game_model) {
+        
       $game_engine = GamesModule::getGameEngine($gid);
       if (is_null($game_engine)) {
         throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
       }
+      
+      $game_model = $game->game_model; // we need the current games model in the game engine but don't want to risk to send it on to the user
+      unset($game->game_model);
       
       $game->played_game_id = null;
       if (Yii::app()->getRequest()->getIsPostRequest()) {
@@ -84,14 +88,16 @@ class GamesController extends ApiController {
           $game->played_game_id = (int)$_POST["played_game_id"]; 
         }
         
-        if ($game->played_game_id != 0 && $game_engine->validateSubmission($game)) {
-          $this->_playPost($game, $game_engine);  
+        if ($game->played_game_id != 0 && $game_engine->validateSubmission($game, $game_model)) {
+          $this->_playPost($game, $game_model, $game_engine);  
         } else {
           throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
         }
+      
       } else {
-        $this->_playGet($game, $game_engine);
+        $this->_playGet($game, $game_model, $game_engine);
       }
+    
     } else {
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
@@ -137,9 +143,9 @@ class GamesController extends ApiController {
    *    // the following fields are available in all games
    *    images : [{
    *      // all urls are relative to game.base_url
-   *      url_full_size : '',
-   *      url_scaled : '',
-   *      url_thumb : '',
+   *      full_size : '',
+   *      scaled : '',
+   *      thumbnail : '',
    *      licence : 'name of licence that can be found in turn.licences',
    *    }, {...}],
    * 
@@ -155,17 +161,15 @@ class GamesController extends ApiController {
    * }
    *
    */
-  private function _playGet($game, $game_engine) {
+  private function _playGet($game, $game_model, $game_engine) {
     $data = array();
     $data['status'] = "ok";
     $data['game'] = $game;
     
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     if (!$game->played_game_id && isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
-
+      
       $played_game = new PlayedGame;
-      
-      
       $played_game->session_id_1 = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
       $played_game->game_id = $game->game_id;
       $played_game->created = date('Y-m-d H:i:s'); 
@@ -176,25 +180,22 @@ class GamesController extends ApiController {
       } else {
         throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
       }
+      
       $game->played_game_id = $played_game->id;
+      
+      // increase game counter by one      
+      $game_model->saveCounters(array('number_played'=>1));
     }
-    
-    $data['turn'] = $game_engine->getTurn($game);
+
+    $data['turn'] = $game_engine->getTurn($game, $game_model);
     $this->sendResponse($data);
   }
   
   /**
    * Processes the POST request of the play method call xxx
    */
-  private function _playPost($game, $game_engine) {
+  private function _playPost($game, $game_model, $game_engine) {
     
   }
-  
-  private function _getTurn($game, $game_engine) {
-    if ($game->played_game_id) {
-      
-    }
-  }
-  
   
 }

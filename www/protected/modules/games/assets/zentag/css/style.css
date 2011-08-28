@@ -80,8 +80,8 @@ h4 {
 
 #holder {
   width: 500px;
-  height: 390px;
   padding-top:18px;
+  padding-bottom:18px;
   margin: 0px auto;
   background-color: #3a3014;
   border: thin solid #BEC638;
@@ -93,22 +93,6 @@ h4 {
   border: thin solid #9AA699;
 }
 
-#holder2 {
-  width: 485px;
-  height: 388px;
-  padding-top:12px;
-  padding-bottom:10px;
-  padding-left:15px;
-  margin: 0px auto;
-  background-color: #3A3014;
-  border: thin solid #BEC638;
-  text-align: center;
-  vertical-align: middle;
-}
-
-#holder2 img {
-  padding-top: 15px;
-}
 
 #smallholder0 {
   width: 232px;
@@ -162,7 +146,7 @@ h4 {
 #fieldholder {
   width: 500px;
   height: 70px;
-  padding-top:10px;
+  padding-top:5px;
   padding-bottom:10px;
   margin: 0px auto;
   background-color: #5b5341;
@@ -232,7 +216,7 @@ h4 {
 
 #scores {
   position: absolute;
-  top:50px;
+  top:100px;
   right: 50px;
   width:200px;
   height: 200px;

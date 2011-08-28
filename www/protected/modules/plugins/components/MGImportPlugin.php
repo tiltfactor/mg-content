@@ -8,5 +8,4 @@ class MGImportPlugin extends MGPlugin {
   function init() {
     parent::init();
   }
-  
 }

@@ -4,7 +4,7 @@
  * This is the base implementation of a mg plugin 
  */
 
-class MGPlugin extends CApplicationComponent {
+class MGPlugin extends CComponent {
   /**
    * Set true if the plug-in has got an admin tool
    */  

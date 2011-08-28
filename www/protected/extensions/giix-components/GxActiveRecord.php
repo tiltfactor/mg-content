@@ -370,6 +370,7 @@ abstract class GxActiveRecord extends CActiveRecord {
 				if (!$this->saveRelated($relatedData, $runValidation, $options['batch'])) {
 					if ($transacted)
 						$transaction->rollback();
+          print 2;
 					return false;
 				}
 			}

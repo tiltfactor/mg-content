@@ -5,7 +5,7 @@
  * LoginForm is the data structure for keeping
  * user login form data. It is used by the 'login' action of 'SiteController'.
  */
-class ZenTagForm extends MGGameForm implements MGGameFormInterface
+class ZenTag extends MGGameModel implements MGGameModelInterface
 {
   public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Game database entry
   public $name = "Zen Tag";
@@ -49,7 +49,7 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
     );
   }
   
-  public function load() {
+  public function fbvLoad() {
     $game_data = Yii::app()->fbvStorage->get("games." . $this->getGameID(), null);
     if (is_array($game_data)) {
       $this->name = $game_data["name"];
@@ -67,7 +67,7 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
     }
   }
   
-  public function save() {
+  public function fbvSave($runValidation=true,$attributes=null) {
     $game_data = array(
       'name' => $this->name,
       'description' => $this->description,
@@ -86,6 +86,6 @@ class ZenTagForm extends MGGameForm implements MGGameFormInterface
   }
   
   public function getGameID() {
-    return str_replace("Form", "", __CLASS__);    
+    return __CLASS__;    
   }
 }

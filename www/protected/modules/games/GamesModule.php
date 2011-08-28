@@ -62,10 +62,7 @@ class GamesModule extends CWebModule
     $registered_game = null;
     
     if ($active) {
-      $criteria=new CDbCriteria;
-      $criteria->params='unique_id=:unique_id';
-      $criteria->condition='active=1';
-      $registered_game = Game::model()->find($criteria, array(':unique_id'=>$unique_id)); 
+      $registered_game = GamesModule::loadGameFromDB($unique_id); 
     }
     
     if ($registered_game || !$active) {
@@ -73,9 +70,13 @@ class GamesModule extends CWebModule
           'name' => '',
           'description' => '',
         ));
+        
+      $game->game_model = null;
       if ($registered_game) {
+        $game->game_model = $registered_game;
         $game->game_id = $registered_game->id;  
       }
+      $game->gid =  $unique_id;
       $game->url =  Yii::app()->createUrl('games/'.$unique_id);
       $game->image_url =  self::getAssetsUrl() . '/' . strtolower($unique_id) . '/images/' . (isset($game->arcade_image)? $game->arcade_image : '');
       $game->api_base_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/api');
@@ -104,5 +105,15 @@ class GamesModule extends CWebModule
     } 
     
     return $game_engine;
+  }
+  
+  public static function loadGameFromDB($unique_id, $active=true) {
+    $criteria=new CDbCriteria;
+    $criteria->params='unique_id=:unique_id';
+    
+    if ($active)
+      $criteria->condition='active=1';
+    
+    return Game::model()->find($criteria, array(':unique_id'=>$unique_id)); 
   }
 }

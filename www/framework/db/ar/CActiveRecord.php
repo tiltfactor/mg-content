@@ -780,8 +780,9 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$runValidation || $this->validate($attributes))
 			return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
-		else
-			return false;
+		else {
+		  return false;
+		}
 	}
 
 	/**

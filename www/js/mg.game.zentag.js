@@ -7,7 +7,7 @@ MG_GAME_ZENTAG = function ($) {
       MG_GAME_API.game_init(settings);
     },
     
-    ongameinit : function () {
+    ongameinit : function (response) {
       //score box
       var score_info = {
         user_name : MG_GAME_ZENTAG.game.user_name,
@@ -20,6 +20,12 @@ MG_GAME_ZENTAG = function ($) {
       if (!MG_GAME_ZENTAG.game.user_authenticated) {
         $("#scores .total_score").remove();
       }
+      log(response.turn.images[0]);
+      var turn_info = {
+        url : response.turn.images[0].scaled
+      }
+      $("#template-turn").tmpl(turn_info).appendTo($("#image_container"));
+      
       MG_GAME_API.curtain.hide();
       $("#stage").fadeIn(1500);
     },

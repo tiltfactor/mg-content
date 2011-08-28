@@ -12,7 +12,7 @@ class ImportController extends GxController {
    * Subfolder in which files will be stored
    * @var string
    */
-  public $subfolder="image";
+  public $subfolder="images";
   
   public function filters() {
   	return array(
@@ -128,9 +128,6 @@ class ImportController extends GxController {
         );
         $image->saveWithRelated($relatedData);
         
-        // create thumbnail
-        $imgCPNT = Yii::app()->image->load($path.$model->name);
-        
         $format = Yii::app()->fbvStorage->get("image.formats.thumbnail", 
           array (
             "width" => 70,
@@ -139,13 +136,7 @@ class ImportController extends GxController {
             "sharpen" => FALSE, // set to integer 0 ... 100 to activate sharpen
           ));
         
-        $imgCPNT->resize($format["width"], $format["height"], KImage::AUTO);
-        if ($format["quality"] && (int)$format["quality"] != 0)  
-          $imgCPNT->quality((int)$format["quality"]);
-        if ($format["sharpen"] && (int)$format["sharpen"] != 0)  
-          $imgCPNT->sharpen((int)$format["sharpen"]);
-        
-        $imgCPNT->save($this->path . '/thumbs/' . $model->name);
+        MGHelper::createScaledImage($model->name, $model->name, 'thumbs', $format["width"], $format["height"], $format["quality"], $format["sharpen"]);        
 
         $info[] = array(
           'tmp_name' => $model->file->getName(),

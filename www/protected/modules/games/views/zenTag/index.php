@@ -5,20 +5,21 @@
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/zentag/images/zentag.gif" alt="Zen Tag" width="222" height="46" /> 
     </div> 
     
-    <div id="holder2">
-      <!-- user text field --> 
-      <div id="fieldholder">   
-        <textarea name="words" cols="50" rows="8">Describe the image as accurately as you can. Use commas to separate phrases or individual words. Click Ohm when you are done.</textarea> 
-      </div>  
-      <div id="box1"> 
-        <div id="box2"> 
-          <div id="box3"> 
-            <a href="#" id="button-play" class="ir"> 
-              play
-            </a> 
-          </div> 
+    <div id="holder">
+      <div id="image_container"></div>
+    </div>
+    <!-- user text field -->
+    <div id="fieldholder">   
+      <textarea name="words" cols="50" rows="8">Describe the image as accurately as you can. Use commas to separate phrases or individual words. Click Ohm when you are done.</textarea> 
+    </div>  
+    <div id="box1"> 
+      <div id="box2"> 
+        <div id="box3"> 
+          <a href="#" id="button-play" class="ir"> 
+            play
+          </a> 
         </div> 
-      </div>
+      </div> 
     </div>
     <div id="scores"></div>
     <div id="licence"></div>  
@@ -35,7 +36,7 @@
   <p>${description}</p>
 </script> 
 <script id="template-turn" type="text/x-jquery-tmpl">
-  <div align="center" style="width:500px;">
+  <div style="text-align:center" class="clearfix">
     <img src="${url}" alt="game image" />
   </div>
 </script>

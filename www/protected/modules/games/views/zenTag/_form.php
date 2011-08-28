@@ -88,6 +88,10 @@
     <?php echo $form->textField($model,'image_height'); ?>
     <?php echo $form->error($model,'image_height'); ?>
   </div>
+  
+  <h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
+  <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true)); ?>
+    
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

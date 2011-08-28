@@ -73,4 +73,41 @@ class MGHelper {
     }
     return $headers;
   } 
+  
+  /** 
+   * xxx if new_name == "" it generates width_height_name file name and returns it
+   * 
+   */
+  public static function createScaledImage($name, $new_name, $folder, $width, $height, $quality=FALSE, $sharpen=FALSE) {
+    $path= realpath(Yii::app()->getBasePath() . Yii::app()->params['upload_path']);
+    
+    if(!is_dir($path)){
+      throw new CHttpException(500, "{$path} does not exists.");
+    }else if(!is_writable($path)){
+      throw new CHttpException(500, "{$path} is not writable.");
+    }
+    
+    if(!is_dir($path . "/" . $folder)){
+      mkdir($path . "/" . $folder);
+    }
+    if ($new_name == "") {
+      $new_name = $width . "_" . $height . "_" . $name;
+    }
+    if (!file_exists($path. '/' . $folder . '/' . $new_name)) {
+      $imgCPNT = Yii::app()->image->load($path . "/images/" . $name);
+      if ($imgCPNT) {
+        $imgCPNT->resize($width, $height, KImage::AUTO);
+        if ($quality && (int)$quality != 0)  
+          $imgCPNT->quality((int)$quality);
+        if ($sharpen && (int)$sharpen != 0)  
+          $imgCPNT->sharpen((int)$sharpen);
+        
+        $imgCPNT->save($path. '/' . $folder . '/' . $new_name);
+        return $new_name;
+      }
+      return false;
+    } else {
+      return $new_name;
+    }
+  }
 }
