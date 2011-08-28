@@ -39,15 +39,22 @@ class ZenTagController extends GxController
       $cs->registerCssFile(Yii::app()->baseUrl . '/css/colorbox.css');
       $cs->registerCssFile(GamesModule::getAssetsUrl() . '/zentag/css/style.css');
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.colorbox-min.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.tmpl.min.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.zentag.js', CClientScript::POS_END);
       $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/zentag/js/mg.game.zentag.js', CClientScript::POS_END);
       
+      $throttleInterval = (int)Yii::app()->fbvStorage->get("throttleInterval", 5);
       $js = <<<EOD
-    MG_API.base_init({
+    MG_GAME_ZENTAG.init({
+        game_id : 'ZenTag',
+        app_id : 'MG_API',
         api_url : '{$game->api_base_url}',
         msg_url : '{$game->base_url}/mg_api_messages.php',
         play_once_and_move_on : {$game->play_once_and_move_on},
-        play_once_and_move_on_url : '{$game->play_once_and_move_on_url}'
+        play_once_and_move_on_url : '{$game->play_once_and_move_on_url}',
+        throttleInterval : $throttleInterval
       });
 EOD;
       Yii::app()->clientScript->registerScript(__CLASS__.'#game', $js, CClientScript::POS_READY);

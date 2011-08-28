@@ -14,10 +14,6 @@ class UserIdentity extends CUserIdentity
   CONST ERROR_STATUS_BLOCKED=6; // xxx enable blocked via ip address here ...
 	/**
 	 * Authenticates a user.
-	 * The example implementation makes sure if the username and password
-	 * are both 'demo'.
-	 * In practical applications, this should be changed to authenticate
-	 * against some persistent user identity storage (e.g. database).
 	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate()

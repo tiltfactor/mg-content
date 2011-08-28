@@ -1,3 +1,7 @@
+html {
+  min-height: 100%;
+}
+
 body
 {
 	margin: 0;
@@ -5,6 +9,7 @@ body
 	color: #555;
 	font: normal 10pt Helvetica,Arial,sans-serif;
 	background: #fff;
+	min-height: 100%;
 }
 
 #page {}

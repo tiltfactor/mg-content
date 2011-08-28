@@ -28,15 +28,29 @@ class GamesController extends ApiController {
   }
   
   /**
+   * Via this method call the user can request a partner for a game
+   */
+  public function actionPartner($unique_id) {
+    if (Yii::app()->getRequest()->getIsGetRequest()) {
+      $data = array();
+      $data['status'] = "ok";
+      $data['partner'] = array();
+      $this->sendResponse($data);  
+    } else {
+      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+    } 
+  }
+  
+  /**
    * This 
    */
-  public function actionPlay($unique_id) {
-    $game = Game::model()->find('unique_id=:uniqueID AND active=1', array(':uniqueID'=>$unique_id));
-    if($game) {
+  public function actionPlay($game) {
+    $game_model = GamesModule::loadGame($game);
+    if($game_model) {
       if (Yii::app()->getRequest()->getIsPostRequest()) {
-        $this->_playPost($game);
+        $this->_playPost($game_model);
       } else {
-        $this->_playGet($game);
+        $this->_playGet($game_model);
       }
     } else {
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
@@ -53,15 +67,16 @@ class GamesController extends ApiController {
    *  game: {
    *    // the following fields are available in all games
    *    unique_id : '',
-   *    played_game_id : '', // as a user can play more than one game per 
+   *    played_game_id : '', // as a user can play more than one game per session we have to track a played game id
    *    name : '',
    *    description : '',
+   *    more_info_url : '',
    *    base_url : '',
    *    'play_once_and_move_on' => '0|1',
-   *    'turns' => '5',
-   *    'user_total_score' : null or 100 // if the user is logged in we'll return the current total score for that game 
-   *    'user_name' : null or 'user name' // available if user is logged in
-   * 
+   *    'turns' => '4',
+   *    'user_name' => null or 'user name' // if the user is authenticated
+   *    'user_score' => 0 or x // if the user is authenticated 
+   *    'user_authentiated => false/true // true if user is authenticated 
    *    //a game could have more fields
    *  },
    *  turn : {
@@ -88,34 +103,20 @@ class GamesController extends ApiController {
    * }
    *
    */
-  private function _playGet($game) {
+  private function _playGet($game_model) {
     $data = array();
     $data['status'] = "ok";
-    $data['game'] = $game;
+    $data['game'] = $game_model;
     $this->sendResponse($data);
   }
   
   /**
    * Processes the POST request of the play method call xxx
    */
-  private function _playPost($game) {
+  private function _playPost($game_model) {
     
   }
   
-  /**
-   * Via this method call the user can request a partner for a game
-   */
-  public function actionPartner($unique_id) {
-    if (Yii::app()->getRequest()->getIsGetRequest()) {
-      $data = array();
-      $data['status'] = "ok";
-      $data['partner'] = array();
-      $this->sendResponse($data);  
-    } else {
-      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
-    } 
-  }
-
   /**
    * This action returns a list of all games available in the system xxx
    */

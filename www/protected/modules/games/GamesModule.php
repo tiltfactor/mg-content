@@ -74,14 +74,18 @@ class GamesModule extends CWebModule
           'name' => '',
           'description' => '',
         ));
-      
       $game->url =  Yii::app()->createUrl('games/'.$unique_id);
-      
-      $game->user_score =  '101 xxx'; // xxx if current user place score here
-      $game->user_name = '';
       $game->image_url =  self::getAssetsUrl() . '/' . strtolower($unique_id) . '/images/' . (isset($game->arcade_image)? $game->arcade_image : '');
       $game->api_base_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/api');
       $game->base_url = Yii::app()->getRequest()->getHostInfo();
+      
+      $game->user_name = Yii::app()->user->name;
+      if (!Yii::app()->user->isGuest) {
+        $game->user_score =  110; // make dynamic
+      } else {
+        $game->user_score =  0;  
+      }
+      $game->user_authenticated = !Yii::app()->user->isGuest;
     }
     return $game;
   }

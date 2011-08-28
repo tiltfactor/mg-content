@@ -1,21 +1,19 @@
-MG_API = {
-  
-//};
-//function ($) {
-//  MG_API = $.extend(MG_API, {
-    
+MG_API = function ($) {
+  return {
     curtain : null,
     errorModal : null,
     
     settings : {
       shared_secret : '',
       api_url : '',
-      app_id : 'MG_API'
+      app_id : 'MG_API',
+      throttleInterval : 5,
+      onapiinit : function () {}
     },
        
     initialized : false,
     
-    base_init : function (options) {
+    api_init : function (options) {
       if (!MG_API.initialized) {
         // create curtain and display it
         MG_API.curtain = $('<div id="mg_curtain"/>');
@@ -39,7 +37,7 @@ MG_API = {
           MG_API.ajaxCall('/user/sharedsecret', function(response) {
             if (response.shared_secret !== undefined && response.shared_secret !== "") {
               MG_API.settings.shared_secret = response.shared_secret;
-              MG_API.curtain.hide();
+              MG_API.settings.onapiinit();
             } else {
                throw "MG_API.init() can't retrieve shared secret";
             }
@@ -52,21 +50,19 @@ MG_API = {
     },
     
     enhanceYourCalm : function () {
-      alert("not too fast buddy"); // xxx implement throttle
-      // on close close screen to reallow interaction with the game
-      // reset system to allow a further request
+      MG_API.error('<h1>Not so fast!</h1><p>The system accepts submissions every ' + MG_API.settings.throttleInterval + ' seconds.</p>');
     },
     
     error : function (msg) {
       MG_API.curtain.hide();
       MG_API.errorModal.html(msg);
       MG_API.showModal(MG_API.errorModal);
-      log('Error: ' + MG_API.settings.shared_secret); // add overlay here
     },
     
     ajaxCall : function (path, callback, options) {
       var defaults = {
         url : MG_API.settings.api_url + path,
+        headers : $.parseJSON('{"X_' + MG_API.settings.app_id + '_SHARED_SECRET" : "' + MG_API.settings.shared_secret + '"}'),
         success : callback,
         statusCode : {
           420 : MG_API.enhanceYourCalm
@@ -78,7 +74,6 @@ MG_API = {
               break;
             
             case "error":
-              log("here");
               var processed = false;
               for (var sc in defaults.statusCode) {
                 if (sc == response.status) { // check if this particular code has already been processed
@@ -88,9 +83,7 @@ MG_API = {
               }
               if (!processed) {
                 MG_API.error(response.responseText);
-                log("here");
               }
-                
               break;
             
             case "timeout":
@@ -125,10 +118,8 @@ MG_API = {
         });  
       } 
     }
-  //});
-};//(jQuery);
-
-//xxx add msg_url to multiplayer  API
+  };
+}(jQuery);
 
 window.log = function(){
   log.history = log.history || [];  

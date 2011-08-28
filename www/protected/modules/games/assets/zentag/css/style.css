@@ -31,59 +31,41 @@ body {
   list-style: none;
   background-image: url(../images/bg.png);
   background-position: center;
+  min-height: 100%;
 }
+
+a:link, a:hover, a:visited {
+  font-weight: 600;
+  color: #f3611a;
+  text-decoration: none;
+}
+
+h2 {
+  color: #000;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 11px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+/* game related styles */
 
 #gamearea {
   font-size: 14px;
   padding: 20px 0 10px 0;
   margin: 0 auto;
+  min-height:600px;
 }
 
-a:link {
-  font-weight: 600;
-  color: #f3611a;
-  text-decoration: none;
+#stage {
+  display:none;
 }
 
-a:hover {
-  font-weight: 600;
-  color: #f3611a;
-  text-decoration: none;
-}
-
-a:visited {
-  font-weight: 600;
-  color: #f3611a;
-  text-decoration: none;
-}
-
-h1 {
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 24px;
-  color: #999;
-  text-align: left;
-  list-style: none;
-}
-
-h1 a:link {
-  text-decoration: none;
-  color: #999;
-  font-size: 18px;
-}
-
-h1 a:visited {
-  text-decoration: none;
-  color: #999;
-  font-size: 18px;
-}
-
-h1 a:hover {
-  text-decoration: none;
-  color: #666;
-}
-
-/* The primary gameplay image */
 #gameimage {
   max-width: 485px;
   max-height: 366px;
@@ -95,9 +77,6 @@ h1 a:hover {
   border: 0;
 }
 
-#stage {
-  display:none;
-}
 
 #holder {
   width: 500px;
@@ -239,14 +218,6 @@ h1 a:hover {
   text-align: center;
 }
 
-#tiltfactor {
-  width: 100%;
-  height: auto;
-  margin: 0px auto;
-  position: fixed;
-  bottom: 0px;
-}
-
 #button-play {
   display: block;
   width: 182px;
@@ -257,4 +228,24 @@ h1 a:hover {
 
 #button-play.again {
   background:url(../images/button_playagain.png) 0px 0px no-repeat transparent;
+}
+
+#scores {
+  position: absolute;
+  top:50px;
+  right: 50px;
+  width:200px;
+  height: 200px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#licence {
+  position: absolute;
+  bottom:50px;
+  left: 50px;
+  width:200px;
+  height: 200px;
+  font-size: 10px;
+  color:#666;
 }

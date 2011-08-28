@@ -30,7 +30,7 @@ class DefaultController extends Controller
     foreach ($registered_tools as $tool) {
       if (Yii::app()->user->checkAccess($tool['role'])) {
         $tool['url'] = $this->createUrl($tool['url']);
-        $tools[] = $tool;
+        $tools[] = (object)$tool;
       }
     }
                          

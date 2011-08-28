@@ -5,6 +5,7 @@ return array (
   array (
     'description' => 'This is a short description of the project',
   ),
+  'throttleInterval' => 5,
   'image' => 
   array (
     'formats' => 
@@ -102,7 +103,7 @@ return array (
       'more_info_url' => '',
       'play_once_and_move_on' => '0',
       'play_once_and_move_on_url' => '',
-      'turns' => '5',
+      'turns' => '4',
       'score_new' => '2',
       'score_match' => '1',
       'score_expert' => '3',
