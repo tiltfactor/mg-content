@@ -1,0 +1,68 @@
+1. create database and db user
+2. Copy everything that is in /www onto the server's web root.
+3. Goto /requirements and check that everything is ok
+4. Make sure the following folder are empty and write able for the web server
+/assets
+/uploads
+/protected/data
+/protected/runtime
+
+5. Make sure the file /protected/data/fbvsettings.php is writeable
+
+6. open /protected/config/main.php and search for
+
+  'db'=>array(
+      'connectionString' => 'mysql:host=localhost;dbname=mg', //xxx set via installer
+      'emulatePrepare' => true,
+      'username' => 'root', //xxx set via installer
+      'password' => '', //xxx set via installer
+      'charset' => 'utf8',
+      'tablePrefix'=>'', //xxx set via installer
+    ),
+  
+  change this to match your settings. E.g
+  
+  'db'=>array(
+      'connectionString' => 'mysql:host=localhost;dbname=mg', //xxx set via installer
+      'emulatePrepare' => true,
+      'username' => 'mg', //xxx set via installer
+      'password' => 'mg1234?!', //xxx set via installer
+      'charset' => 'utf8',
+      'tablePrefix'=>'', //xxx set via installer
+    ),
+    
+  SAVE the file
+  
+7. Goto the website and see it complain that the active record classes can't be found in the database (CHECK 1 system works)
+
+8. Import the sql script /protected/data/mg.mysql.sql into your database 
+  mysql -u dbuser -p databasename < mg.mysql.sql
+  
+9. Go back to site. Login as admin
+
+The following user are at the moment automatically created
+
+Login: admin
+PWD: admin
+
+Login: dbmanager
+PWD: dbmanager 
+
+Login: editor
+PWD: editor
+
+Login: player
+PWD: player
+
+10. Still everything working?
+
+11. Goto admin tools
+
+12. Use the import tools to upload some images into the system.  
+
+13. Goto Games and select zentag update
+14. Set zentag to active and check the all image set
+15. Go back to arcade 
+16. Choose Zentag and play ;-) 
+  Note: everytime the system shows a previously not shown image it has to create resized versions. Future responses will be faster.
+  Note: Yes, at the moment images can repeat. There are plans to omit that.

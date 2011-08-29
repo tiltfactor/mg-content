@@ -21,7 +21,7 @@ MG_GAME_API = function ($) {
       
       MG_GAME_API.api_init(settings);
       
-      // xxx activate after development $(window).bind('beforeunload', function() {return 'Quit ' + MG_GAME_API.game.name + '?';});
+      $(window).bind('beforeunload', function() {return 'Quit ' + MG_GAME_API.game.name + '?';});
     },
     
     onapiinit : function () {
