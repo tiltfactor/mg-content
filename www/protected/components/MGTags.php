@@ -16,13 +16,15 @@ class MGTags {
    */ 
   public static function getTags($image_ids, $user_id=null) {
     $tags = array();
+    $used_tags = array();
       
     $builder = Yii::app()->db->getCommandBuilder();
     
     if ($user_id) {
+      //xxx test does this work? 
       $findCriteria = new CDbCriteria(array(
         'alias' => 'tu',
-        'select' => "tu.image_id, t.tag",
+        'select' => "tu.image_id, t.id as tag_id, t.tag",
         'join' => " LEFT JOIN {{tag}} t ON t.id = tu.tag_id 
                     LEFT JOIN {{game_submission}} gs ON gs.id = tu.game_submission_id 
                     LEFT JOIN {{session}} s ON s.id = gs.session_id",
@@ -31,24 +33,28 @@ class MGTags {
             ':userID' => $user_id,
           )
       ));  
-      $tags = $builder->createFindCommand(
+      $used_tags = $builder->createFindCommand(
         TagUse::model()->tableSchema,
         $findCriteria
         )->queryAll();
     } else {
       $findCriteria = new CDbCriteria(array(
         'alias' => 'tu',
-        'select' => "tu.image_id, t.tag",
+        'select' => "tu.image_id, t.id as tag_id, t.tag",
         'join' => "LEFT JOIN {{tag}} t ON t.id = tu.tag_id",
         'condition' => $builder->createInCondition(TagUse::model()->tableSchema, 'image_id', array_values($image_ids), 'tu.'),
       )); 
-      $tags = $builder->createFindCommand(
+      $used_tags = $builder->createFindCommand(
         TagUse::model()->tableSchema,
         $findCriteria
         )->queryAll();
     }
-    
-    
+    foreach($used_tags as $tag) {
+      if (!isset($tags[$tag["image_id"]]))
+        $tags[$tag["image_id"]] = array();
+        
+      $tags[$tag["image_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"]); 
+    }
     
     return $tags;
   }
@@ -84,21 +90,24 @@ class MGTags {
   public static function saveTags($tags, $game_submission_id) {
     foreach ($tags as $image_id => $image_tags) {
       $arr_tags = array();
+      
       $all_tags_with_id = true;
       foreach ($image_tags as $tag => $tag_info) {
+        
         if (!is_array($tags[$image_id][$tag])) 
           throw new CHttpException(500, Yii::t('app', "The array passed must have arrays as it's leafs."));
         
-        if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag] == 0) {
+        if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag]["tag_id"] == 0) {
           $all_tags_with_id = false;  
           $arr_tags[] = $tag;
         }
       }  
       
+      
+      
       if (count($arr_tags) > 0 || $all_tags_with_id) {
         
         if (!$all_tags_with_id) {
-          print "lookup";
           $builder = Yii::app()->db->getCommandBuilder();
           $condition=$builder->createInCondition(Tag::model()->tableSchema, 'tag', $arr_tags, 't.');
           $known_tags = Tag::model()->findAll($condition);
@@ -111,7 +120,7 @@ class MGTags {
         }
         
         foreach ($tags[$image_id] as $tag => $tag_info) {
-          if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag] == -1) { // tag does not exist we have to create it
+          if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag]["tag_id"] == 0) { // tag does not exist we have to create it
             $tag_model = new Tag;
             $tag_model->tag = $tag;
             $tag_model->created = date('Y-m-d H:i:s');
@@ -136,9 +145,6 @@ class MGTags {
           if ($tag_use_model->validate()) {
             $tag_use_model->save();  
           } else {
-            
-            print_r($tag_use_model->errors);
-            exit();
             throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
           }
         } 
@@ -164,7 +170,7 @@ class MGTags {
       if ($value == "")
         unset($tags[$key]);
     }
-    return array_values($tags);
+    return array_unique(array_values($tags));
   }
   /**
    * Used as a callback to trim tags.

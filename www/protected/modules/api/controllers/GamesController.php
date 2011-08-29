@@ -227,13 +227,14 @@ class GamesController extends ApiController {
     if ($game->submission_id) {
       
       $tags = $game_engine->getTags($game, $game_model);
-      $turn_score = $game_engine->getScore($game, $game_model, $tags);
       
+      $tags = $game_engine->setWeights($game, $game_model, $tags); // in there you can use weighting functions
+      
+      $data['turn']['score'] = 0; 
+      $turn_score = $game_engine->getScore($game, $game_model, $tags);
       
       // else get normal turn  
       $data['turn'] = $game_engine->getTurn($game, $game_model);
-      $data['turn']['score'] = 0; 
-      
       
       MGTags::saveTags($tags, $game->submission_id);
     
@@ -284,9 +285,9 @@ class GamesController extends ApiController {
   private function _saveUserToGame($game, $action="counter", $score=null) {
     if (!Yii::app()->user->isGuest) {
       if ($action == "score" && $score) {
-        
+        //xxx action!
       } else if ($action == "counter") {
-          
+        //xxx action!  
       }
        // save latest results 
     }

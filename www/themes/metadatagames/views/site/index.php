@@ -12,4 +12,4 @@
   <?php endforeach; ?>
 </ul>
 
-<p>This is the arcade page. Activate user scores his/her scores</p>
+<p>This is the arcade page. Activate user's scores and number of game plays</p>
