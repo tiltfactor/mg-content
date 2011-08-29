@@ -82,6 +82,7 @@ MG_GAME_ZENTAG = function ($) {
           user_name : MG_GAME_ZENTAG.game.user_name,
           user_score : MG_GAME_ZENTAG.game.user_score + " xxx not implemented",
           current_score : response.turn.score,
+          user_num_played : MG_GAME_ZENTAG.game.user_num_played,
           turns : MG_GAME_ZENTAG.game.turns,
           current_turn : MG_GAME_ZENTAG.turn
         };
@@ -114,6 +115,7 @@ MG_GAME_ZENTAG = function ($) {
           user_name : MG_GAME_ZENTAG.game.user_name,
           user_score : MG_GAME_ZENTAG.game.user_score + " xxx not implemented",
           current_score : response.turn.score,
+          user_num_played : MG_GAME_ZENTAG.game.user_num_played,
           turns : MG_GAME_ZENTAG.game.turns,
           current_turn : MG_GAME_ZENTAG.turn
         };

@@ -51,7 +51,7 @@ abstract class BaseGameSubmission extends GxActiveRecord {
 		return array(
 			'playedGame' => array(self::BELONGS_TO, 'PlayedGame', 'played_game_id'),
 			'session' => array(self::BELONGS_TO, 'Session', 'session_id'),
-			'tagUses' => array(self::HAS_MANY, 'TagUse', 'game_submissions_id'),
+			'tagUses' => array(self::HAS_MANY, 'TagUse', 'game_submission_id'),
 		);
 	}
 

@@ -85,7 +85,9 @@ class GamesModule extends CWebModule
       $game->user_name = Yii::app()->user->name;
       if (!Yii::app()->user->isGuest) {
         $game->user_score =  110; // make dynamic
+        $game->user_num_played = 11; // make dynamic
       } else {
+        $game->user_num_played = 0;
         $game->user_score =  0;  
       }
       $game->user_authenticated = !Yii::app()->user->isGuest;

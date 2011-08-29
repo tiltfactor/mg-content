@@ -17,6 +17,9 @@
 9. Make sure that debug and gii(x) is commented out in /index.php and /protected/config/main.php
 
 10. Goto games admin tool and activate at least one game make sure to configure the imageSets
+
+11. goto /index.php/admin/import/uploadfromlocal and import some images. This tool works fine with some (<30) images but might make the browser sweat with large images
+
 Disable giix before  
 
 11. in case you see/want to see debug information goto /index.php and (un)comment the debug constant definition 

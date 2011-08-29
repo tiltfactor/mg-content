@@ -27,8 +27,8 @@
 </div>
 <script id="template-scores" type="text/x-jquery-tmpl">
   <h2>Welcome ${user_name}</h2>
-  <div class="total_score">Your total score <span>${user_score}</span></div>
-  <div class="current_score">This game's score <span>${current_score}</span></div>
+  <div class="total_score">You played <span>${user_num_played}</span> times and scored <span>${user_score}</span> Points</div>
+  <div class="current_score">This game's score <span>${current_score}</span> Points</div>
   <div class="total_turns">Turn <span>${current_turn}</span>/<span>${turns}</span></div>
 </script>
 <script id="template-licence" type="text/x-jquery-tmpl">

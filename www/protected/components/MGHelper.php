@@ -110,4 +110,32 @@ class MGHelper {
       return $new_name;
     }
   }
+
+  public static function createSharedSecretAndSession($user_id, $user_name) {
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    if (!isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
+      Yii::app()->session[$api_id .'_SHARED_SECRET'] = uniqid($api_id) . substr(Yii::app()->session->sessionID, 0, 5);
+    }
+    if (!isset(Yii::app()->session[$api_id .'_SESSION_ID'])) {
+      $session = new Session;
+      $session->username = $user_name;
+      $session->ip_address = ip2long(Yii::app()->request->userHostAddress);
+      $session->php_sid = Yii::app()->session->sessionID;
+      $session->shared_secret = Yii::app()->session[$api_id .'_SHARED_SECRET'];
+      if ($user_id) {
+        $session->user_id = $user_id;
+      }
+      $session->created = date('Y-m-d H:i:s'); 
+      $session->modified = date('Y-m-d H:i:s');   
+      
+      if ($session->validate()) {
+        $session->save();  
+      } else {
+        throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      }
+      
+      Yii::app()->session[$api_id .'_SESSION_ID'] = $session->id;
+    }
+    return Yii::app()->session[$api_id .'_SHARED_SECRET'];
+  }
 }

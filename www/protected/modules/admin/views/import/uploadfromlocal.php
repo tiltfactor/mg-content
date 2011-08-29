@@ -18,4 +18,3 @@ $this->widget('ext.xupload.XUploadWidget', array(
                     'attribute' => 'file',
 ));
 ?>
-<p><a href="/index.php/admin/import/processimportedimages"><?php echo Yii::t('app', 'Process Uploaded Images'); ?></a></p>

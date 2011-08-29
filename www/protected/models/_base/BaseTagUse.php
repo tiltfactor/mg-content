@@ -14,10 +14,10 @@
  * @property integer $tag_id
  * @property integer $weight
  * @property string $created
- * @property string $game_submissions_id
+ * @property string $game_submission_id
  *
  * @property TagOriginalVersion[] $tagOriginalVersions
- * @property GameSubmission $gameSubmissions
+ * @property GameSubmission $gameSubmission
  * @property Image $image
  * @property Tag $tag
  */
@@ -41,18 +41,18 @@ abstract class BaseTagUse extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('id, image_id, tag_id, created, game_submissions_id', 'required'),
-			array('id, image_id, tag_id, weight', 'numerical', 'integerOnly'=>true),
-			array('game_submissions_id', 'length', 'max'=>10),
+			array('image_id, tag_id, created, game_submission_id', 'required'),
+			array('image_id, tag_id, weight', 'numerical', 'integerOnly'=>true),
+			array('game_submission_id', 'length', 'max'=>10),
 			array('weight', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, image_id, tag_id, weight, created, game_submissions_id', 'safe', 'on'=>'search'),
+			array('id, image_id, tag_id, weight, created, game_submission_id', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
 			'tagOriginalVersions' => array(self::HAS_MANY, 'TagOriginalVersion', 'tag_uses_id'),
-			'gameSubmissions' => array(self::BELONGS_TO, 'GameSubmission', 'game_submissions_id'),
+			'gameSubmission' => array(self::BELONGS_TO, 'GameSubmission', 'game_submission_id'),
 			'image' => array(self::BELONGS_TO, 'Image', 'image_id'),
 			'tag' => array(self::BELONGS_TO, 'Tag', 'tag_id'),
 		);
@@ -70,9 +70,9 @@ abstract class BaseTagUse extends GxActiveRecord {
 			'tag_id' => null,
 			'weight' => Yii::t('app', 'Weight'),
 			'created' => Yii::t('app', 'Created'),
-			'game_submissions_id' => null,
+			'game_submission_id' => null,
 			'tagOriginalVersions' => null,
-			'gameSubmissions' => null,
+			'gameSubmission' => null,
 			'image' => null,
 			'tag' => null,
 		);
@@ -86,7 +86,7 @@ abstract class BaseTagUse extends GxActiveRecord {
 		$criteria->compare('tag_id', $this->tag_id);
 		$criteria->compare('weight', $this->weight);
 		$criteria->compare('created', $this->created, true);
-		$criteria->compare('game_submissions_id', $this->game_submissions_id);
+		$criteria->compare('game_submission_id', $this->game_submission_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

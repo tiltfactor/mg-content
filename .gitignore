@@ -5,6 +5,8 @@ www/protected/runtime/*
 documentation/*.bak
 www/assets
 www/assets/*
+www/uploads/*
+www/uploads/scaled/*
 www/uploads/image/*
 www/uploads/thumbs/*
 

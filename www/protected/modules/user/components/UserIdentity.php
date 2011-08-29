@@ -50,6 +50,8 @@ class UserIdentity extends CUserIdentity
         }
       }
       
+      MGHelper::createSharedSecretAndSession($this->_id, $user->username);
+      
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return !$this->errorCode;

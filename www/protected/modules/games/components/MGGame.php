@@ -3,6 +3,28 @@
 class MGGame extends CComponent {
   public $two_player_game = false;
   
+  /**
+   * @param array Array of image id's that have been used.
+   */
+  public function saveSubmission($game, &$game_model) {
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    if (isset($game->submissions) && is_array($game->submissions)&& count($game->submissions) > 0) {
+      $game_submission = new GameSubmission;
+      $game_submission->submission = json_encode($game->submissions);
+      $game_submission->session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+      $game_submission->played_game_id = $game->played_game_id;
+      $game_submission->created = date('Y-m-d H:i:s'); 
+    
+      if ($game_submission->validate()) {
+        $game_submission->save();
+        return $game_submission->id;
+      } else {
+        throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      }
+    }
+    return null;
+  }
+  
   protected function getImageSets($game, &$game_model) {
     $imageSets = array();
     
@@ -18,7 +40,7 @@ class MGGame extends CComponent {
     
     // for performance reasons we use a direct db query to load the images.
     // no need to load the models
-    // xxx test distinct
+    // xxx test distinct xxx rewrite to use proper InCondition like tags
     $images = Yii::app()->db->createCommand()
                 ->select('id, name', 'distinct')
                 ->from('{{image_set_to_image}} is2i')
@@ -87,6 +109,7 @@ class MGGame extends CComponent {
 interface MGGameInterface
 {
   public function validateSubmission($game, &$game_model);
+  public function getTags($game, &$game_model);
   public function getTurn($game, &$game_model);
   public function getScore($game, &$game_model, $tags);
 }

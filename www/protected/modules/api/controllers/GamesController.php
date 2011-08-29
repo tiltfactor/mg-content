@@ -99,6 +99,7 @@ class GamesController extends ApiController {
         }
       
       } else {
+        $game->turn = 0;
         $this->_playGet($game, $game_model, $game_engine);
       }
     
@@ -140,7 +141,8 @@ class GamesController extends ApiController {
    *    'play_once_and_move_on' => '0|1',
    *    'turns' => '4',
    *    'user_name' => null or 'user name' // if the user is authenticated
-   *    'user_score' => 0 or x // if the user is authenticated 
+   *    'user_score' => 0 or x // if the user is authenticated
+   *    'user_num_played' => 0 or x // if the user is authenticated how many times has the user finished this game  
    *    'user_authentiated => false/true // true if user is authenticated 
    *    //a game could have more fields
    *  },
@@ -175,7 +177,7 @@ class GamesController extends ApiController {
     
     $data['status'] = "ok";
     
-    $data['game'] = $game;
+    
     
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     if (!$game->played_game_id && isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
@@ -196,10 +198,14 @@ class GamesController extends ApiController {
       
       // increase game counter by one      
       $game_model->saveCounters(array('number_played'=>1));
+      
+      $this->_saveUserToGame($game, "counter");
     }
     $data['turn'] = $game_engine->getTurn($game, $game_model);
     $data['turn']['score'] = 0;
     
+    
+    $data['game'] = $game;
     //we don't want to send certain data
     unset($data['game']->score_new);
     unset($data['game']->score_match);
@@ -216,12 +222,55 @@ class GamesController extends ApiController {
     $data = array();
     $data['status'] = "ok";
     
+    $game->submission_id = $game_engine->saveSubmission($game, $game_model); 
+    
+    if ($game->submission_id) {
+      
+      $tags = $game_engine->getTags($game, $game_model);
+      $turn_score = $game_engine->getScore($game, $game_model, $tags);
+      
+      
+      // else get normal turn  
+      $data['turn'] = $game_engine->getTurn($game, $game_model);
+      $data['turn']['score'] = 0; 
+      
+      
+      MGTags::saveTags($tags, $game->submission_id);
+    
+      
+      // update played_game
+      $played_game = PlayedGame::model()->findByPk($game->played_game_id);
+      if ($played_game) {
+        $played_game->modified = date('Y-m-d H:i:s');
+        $played_game->score_1 = $played_game->score_1 + $turn_score;
+        
+        // we want to return the game's total score to the user.
+        $data['turn']['score'] = $played_game->score_1;
+        
+        if ($game->turn == $game->turns) { // final turn 
+          $played_game->finished = date('Y-m-d H:i:s');
+        }
+        
+        if ($played_game->validate()) {
+          $played_game->save();  
+        } else {
+          throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+        }
+      } else {
+        throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      } 
+
+      
+      if ($game->turn == $game->turns) { // final turn
+        $this->_saveUserToGame($game, "score", $data['turn']['score']);
+      }
+    } else {
+      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+    }
+    
     $data['game'] = $game;
     
-    $data['turn'] = $game_engine->getTurn($game, $game_model);
-    $data['turn']['score'] = $game_engine->getScore($game, $game_model, array()); //xxx 
-    
-    //we don't want to send certain data
+    //we don't want to send certain data 
     unset($data['game']->score_new);
     unset($data['game']->score_match);
     unset($data['game']->score_expert);
@@ -231,4 +280,15 @@ class GamesController extends ApiController {
     $this->sendResponse($data);
   }
   
+  
+  private function _saveUserToGame($game, $action="counter", $score=null) {
+    if (!Yii::app()->user->isGuest) {
+      if ($action == "score" && $score) {
+        
+      } else if ($action == "counter") {
+          
+      }
+       // save latest results 
+    }
+  }
 }
