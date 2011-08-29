@@ -131,9 +131,12 @@ class DefaultController extends GxController
     
     $available_plugins = array();
     foreach ($directories as $dir) {
-      foreach (glob($dir . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "*Plugin.php") as $file) {
-        $available_plugins[] = array("type" => str_replace($path, "", $dir), "uid"=> str_replace($path, "", $dir) . "-" . str_replace(".php", "", basename($file)), "class"=>str_replace(".php", "", basename($file)));
-      }  
+      $arr_files = glob($dir . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "*Plugin.php");
+      if (is_array($arr_files) && count($arr_files)) {
+        foreach ($arr_files as $file) {
+          $available_plugins[] = array("type" => str_replace($path, "", $dir), "uid"=> str_replace($path, "", $dir) . "-" . str_replace(".php", "", basename($file)), "class"=>str_replace(".php", "", basename($file)));
+        }  
+      }
     }
         
     $listed_plugins = Plugin::model()->findAll();

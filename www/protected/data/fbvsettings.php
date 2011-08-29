@@ -34,14 +34,14 @@ return array (
     array (
       'name' => 'Subject Matters',
       'description' => 'Some short description',
-      'url' => '/admin/subjectmatter',
+      'url' => '/admin/subjectMatter',
       'role' => 'editor',
     ),
     'tool-image-set' => 
     array (
       'name' => 'Image Sets',
       'description' => 'Some short description',
-      'url' => '/admin/imageset',
+      'url' => '/admin/imageSet',
       'role' => 'editor',
     ),
     'tool-licence' => 
