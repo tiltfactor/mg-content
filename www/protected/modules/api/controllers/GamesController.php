@@ -119,7 +119,10 @@ class GamesController extends ApiController {
    * {
    *  turn : 2 // the current turn's number
    *  played_game_id : 1 // the id in the database representing that played game
-   *  submission : {} // JSON of this turns submission. The shape of the JSON request differs per game
+   *  submissions[] : { // JSON of this turns submission. The shape of the JSON request differs per game it will most likely be
+   *      image_id: //id of the image that has been tagged
+   *      tags: //string of submitted tags
+   *  } 
    * }
    * 
    * Returned JSON
@@ -150,7 +153,9 @@ class GamesController extends ApiController {
    *      full_size : '',
    *      scaled : '',
    *      thumbnail : '',
+   * 
    *      licence : 'name of licence that can be found in turn.licences',
+   *      id : 1 // the id of the image in the database
    *    }, {...}],
    * 
    *    licences : [{
@@ -167,6 +172,7 @@ class GamesController extends ApiController {
    */
   private function _playGet($game, $game_model, $game_engine) {
     $data = array();
+    
     $data['status'] = "ok";
     
     $data['game'] = $game;
@@ -220,6 +226,7 @@ class GamesController extends ApiController {
     unset($data['game']->score_match);
     unset($data['game']->score_expert);
     unset($data['game']->arcade_image);
+    unset($data['game']->submissions);
     
     $this->sendResponse($data);
   }

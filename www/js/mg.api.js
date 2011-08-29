@@ -35,11 +35,13 @@ MG_API = function ($) {
         
         if (MG_API.settings.shared_secret == "") {
           MG_API.ajaxCall('/user/sharedsecret', function(response) {
-            if (response.shared_secret !== undefined && response.shared_secret !== "") {
-              MG_API.settings.shared_secret = response.shared_secret;
-              MG_API.settings.onapiinit();
-            } else {
-               throw "MG_API.init() can't retrieve shared secret";
+            if (MG_API.checkResponse(response)) {
+              if (response.shared_secret !== undefined && response.shared_secret !== "") {
+                MG_API.settings.shared_secret = response.shared_secret;
+                MG_API.settings.onapiinit();
+              } else {
+                 throw "MG_API.init() can't retrieve shared secret";
+              }
             }
           }, {async:false});
         }
@@ -57,6 +59,23 @@ MG_API = function ($) {
       MG_API.curtain.hide();
       MG_API.errorModal.html(msg);
       MG_API.showModal(MG_API.errorModal);
+    },
+    
+    checkResponse : function (response) {
+      if (response.status == "error") {
+        if (response.errors !== undefined) {
+          var errors = "";
+          $.each(response.errors, function(key, value) { 
+            errors += key + ': ' + value + "<br/>";
+          });
+          MG_API.error("<h1>Ooops</h1><p>" + errors + "</p>");
+          
+        } else {
+          MG_API.error("<h1>Ooops</h1><p>An error happened!</p>");
+        }
+        return false;
+      } 
+      return true;
     },
     
     ajaxCall : function (path, callback, options) {

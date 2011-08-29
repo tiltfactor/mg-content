@@ -26,9 +26,10 @@ MG_GAME_ZENTAG = function ($) {
     
     submit : function () {
       MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
-        MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
-        
-        MG_GAME_API.settings.ongameinit(response);
+        if (MG_API.checkResponse(response)) { // we have to check whether the API returned a HTTP Status 200 but still json.status == "error" response
+          MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
+          MG_GAME_API.settings.ongameinit(response);
+        }
       });
     },
     
@@ -69,12 +70,11 @@ MG_GAME_ZENTAG = function ($) {
     },
     
     onresponse : function (response) {
-      log(response);
       MG_GAME_API.curtain.hide();
       
       MG_GAME_ZENTAG.turn++;
       MG_GAME_ZENTAG.turns.push(response.turn);
-      log(MG_GAME_ZENTAG.turn, MG_GAME_ZENTAG.game.turns);
+
       if (MG_GAME_ZENTAG.turn > MG_GAME_ZENTAG.game.turns) { // render final result
 
         //score box
@@ -140,15 +140,19 @@ MG_GAME_ZENTAG = function ($) {
         MG_GAME_API.curtain.show();
         
         MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
-          log("got a response");
-          MG_GAME_ZENTAG.wordField.val("");
-          MG_GAME_ZENTAG.onresponse(response);
+          if (MG_API.checkResponse(response)) {
+            MG_GAME_ZENTAG.wordField.val("");
+            MG_GAME_ZENTAG.onresponse(response);
+          }
         }, {
           type:'post',
           data: {
             turn:MG_GAME_ZENTAG.turn,
             played_game_id:MG_GAME_ZENTAG.game.played_game_id,
-            submissions:MG_GAME_ZENTAG.wordField.val()
+            'submissions': [{
+              image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
+              tags: MG_GAME_ZENTAG.wordField.val()
+            }]
           }
         });
       }
