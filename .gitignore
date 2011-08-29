@@ -1,13 +1,4 @@
 www/TODO.txt
 www/protected/controllers/VVUTestController.php
-www/protected/runtime
-www/protected/runtime/*
 documentation/*.bak
-www/assets
-www/assets/*
 www/uploads/*
-www/uploads/scaled/*
-www/uploads/image/*
-www/uploads/thumbs/*
-
-www/dev
