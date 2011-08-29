@@ -19,7 +19,6 @@ Place all plugins into one of the subfolders under proteted/plugins
 Choose the folder that represents the category of you plugin
 Please place all models representing database tables into the
 
-
 USED Libraries
 JQuery http://jquery.org/ MIT/GPL 
 JQuery UI http://jqueryui.com/ MIT/GPL

@@ -4,19 +4,26 @@ body
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #EFEFEF;
-}
-
-#page
-{
-	background: white;
+	background: #fff;
 }
 
 #header
 {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
+  background-color:#424040;
+  height:30px;
+  border-bottom: 2px solid #000;
 }
+
+#page_title {
+  width: 129px;
+  height:14px;
+  background: url(../images/metadatagames.png) 0px 0px no-repeat transparent;
+  float:left;
+  margin:10px 0px 0px 8px;
+}
+
 
 #content
 {
@@ -41,47 +48,59 @@ body
 	font-size: 200%;
 }
 
-#mainmenu,
-#submenu 
-{
-	background:white url(bg.gif) repeat-x left top;
+#mainmenu {
+  float:right;
 }
 
-#mainmenu ul,
+#mainmenu ul
+{
+  padding:8px 8px 4px 8px;
+  margin:0px;
+}
+
+#submenu {
+  background-color:#555;
+  border-bottom:2px solid #222;
+}
+
 #submenu ul
 {
-	padding:6px 20px 5px 20px;
-	margin:0px;
+  float:right;
+  padding:6px 8px 6px 8px;
+  margin: 0px;
 }
 
 #mainmenu ul li,
-#submenu ul li
-{
-	display: inline;
+#submenu ul li {
+  display: inline;
+  border-left:1px solid #ff0;
+}
+
+#mainmenu ul li:first-child,
+#submenu ul li:first-child {
+  border-left:none;
 }
 
 #mainmenu ul li a,
 #submenu ul li a
 {
-	color:#ffffff;
-	background-color:transparent;
-	font-size:12px;
-	font-weight:bold;
-	text-decoration:none;
-	padding:5px 8px;
+  color:#ffffff;
+  font-size:14px;
+  font-weight:bold;
+  padding:5px 8px;
+  text-decoration:none;
 }
 
 #submenu ul li a {
-  font-size:11px;
+  font-size:13px;
 }
 
 #mainmenu ul li a:hover, #mainmenu ul li.active a,
 #submenu ul li a:hover, #submenu ul li.active a
 {
-	color: #6399cd;
-	background-color:#EFF4FA;
-	text-decoration:none;
+  color: #FF0;
 }
+
 
 div.flash-error, div.flash-notice, div.flash-success
 {

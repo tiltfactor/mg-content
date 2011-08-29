@@ -74,9 +74,9 @@ h4 {
 .scoreimages {
   max-width: 204px;
   max-height: 153px;
+  margin-top: 10px;
   border: 0;
 }
-
 
 #holder {
   width: 500px;
@@ -98,7 +98,7 @@ h4 {
   width: 232px;
   height: 191px;
   float:left;
-  margin: 0px auto;
+  margin: 0px 0px 0px 18px;
   background-color: #958f81;
   border-top: thin solid #BEC638;
   border-left: thin solid #BEC638;
@@ -122,7 +122,7 @@ h4 {
   width: 232px;
   height: 191px;
   float:left;
-  margin: 0px auto;
+  margin: 0px 0px 0px 17px;
   background-color: #b5af9d;
   border-left: thin solid #BEC638;
   border-bottom: thin solid #BEC638;
@@ -216,12 +216,17 @@ h4 {
 
 #scores {
   position: absolute;
-  top:100px;
+  top:80px;
   right: 50px;
   width:200px;
   height: 200px;
   font-size: 14px;
   font-weight: bold;
+}
+
+#scores span {
+  font-size: 16px;
+  color: #F3611A;
 }
 
 #licence {
@@ -232,4 +237,20 @@ h4 {
   height: 200px;
   font-size: 10px;
   color:#666;
+}
+
+/* error modal window content */
+#mg_error {
+  text-align: left;
+}
+
+#mg_error h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom:10px;
+}
+
+#fieldholder p.final {
+  margin-top:10px;
+  font-size: 14px;
 }

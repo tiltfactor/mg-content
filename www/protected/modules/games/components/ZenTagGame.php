@@ -4,9 +4,13 @@ class ZenTagGame extends MGGame implements MGGameInterface {
   public $two_player_game = false;
   
   public function validateSubmission($game, &$game_model) {
-    return true; // implement this one
+    $game->submissions = array();  
+    if (isset($_POST["submissions"])) {
+      $game->submissions[] = (string)$_POST["submissions"]; 
+    }
+    return (count($game->submissions) > 0);
   }
-  
+    
   public function getTurn($game, &$game_model) {
     $data = array();
     
@@ -31,13 +35,12 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     
     $this->setUsedImages($used_images, $game, $game_model);
     
-    
     $data["licences"] = array();
     $data["wordstoavoid"] = array();
     return $data;
   }
   
   public function getScore($game, &$game_model, $tags) {
-    
+    return 4;
   }
 }

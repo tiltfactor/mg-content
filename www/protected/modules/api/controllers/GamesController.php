@@ -48,7 +48,7 @@ class GamesController extends ApiController {
   public function actionScores() {
     $data = array();
     $data['status'] = "ok";
-    $data['scores'] = array(); // 
+    $data['scores'] = array(); // xxx add scores
     $this->sendResponse($data);
   }
   
@@ -88,7 +88,11 @@ class GamesController extends ApiController {
           $game->played_game_id = (int)$_POST["played_game_id"]; 
         }
         
-        if ($game->played_game_id != 0 && $game_engine->validateSubmission($game, $game_model)) {
+        if (isset($_POST["turn"])) {
+          $game->turn = (int)$_POST["turn"]; 
+        }
+        
+        if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $game_engine->validateSubmission($game, $game_model)) {
           $this->_playPost($game, $game_model, $game_engine);  
         } else {
           throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
@@ -164,6 +168,7 @@ class GamesController extends ApiController {
   private function _playGet($game, $game_model, $game_engine) {
     $data = array();
     $data['status'] = "ok";
+    
     $data['game'] = $game;
     
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
@@ -186,16 +191,37 @@ class GamesController extends ApiController {
       // increase game counter by one      
       $game_model->saveCounters(array('number_played'=>1));
     }
-
     $data['turn'] = $game_engine->getTurn($game, $game_model);
+    $data['turn']['score'] = 0;
+    
+    //we don't want to send certain data
+    unset($data['game']->score_new);
+    unset($data['game']->score_match);
+    unset($data['game']->score_expert);
+    unset($data['game']->arcade_image);
+    
     $this->sendResponse($data);
   }
   
   /**
-   * Processes the POST request of the play method call xxx
+   * Processes the POST request of the play method call
    */
   private function _playPost($game, $game_model, $game_engine) {
+    $data = array();
+    $data['status'] = "ok";
     
+    $data['game'] = $game;
+    
+    $data['turn'] = $game_engine->getTurn($game, $game_model);
+    $data['turn']['score'] = $game_engine->getScore($game, $game_model, array()); //xxx 
+    
+    //we don't want to send certain data
+    unset($data['game']->score_new);
+    unset($data['game']->score_match);
+    unset($data['game']->score_expert);
+    unset($data['game']->arcade_image);
+    
+    $this->sendResponse($data);
   }
   
 }

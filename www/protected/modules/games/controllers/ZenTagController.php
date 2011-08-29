@@ -38,7 +38,6 @@ class ZenTagController extends GxController
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.tmpl.min.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);
-      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.zentag.js', CClientScript::POS_END);
       $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/zentag/js/mg.game.zentag.js', CClientScript::POS_END);
       
       $throttleInterval = (int)Yii::app()->fbvStorage->get("throttleInterval", 5);
