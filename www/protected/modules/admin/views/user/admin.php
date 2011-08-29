@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 
 $this->menu = array(
     array('label'=>UserModule::t('Create') . ' ' . $model->label(), 'url'=>array('create')),
-    array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profilefield')),
+    array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profileField')),
   );
 
 Yii::app()->clientScript->registerScript('search', "

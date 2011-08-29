@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
   UserModule::t('Create Profile Field')
 );
 $this->menu = array(
-    array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profilefield')),
+    array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profileField')),
   );
   
 ?>

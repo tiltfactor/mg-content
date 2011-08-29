@@ -57,7 +57,7 @@ class MGMenu extends CMenu
         }
       }
       // some paths have to be hard coded
-      if (trim($item['url'][0],'/') == "admin/user" && strpos($route, 'admin/profilefield') !== false) {
+      if (trim($item['url'][0],'/') == "admin/user" && strpos($route, 'admin/profileField') !== false) {
         $in_path = true;
       }
       return $in_path;
