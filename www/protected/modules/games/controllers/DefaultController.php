@@ -28,6 +28,8 @@ class DefaultController extends Controller
     $games = array();
     $path = Yii::getPathOfAlias('application.modules.games.components') . DIRECTORY_SEPARATOR;
     if (is_dir($path)) {
+      
+      
       foreach (glob($path . "*") as $game) {
         $game_name = basename($game);
         if ($game_name != "MGGame.php" && strpos($game_name, "Game.php") !== false) {
