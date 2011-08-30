@@ -148,7 +148,22 @@ class GamesController extends ApiController {
    *  },
    *  turn : {
    *    score : 0, // numeric of the previous turn's score
-   *
+   *    tags : { //information of the previous turn's tags xxx implement
+   *      "user" : [{
+   *        "tag" : 'tag1',
+   *        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs) // xxx define cleanup rules
+   *        "score" : 1, // score of this tag
+   *        "weight" : 1 // xxx are we transparent about that?
+   *      },
+   *      ...
+   *      ],
+   *      "partner" : [{ xxx implement define
+   *        "tag" : 'tag1',
+   *        "tag" : 'tag1',
+   *      },
+   *      ...
+   *      ]
+   *    },
    *    // the following fields are available in all games
    *    images : [{
    *      // all urls are relative to game.base_url
