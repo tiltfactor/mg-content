@@ -88,7 +88,7 @@ MG_GAME_ZENTAG = function ($) {
         //score box
         var score_info = {
           user_name : MG_GAME_ZENTAG.game.user_name,
-          user_score : MG_GAME_ZENTAG.game.user_score + " xxx not implemented",
+          user_score : MG_GAME_ZENTAG.game.user_score,
           current_score : response.turn.score,
           user_num_played : MG_GAME_ZENTAG.game.user_num_played,
           turns : MG_GAME_ZENTAG.game.turns,

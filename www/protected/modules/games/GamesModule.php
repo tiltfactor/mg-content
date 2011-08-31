@@ -83,12 +83,15 @@ class GamesModule extends CWebModule
       $game->base_url = Yii::app()->getRequest()->getHostInfo();
       
       $game->user_name = Yii::app()->user->name;
-      if (!Yii::app()->user->isGuest) {
-        $game->user_score =  110; // make dynamic
-        $game->user_num_played = 11; // make dynamic
-      } else {
-        $game->user_num_played = 0;
-        $game->user_score =  0;  
+      $game->user_num_played = 0;
+      $game->user_score =  0;  
+        
+      if (!Yii::app()->user->isGuest && isset($game->game_id)) {
+        $game_info = GamesModule::loadUserToGameInfo(Yii::app()->user->id, $game->game_id);
+        if ($game_info) {
+          $game->user_score =  $game_info->score; 
+          $game->user_num_played = $game_info->number_played;   
+        }
       }
       $game->user_authenticated = !Yii::app()->user->isGuest;
     }
@@ -107,6 +110,71 @@ class GamesModule extends CWebModule
     } 
     
     return $game_engine;
+  }
+  
+  /**
+   * Retrieve User to Game info stored in the database. It can be that the user has not finished all games
+   * missing data will have to be filled in by hand
+   * 
+   * Ruturn Values
+   * array (
+   *  game_id => (object){
+   *    game_id,
+   *    score,
+   *    number_played
+   *  }
+   * )
+   * 
+   * or array()
+   * 
+   * OR if game_id is set
+   * 
+   * (object){
+   *    game_id,
+   *    score,
+   *    number_played
+   *  } 
+   * 
+   * or null
+   * 
+   * if game_id is set 
+   * 
+   * @param int $user_id The user.id in the database
+   * @param int $game_id The game.id in the database -> only information for that game will be returned.
+   * @return mixed array of info for all game or just the object   
+   */
+  public static function loadUserToGameInfo($user_id, $game_id=null) {
+    $data = array();
+      
+    $builder = Yii::app()->db->getCommandBuilder();
+    
+    $findCriteria = new CDbCriteria(array(
+      'select' => 'game_id, score, number_played',
+      'condition' => 'user_id=:userID' . (($game_id)? ' AND game_id=:gameID': ''),
+      'params' => array(
+          ':userID' => $user_id,
+          ':gameID' => $game_id,
+        )
+    ));
+    
+    $userToGames = $builder->createFindCommand(
+        UserToGame::model()->tableSchema,
+        $findCriteria
+        )->queryAll();
+        
+    //remap results
+    foreach ($userToGames as $key => $info) {
+      if ($game_id) {
+        return (object)$info;
+      } else {
+        $data[$info["game_id"]] = (object)$info;  
+      }
+    }
+    if ($game_id) {
+      return null;
+    } else {
+      return $data;  
+    }
   }
   
   public static function loadGameFromDB($unique_id, $active=true) {

@@ -214,7 +214,6 @@ class GamesController extends ApiController {
       // increase game counter by one      
       $game_model->saveCounters(array('number_played'=>1));
       
-      $this->_saveUserToGame($game, "counter");
     }
     $data['turn'] = $game_engine->getTurn($game, $game_model);
     $data['turn']['score'] = 0;
@@ -222,6 +221,7 @@ class GamesController extends ApiController {
     
     $data['game'] = $game;
     //we don't want to send certain data
+    unset($data['game']->game_id);
     unset($data['game']->score_new);
     unset($data['game']->score_match);
     unset($data['game']->score_expert);
@@ -278,7 +278,7 @@ class GamesController extends ApiController {
 
       
       if ($game->turn == $game->turns) { // final turn
-        $this->_saveUserToGame($game, "score", $data['turn']['score']);
+        $this->_saveUserToGame($game, $data['turn']['score']);
       }
     } else {
       throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
@@ -286,7 +286,8 @@ class GamesController extends ApiController {
     
     $data['game'] = $game;
     
-    //we don't want to send certain data 
+    //we don't want to send certain data
+    unset($data['game']->game_id);
     unset($data['game']->score_new);
     unset($data['game']->score_match);
     unset($data['game']->score_expert);
@@ -297,14 +298,27 @@ class GamesController extends ApiController {
   }
   
   
-  private function _saveUserToGame($game, $action="counter", $score=null) {
+  private function _saveUserToGame($game, $score=null) {
     if (!Yii::app()->user->isGuest) {
-      if ($action == "score" && $score) {
-        //xxx action!
-      } else if ($action == "counter") {
-        //xxx action!  
+      $userToGame = UserToGame::model()->findByPk(array(
+        "user_id" => Yii::app()->user->id,
+        "game_id" => $game->game_id,
+        ));
+      if ($userToGame) {
+        $userToGame->saveCounters(array('number_played'=>1, 'score'=>$score));
+      } else {
+        $userToGame = new UserToGame;
+        $userToGame->user_id = Yii::app()->user->id;
+        $userToGame->game_id = $game->game_id;
+        $userToGame->score = $score;
+        $userToGame->number_played = 1;
+        if ($userToGame->validate()) { // final turn
+          $userToGame->save();
+        } else {
+          Yii::log($userToGame->errors, 'error');
+          throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+        }
       }
-       // save latest results 
     }
   }
 }
