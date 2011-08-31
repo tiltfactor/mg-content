@@ -22,7 +22,8 @@ MG_GAME_ZENTAG = function ($) {
       // submit on enter
       MG_GAME_ZENTAG.wordField.keydown(function(event) {
         if(event.keyCode == 13) {
-          MG_GAME_ZENTAG.onsubmit();
+          MG_GAME_ZENTAG.onsubmit(); 
+          return false;
         }
       });
       
@@ -54,7 +55,7 @@ MG_GAME_ZENTAG = function ($) {
       
       $("a[rel='zoom']").colorbox();
       
-      $("#stage").fadeIn(1500);
+      $("#stage").fadeIn(1500, function () {MG_GAME_ZENTAG.busy = false;});
     },
     
     renderFinal : function (response, score_info, turn_info, licence_info, more_info) {
@@ -73,7 +74,7 @@ MG_GAME_ZENTAG = function ($) {
       $(window).unbind('beforeunload');
       MG_GAME_ZENTAG.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
       
-      $("#stage").fadeIn(1500);
+      $("#stage").fadeIn(1500, function () {MG_GAME_ZENTAG.busy = false;});
     },
     
     onresponse : function (response) {
@@ -143,27 +144,33 @@ MG_GAME_ZENTAG = function ($) {
     },
     
     onsubmit : function () {
-      if (MG_GAME_ZENTAG.wordField.val() == "" || !MG_GAME_ZENTAG.wordFieldCleared) {
-        MG_GAME_ZENTAG.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
-      } else {
-        MG_GAME_API.curtain.show();
-        
-        MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
-          if (MG_API.checkResponse(response)) {
-            MG_GAME_ZENTAG.wordField.val("");
-            MG_GAME_ZENTAG.onresponse(response);
-          }
-        }, {
-          type:'post',
-          data: {
-            turn:MG_GAME_ZENTAG.turn,
-            played_game_id:MG_GAME_ZENTAG.game.played_game_id,
-            'submissions': [{
-              image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
-              tags: MG_GAME_ZENTAG.wordField.val()
-            }]
-          }
-        });
+      if (!MG_GAME_ZENTAG.busy) {
+        var tags = MG_GAME_ZENTAG.wordField.val().replace(/^\s+|\s+$/g,"");
+        if (tags == "" || !MG_GAME_ZENTAG.wordFieldCleared) {
+          // val filtered for all white spaces (trim)
+          MG_GAME_ZENTAG.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
+        } else {
+          log("submit");
+          MG_GAME_API.curtain.show();
+          MG_GAME_ZENTAG.busy = true;
+          
+          MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
+            if (MG_API.checkResponse(response)) {
+              MG_GAME_ZENTAG.wordField.val("");
+              MG_GAME_ZENTAG.onresponse(response);
+            }
+          }, {
+            type:'post',
+            data: {
+              turn:MG_GAME_ZENTAG.turn,
+              played_game_id:MG_GAME_ZENTAG.game.played_game_id,
+              'submissions': [{
+                image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
+                tags: tags
+              }]
+            }
+          });
+        }
       }
       return false;
     },

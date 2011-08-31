@@ -2,7 +2,7 @@ MG_API = function ($) {
   return {
     curtain : null,
     errorModal : null,
-    
+    busy : false, // flag to give you a handle to avoid double submits  
     settings : {
       shared_secret : '',
       api_url : '',
@@ -58,7 +58,7 @@ MG_API = function ($) {
     error : function (msg) {
       MG_API.curtain.hide();
       MG_API.errorModal.html(msg);
-      MG_API.showModal(MG_API.errorModal);
+      MG_API.showModal(MG_API.errorModal, function () {MG_API.busy = false;});
     },
     
     checkResponse : function (response) {
