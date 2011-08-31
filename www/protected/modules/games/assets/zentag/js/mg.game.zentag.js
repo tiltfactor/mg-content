@@ -19,6 +19,13 @@ MG_GAME_ZENTAG = function ($) {
         }
       );
       
+      // submit on enter
+      MG_GAME_ZENTAG.wordField.keydown(function(event) {
+        if(event.keyCode == 13) {
+          MG_GAME_ZENTAG.onsubmit();
+        }
+      });
+      
       MG_GAME_ZENTAG.submitButton = $("#button-play").click(MG_GAME_ZENTAG.onsubmit);
       
       MG_GAME_API.game_init(settings);
