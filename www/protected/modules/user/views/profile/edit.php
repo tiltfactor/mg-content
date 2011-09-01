@@ -20,6 +20,7 @@ $this->breadcrumbs=array(
 <?php $form=$this->beginWidget('UActiveForm', array(
 	'id'=>'profile-form',
 	'enableAjaxValidation'=>true,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 	'htmlOptions' => array('enctype'=>'multipart/form-data'),
 )); ?>
 

@@ -15,8 +15,8 @@ class BlockedIpController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin','delete'),
-  				'roles'=>array('dbmanager', 'admin', 'xxx'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
   				'users'=>array('*'),
@@ -55,7 +55,6 @@ class BlockedIpController extends GxController {
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'BlockedIp');
     $model->modified = date('Y-m-d H:i:s');
-;
 		$this->performAjaxValidation($model, 'blocked-ip-form');
 
 		if (isset($_POST['BlockedIp'])) {
@@ -131,7 +130,7 @@ class BlockedIpController extends GxController {
     if (isset($_POST['blocked-ip-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['blocked-ip-ids']);
-      
+            
       $model = new BlockedIp;
       $model->deleteAll($criteria);  
     } 

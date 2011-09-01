@@ -27,7 +27,8 @@ $this->menu=array(
 
 <?php echo '<?php'; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
-	'attributes' => array(
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
+  'attributes' => array(
 <?php
 foreach ($this->tableSchema->columns as $column) {
   switch ($column->name) {

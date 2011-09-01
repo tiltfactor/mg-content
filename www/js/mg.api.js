@@ -15,6 +15,8 @@ MG_API = function ($) {
     
     api_init : function (options) {
       if (!MG_API.initialized) {
+        $('#no_js').remove();
+        
         // create curtain and display it
         MG_API.curtain = $('<div id="mg_curtain"/>');
         MG_API.curtain.appendTo($("body")).css({opacity:0.8}); 

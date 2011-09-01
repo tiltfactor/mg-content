@@ -20,7 +20,8 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
-	'attributes' => array(
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
+  'attributes' => array(
 'id',
 		 array(
           'name' => 'Image',
@@ -30,10 +31,12 @@ $this->menu=array(
 'size',
 'mime_type',
 'last_access',
-array(
-    'name' => 'locked',
-    'value' => MGHelper::itemAlias("locked",$model->locked),
-  ),'created',
+		 array(
+          'name' => 'locked',
+          'type' => 'image',
+          'value' => MGHelper::itemAlias('locked',$model->locked),
+        ),
+'created',
 'modified',
 	),
 )); ?>

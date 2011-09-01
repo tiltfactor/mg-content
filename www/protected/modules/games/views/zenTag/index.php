@@ -1,4 +1,5 @@
 <div id="gamearea">
+  <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
     <div id="zentag"> 

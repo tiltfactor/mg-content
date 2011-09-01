@@ -93,6 +93,20 @@ return array (
       'url' => '/admin/tag',
       'role' => 'editor',
     ),
+    'tool-ip' => 
+    array (
+      'name' => 'IP Blacklist',
+      'description' => 'Some short description',
+      'url' => '/admin/blockedIp',
+      'role' => 'editor',
+    ),
+    'tool-bages' => 
+    array (
+      'name' => 'Badges',
+      'description' => 'Some short description',
+      'url' => '/admin/badge',
+      'role' => 'editor',
+    ),
   ),
   'games' => 
   array (

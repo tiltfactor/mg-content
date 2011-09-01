@@ -20,7 +20,8 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
-	'attributes' => array(
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
+  'attributes' => array(
 'id',
 'tag',
 'created',

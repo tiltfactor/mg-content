@@ -39,7 +39,9 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 <?php echo CHtml::beginForm('','post',array('id'=>'game-form'));
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'game-grid',
-	'dataProvider' => $model->search(),
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
+  'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+  'dataProvider' => $model->search(),
 	'filter' => $model,
 	'columns' => array(
 		 array(

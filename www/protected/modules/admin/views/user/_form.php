@@ -3,6 +3,7 @@
 <?php $form = $this->beginWidget('GxActiveForm', array(
   'id' => 'users-form',
   'enableAjaxValidation' => false,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 

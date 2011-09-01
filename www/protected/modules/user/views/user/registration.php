@@ -16,6 +16,7 @@ $this->breadcrumbs=array(
 <?php $form=$this->beginWidget('UActiveForm', array(
 	'id'=>'registration-form',
 	'enableAjaxValidation'=>true,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 	'disableAjaxValidationAttributes'=>array('RegistrationForm_verifyCode'),
 	'htmlOptions' => array('enctype'=>'multipart/form-data'),
 )); ?>

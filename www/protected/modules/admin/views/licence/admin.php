@@ -36,18 +36,40 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php echo CHtml::beginForm('','post',array('id'=>'licence-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'licence-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
+	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+	'selectableRows'=>2,
 	'columns' => array(
-		'id',
+	  array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'licence-ids',
+    ),
 		'name',
 		'description',
 		'created',
 		'modified',
-		array(
-			'class' => 'CButtonColumn',
-		),
-	),
-)); ?>
+    array (
+  'class' => 'CButtonColumn',
+  'buttons' => 
+  array (
+  ),
+)  ),
+)); 
+echo CHtml::endForm();
+
+$this->widget('ext.gridbatchaction.GridBatchAction', array(
+      'formId'=>'licence-form',
+      'checkBoxId'=>'licence-ids',
+      'ajaxGridId'=>'licence-grid', 
+      'items'=>array(
+          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
+      ),
+      'htmlOptions'=>array('class'=>'batchActions'),
+  ));
+
+?>

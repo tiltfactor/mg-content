@@ -2,27 +2,27 @@
 
 class LicenceController extends GxController {
 
-public function filters() {
-	return array(
-			'accessControl', 
-			);
-}
-
-public function accessRules() {
-	return array(
-			array('allow',
-				'actions'=>array('view'),
-				'roles'=>array('*'),
-				),
-			array('allow', 
-				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
-				'roles'=>array('dbmanager', 'admin', 'xxx'),
-				),
-			array('deny', 
-				'users'=>array('*'),
-				),
-			);
-}
+  public function filters() {
+  	return array(
+  			'accessControl', 
+  			);
+  }
+  
+  public function accessRules() {
+  	return array(
+  			array('allow',
+  				'actions'=>array('view'),
+  				'roles'=>array('*'),
+  				),
+  			array('allow', 
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
+  				),
+  			array('deny', 
+  				'users'=>array('*'),
+  				),
+  			);
+  }
 
 	public function actionView($id) {
 		$this->render('view', array(
@@ -32,8 +32,8 @@ public function accessRules() {
 
 	public function actionCreate() {
 		$model = new Licence;
-    $model->created = date('Y-m-d H:i:s');
-    $model->modified = date('Y-m-d H:i:s');
+		$model->created = date('Y-m-d H:i:s'); 
+    $model->modified = date('Y-m-d H:i:s'); 
     
 		$this->performAjaxValidation($model, 'licence-form');
 
@@ -41,10 +41,11 @@ public function accessRules() {
 			$model->setAttributes($_POST['Licence']);
 
 			if ($model->save()) {
-				if (Yii::app()->getRequest()->getIsAjaxRequest())
+				Flash::add('success', Yii::t('app', "Licence created"));
+        if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
-				else
-					$this->redirect(array('view', 'id' => $model->id));
+				else 
+				  $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -60,6 +61,7 @@ public function accessRules() {
 			$model->setAttributes($_POST['Licence']);
 
 			if ($model->save()) {
+        Flash::add('success', Yii::t('app', "Licence updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -71,10 +73,16 @@ public function accessRules() {
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$this->loadModel($id, 'Licence')->delete();
+			$model = $this->loadModel($id, 'Licence');
+			if ($model->hasAttribute("locked") && $model->locked) {
+			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+			} else {
+			 $model->delete();
+        Flash::add('success', Yii::t('app', "Licence deleted"));
 
-			if (!Yii::app()->getRequest()->getIsAjaxRequest())
-				$this->redirect(array('admin'));
+			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
+				  $this->redirect(array('admin'));
+		  }
 		} else
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}
@@ -102,5 +110,29 @@ public function accessRules() {
 			'model' => $model,
 		));
 	}
+  
+  
+  public function actionBatch($op) {
+    if (Yii::app()->getRequest()->getIsPostRequest()) {
+      switch ($op) {
+        case "delete":
+          $this->_batchDelete();
+          break;
+      }
+      if (!Yii::app()->getRequest()->getIsAjaxRequest())
+        $this->redirect(array('admin'));
+    } else
+      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
+    
+  }
 
+  private function _batchDelete() {
+    if (isset($_POST['licence-ids'])) {
+      $criteria=new CDbCriteria;
+      $criteria->addInCondition("id", $_POST['licence-ids']);
+            
+      $model = new Licence;
+      $model->deleteAll($criteria);  
+    } 
+  }
 }

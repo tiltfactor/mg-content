@@ -42,7 +42,9 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'plugin-grid',
 	'dataProvider' => $model->search(),
-	'filter' => $model,
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
+  'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+  'filter' => $model,
 	'columns' => array(
 		array(
       'name' => 'type',

@@ -4,6 +4,7 @@
 <?php $form = $this->beginWidget('GxActiveForm', array(
 	'id' => 'licence-form',
 	'enableAjaxValidation' => true,
+    'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 

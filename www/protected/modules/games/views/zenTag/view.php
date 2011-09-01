@@ -14,7 +14,8 @@ $this->menu = array(
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->name); ?></h1>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
-	'attributes' => array(
+	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
+  'attributes' => array(
 	array(
       'name' => 'active',
       'value' => MGHelper::itemAlias('active', $model->active),

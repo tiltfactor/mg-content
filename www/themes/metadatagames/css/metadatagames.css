@@ -267,3 +267,11 @@ ul#arcade-games a.image {
   height: 100%;
   background:url(../images/ajax-loader.gif) center center no-repeat #000;
 }
+
+
+#no_js {
+  font-weight: bold;
+  text-align: center;
+}
+
+#stage {display: none;}

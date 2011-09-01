@@ -12,7 +12,7 @@
 
   <div class="row">
     <?php echo $form->label($model, 'locked'); ?>
-    <?php echo $form->dropDownList($model,'locked', MGHelper::itemAlias('locked')); ?>
+    <?php echo $form->dropDownList($model,'locked', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('locked'))); ?>
   </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>

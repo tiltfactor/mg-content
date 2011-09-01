@@ -15,8 +15,8 @@ class SubjectMatterController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin','delete'),
-  				'roles'=>array('dbmanager', 'admin', 'xxx'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
   				'users'=>array('*'),
@@ -59,7 +59,6 @@ class SubjectMatterController extends GxController {
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'SubjectMatter');
     $model->modified = date('Y-m-d H:i:s');
-;
 		$this->performAjaxValidation($model, 'subject-matter-form');
 
 		if (isset($_POST['SubjectMatter'])) {
@@ -119,6 +118,7 @@ class SubjectMatterController extends GxController {
 			'model' => $model,
 		));
 	}
+  
   
   public function actionBatch($op) {
     if (Yii::app()->getRequest()->getIsPostRequest()) {
