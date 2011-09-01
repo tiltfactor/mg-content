@@ -287,6 +287,10 @@ ul#arcade-games a.image {
 #mg_modals {
   display: none;
 }
-#mg_error {}
+
+#mg_error {
+  background-color: #ddd;
+  padding:5px;
+}
 
 #stage {display: none;}

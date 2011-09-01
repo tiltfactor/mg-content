@@ -55,6 +55,18 @@
     <a href="${url_full_size_4}" rel="zoom" title="${licence_info_4}"><img class="scoreimages" src="${url_4}" alt="game image" /></a>
   </div> 
 </script>
+<script id="template-final-summary-play-once" type="text/x-jquery-tmpl">
+  <div style="text-align:center" class="clearfix">
+    <a href="${url_full_size}" rel="zoom" title="${licence_info}"><img src="${url}" alt="game image" /></a>
+  </div>
+</script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
+</script>
+<script id="template-final-info" type="text/x-jquery-tmpl">
+  <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
+</script>
+<script id="template-final-info-play-once" type="text/x-jquery-tmpl">
+  <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.<br/><br/>
+  You'll be redirected in 10 seconds. <a href="${play_once_and_move_on_url}">Click here proceed right away.</a></p>
 </script>

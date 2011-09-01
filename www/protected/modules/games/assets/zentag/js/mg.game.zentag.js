@@ -63,12 +63,21 @@ MG_GAME_ZENTAG = function ($) {
       
       $("#scores").html(""); 
       
+      // xxx what about licence info
       $("#fieldholder").html("");
-      $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
-      
       $("#image_container").html("");
-      $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
       
+      if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
+        $("#template-final-info-play-once").tmpl(score_info ).appendTo($("#fieldholder"));
+        $("#template-final-summary-play-once").tmpl(turn_info).appendTo($("#image_container"));
+        $("#box1").hide();
+          window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, 10000);
+
+      } else {
+        $("#image_container").html("");
+        $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
+        
+      }
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       $(window).unbind('beforeunload');
@@ -99,29 +108,44 @@ MG_GAME_ZENTAG = function ($) {
         
         var more_info = {}; //xxx add more_info parsing here
         
-        // turn info == image 
-        var turn_info = {
-          url_1 : MG_GAME_ZENTAG.turns[0].images[0].thumbnail,
-          url_full_size_1 : MG_GAME_ZENTAG.turns[0].images[0].full_size,
-          licence_info_1 : 'xxx add some licence info',
-          url_2 : MG_GAME_ZENTAG.turns[1].images[0].thumbnail,
-          url_full_size_2 : MG_GAME_ZENTAG.turns[1].images[0].full_size,
-          licence_info_2 : 'xxx add some licence info',
-          url_3 : MG_GAME_ZENTAG.turns[2].images[0].thumbnail,
-          url_full_size_3 : MG_GAME_ZENTAG.turns[2].images[0].full_size,
-          licence_info_3 : 'xxx add some licence info',
-          url_4 : MG_GAME_ZENTAG.turns[3].images[0].thumbnail,
-          url_full_size_4 : MG_GAME_ZENTAG.turns[3].images[0].full_size,
-          licence_info_4 : 'xxx add some licence info'
+        if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
+          if (MG_GAME_ZENTAG.game.play_once_and_move_on_url == "")
+            MG_GAME_ZENTAG.game.play_once_and_move_on_url = "/";
+          
+          score_info.play_once_and_move_on_url = MG_GAME_ZENTAG.game.play_once_and_move_on_url;
+          
+          // turn info == image 
+          var turn_info = {
+            url : MG_GAME_ZENTAG.turns[0].images[0].scaled,
+            url_full_size : MG_GAME_ZENTAG.turns[0].images[0].full_size,
+            licence_info : 'xxx add some licence info',
+          };
+        } else {
+          // turn info == image 
+          var turn_info = {
+            url_1 : MG_GAME_ZENTAG.turns[0].images[0].thumbnail,
+            url_full_size_1 : MG_GAME_ZENTAG.turns[0].images[0].full_size,
+            licence_info_1 : 'xxx add some licence info',
+            url_2 : MG_GAME_ZENTAG.turns[1].images[0].thumbnail,
+            url_full_size_2 : MG_GAME_ZENTAG.turns[1].images[0].full_size,
+            licence_info_2 : 'xxx add some licence info',
+            url_3 : MG_GAME_ZENTAG.turns[2].images[0].thumbnail,
+            url_full_size_3 : MG_GAME_ZENTAG.turns[2].images[0].full_size,
+            licence_info_3 : 'xxx add some licence info',
+            url_4 : MG_GAME_ZENTAG.turns[3].images[0].thumbnail,
+            url_full_size_4 : MG_GAME_ZENTAG.turns[3].images[0].full_size,
+            licence_info_4 : 'xxx add some licence info'
+          }
         }
-       
-        MG_GAME_API.renderFinal(response, score_info, turn_info, licence_info, more_info); 
+        
+        MG_GAME_API.renderFinal(response, score_info, turn_info, licence_info, more_info);
+         
       } else {
         
         //score box
         var score_info = {
           user_name : MG_GAME_ZENTAG.game.user_name,
-          user_score : MG_GAME_ZENTAG.game.user_score + " xxx not implemented",
+          user_score : MG_GAME_ZENTAG.game.user_score,
           current_score : response.turn.score,
           user_num_played : MG_GAME_ZENTAG.game.user_num_played,
           turns : MG_GAME_ZENTAG.game.turns,
@@ -150,7 +174,6 @@ MG_GAME_ZENTAG = function ($) {
           // val filtered for all white spaces (trim)
           MG_GAME_ZENTAG.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
         } else {
-          log("submit");
           MG_GAME_API.curtain.show();
           MG_GAME_ZENTAG.busy = true;
           

@@ -125,5 +125,20 @@ return array (
       'image_width' => '450',
       'image_height' => '450',
     ),
+    'ZenTagPlayOnceMoveOn' => 
+    array (
+      'name' => 'Zen Tag (Play Once Move On)',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'zentag_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '1',
+      'play_once_and_move_on_url' => 'http://metadatagames.test/index.php/site/contact',
+      'turns' => '4',
+      'score_new' => '2',
+      'score_match' => '1',
+      'score_expert' => '3',
+      'image_width' => '450',
+      'image_height' => '450',
+    ),
   ),
 );

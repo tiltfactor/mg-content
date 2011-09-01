@@ -82,6 +82,11 @@ class GamesController extends ApiController {
       $game_model = $game->game_model; // we need the current games model in the game engine but don't want to risk to send it on to the user
       unset($game->game_model);
       
+      // if the game is configured to be play once move on then set turns to 1
+      if ((int)$game->play_once_and_move_on == 1) {
+        $game->turns = 1;
+      }
+      
       $game->played_game_id = null;
       if (Yii::app()->getRequest()->getIsPostRequest()) {
         if (isset($_POST["played_game_id"])) {
@@ -220,6 +225,7 @@ class GamesController extends ApiController {
     
     
     $data['game'] = $game;
+    
     //we don't want to send certain data
     unset($data['game']->game_id);
     unset($data['game']->score_new);
@@ -277,7 +283,7 @@ class GamesController extends ApiController {
       } 
 
       
-      if ($game->turn == $game->turns) { // final turn
+      if ($game->turn == $game->turns || (int)$game->play_once_and_move_on == 1) { // final turn
         $this->_saveUserToGame($game, $data['turn']['score']);
       }
     } else {

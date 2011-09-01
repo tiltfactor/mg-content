@@ -8,6 +8,8 @@
   /uploads
   /uploads/images
   /upload/thumbs
+  /upload/scaled
+  /upload/ftp
   /protected/runtime 
   are writeable for the web server
 7. remove any folder and files in /assets if needed (the clean install should ship without any files)
