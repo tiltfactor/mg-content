@@ -53,7 +53,7 @@ MG_GAME_ZENTAG = function ($) {
       $("#image_container").html("");
       $("#template-turn").tmpl(turn_info).appendTo($("#image_container"));
       
-      $("a[rel='zoom']").colorbox();
+      $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       $("#stage").fadeIn(1500, function () {MG_GAME_ZENTAG.busy = false;});
     },
@@ -69,7 +69,7 @@ MG_GAME_ZENTAG = function ($) {
       $("#image_container").html("");
       $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
       
-      $("a[rel='zoom']").colorbox();
+      $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       $(window).unbind('beforeunload');
       MG_GAME_ZENTAG.submitButton.addClass("again").unbind("click").attr("href", window.location.href);

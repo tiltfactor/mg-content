@@ -32,9 +32,9 @@ class ZenTagController extends GxController
     if ($game) {
       $cs = Yii::app()->clientScript;
       $cs->registerCoreScript('jquery');
-      $cs->registerCssFile(Yii::app()->baseUrl . '/css/colorbox.css');
+      $cs->registerCssFile(Yii::app()->baseUrl . '/css/jquery.fancybox-1.3.4.css');
       $cs->registerCssFile(GamesModule::getAssetsUrl() . '/zentag/css/style.css');
-      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.colorbox-min.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.tmpl.min.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);

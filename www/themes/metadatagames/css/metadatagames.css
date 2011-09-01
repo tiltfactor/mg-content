@@ -259,6 +259,16 @@ ul#arcade-games a.image {
   margin-right:20px;
 }
 
+
+/* these are styles use by all games - it is important that they are present */
+
+#mg_fancybox_link {
+  position: absolute;
+  top:-3000px;
+  left:-3000px;
+  z-index:-99;
+}
+
 #mg_curtain {
   position: absolute;
   top:0px;
@@ -268,10 +278,15 @@ ul#arcade-games a.image {
   background:url(../images/ajax-loader.gif) center center no-repeat #000;
 }
 
-
 #no_js {
   font-weight: bold;
   text-align: center;
+  color:#666;
 }
+
+#mg_modals {
+  display: none;
+}
+#mg_error {}
 
 #stage {display: none;}

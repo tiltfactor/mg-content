@@ -1,7 +1,8 @@
 MG_API = function ($) {
   return {
     curtain : null,
-    errorModal : null,
+    fancyboxLink : null, // fancybox needs to be triggered via a link so we have to generate this invisible link
+    modals : null,
     busy : false, // flag to give you a handle to avoid double submits  
     settings : {
       shared_secret : '',
@@ -19,9 +20,13 @@ MG_API = function ($) {
         
         // create curtain and display it
         MG_API.curtain = $('<div id="mg_curtain"/>');
-        MG_API.curtain.appendTo($("body")).css({opacity:0.8}); 
+        MG_API.curtain.appendTo($("body")).css({opacity:0.7}); 
         
-        MG_API.errorModal = $('<div id="mg_error"/>');
+        MG_API.fancyboxLink = $('<a id="mg_fancybox_link" href="#" class="ir"></a>');
+        
+        MG_API.modals = $('<div id="mg_modals"/>').appendTo($("body"));
+        $('<div id="mg_error"/>').appendTo(MG_API.modals);
+        
         MG_API.curtain.appendTo($("body"));
         
         //Combine options with default settings
@@ -59,8 +64,8 @@ MG_API = function ($) {
     
     error : function (msg) {
       MG_API.curtain.hide();
-      MG_API.errorModal.html(msg);
-      MG_API.showModal(MG_API.errorModal, function () {MG_API.busy = false;});
+      $("#mg_error").html(msg);
+      MG_API.showModal($("#mg_error"), function () {MG_API.busy = false;});
     },
     
     checkResponse : function (response) {
@@ -128,15 +133,15 @@ MG_API = function ($) {
       $.ajax(defaults);
     },
     
-    showModal : function(id, onclosed) {
-      if ($(id).length > 0) {
-        $.colorbox({
-          inline:true,
-          href:id,
+    showModal : function(modalContent, onclosed) {
+      if ($(modalContent).length > 0) {
+        MG_API.fancyboxLink.attr("href", "#" + modalContent.attr("id"));
+        MG_API.fancyboxLink.fancybox({
           onClosed: onclosed,
-          overlayClose:false,
-          opacity:0.75
-        });  
+          hideOnOverlayClick:false,
+          overlayColor: '#000'
+        });
+        MG_API.fancyboxLink.trigger("click");
       } 
     }
   };
