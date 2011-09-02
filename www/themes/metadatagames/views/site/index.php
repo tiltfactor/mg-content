@@ -11,5 +11,3 @@
   </li>
   <?php endforeach; ?>
 </ul>
-
-<p>This is the arcade page. Activate user's scores and number of game plays</p>

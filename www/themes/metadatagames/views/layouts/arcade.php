@@ -7,11 +7,9 @@
   </div>
   <div class="span-8 last">
     <div id="sidebar">
-    <h2>Top User</h2>
-    <p>Here comes the top user score widget</p>
+    <?php $this->widget('Top10Players'); ?>
     <?php if (Yii::app()->user->checkAccess('player')) :?>
-    <h2>Your Scores</h2>
-    <p>Here comes the user score widget</p>
+    <?php $this->widget('PlayerScores'); ?>
     <h2>Your Badges</h2>
     <p>Here comes the user badges widget</p>
     <?php endif;?>

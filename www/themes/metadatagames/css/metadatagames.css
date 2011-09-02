@@ -164,26 +164,21 @@ div.search-form
 
 .portlet-decoration
 {
-	padding: 3px 8px;
-	background: #B7D6E7;
-	border-left: 5px solid #6FACCF;
+	padding: 0;
+	margin: 0 0 10px 0;
 }
 
 .portlet-title
 {
-	font-size: 12px;
-	font-weight: bold;
+	font-size: 22px;
+	color: #000;
 	padding: 0;
 	margin: 0;
-	color: #298dcd;
 }
 
-.portlet-content
-{
-	font-size:0.9em;
+.portlet-content {
 	margin: 0 0 15px 0;
-	padding: 5px 8px;
-	background:#EFFDFF;
+	padding: 0;
 }
 
 .portlet-content ul
@@ -259,6 +254,19 @@ ul#arcade-games a.image {
   margin-right:20px;
 }
 
+ul#arcade-games h2,
+ul#arcade-games p {
+  margin-left:255px;
+}
+
+thead th {
+    background: none repeat scroll 0 0 #D7CF01;
+}
+
+tbody tr:nth-child(2n) td, 
+tbody tr.even td {
+    background: none repeat scroll 0 0 #F2F098;
+}
 
 /* these are styles use by all games - it is important that they are present */
 

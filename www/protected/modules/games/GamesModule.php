@@ -145,16 +145,25 @@ class GamesModule extends CWebModule
    */
   public static function loadUserToGameInfo($user_id, $game_id=null) {
     $data = array();
-      
+    
     $builder = Yii::app()->db->getCommandBuilder();
+
+    $params = array();
+    $params[':userID'] = $user_id;
+    $condition = 'user_id=:userID AND g.active=1';
+    
+    if ($game_id) {
+      $params[':gameID'] = $game_id;
+      $condition .= ' AND game_id=:gameID';
+    }
     
     $findCriteria = new CDbCriteria(array(
-      'select' => 'game_id, score, number_played',
-      'condition' => 'user_id=:userID' . (($game_id)? ' AND game_id=:gameID': ''),
-      'params' => array(
-          ':userID' => $user_id,
-          ':gameID' => $game_id,
-        )
+      'alias' => 'ug',
+      'select' => 'ug.game_id, g.unique_id, ug.score, ug.number_played',
+      'join' => 'RIGHT JOIN {{game}} g ON g.id=ug.game_id',
+      'condition' => $condition,
+      'order' => 'score DESC, number_played DESC',
+      'params' => $params,
     ));
     
     $userToGames = $builder->createFindCommand(
@@ -185,5 +194,82 @@ class GamesModule extends CWebModule
       $criteria->condition='active=1';
     
     return Game::model()->find($criteria, array(':unique_id'=>$unique_id)); 
+  }
+  
+  /**
+   * Returns the highest scoring user on the platform
+   * 
+   * @param int $limit The number of players to return in the list
+   * @param boolean $return_as_object If true all rows will be converted to objects
+   * @return mixed Null if no player found or array of arrays or objects
+   */
+  public static function getTopPlayers($limit=10, $return_as_object=true) {
+    
+    $builder = Yii::app()->db->getCommandBuilder();
+    
+    $findCriteria = new CDbCriteria(array(
+      'alias' => 'ug',
+      'select' => 'username, SUM(ug.score) as score, SUM(ug.number_played) as number_played',
+      'join' => 'INNER JOIN {{user}} u ON u.id=ug.user_id INNER JOIN {{game}} g ON g.id=ug.game_id',
+      'condition' => 'g.active=1',
+      'group' => 'username',
+      'order' => 'score DESC, number_played DESC',
+      'limit' => (int)$limit,
+    ));
+    
+    $players = $builder->createFindCommand(
+        UserToGame::model()->tableSchema,
+        $findCriteria
+        )->queryAll();
+        
+    if ($players) {
+      if ($return_as_object) {
+        //remap results to objects 
+        foreach ($players as $key => $row) {
+          $players[$key] = (object)$row;  
+        }
+      }
+      return $players;
+    } else {
+      return null; 
+    } 
+  }
+  
+  /**
+   * Returns the scores for all games for a particular player 
+   * 
+   * @param int $user_id The user_id in the database of the player whoms scores should be returned
+   * @return mixed Null if no player scores found or array of objects
+   */
+  public static function getPlayerScores($user_id) {
+    $builder = Yii::app()->db->getCommandBuilder();
+    
+    $findCriteria = new CDbCriteria(array(
+      'alias' => 'g',
+      'select' => 'g.id, g.unique_id, ug.score, ug.number_played',
+      'join' => 'LEFT OUTER JOIN {{user_to_game}} ug ON ug.game_id=g.id AND ug.user_id=:userID',
+      'condition' => 'g.active=1',
+      'order' => 'score DESC, number_played DESC',
+      'params' => array(':userID' => $user_id),
+    ));
+    
+    $games = $builder->createFindCommand(
+        Game::model()->tableSchema,
+        $findCriteria
+        )->queryAll();
+    
+    if ($games) {
+      //remap results to objects 
+      foreach ($games as $key => $row) {
+        $games[$key] = (object)$row;
+        $game = GamesModule::loadGame($row['unique_id'], false);
+        $games[$key]->name = $game->name;
+        $games[$key]->score = (int)$games[$key]->score;
+        $games[$key]->number_played = (int)$games[$key]->number_played;
+      }
+      return $games;
+    } else {
+      return null; 
+    } 
   }
 }
