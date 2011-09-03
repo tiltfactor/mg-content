@@ -13,7 +13,7 @@
  * @property string $username
  * @property string $password
  * @property string $email
- * @property string $activkey
+ * @property string $activekey
  * @property string $lastvisit
  * @property string $role
  * @property integer $status
@@ -50,11 +50,11 @@ abstract class BaseUser extends GxActiveRecord {
 			array('username, password, email, created, modified', 'required'),
 			array('status, edited_count', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>32),
-			array('password, email, activkey', 'length', 'max'=>128),
+			array('password, email, activekey', 'length', 'max'=>128),
 			array('role', 'length', 'max'=>45),
 			array('lastvisit', 'safe'),
-			array('activkey, lastvisit, role, status, edited_count', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, username, password, email, activkey, lastvisit, role, status, edited_count, created, modified', 'safe', 'on'=>'search'),
+			array('activekey, lastvisit, role, status, edited_count', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, username, password, email, activekey, lastvisit, role, status, edited_count, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +81,7 @@ abstract class BaseUser extends GxActiveRecord {
 			'username' => Yii::t('app', 'Username'),
 			'password' => Yii::t('app', 'Password'),
 			'email' => Yii::t('app', 'Email'),
-			'activkey' => Yii::t('app', 'Activkey'),
+			'activekey' => Yii::t('app', 'Activation Key'),
 			'lastvisit' => Yii::t('app', 'Lastvisit'),
 			'role' => Yii::t('app', 'Role'),
 			'status' => Yii::t('app', 'Status'),
@@ -103,7 +103,7 @@ abstract class BaseUser extends GxActiveRecord {
 		$criteria->compare('username', $this->username, true);
 		$criteria->compare('password', $this->password, true);
 		$criteria->compare('email', $this->email, true);
-		$criteria->compare('activkey', $this->activkey, true);
+		$criteria->compare('activekey', $this->activekey, true);
 		$criteria->compare('lastvisit', $this->lastvisit, true);
 		$criteria->compare('role', $this->role, true);
 		$criteria->compare('status', $this->status);

@@ -22,11 +22,11 @@ class User extends BaseUser
       array('status, edited_count', 'numerical', 'integerOnly'=>true),
       array('username', 'length', 'max'=>32),
       array('email', 'email'),
-      array('password, email, activkey', 'length', 'max'=>128),
+      array('password, email, activekey', 'length', 'max'=>128),
       array('role', 'length', 'max'=>45),
       array('role', 'checkRoleAccess'),
-      array('activkey, lastvisit, role, status, edited_count, created, modified', 'default', 'setOnEmpty' => true, 'value' => null),
-      array('id, username, password, email, activkey, lastvisit, role, status, edited_count, created, modified', 'safe', 'on'=>'search'),
+      array('activekey, lastvisit, role, status, edited_count, created, modified', 'default', 'setOnEmpty' => true, 'value' => null),
+      array('id, username, password, email, activekey, lastvisit, role, status, edited_count, created, modified', 'safe', 'on'=>'search'),
     );
   }
   
@@ -75,7 +75,7 @@ class User extends BaseUser
                 'condition'=>'role=\'admin\'',
             ),
             'notsafe'=>array(
-              'select' => 'id, username, password, email, activkey, edited_count, created, modified, lastvisit, role, status',
+              'select' => 'id, username, password, email, activekey, edited_count, created, modified, lastvisit, role, status',
             ),
         );
     }

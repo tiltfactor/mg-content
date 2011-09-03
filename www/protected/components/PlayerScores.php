@@ -25,6 +25,11 @@ class PlayerScores extends CPortlet
  
   protected function renderContent() {
     if ($user_id = Yii::app()->user->id) {
+      $games = GamesModule::getPlayerScores($user_id);
+      
+      if (is_null($games))
+        $games = array();
+      
       $this->render('playerScores', array(
         'games' => GamesModule::getPlayerScores($user_id)
       ));  

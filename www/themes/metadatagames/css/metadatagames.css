@@ -268,6 +268,10 @@ tbody tr.even td {
     background: none repeat scroll 0 0 #F2F098;
 }
 
+.flash {
+  margin-top: 10px;
+}
+
 /* these are styles use by all games - it is important that they are present */
 
 #mg_fancybox_link {

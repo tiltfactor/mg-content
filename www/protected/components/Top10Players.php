@@ -24,8 +24,13 @@ class Top10Players extends CPortlet
   }
  
   protected function renderContent() {
+    $players = GamesModule::getTopPlayers();
+    
+    if (is_null($players))
+      $players = array();
+    
     $this->render('top10players', array(
-      'players' => GamesModule::getTopPlayers()
+      'players' => $players
     ));
   }
 }

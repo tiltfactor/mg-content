@@ -71,7 +71,7 @@ class UserController extends Controller
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			$model->activkey=UserModule::encrypting(microtime().$model->password);
+			$model->activekey=UserModule::encrypting(microtime().$model->password);
 			$model->created = date('Y-m-d H:i:s');
       $model->modified = date('Y-m-d H:i:s');
 			$model->lastvisit=date('Y-m-d H:i:s');
@@ -128,7 +128,7 @@ class UserController extends Controller
 				$old_password = User::model()->notsafe()->findByPk($model->id);
 				if ($old_password->password!=$model->password) {
 					$model->password=UserModule::encrypting($model->password);
-					$model->activkey=UserModule::encrypting(microtime().$model->password);
+					$model->activekey=UserModule::encrypting(microtime().$model->password);
 				}
         
         $relatedData = array(

@@ -26,33 +26,40 @@ class UFrontendActionHelper extends CApplicationComponent {
       
     } else {
         
-      $email = ((isset($_GET['email']))?$_GET['email']:'');
-      $activkey = ((isset($_GET['activkey']))?$_GET['activkey']:'');
-      if ($email&&$activkey) {
+      $email = ((isset($_GET['email']))? $_GET['email']:'');
+      $activekey = ((isset($_GET['activekey']))? $_GET['activekey']:'');
+      
+      
+      if ($email && $email) {
         $form2 = new UserChangePassword;
         $find = User::model()->notsafe()->findByAttributes(array('email'=>$email));
-        if(isset($find)&&$find->activkey==$activkey) {
+        
+        if(isset($find) && $find->activekey==$activekey) {
           if(isset($_POST['UserChangePassword'])) {
             $form2->attributes=$_POST['UserChangePassword'];
               
             if($form2->validate()) {
               $find->password = Yii::app()->controller->module->encrypting($form2->password);
-              $find->activkey=Yii::app()->controller->module->encrypting(microtime().$form2->password);
+              $find->activekey=Yii::app()->controller->module->encrypting(microtime().$form2->password);
                 
               if ($find->status==0) {
                 $find->status = 1;
               }
               $find->save();
-              Flash::add('success', UserModule::t("New password is saved."));
-              $controller->redirect(Yii::app()->controller->module->recoveryUrl);
-            }
+              Flash::add('success', UserModule::t("New password is saved. Pleas login you can now login using the new password."));
+              $controller->redirect(Yii::app()->controller->module->loginUrl);
+            } 
           } 
+          if (count($form2->errors) == 0)
+            Flash::add('success', UserModule::t("You have requested a password reset. Please choose a new password with help of the form below."), true);
+          
           $controller->render('changepassword',array('form'=>$form2));
         
         } else {
           Flash::add('error', UserModule::t("Incorrect recovery link."));
           $controller->redirect(Yii::app()->controller->module->recoveryUrl);
         }
+      
       } else {
         
         $valid = false;
@@ -70,7 +77,7 @@ class UFrontendActionHelper extends CApplicationComponent {
 
         if ($valid) {
           $user = User::model()->notsafe()->findbyPk($form->user_id);
-          $activation_url = 'http://' . $_SERVER['HTTP_HOST'].$controller->createUrl(implode(Yii::app()->controller->module->recoveryUrl),array("activkey" => $user->activkey, "email" => $user->email));
+          $activation_url = 'http://' . $_SERVER['HTTP_HOST'].$controller->createUrl(implode(Yii::app()->controller->module->recoveryUrl), array("activekey" => $user->activekey, "email" => $user->email));
 
           $subject = UserModule::t("You have requested the password recovery site {site_name}", array(
             '{site_name}'=>Yii::app()->name,));

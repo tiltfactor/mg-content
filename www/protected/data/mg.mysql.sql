@@ -83,7 +83,7 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `username` VARCHAR(32) NOT NULL ,
   `password` VARCHAR(128) NOT NULL ,
   `email` VARCHAR(128) NOT NULL ,
-  `activkey` VARCHAR(128) NOT NULL DEFAULT '' ,
+  `activekey` VARCHAR(128) NOT NULL DEFAULT '' ,
   `lastvisit` DATETIME NULL ,
   `role` VARCHAR(45) NOT NULL DEFAULT 'player' ,
   `status` INT(1) NOT NULL DEFAULT '0' ,
@@ -198,6 +198,7 @@ CREATE  TABLE IF NOT EXISTS `image` (
   `name` VARCHAR(254) NOT NULL ,
   `size` INT(11) NOT NULL ,
   `mime_type` VARCHAR(45) NOT NULL ,
+  `batch_id` VARCHAR(45) NOT NULL DEFAULT 'BATCH-001' ,
   `last_access` DATETIME NULL ,
   `locked` INT(1) NOT NULL DEFAULT 0 ,
   `created` DATETIME NOT NULL ,
@@ -708,10 +709,10 @@ COMMIT;
 -- Data for table `user`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `activkey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.com', '9a24eff8c15a6a141ece27eb6947da0f', NULL, 'admin', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `activkey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (2, 'dbmanager', 'a945e003507368542f40f13b3076ca6f', 'dbmanager@dbmanager.com', 'b58e465dcb47f8459439cf54535bc8ae', NULL, 'dbmanager', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `activkey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (3, 'editor', '5aee9dbd2a188839105073571bee1b1f', 'editor@editor.com', '52c200c7ca710d13f2ba1bea3788723c', NULL, 'editor', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `activkey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (4, 'player', '912af0dff974604f1321254ca8ff38b6', 'player@player.com', 'd3f33d7d0e80bbe3004adc82fc9e779c', NULL, 'player', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.com', '9a24eff8c15a6a141ece27eb6947da0f', NULL, 'admin', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (2, 'dbmanager', 'a945e003507368542f40f13b3076ca6f', 'dbmanager@dbmanager.com', 'b58e465dcb47f8459439cf54535bc8ae', NULL, 'dbmanager', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (3, 'editor', '5aee9dbd2a188839105073571bee1b1f', 'editor@editor.com', '52c200c7ca710d13f2ba1bea3788723c', NULL, 'editor', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (4, 'player', '912af0dff974604f1321254ca8ff38b6', 'player@player.com', 'd3f33d7d0e80bbe3004adc82fc9e779c', NULL, 'player', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
 
 COMMIT;
 

@@ -74,9 +74,8 @@ MG_GAME_ZENTAG = function ($) {
           window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, 10000);
 
       } else {
-        $("#image_container").html("");
+        $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
         $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
-        
       }
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
