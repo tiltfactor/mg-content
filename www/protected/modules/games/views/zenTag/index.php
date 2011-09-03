@@ -2,6 +2,7 @@
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
+    <div id="game_description"><h2>How To Play</h2>Describe the image as accurately as you can. Use commas to separate phrases or individual words. Hit enter of click Ohm when you are done.</div>
     <div id="zentag"> 
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/zentag/images/zentag.gif" alt="Zen Tag" width="222" height="46" /> 
     </div> 
@@ -10,8 +11,8 @@
       <div id="image_container" class="clearfix"></div>
     </div>
     <!-- user text field -->
-    <div id="fieldholder">   
-      <textarea name="words" cols="50" rows="8" id="words">Describe the image as accurately as you can. Use commas to separate phrases or individual words. Click Ohm when you are done.</textarea> 
+    <div id="fieldholder" class="clearfix">   
+      <form action="#"><textarea name="words" cols="50" rows="8" id="words"></textarea></form> 
     </div>  
     <div id="box1"> 
       <div id="box2"> 
@@ -62,8 +63,8 @@
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
+  <p class="tag-info">New tag(s): <b>'${tags_new}'</b> scoring <b>${tags_new_score}</b> points<br/>Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b>.</p>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
-  <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.<br/><br/>
   You'll be redirected in 10 seconds. <a href="${play_once_and_move_on_url}">Click here proceed right away.</a></p>
 </script>

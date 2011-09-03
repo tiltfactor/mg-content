@@ -18,7 +18,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     return (count($game->submissions) > 0);
   }
     
-  public function getTurn($game, &$game_model) {
+  public function getTurn($game, &$game_model, $tags=array()) {
     $data = array();
     if ($game->turn < $game->turns) {
       $imageSets = $this->getImageSets($game, $game_model);
@@ -36,6 +36,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
         "image_id" => $images[$i]["id"],
         "full_size" => $path . "/images/". $images[$i]["name"],
         "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
+        "final_screen" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", 212, 171, 80, 10),
         "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
       );
       $used_images[] = (int)$images[$i]["id"];
@@ -43,8 +44,15 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       
       $this->setUsedImages($used_images, $game, $game_model);
       
-      $data["licences"] = array();
+      $data["tags"] = array();
+      $data["tags"]["user"] = $tags;
+      
+      $data["licences"] = array(); // xxx implement
       $data["wordstoavoid"] = array();
+    } else {
+      $data["tags"] = array();
+      $data["tags"]["user"] = $tags;
+      $data["licences"] = array(); // xxx implement
     } 
     
     return $data;
@@ -54,17 +62,19 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     return $tags;
   }
   
-  public function getScore($game, &$game_model, $tags) {
+  public function getScore($game, &$game_model, &$tags) {
     $score = 0;
     foreach ($tags as $image_id => $image_tags) {
       foreach ($image_tags as $tag => $tag_info) {
         switch ($tag_info["type"]) {
           case "new":
-            $score++;
+            $tags[$image_id][$tag]["score"] = (int)$game->score_new;
+            $score = $score + (int)$game->score_new;
             break;
             
           case "match":
-            $score = $score + 2;
+            $tags[$image_id][$tag]["score"] = (int)$game->score_match;
+            $score = $score + (int)$game->score_match;
             break;
             
           // get expert trust whatever scoring here
@@ -106,7 +116,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       }
     }
     
-    // xxx get somehow own tags here
+    // xxx get somehow tags of user here tags here
      
     return $data;
   }

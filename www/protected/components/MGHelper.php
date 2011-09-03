@@ -90,8 +90,11 @@ class MGHelper {
     if(!is_dir($path . "/" . $folder)){
       mkdir($path . "/" . $folder);
     }
+    
+    $file_info = pathinfo($name);
+    
     if ($new_name == "") {
-      $new_name = $width . "_" . $height . "_" . $name;
+      $new_name = $file_info["filename"] . "_" . $width . "_" . $height . "." . $file_info["extension"];
     }
     if (!file_exists($path. '/' . $folder . '/' . $new_name)) {
       $imgCPNT = Yii::app()->image->load($path . "/images/" . $name);

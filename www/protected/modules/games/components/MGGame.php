@@ -111,6 +111,6 @@ interface MGGameInterface
   public function validateSubmission($game, &$game_model);
   public function getTags($game, &$game_model);
   public function setWeights($game, &$game_model, $tags);
-  public function getTurn($game, &$game_model);
-  public function getScore($game, &$game_model, $tags);
+  public function getTurn($game, &$game_model, $tags=array());
+  public function getScore($game, &$game_model, &$tags);
 }

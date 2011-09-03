@@ -153,12 +153,12 @@ class GamesController extends ApiController {
    *  },
    *  turn : {
    *    score : 0, // numeric of the previous turn's score
-   *    tags : { //information of the previous turn's tags xxx implement
+   *    tags : { //information of the previous turn's tags 
    *      "user" : [{
    *        "tag" : 'tag1',
    *        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs) // xxx define cleanup rules
    *        "score" : 1, // score of this tag
-   *        "weight" : 1 // xxx are we transparent about that?
+   *        "weight" : 1 
    *      },
    *      ...
    *      ],
@@ -254,8 +254,7 @@ class GamesController extends ApiController {
       $data['turn']['score'] = 0; 
       $turn_score = $game_engine->getScore($game, $game_model, $tags);
       
-      // else get normal turn  
-      $data['turn'] = $game_engine->getTurn($game, $game_model);
+      $data['turn'] = $game_engine->getTurn($game, $game_model, $tags);
       
       MGTags::saveTags($tags, $game->submission_id);
     

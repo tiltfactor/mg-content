@@ -79,9 +79,9 @@ h4 {
 }
 
 #holder {
-  width: 500px;
-  padding-top:18px;
-  padding-bottom:18px;
+  width: 501px;
+  padding-top:17px;
+  padding-bottom:17px;
   margin: 0px auto;
   background-color: #3a3014;
   border: thin solid #BEC638;
@@ -98,7 +98,7 @@ h4 {
   width: 232px;
   height: 191px;
   float:left;
-  margin: 0px 0px 0px 18px;
+  margin: 0px 0px 0px 17px;
   background-color: #958f81;
   border-top: thin solid #BEC638;
   border-left: thin solid #BEC638;
@@ -144,8 +144,8 @@ h4 {
 }
 
 #fieldholder {
-  width: 500px;
-  height: 70px;
+  width: 501px;
+  min-height: 70px;
   padding-top:5px;
   padding-bottom:10px;
   margin: 0px auto;
@@ -168,6 +168,14 @@ h4 {
   padding: 5px
 }
 
+#fieldholder p {
+  margin:0;
+  padding: 0 20px 10px 20px;
+}
+#fieldholder p:first-child {
+  padding: 10px 20px 10px 20px;
+}
+  
 #zentag {
   width: 290px;
   height: 58px;
@@ -253,4 +261,12 @@ h4 {
 #fieldholder p.final {
   margin-top:10px;
   font-size: 14px;
+}
+
+#game_description {
+  position: absolute;
+  top:80px;
+  left: 50px;
+  width: 200px;
+  font-size: 12px;
 }

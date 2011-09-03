@@ -1,7 +1,6 @@
 MG_GAME_ZENTAG = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
-    wordFieldCleared : false,
     
     submitButton : null,
     
@@ -10,21 +9,16 @@ MG_GAME_ZENTAG = function ($) {
         ongameinit: MG_GAME_ZENTAG.ongameinit
       });
       
-      MG_GAME_ZENTAG.wordField = $("#words").focus(
-        function () {
-          if (!MG_GAME_ZENTAG.wordFieldCleared) {
-            MG_GAME_ZENTAG.wordField.val("");
-            MG_GAME_ZENTAG.wordFieldCleared = true;
-          }
-        }
-      );
+      MG_GAME_ZENTAG.wordField = $("#words");
       
       // submit on enter
-      MG_GAME_ZENTAG.wordField.keydown(function(event) {
+      MG_GAME_ZENTAG.wordField.focus().keydown(function(event) {
         if(event.keyCode == 13) {
           MG_GAME_ZENTAG.onsubmit(); 
           return false;
         }
+        
+        $('#game_description:visible').fadeOut(3500);
       });
       
       MG_GAME_ZENTAG.submitButton = $("#button-play").click(MG_GAME_ZENTAG.onsubmit);
@@ -55,7 +49,7 @@ MG_GAME_ZENTAG = function ($) {
       
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
-      $("#stage").fadeIn(1500, function () {MG_GAME_ZENTAG.busy = false;});
+      $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});
     },
     
     renderFinal : function (response, score_info, turn_info, licence_info, more_info) {
@@ -65,6 +59,8 @@ MG_GAME_ZENTAG = function ($) {
       
       // xxx what about licence info
       $("#fieldholder").html("");
+      $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
+      
       $("#image_container").html("");
       
       if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
@@ -72,9 +68,7 @@ MG_GAME_ZENTAG = function ($) {
         $("#template-final-summary-play-once").tmpl(turn_info).appendTo($("#image_container"));
         $("#box1").hide();
           window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, 10000);
-
       } else {
-        $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
         $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
       }
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
@@ -82,7 +76,7 @@ MG_GAME_ZENTAG = function ($) {
       $(window).unbind('beforeunload');
       MG_GAME_ZENTAG.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
       
-      $("#stage").fadeIn(1500, function () {MG_GAME_ZENTAG.busy = false;});
+      $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});
     },
     
     onresponse : function (response) {
@@ -92,7 +86,43 @@ MG_GAME_ZENTAG = function ($) {
       MG_GAME_ZENTAG.turns.push(response.turn);
 
       if (MG_GAME_ZENTAG.turn > MG_GAME_ZENTAG.game.turns) { // render final result
-
+        
+        MG_GAME_ZENTAG.turn
+        
+        var taginfo = {
+          'tags_new' : {
+            tags : [],
+            score: 0
+          },
+          'tags_matched' : {
+            tags : [],
+            score: 0
+          },
+        };
+        
+        if (MG_GAME_ZENTAG.turns.length) {
+          for (i_turn in MG_GAME_ZENTAG.turns) {
+            var turn = MG_GAME_ZENTAG.turns[i_turn];
+            for (i_img in turn.tags.user) {
+              var image = turn.tags.user[i_img];
+              for (i_tag in image) {
+                var tag = image[i_tag];
+                switch (tag.type) {
+                  case "new":
+                    taginfo.tags_new.tags.push(i_tag);
+                    taginfo.tags_new.score += tag.score;
+                    break;
+                    
+                  case "match":
+                    taginfo.tags_matched.tags.push(i_tag);
+                    taginfo.tags_matched.score += tag.score;
+                    break;  
+                }
+              }
+            }
+          }
+        }
+        
         //score box
         var score_info = {
           user_name : MG_GAME_ZENTAG.game.user_name,
@@ -100,7 +130,11 @@ MG_GAME_ZENTAG = function ($) {
           current_score : response.turn.score,
           user_num_played : MG_GAME_ZENTAG.game.user_num_played,
           turns : MG_GAME_ZENTAG.game.turns,
-          current_turn : MG_GAME_ZENTAG.turn
+          current_turn : MG_GAME_ZENTAG.turn,
+          tags_new : taginfo.tags_new.tags.join(", "),
+          tags_new_score : taginfo.tags_new.score,
+          tags_matched : taginfo.tags_matched.tags.join(", "),
+          tags_matched_score : taginfo.tags_matched.score,
         };
         
         var licence_info = {}; //xxx add licence parsing here
@@ -122,16 +156,16 @@ MG_GAME_ZENTAG = function ($) {
         } else {
           // turn info == image 
           var turn_info = {
-            url_1 : MG_GAME_ZENTAG.turns[0].images[0].thumbnail,
+            url_1 : MG_GAME_ZENTAG.turns[0].images[0].final_screen,
             url_full_size_1 : MG_GAME_ZENTAG.turns[0].images[0].full_size,
             licence_info_1 : 'xxx add some licence info',
-            url_2 : MG_GAME_ZENTAG.turns[1].images[0].thumbnail,
+            url_2 : MG_GAME_ZENTAG.turns[1].images[0].final_screen,
             url_full_size_2 : MG_GAME_ZENTAG.turns[1].images[0].full_size,
             licence_info_2 : 'xxx add some licence info',
-            url_3 : MG_GAME_ZENTAG.turns[2].images[0].thumbnail,
+            url_3 : MG_GAME_ZENTAG.turns[2].images[0].final_screen,
             url_full_size_3 : MG_GAME_ZENTAG.turns[2].images[0].full_size,
             licence_info_3 : 'xxx add some licence info',
-            url_4 : MG_GAME_ZENTAG.turns[3].images[0].thumbnail,
+            url_4 : MG_GAME_ZENTAG.turns[3].images[0].final_screen,
             url_full_size_4 : MG_GAME_ZENTAG.turns[3].images[0].full_size,
             licence_info_4 : 'xxx add some licence info'
           }
@@ -169,7 +203,7 @@ MG_GAME_ZENTAG = function ($) {
     onsubmit : function () {
       if (!MG_GAME_ZENTAG.busy) {
         var tags = MG_GAME_ZENTAG.wordField.val().replace(/^\s+|\s+$/g,"");
-        if (tags == "" || !MG_GAME_ZENTAG.wordFieldCleared) {
+        if (tags == "") {
           // val filtered for all white spaces (trim)
           MG_GAME_ZENTAG.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
         } else {
