@@ -1,6 +1,6 @@
 <?php
 
-class StopWordController extends GxController {
+class LogController extends GxController {
 
   public function filters() {
   	return array(
@@ -26,23 +26,23 @@ class StopWordController extends GxController {
 
 	public function actionView($id) {
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'StopWord'),
+			'model' => $this->loadModel($id, 'Log'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new StopWord;
+		$model = new Log;
 		$model->created = date('Y-m-d H:i:s'); 
-    $model->modified = date('Y-m-d H:i:s'); 
+     
     
-		$this->performAjaxValidation($model, 'stop-word-form');
+		$this->performAjaxValidation($model, 'log-form');
 
-		if (isset($_POST['StopWord'])) {
-			$model->setAttributes($_POST['StopWord']);
+		if (isset($_POST['Log'])) {
+			$model->setAttributes($_POST['Log']);
 
 			if ($model->save()) {
-        MGHelper::log('create', 'Created StopWord with ID(' . $model->id . ')');
-				Flash::add('success', Yii::t('app', "StopWord created"));
+        MGHelper::log('create', 'Created Log with ID(' . $model->id . ')');
+				Flash::add('success', Yii::t('app', "Log created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else 
@@ -54,16 +54,15 @@ class StopWordController extends GxController {
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'StopWord');
-    $model->modified = date('Y-m-d H:i:s');
-		$this->performAjaxValidation($model, 'stop-word-form');
+		$model = $this->loadModel($id, 'Log');
+    		$this->performAjaxValidation($model, 'log-form');
 
-		if (isset($_POST['StopWord'])) {
-			$model->setAttributes($_POST['StopWord']);
+		if (isset($_POST['Log'])) {
+			$model->setAttributes($_POST['Log']);
 
 			if ($model->save()) {
-        MGHelper::log('update', 'Updated StopWord with ID(' . $id . ')');
-        Flash::add('success', Yii::t('app', "StopWord updated"));
+        MGHelper::log('update', 'Updated Log with ID(' . $id . ')');
+        Flash::add('success', Yii::t('app', "Log updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -75,14 +74,13 @@ class StopWordController extends GxController {
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$model = $this->loadModel($id, 'StopWord');
+			$model = $this->loadModel($id, 'Log');
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
 			  $model->delete();
-			  MGHelper::log('delete', 'Deleted StopWord with ID(' . $id . ')');
-        
-        Flash::add('success', Yii::t('app', "StopWord deleted"));
+			  MGHelper::log('delete', 'Deleted Log with ID(' . $id . ')');
+        Flash::add('success', Yii::t('app', "Log deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				  $this->redirect(array('admin'));
@@ -92,11 +90,11 @@ class StopWordController extends GxController {
 	}
 
 	public function actionIndex() {
-		$model = new StopWord('search');
+		$model = new Log('search');
     $model->unsetAttributes();
 
-    if (isset($_GET['StopWord']))
-      $model->setAttributes($_GET['StopWord']);
+    if (isset($_GET['Log']))
+      $model->setAttributes($_GET['Log']);
 
     $this->render('admin', array(
       'model' => $model,
@@ -104,11 +102,11 @@ class StopWordController extends GxController {
 	}
 
 	public function actionAdmin() {
-		$model = new StopWord('search');
+		$model = new Log('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['StopWord']))
-			$model->setAttributes($_GET['StopWord']);
+		if (isset($_GET['Log']))
+			$model->setAttributes($_GET['Log']);
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -131,12 +129,12 @@ class StopWordController extends GxController {
   }
 
   private function _batchDelete() {
-    if (isset($_POST['stop-word-ids'])) {
+    if (isset($_POST['log-ids'])) {
       $criteria=new CDbCriteria;
-      $criteria->addInCondition("id", $_POST['stop-word-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted StopWord with IDs(' . implode(',', $_POST['stop-word-ids']) . ')');
+      $criteria->addInCondition("id", $_POST['log-ids']);
+            MGHelper::log('batch-delete', 'Batch deleted Log with IDs(' . implode(',', $_POST['log-ids']) . ')');
         
-      $model = new StopWord;
+      $model = new Log;
       $model->deleteAll($criteria);
         
     } 

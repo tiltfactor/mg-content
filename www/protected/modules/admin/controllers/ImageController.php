@@ -44,6 +44,7 @@ class ImageController extends GxController {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
+        MGHelper::log('create', 'Created Image with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "Image created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -67,6 +68,7 @@ class ImageController extends GxController {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
+        MGHelper::log('update', 'Updated Image with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "Image updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
@@ -83,7 +85,9 @@ class ImageController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted Image with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "Image deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -136,9 +140,11 @@ class ImageController extends GxController {
     if (isset($_POST['image-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['image-ids']);
-      $criteria->addInCondition("locked", array(0));      
+      $criteria->addInCondition("locked", array(0));      MGHelper::log('batch-delete', 'Batch deleted Image with IDs(' . implode(',', $_POST['image-ids']) . ')');
+        
       $model = new Image;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

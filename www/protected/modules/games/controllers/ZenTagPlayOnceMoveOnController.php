@@ -92,6 +92,7 @@ EOD;
       if ($model->saveWithRelated($relatedData)) {
         
         $model->fbvSave();
+        MGHelper::log('update', 'Game ' . $model->name . ' updated');
         Flash::add('success', $model->name . ' ' . Yii::t('app', "Updated"));
         $this->redirect(array('view'));
       }

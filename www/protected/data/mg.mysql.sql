@@ -214,11 +214,10 @@ DROP TABLE IF EXISTS `log` ;
 
 CREATE  TABLE IF NOT EXISTS `log` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `level` VARCHAR(128) NOT NULL ,
   `category` VARCHAR(128) NOT NULL ,
-  `logtime` INT UNSIGNED NOT NULL ,
   `message` TEXT NOT NULL ,
   `user_id` INT(11) NULL ,
+  `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   CONSTRAINT `fk_log_users1`
     FOREIGN KEY (`user_id` )
@@ -675,6 +674,8 @@ CREATE INDEX `fk_game_partner_session1` ON `game_partner` (`session_id` ASC) ;
 
 CREATE INDEX `fk_game_partner_game1` ON `game_partner` (`game_id` ASC) ;
 
+
+CREATE USER `metadatagames` IDENTIFIED BY 'metadatagames';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

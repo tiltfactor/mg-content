@@ -15,7 +15,7 @@ public function accessRules() {
 				'roles'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
+				'actions'=>array('index','view','update', 'admin','delete'),
 				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'),
 				),
 			array('deny', 
@@ -29,28 +29,6 @@ public function accessRules() {
 			'model' => $this->loadModel($id, 'Plugin'),
 		));
 	}
-
-	public function actionCreate() {
-		$model = new Plugin;
-    $model->created = date('Y-m-d H:i:s');
-    $model->modified = date('Y-m-d H:i:s');
-    
-		$this->performAjaxValidation($model, 'plugin-form');
-
-		if (isset($_POST['Plugin'])) {
-			$model->setAttributes($_POST['Plugin']);
-
-			if ($model->save()) {
-				if (Yii::app()->getRequest()->getIsAjaxRequest())
-					Yii::app()->end();
-				else
-					$this->redirect(array('view', 'id' => $model->id));
-			}
-		}
-
-		$this->render('create', array( 'model' => $model));
-	}
-
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'Plugin');
     $model->modified = date('Y-m-d H:i:s');
@@ -58,9 +36,10 @@ public function accessRules() {
 
 		if (isset($_POST['Plugin'])) {
 			$model->setAttributes($_POST['Plugin']);
-
-			if ($model->save()) {
-				$this->redirect(array('view', 'id' => $model->id));
+      if ($model->save()) {
+				MGHelper::log('update', 'Updated Plugin with ID(' . $id . ')');
+        Flash::add('success', Yii::t('app', "Log updated"));
+        $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -72,7 +51,8 @@ public function accessRules() {
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$this->loadModel($id, 'Plugin')->delete();
-
+      MGHelper::log('delete', 'Deleted Plugin with ID(' . $id . ')');
+      Flash::add('success', Yii::t('app', "Plugin deleted"));  
 			if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				$this->redirect(array('admin'));
 		} else

@@ -40,6 +40,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 <?php else: ?>
 			if ($model->save()) {
 <?php endif; ?>
+        MGHelper::log('create', 'Created <?php echo $this->modelClass; ?> with ID(' . $model-><?php echo $this->tableSchema->primaryKey; ?> . ')');
 				Flash::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -69,6 +70,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 <?php else: ?>
 			if ($model->save()) {
 <?php endif; ?>
+        MGHelper::log('update', 'Updated <?php echo $this->modelClass; ?> with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> updated"));
 				$this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
 			}
@@ -85,7 +87,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted <?php echo $this->modelClass; ?> with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "<?php echo $this->modelClass; ?> deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -139,9 +143,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['<?php echo $this->class2id($this->modelClass)?>-ids']);
       <?php echo ($this->tableSchema->getColumn("locked") !== null)? "\$criteria->addInCondition(\"locked\", array(0));" : ""; ?>
-      
+      MGHelper::log('batch-delete', 'Batch deleted <?php echo $this->modelClass; ?> with IDs(' . implode(',', $_POST['<?php echo $this->class2id($this->modelClass)?>-ids']) . ')');
+        
       $model = new <?php echo $this->modelClass; ?>;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

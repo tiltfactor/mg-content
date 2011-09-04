@@ -41,6 +41,7 @@ class LicenceController extends GxController {
 			$model->setAttributes($_POST['Licence']);
 
 			if ($model->save()) {
+        MGHelper::log('create', 'Created Licence with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "Licence created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -61,6 +62,7 @@ class LicenceController extends GxController {
 			$model->setAttributes($_POST['Licence']);
 
 			if ($model->save()) {
+        MGHelper::log('update', 'Updated Licence with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "Licence updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
@@ -77,7 +79,9 @@ class LicenceController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted Licence with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "Licence deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -130,9 +134,11 @@ class LicenceController extends GxController {
     if (isset($_POST['licence-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['licence-ids']);
-            
+            MGHelper::log('batch-delete', 'Batch deleted Licence with IDs(' . implode(',', $_POST['licence-ids']) . ')');
+        
       $model = new Licence;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

@@ -41,6 +41,7 @@ class TagController extends GxController {
 			$model->setAttributes($_POST['Tag']);
 
 			if ($model->save()) {
+        MGHelper::log('create', 'Created Tag with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "Tag created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -61,6 +62,7 @@ class TagController extends GxController {
 			$model->setAttributes($_POST['Tag']);
 
 			if ($model->save()) {
+        MGHelper::log('update', 'Updated Tag with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "Tag updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
@@ -77,7 +79,9 @@ class TagController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted Tag with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "Tag deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -130,9 +134,11 @@ class TagController extends GxController {
     if (isset($_POST['tag-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['tag-ids']);
-            
+            MGHelper::log('batch-delete', 'Batch deleted Tag with IDs(' . implode(',', $_POST['tag-ids']) . ')');
+        
       $model = new Tag;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

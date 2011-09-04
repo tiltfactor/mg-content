@@ -15,7 +15,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('stop-word-grid', {
+	$.fn.yiiGridView.update('log-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -36,9 +36,9 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php echo CHtml::beginForm('','post',array('id'=>'stop-word-form'));
+<?php echo CHtml::beginForm('','post',array('id'=>'log-form'));
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'stop-word-grid',
+	'id' => 'log-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
@@ -47,18 +47,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'columns' => array(
 	  array(
       'class'=>'CCheckBoxColumn',
-      'id'=>'stop-word-ids',
+      'id'=>'log-ids',
     ),
-		'word',
-		'counter',
-		 array(
-        'name' => 'active',
-        'type' => 'raw',
-        'value' => 'MGHelper::itemAlias(\'active\',$data->active)',
-        'filter'=> MGHelper::itemAlias('active'),
-      ),
+		'category',
+		'message',
+		array(
+				'name'=>'user_id',
+				'value'=>'GxHtml::valueEx($data->user)',
+				'filter'=>GxHtml::listDataEx(User::model()->findAllAttributes(null, true)),
+				),
 		'created',
-		'modified',
     array (
   'class' => 'CButtonColumn',
   'buttons' => 
@@ -69,9 +67,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
 echo CHtml::endForm();
 
 $this->widget('ext.gridbatchaction.GridBatchAction', array(
-      'formId'=>'stop-word-form',
-      'checkBoxId'=>'stop-word-ids',
-      'ajaxGridId'=>'stop-word-grid', 
+      'formId'=>'log-form',
+      'checkBoxId'=>'log-ids',
+      'ajaxGridId'=>'log-grid', 
       'items'=>array(
           array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
       ),

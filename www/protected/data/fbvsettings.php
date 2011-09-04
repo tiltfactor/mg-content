@@ -107,6 +107,13 @@ return array (
       'url' => '/admin/badge',
       'role' => 'editor',
     ),
+    'tool-logs' => 
+    array (
+      'name' => 'Admin Tool Log',
+      'description' => 'Some short description',
+      'url' => '/admin/log',
+      'role' => 'dbmanager',
+    ),
   ),
   'games' => 
   array (

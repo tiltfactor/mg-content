@@ -6,11 +6,6 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->textField($model, 'id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model, 'word'); ?>
 		<?php echo $form->textField($model, 'word', array('maxlength' => 64)); ?>
 	</div>
@@ -20,11 +15,10 @@
 		<?php echo $form->textField($model, 'counter', array('maxlength' => 10)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model, 'active'); ?>
-		<?php echo $form->dropDownList($model,'active', MGHelper::itemAlias('active')); ?>
-	</div>
-
+  <div class="row">
+    <?php echo $form->label($model, 'active'); ?>
+    <?php echo $form->dropDownList($model,'active', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('active'))); ?>
+  </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>

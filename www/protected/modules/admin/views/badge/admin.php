@@ -49,7 +49,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'class'=>'CCheckBoxColumn',
       'id'=>'badge-ids',
     ),
-    'id',
 		'title',
 		'points',
     array (

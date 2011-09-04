@@ -41,6 +41,7 @@ class BadgeController extends GxController {
 			$model->setAttributes($_POST['Badge']);
 
 			if ($model->save()) {
+        MGHelper::log('create', 'Created Badge with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "Badge created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -60,6 +61,7 @@ class BadgeController extends GxController {
 			$model->setAttributes($_POST['Badge']);
 
 			if ($model->save()) {
+        MGHelper::log('update', 'Updated Badge with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "Badge updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
@@ -76,7 +78,9 @@ class BadgeController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted Badge with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "Badge deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -129,9 +133,11 @@ class BadgeController extends GxController {
     if (isset($_POST['badge-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['badge-ids']);
-            
+            MGHelper::log('batch-delete', 'Batch deleted Badge with IDs(' . implode(',', $_POST['badge-ids']) . ')');
+        
       $model = new Badge;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

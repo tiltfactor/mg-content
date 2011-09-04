@@ -30,6 +30,11 @@
     <?php echo $form->error($model,'mime_type'); ?>
     </div><!-- row -->
     <div class="row">
+    <?php echo $form->labelEx($model,'batch_id'); ?>
+    <?php echo $form->textField($model, 'batch_id', array('maxlength' => 45)); ?>
+    <?php echo $form->error($model,'batch_id'); ?>
+    </div><!-- row -->
+    <div class="row">
     <?php echo $form->labelEx($model,'last_access'); ?>
     <?php echo $form->textField($model, 'last_access'); ?>
     <?php echo $form->error($model,'last_access'); ?>

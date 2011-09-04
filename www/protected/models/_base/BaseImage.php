@@ -13,6 +13,7 @@
  * @property string $name
  * @property integer $size
  * @property string $mime_type
+ * @property string $batch_id
  * @property string $last_access
  * @property integer $locked
  * @property string $created
@@ -44,10 +45,10 @@ abstract class BaseImage extends GxActiveRecord {
 			array('name, size, mime_type, created, modified', 'required'),
 			array('size, locked', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>254),
-			array('mime_type', 'length', 'max'=>45),
+			array('mime_type, batch_id', 'length', 'max'=>45),
 			array('last_access', 'safe'),
-			array('last_access, locked', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, name, size, mime_type, last_access, locked, created, modified', 'safe', 'on'=>'search'),
+			array('batch_id, last_access, locked', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, size, mime_type, batch_id, last_access, locked, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +71,7 @@ abstract class BaseImage extends GxActiveRecord {
 			'name' => Yii::t('app', 'Name'),
 			'size' => Yii::t('app', 'Size'),
 			'mime_type' => Yii::t('app', 'Mime Type'),
+			'batch_id' => Yii::t('app', 'Batch'),
 			'last_access' => Yii::t('app', 'Last Access'),
 			'locked' => Yii::t('app', 'Locked'),
 			'created' => Yii::t('app', 'Created'),
@@ -86,6 +88,7 @@ abstract class BaseImage extends GxActiveRecord {
 		$criteria->compare('name', $this->name, true);
 		$criteria->compare('size', $this->size);
 		$criteria->compare('mime_type', $this->mime_type, true);
+		$criteria->compare('batch_id', $this->batch_id, true);
 		$criteria->compare('last_access', $this->last_access, true);
 		$criteria->compare('locked', $this->locked);
 		$criteria->compare('created', $this->created, true);

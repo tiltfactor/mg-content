@@ -2,7 +2,7 @@
 
 
 <?php $form = $this->beginWidget('GxActiveForm', array(
-	'id' => 'stop-word-form',
+	'id' => 'log-form',
 	'enableAjaxValidation' => true,
     'clientOptions'=>array('validateOnSubmit'=>true),
 ));
@@ -15,30 +15,24 @@
 	<?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-    <?php echo $form->labelEx($model,'word'); ?>
-    <?php echo $form->textField($model, 'word', array('maxlength' => 64)); ?>
-    <?php echo $form->error($model,'word'); ?>
+    <?php echo $form->labelEx($model,'category'); ?>
+    <?php echo $form->textField($model, 'category', array('maxlength' => 128)); ?>
+    <?php echo $form->error($model,'category'); ?>
     </div><!-- row -->
     <div class="row">
-    <?php echo $form->labelEx($model,'counter'); ?>
-    <?php echo $form->textField($model, 'counter', array('maxlength' => 10)); ?>
-    <?php echo $form->error($model,'counter'); ?>
+    <?php echo $form->labelEx($model,'message'); ?>
+    <?php echo $form->textArea($model, 'message'); ?>
+    <?php echo $form->error($model,'message'); ?>
     </div><!-- row -->
     <div class="row">
-    <?php echo $form->labelEx($model,'active'); ?>
-    <?php echo $form->dropDownList($model,'active', MGHelper::itemAlias(active)); ?>
-    <?php echo $form->error($model,'active'); ?>
+    <?php echo $form->labelEx($model,'user_id'); ?>
+    <?php echo $form->dropDownList($model, 'user_id', GxHtml::listDataEx(User::model()->findAllAttributes(null, true))); ?>
+    <?php echo $form->error($model,'user_id'); ?>
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>
     <?php echo $form->labelEx($model,'created'); ?>
     <?php echo $model->created; ?>
-    <?php endif; ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php if($model->modified != 0) : ?>
-    <?php echo $form->labelEx($model,'modified'); ?>
-    <?php echo $model->modified; ?>
     <?php endif; ?>
     </div><!-- row -->
 

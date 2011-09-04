@@ -41,6 +41,7 @@ class BlockedIpController extends GxController {
 			$model->setAttributes($_POST['BlockedIp']);
 
 			if ($model->save()) {
+        MGHelper::log('create', 'Created BlockedIp with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "BlockedIp created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -61,6 +62,7 @@ class BlockedIpController extends GxController {
 			$model->setAttributes($_POST['BlockedIp']);
 
 			if ($model->save()) {
+        MGHelper::log('update', 'Updated BlockedIp with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "BlockedIp updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
@@ -77,7 +79,9 @@ class BlockedIpController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted BlockedIp with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "BlockedIp deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -130,9 +134,11 @@ class BlockedIpController extends GxController {
     if (isset($_POST['blocked-ip-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['blocked-ip-ids']);
-            
+            MGHelper::log('batch-delete', 'Batch deleted BlockedIp with IDs(' . implode(',', $_POST['blocked-ip-ids']) . ')');
+        
       $model = new BlockedIp;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

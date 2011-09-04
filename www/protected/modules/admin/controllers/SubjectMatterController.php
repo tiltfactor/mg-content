@@ -45,6 +45,7 @@ class SubjectMatterController extends GxController {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
+        MGHelper::log('create', 'Created SubjectMatter with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "SubjectMatter created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
@@ -69,6 +70,7 @@ class SubjectMatterController extends GxController {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
+        MGHelper::log('update', 'Updated SubjectMatter with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "SubjectMatter updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
@@ -85,7 +87,9 @@ class SubjectMatterController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			 $model->delete();
+			  $model->delete();
+			  MGHelper::log('delete', 'Deleted SubjectMatter with ID(' . $id . ')');
+        
         Flash::add('success', Yii::t('app', "SubjectMatter deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -138,9 +142,11 @@ class SubjectMatterController extends GxController {
     if (isset($_POST['subject-matter-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['subject-matter-ids']);
-      $criteria->addInCondition("locked", array(0));      
+      $criteria->addInCondition("locked", array(0));      MGHelper::log('batch-delete', 'Batch deleted SubjectMatter with IDs(' . implode(',', $_POST['subject-matter-ids']) . ')');
+        
       $model = new SubjectMatter;
-      $model->deleteAll($criteria);  
+      $model->deleteAll($criteria);
+        
     } 
   }
 }

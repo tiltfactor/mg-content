@@ -21,6 +21,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model, 'batch_id'); ?>
+		<?php echo $form->textField($model, 'batch_id', array('maxlength' => 45)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model, 'last_access'); ?>
 		<?php echo $form->textField($model, 'last_access'); ?>
 	</div>

@@ -344,6 +344,8 @@ class ProfileFieldController extends Controller
 				}
 				$model->dbConnection->createCommand($sql)->execute();
 				$model->save();
+				MGHelper::log('create', 'Created Profile Field with ID(' . $model->id . ')');
+        Flash::add('success', Yii::t('app', "Profile Field created"));
 				$this->redirect(array('view','id'=>$model->id));
 			}
 		}
@@ -364,8 +366,11 @@ class ProfileFieldController extends Controller
 		if(isset($_POST['ProfileField']))
 		{
 			$model->attributes=$_POST['ProfileField'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if($model->save()) {
+			  MGHelper::log('update', 'Updated Profile Field with ID(' . $model->id . ')');
+        Flash::add('success', Yii::t('app', "Profile Field updated"));
+        $this->redirect(array('view','id'=>$model->id));
+			}
 		}
 		$this->registerScript();
 
@@ -428,6 +433,8 @@ class ProfileFieldController extends Controller
 				}
 				if ($status) {
 					$model->delete();
+          MGHelper::log('delete', 'Deleted Profile Field with ID(' . $model->id . ')');
+          Flash::add('success', Yii::t('app', "Profile Field deleted"));
 				}
 				
 			} else {

@@ -56,14 +56,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
 		'size',
 		'mime_type',
+		'batch_id',
 		'last_access',
+		/*
 		 array(
         'name' => 'locked',
         'type' => 'raw',
         'value' => 'MGHelper::itemAlias(\'locked\',$data->locked)',
         'filter'=> MGHelper::itemAlias('locked'),
       ),
-		/*
 		'created',
 		'modified',
 		*/

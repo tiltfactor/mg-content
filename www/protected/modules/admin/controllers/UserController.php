@@ -92,6 +92,8 @@ class UserController extends Controller
 				if($model->saveWithRelated($relatedData)) {
 					$profile->user_id=$model->id;
 					$profile->save();
+          MGHelper::log('create', 'Created user with ID(' . $model->id . ')');
+          Flash::add('success', Yii::t('app', "User created"));
 				}
 				if (Yii::app()->getRequest()->getIsAjaxRequest())
           Yii::app()->end();
@@ -138,6 +140,8 @@ class UserController extends Controller
         
         if($model->saveWithRelated($relatedData)) {
           $profile->save();
+          MGHelper::log('update', 'Updated user with ID(' . $model->id . ')');
+          Flash::add('success', Yii::t('app', "User updated"));
           $this->redirect(array('view','id'=>$model->id));  
         }
 				
@@ -164,6 +168,8 @@ class UserController extends Controller
 			$profile = Profile::model()->findByPk($model->id);
 			$profile->delete();
 			$model->delete();
+      MGHelper::log('delete', 'Deleted User with ID(' . $model->id . ')');
+      Flash::add('success', Yii::t('app', "User deleted"));
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_POST['ajax']))
 				$this->redirect(array('/admin/user'));

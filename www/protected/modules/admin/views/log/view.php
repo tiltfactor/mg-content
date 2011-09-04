@@ -23,15 +23,14 @@ $this->menu=array(
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
   'attributes' => array(
 'id',
-'word',
-'counter',
-		 array(
-          'name' => 'active',
-          'type' => 'image',
-          'value' => MGHelper::itemAlias('active',$model->active),
-        ),
+'category',
+'message',
+array(
+			'name' => 'user',
+			'type' => 'raw',
+			'value' => $model->user !== null ? GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->user)), array('user/view', 'id' => GxActiveRecord::extractPkValue($model->user, true))) : null,
+			),
 'created',
-'modified',
 	),
 )); ?>
 

@@ -141,4 +141,27 @@ class MGHelper {
     }
     return Yii::app()->session[$api_id .'_SHARED_SECRET'];
   }
+  
+  /**
+   * Creates an entry in the log table
+   * 
+   * @param string $category The category of the action to be logged (create, update, delte, batch_*)
+   * @param string $message The information to be logged
+   * @param int $user_id The id of the user. If $user_id is null this method will try to set the current user's id
+   */
+  public static function log($category, $message, $user_id=null) {
+    if (is_null($user_id)) 
+      $user_id = Yii::app()->user->id;
+    
+    $sql=" INSERT INTO {{log}}
+           (category, message, user_id, created) VALUES
+           (:category, :message, :userID, :created)";
+           
+    $command=Yii::app()->db->createCommand($sql);
+    $command->bindValue(':category' ,$category);
+    $command->bindValue(':message', $message);
+    $command->bindValue(':created', date('Y-m-d H:i:s'));
+    $command->bindValue(':userID', $user_id);
+    $command->execute();
+  }
 }

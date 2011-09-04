@@ -32,6 +32,8 @@
     ),
     
   SAVE the file
+
+6.1 configure the admin email address on the very bottom of the same file. 
   
 7. Goto the website and see it complain that the active record classes can't be found in the database (CHECK 1 system works)
 
@@ -66,3 +68,7 @@ PWD: player
 16. Choose Zentag and play ;-) 
   Note: everytime the system shows a previously not shown image it has to create resized versions. Future responses will be faster.
   Note: Yes, at the moment images can repeat. There are plans to omit that.
+  
+FURTHER INFO
+you can now configure a second app environment in /www/protected/config/development.php. This can be access via /www/index_dev.php. This is 
+used by me to test the development branch. It will not make it into the master branch.  
