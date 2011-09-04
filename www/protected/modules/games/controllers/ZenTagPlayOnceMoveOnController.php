@@ -60,7 +60,7 @@ EOD;
       } else {
         $this->layout = '//layouts/column1';
       }
-      $this->render('../ZenTag/index', array(
+      $this->render('/zenTag/index', array(
         'game' => $game,
       ));  
     } else {
@@ -72,7 +72,7 @@ EOD;
     $model = $this->loadModel(array("unique_id" => "ZenTagPlayOnceMoveOn"), 'ZenTagPlayOnceMoveOn');  
     $model->fbvLoad();
     
-    $this->render('../ZenTag/view', array(
+    $this->render('/zenTag/view', array(
       'model' => $model,
     ));
   }
@@ -97,7 +97,7 @@ EOD;
       }
     }
     
-    $this->render('../ZenTag/update', array(
+    $this->render('/zenTag/update', array(
       'model' => $model,
       ));
   }

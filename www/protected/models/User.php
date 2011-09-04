@@ -50,6 +50,27 @@ class User extends BaseUser
     return $relations;
   }
   
+  public function attributeLabels() {
+    return array(
+      'id' => Yii::t('app', 'ID'),
+      'username' => Yii::t('app', 'Player Name'),
+      'password' => Yii::t('app', 'Password'),
+      'email' => Yii::t('app', 'Email'),
+      'activekey' => Yii::t('app', 'Activation Key'),
+      'lastvisit' => Yii::t('app', 'Lastvisit'),
+      'role' => Yii::t('app', 'Role'),
+      'status' => Yii::t('app', 'Status'),
+      'edited_count' => Yii::t('app', 'Edited Count'),
+      'created' => Yii::t('app', 'Created'),
+      'modified' => Yii::t('app', 'Modified'),
+      'logs' => null,
+      'profile' => null,
+      'sessions' => null,
+      'games' => null,
+      'subjectMatters' => null,
+    );
+  }
+  
   public function scopes()
     {
         return array(

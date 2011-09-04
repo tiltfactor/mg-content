@@ -16,7 +16,7 @@ $this->menu = array(
 <h1><?php echo Yii::t('app', 'Update') . ' ' . GxHtml::encode($model->name); ?></h1>
 
 <?php
-$this->renderPartial('_form', array(
+$this->renderPartial('/zenTag/_form', array(
 		'model' => $model, 
 		'buttons' => Yii::t('app', 'Save')));
 ?>

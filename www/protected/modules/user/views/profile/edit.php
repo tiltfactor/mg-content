@@ -3,19 +3,15 @@ $this->breadcrumbs=array(
 	UserModule::t("Profile")=>array('profile'),
 	UserModule::t("Edit"),
 );
-?><h2><?php echo UserModule::t('Edit profile'); ?></h2>
-<ul class="actions">
-<?php if(UserModule::isAssigned('dbmanager')) : ?>
-<li><?php echo CHtml::link(UserModule::t('Manage User'),array('/admin/user')); ?></li>
-<?php endif; ?>
-<li><?php echo CHtml::link(UserModule::t('Profile'),array('/user/profile')); ?></li>
-</ul>
 
-<?php if(Yii::app()->user->hasFlash('profileMessage')): ?>
-<div class="success">
-<?php echo Yii::app()->user->getFlash('profileMessage'); ?>
-</div>
-<?php endif; ?>
+$this->menu = array(
+  array('label'=>UserModule::t('Manage Players'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('dbmanager')),
+  array('label' => UserModule::t('View Profile'), 'url'=>array('/user/profile')),
+  array('label' => UserModule::t('Change password'), 'url'=>array('changepassword')),
+);
+
+?><h2><?php echo UserModule::t('Edit profile'); ?></h2>
+
 <div class="form">
 <?php $form=$this->beginWidget('UActiveForm', array(
 	'id'=>'profile-form',

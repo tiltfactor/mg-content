@@ -60,7 +60,12 @@ MG_GAME_ZENTAG = function ($) {
       // xxx what about licence info
       $("#fieldholder").html("");
       $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
-      
+      if (score_info.tags_new != "") 
+        $("#template-final-tags-new").tmpl(score_info ).appendTo($("#fieldholder"));
+        
+      if (score_info.tags_matched != "")
+        $("#template-final-tags-matched").tmpl(score_info ).appendTo($("#fieldholder"));
+        
       $("#image_container").html("");
       
       if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {

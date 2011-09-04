@@ -77,17 +77,24 @@ class UFrontendActionHelper extends CApplicationComponent {
 
         if ($valid) {
           $user = User::model()->notsafe()->findbyPk($form->user_id);
-          $activation_url = 'http://' . $_SERVER['HTTP_HOST'].$controller->createUrl(implode(Yii::app()->controller->module->recoveryUrl), array("activekey" => $user->activekey, "email" => $user->email));
-
-          $subject = UserModule::t("You have requested the password recovery site {site_name}", array(
-            '{site_name}'=>Yii::app()->name,));
           
-          $message = UserModule::t("You have requested a new password for {site_name}. To receive a new password, go to {activation_url}.", array(
-            '{site_name}'=>Yii::app()->name,
-            '{activation_url}'=>$activation_url,
-          ));
-
-          UserModule::sendMail($user->email,$subject,$message);
+          $activation_url = 'http://' . $_SERVER['HTTP_HOST'].$controller->createUrl(implode(Yii::app()->controller->module->recoveryUrl), array("activekey" => $user->activekey, "email" => $user->email));
+          
+          $message = new YiiMailMessage;
+          $message->view = 'userPasswordRestore';
+          $message->setSubject(UserModule::t("You have requested a password reset for {site_name}", array(
+            '{site_name}'=>Yii::app()->name,)));
+          
+          //userModel is passed to the view
+          $message->setBody(array(
+            'user' => $user,
+            'site_name' => Yii::app()->name,
+            'activation_url' => $activation_url
+          ), 'text/html');
+           
+          $message->addTo($user->email);
+          $message->from = Yii::app()->params['adminEmail'];
+          Yii::app()->mail->send($message);
        
           if(Yii::app()->getRequest()->getIsAjaxRequest()) {
             $data = array();

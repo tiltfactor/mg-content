@@ -14,17 +14,18 @@ class ActivationController extends Controller
 		if ($email&&$activekey) {
 			$find = User::model()->notsafe()->findByAttributes(array('email'=>$email));
 			if (isset($find)&&$find->status) {
-			    $this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("You account is active.")));
+			    $this->render('/user/message',array('title'=>UserModule::t("Player activation"),'content'=>UserModule::t("Your account is active.")));
 			} elseif(isset($find->activekey) && ($find->activekey==$activekey)) {
 				$find->activekey = UserModule::encrypting(microtime());
 				$find->status = 1;
 				$find->save();
-			    $this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("You account is activated.")));
+        Flash::add("success", Yii::t('app', UserModule::t("Your account has been activated. You can now login")));
+        $this->redirect(Yii::app()->controller->module->loginUrl);
 			} else {
-			    $this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("Incorrect activation URL.")));
+			    $this->render('/user/message',array('title'=>UserModule::t("Player activation"),'content'=>UserModule::t("Incorrect activation URL.")));
 			}
 		} else {
-			$this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("Incorrect activation URL.")));
+			$this->render('/user/message',array('title'=>UserModule::t("Player activation"),'content'=>UserModule::t("Incorrect activation URL.")));
 		}
 	}
 

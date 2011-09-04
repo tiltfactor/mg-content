@@ -2,17 +2,13 @@
 $this->breadcrumbs=array(
 	UserModule::t("Profile"),
 );
-?><h2><?php echo UserModule::t('Your profile'); ?></h2>
-<ul class="actions">
-<?php echo $this->renderPartial('menu'); ?>
-<li><?php echo CHtml::link(UserModule::t('Change password'),array('changepassword')); ?></li>
-</ul>
 
-<?php if(Yii::app()->user->hasFlash('profileMessage')): ?>
-<div class="success">
-<?php echo Yii::app()->user->getFlash('profileMessage'); ?>
-</div>
-<?php endif; ?>
+$this->menu = array(
+  array('label'=>UserModule::t('Manage Players'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('dbmanager')),
+  array('label' => UserModule::t('Edit Profile'), 'url'=>array('profile/edit')),
+);
+?><h2><?php echo UserModule::t('Your profile'); ?></h2>
+
 <table class="dataGrid">
 <tr>
 	<th class="label"><?php echo CHtml::encode($model->getAttributeLabel('username')); ?></th>

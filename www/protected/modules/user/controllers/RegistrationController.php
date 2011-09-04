@@ -58,7 +58,20 @@ class RegistrationController extends Controller
 					$profile->save();
 					if (Yii::app()->controller->module->sendActivationMail) {
 						$activation_url = $this->createAbsoluteUrl('/user/activation/activation',array("activekey" => $model->activekey, "email" => $model->email));
-						UserModule::sendMail($model->email,UserModule::t("You registered from {site_name}",array('{site_name}'=>Yii::app()->name)),UserModule::t("Please activate you account go to {activation_url}",array('{activation_url}'=>$activation_url)));
+						
+						$message = new YiiMailMessage;
+            $message->view = 'userRegistrationConfirmation';
+            $message->setSubject(UserModule::t("You registered from {site_name}",array('{site_name}'=>Yii::app()->name)));
+            //userModel is passed to the view
+            $message->setBody(array(
+              'site_name' => Yii::app()->name,
+              'user' => $model,
+              'activation_url' => $activation_url
+            ), 'text/html');
+             
+            $message->addTo($model->email);
+            $message->from = Yii::app()->params['adminEmail'];
+            Yii::app()->mail->send($message);
 					}
 					
 					if ((Yii::app()->controller->module->loginNotActiv||(Yii::app()->controller->module->activeAfterRegister&&Yii::app()->controller->module->sendActivationMail==false))&&Yii::app()->controller->module->autoLogin) {
@@ -68,15 +81,20 @@ class RegistrationController extends Controller
 							$this->redirect(Yii::app()->controller->module->returnUrl);
 					} else {
 						if (!Yii::app()->controller->module->activeAfterRegister&&!Yii::app()->controller->module->sendActivationMail) {
-						  Flash::add('success', UserModule::t("Thank you for your registration. Contact Admin to activate your account."));
+						  $message = UserModule::t("Thank you for your registration. Contact Admin to activate your account.");
 						} elseif(Yii::app()->controller->module->activeAfterRegister&&Yii::app()->controller->module->sendActivationMail==false) {
-							Flash::add('success', UserModule::t("Thank you for your registration. Please {{login}}.",array('{{login}}'=>CHtml::link(UserModule::t('Login'),Yii::app()->controller->module->loginUrl))));
+							$message = UserModule::t("Thank you for your registration. Please {{login}}.",array('{{login}}'=>CHtml::link(UserModule::t('Login'),Yii::app()->controller->module->loginUrl)));
 						} elseif(Yii::app()->controller->module->loginNotActiv) {
-						  Flash::add('success', UserModule::t("Thank you for your registration. Please check your email or login."));
+						  $message = UserModule::t("Thank you for your registration. Please check your email or login.");
 						} else {
-						  Flash::add('success', UserModule::t("Thank you for your registration. Please check your email."));
+						  $message = UserModule::t("Thank you for your registration. Please check your email.");
 						}
-						$this->refresh();
+            $this->render('/user/registrationThankYou', array(
+              'model'=>$model,
+              'profile'=>$profile,
+              'message' => $message
+            ));
+            Yii::app()->end();
 					}
 				}
 			} else $profile->validate();

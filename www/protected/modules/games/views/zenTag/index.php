@@ -63,7 +63,12 @@
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
-  <p class="tag-info">New tag(s): <b>'${tags_new}'</b> scoring <b>${tags_new_score}</b> points<br/>Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b>.</p>
+</script>
+<script id="template-final-tags-new" type="text/x-jquery-tmpl">
+  <p class="tag-info">New tag(s): <b>'${tags_new}'</b> scoring <b>${tags_new_score}</b> point(s)</p>
+</script>
+<script id="template-final-tags-matched" type="text/x-jquery-tmpl">
+  <p class="tag-info">Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b> point(s).</p>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
   You'll be redirected in 10 seconds. <a href="${play_once_and_move_on_url}">Click here proceed right away.</a></p>
