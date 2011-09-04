@@ -31,7 +31,7 @@ class PlayerScores extends CPortlet
         $games = array();
       
       $this->render('playerScores', array(
-        'games' => GamesModule::getPlayerScores($user_id)
+        'games' => $games
       ));  
     }
   }

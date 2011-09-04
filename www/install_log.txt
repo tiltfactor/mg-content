@@ -64,8 +64,11 @@ PWD: player
 
 13. Goto Games and select zentag update
 14. Set zentag to active and check the all image set
-15. Go back to arcade 
-16. Choose Zentag and play ;-) 
+
+15. Goto import and upload some images
+
+16. Go back to arcade 
+17. Choose Zentag and play ;-) 
   Note: everytime the system shows a previously not shown image it has to create resized versions. Future responses will be faster.
   Note: Yes, at the moment images can repeat. There are plans to omit that.
   
