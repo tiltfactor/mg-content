@@ -29,26 +29,29 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       $used_images = array();
       $images = $this->getImages($imageSets, $game, $game_model);
       
-      $i = array_rand($images, 1);
+      if ($images && count($images) > 0) {
+        $i = array_rand($images, 1);
       
-      $path = Yii::app()->getBaseUrl(true) . Yii::app()->params['upload_url'];
-      $data["images"][] = array(
-        "image_id" => $images[$i]["id"],
-        "full_size" => $path . "/images/". $images[$i]["name"],
-        "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
-        "final_screen" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", 212, 171, 80, 10),
-        "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
-      );
-      $used_images[] = (int)$images[$i]["id"];
+        $path = Yii::app()->getBaseUrl(true) . Yii::app()->params['upload_url'];
+        $data["images"][] = array(
+          "image_id" => $images[$i]["id"],
+          "full_size" => $path . "/images/". $images[$i]["name"],
+          "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
+          "final_screen" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", 212, 171, 80, 10),
+          "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+        );
+        $used_images[] = (int)$images[$i]["id"];
+        
+        $this->setUsedImages($used_images, $game, $game_model);
       
+        $data["tags"] = array();
+        $data["tags"]["user"] = $tags;
+        
+        $data["licences"] = array(); // xxx implement
+        $data["wordstoavoid"] = array();
+      } else 
+        throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough images available'));
       
-      $this->setUsedImages($used_images, $game, $game_model);
-      
-      $data["tags"] = array();
-      $data["tags"]["user"] = $tags;
-      
-      $data["licences"] = array(); // xxx implement
-      $data["wordstoavoid"] = array();
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
