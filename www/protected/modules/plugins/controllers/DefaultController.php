@@ -141,21 +141,20 @@ class DefaultController extends GxController
         
     $listed_plugins = Plugin::model()->findAll();
     foreach ($available_plugins as $available_plugin) {
-      if (count($listed_plugins) > 0) {
-        $found = FALSE;
-        foreach ($listed_plugins as $listed_plugin) {
-          if ($listed_plugin->unique_id == $available_plugin["uid"]) {
-            $found = TRUE;
-            break;
-          } 
-        }
-        if(!$found) {
-          if ($this->addPlugin($available_plugin))
-            Flash::add("success", Yii::t('app', "New plugin of type {$available_plugin['type']} with the unique id {$available_plugin['uid']} registered."));
-        }
-      } else {
-        if ($this->addPlugin($available_plugin))
-          Flash::add("success", Yii::t('app', "New plugin of type {$available_plugin['type']} with the unique id {$available_plugin['uid']} registered."));
+      $found = FALSE;
+      foreach ($listed_plugins as $listed_plugin) {
+	if ($listed_plugin->unique_id == $available_plugin["uid"]) {
+	  $found = TRUE;
+	  break;
+	} 
+      }
+      if(!$found &&
+	 $this->addPlugin($available_plugin)) {
+	Flash::add("success",
+		   Yii::t('app',
+			  "New plugin of type {$available_plugin['type']} " .
+			  "with the unique id {$available_plugin['uid']} " .
+			  "registered."));
       }
     }
     
