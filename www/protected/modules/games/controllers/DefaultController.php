@@ -70,13 +70,13 @@ class DefaultController extends Controller
         }
         if (!$found) {
           $this->addGame($game);
-          Flash::add("success", Yii::t('app', "New game {$game} registerd."));
+          Flash::add("success", Yii::t('app', "New game {$game} registered."));
         }
       }
     } else {
       foreach ($games as $game) {
         $this->addGame($game);
-        Flash::add("success", Yii::t('app', "New game {$game} registerd."));
+        Flash::add("success", Yii::t('app', "New game {$game} registered."));
       }
     }
     
