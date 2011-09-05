@@ -102,6 +102,12 @@ $requirements=array(
 		extension_loaded("soap"),
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
+  array(
+    t('yii','GD extension in Version 2'),
+    checkGDVersion(),
+    !checkGDVersion(),
+    'MG Image Resizing',
+    ''),
 	array(
 		t('yii','GD extension with<br />FreeType support'),
 		false,
@@ -117,6 +123,18 @@ $requirements=array(
 		''
 	)
 );
+
+function checkGDVersion() {
+  $flag = true;
+  if(extension_loaded('gd')) {
+    $gdinfo=gd_info();
+    if (strpos($gdinfo['GD Version'], '2.') !== FALSE || strpos($gdinfo['GD Version'], '3.') !== FALSE) {
+      $flag = false;
+    }
+  }
+  return $flag;
+}
+
 
 function checkServerVar()
 {
