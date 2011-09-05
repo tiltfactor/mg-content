@@ -198,7 +198,10 @@ class ImportController extends GxController {
         }          
         
         Flash::add("success", Yii::t('app', '{total} files found in \'/uploads/ftp\' folder, {num} images imported, {num_skipped} other files skipped', array("{total}" => $cnt_added + $cnt_skipped, "{num}" => $cnt_added, "{num_skipped}" => $cnt_skipped)));
-        Flash::add("warning", Yii::t('app', 'The {num_skipped} files that are still in the \'/uploads/ftp\' folder cannot be imported and should therfore manually removed!', array("{total}" => $cnt_added + $cnt_skipped, "{num}" => $cnt_added, "{num_skipped}" => $cnt_skipped)), true);
+        
+        if ($cnt_skipped > 0)
+          Flash::add("warning", Yii::t('app', 'The {num_skipped} files that are still in the \'/uploads/ftp\' folder cannot be imported and should therfore be manually removed!', array("{total}" => $cnt_added + $cnt_skipped, "{num}" => $cnt_added, "{num_skipped}" => $cnt_skipped)), true);
+        
         $this->redirect("uploadprocess");
       }
     }
@@ -425,8 +428,10 @@ class ImportController extends GxController {
     $image->created = date('Y-m-d H:i:s'); 
     $image->modified = date('Y-m-d H:i:s');
     $image->locked = 0; 
-    
-    $image->save(); 
+    $relatedData = array(
+      'imageSets' => array(1),
+    );
+    $model->saveWithRelated($relatedData); 
     
     MGHelper::log('import-uploadfromlocal', 'Created Image with ID(' . $image->id . ')');
     

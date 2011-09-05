@@ -674,10 +674,6 @@ CREATE INDEX `fk_game_partner_session1` ON `game_partner` (`session_id` ASC) ;
 
 CREATE INDEX `fk_game_partner_game1` ON `game_partner` (`game_id` ASC) ;
 
-
-CREATE USER `metadatagames` IDENTIFIED BY 'metadatagames';
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

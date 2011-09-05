@@ -115,11 +115,27 @@ class XUploadWidget extends CJuiInputWidget {
 	}
   
   private function _getInlineScript($id) {
+    
+    $size_str = ini_get('upload_max_filesize');
+    $int_size = 0;
+    switch (substr ($size_str, -1))
+    {
+        case 'M': case 'm': 
+          $int_size = (int)$size_str * 1048576;
+          break;
+        case 'K': case 'k': $int_size = (int)$size_str * 1024;
+          break;
+        case 'G': case 'g': $int_size = (int)$size_str * 1073741824;
+          break;
+        default: $int_size = (int)$size_str;
+          break;
+    }
     $output = <<<EOD
     // Initialize the jQuery File Upload widget:
     \$('#$id').fileupload({
       acceptFileTypes :/^image\\/(jpg|jpeg)\$/,
-      send : function () {if (\$('#batch_id').val().trim() == "") {return false;}}
+      send : function () {if (\$('#batch_id').val().trim() == "") {return false;}},
+      maxFileSize : $int_size
     });
 
     // Open download dialogs via iframes,

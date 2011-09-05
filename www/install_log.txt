@@ -60,7 +60,10 @@ PWD: player
 
 11. Goto admin tools
 
+11. Goto Plugins/Manage Plugins and enable the available import plugins
+
 12. Use the import tools to upload some images into the system.  
+13. Process the uploaded images to make them available for the games. 
 
 13. Goto Games and select zentag update
 14. Set zentag to active and check the all image set
