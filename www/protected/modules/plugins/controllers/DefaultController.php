@@ -151,11 +151,11 @@ class DefaultController extends GxController
         }
         if(!$found) {
           if ($this->addPlugin($available_plugin))
-            Flash::add("success", Yii::t('app', "New plugin of type {$available_plugin['type']} with the unique id {$available_plugin['uid']} registerd."));
+            Flash::add("success", Yii::t('app', "New plugin of type {$available_plugin['type']} with the unique id {$available_plugin['uid']} registered."));
         }
       } else {
         if ($this->addPlugin($available_plugin))
-          Flash::add("success", Yii::t('app', "New plugin of type {$available_plugin['type']} with the unique id {$available_plugin['uid']} registerd."));
+          Flash::add("success", Yii::t('app', "New plugin of type {$available_plugin['type']} with the unique id {$available_plugin['uid']} registered."));
       }
     }
     
