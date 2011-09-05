@@ -48,7 +48,7 @@ foreach ($this->tableSchema->columns as $column) {
     case "locked":
       echo "\t\t array(
           'name' => '{$column->name}',
-          'type' => 'image',
+          'type' => 'raw',
           'value' => MGHelper::itemAlias('{$column->name}',\$model->{$column->name}),
         ),\n";
       break;

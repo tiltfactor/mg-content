@@ -27,7 +27,7 @@ $this->menu=array(
 'counter',
 		 array(
           'name' => 'active',
-          'type' => 'image',
+          'type' => 'raw',
           'value' => MGHelper::itemAlias('active',$model->active),
         ),
 'created',

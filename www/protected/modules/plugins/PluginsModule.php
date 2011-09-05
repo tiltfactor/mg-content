@@ -70,22 +70,37 @@ class PluginsModule extends CWebModule
   /**
    * This method lists all active plug-ins the current user has got access to.
    */
-  public static function getAccessiblePlugins($active=1) {
+  public static function getAccessiblePlugins($type=null, $active=1) {
     $plugins = Plugin::model()->findAll('active=:a', array(':a'=>$active));
     $list = array();
     foreach ($plugins as $plugin) {
       try {
+      
         $info = split("-", $plugin->unique_id);
-        $type = $info[0];
-        $class = $info[1];
-        $component_name = str_replace("Plugin", "", $class);
-        $component = Yii::createComponent($class);
+        $plugin_type = $info[0];
+        $plugin_class = $info[1];
+        
+        Yii::import("plugins.modules.$plugin_type.components.*");
+        Yii::import("plugins.modules.$plugin_type.models.*");
+        
+        $component_name = str_replace("Plugin", "", $plugin_class);
+        $component = Yii::createComponent($plugin_class);
         
         if (Yii::app()->user->checkAccess($component->accessRole)) {
-          $list[] = (object) array('id' => null, 'name' => $component_name, 'link' => self::pluginAdminLink($plugin->unique_id));    
+          if (is_null($type) || $type == $plugin_type) {
+            $list[] = (object) array(
+              'id' => null, 
+              'type' => $plugin_type, 
+              'name' => $component_name, 
+              'link' => self::pluginAdminLink($plugin->unique_id),
+              'class' => $plugin_class,
+              'component' => $component
+            );
+          }
         }
       } catch (Exception $e) {}
     }
+    
     return $list;
   }
 }

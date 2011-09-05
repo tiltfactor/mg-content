@@ -14,17 +14,16 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-    <div class="row">
-    <?php echo $form->labelEx($model,'title'); ?>
-    <?php echo $form->textField($model, 'title', array('maxlength' => 45)); ?>
-    <?php echo $form->error($model,'title'); ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php echo $form->labelEx($model,'points'); ?>
-    <?php echo $form->textField($model, 'points'); ?>
-    <?php echo $form->error($model,'points'); ?>
-    </div><!-- row -->
-
+  <div class="row">
+  <?php echo $form->labelEx($model,'title'); ?>
+  <?php echo $form->textField($model, 'title', array('maxlength' => 45)); ?>
+  <?php echo $form->error($model,'title'); ?>
+  </div><!-- row -->
+  <div class="row">
+  <?php echo $form->labelEx($model,'points'); ?>
+  <?php echo $form->textField($model, 'points'); ?>
+  <?php echo $form->error($model,'points'); ?>
+  </div><!-- row -->
 
 <?php
 echo GxHtml::submitButton($buttons);

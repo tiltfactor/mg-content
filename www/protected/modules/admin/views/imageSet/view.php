@@ -22,25 +22,30 @@ $this->menu=array(
 	'data' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
   'attributes' => array(
-'id',
-'name',
+  'id',
+  'name',
 		 array(
           'name' => 'locked',
-          'type' => 'image',
+          'type' => 'raw',
           'value' => MGHelper::itemAlias('locked',$model->locked),
         ),
-'more_information',
-array(
+  'more_information',
+    array(
 			'name' => 'licence',
 			'type' => 'raw',
 			'value' => $model->licence !== null ? GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->licence)), array('licence/view', 'id' => GxActiveRecord::extractPkValue($model->licence, true))) : null,
 			),
-'created',
-'modified',
+  'created',
+  'modified',
+  array (
+    'name' => 'images',
+    'type' => 'html',
+    'value' => '<b>' . Yii::t('app', 'This image set contains {count} images: ', array("{count}" => count($model->images))) . CHtml::link(Yii::t('app', 'view'), array('/admin/image')) . ' xxx implement link</b>',
+  )
 	),
 )); ?>
 
-<h2><?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
+<h2>Used by the following <?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
 <?php
 	echo GxHtml::openTag('ul');
 	
@@ -51,20 +56,6 @@ array(
 	foreach($model->games as $relatedModel) {
 		echo GxHtml::openTag('li');
 		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('game/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
-?><h2><?php echo GxHtml::encode($model->getRelationLabel('images')); ?></h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->images) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->images as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('image/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
 		echo GxHtml::closeTag('li');
 	}
 	echo GxHtml::closeTag('ul');

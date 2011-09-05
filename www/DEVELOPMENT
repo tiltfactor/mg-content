@@ -23,6 +23,7 @@ USED Libraries
 JQuery http://jquery.org/ MIT/GPL 
 JQuery UI http://jqueryui.com/ MIT/GPL
 FancyBox http://fancybox.net/  MIT/GPL
+http://www.phpconcept.net/pclzip GPL
 
 Used CSS N 
   http://blueprintcss.org/ 
@@ -45,6 +46,8 @@ http://www.yiiframework.com/extension/mail/ New BSD
 http://www.yiiframework.com/extension/xupload MIT 
   which includes  https://github.com/blueimp/jQuery-File-Upload MIT
   
+  
+ 
   
 
 NOT sure if used

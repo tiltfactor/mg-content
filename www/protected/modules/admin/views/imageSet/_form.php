@@ -46,14 +46,18 @@
     <?php echo $model->modified; ?>
     <?php endif; ?>
     </div><!-- row -->
-
+<?php if (Yii::app()->user->checkAccess('dbmanager')) : // xxx check confirm role ?>    
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
-		<?php echo $form->checkBoxList($model, 'games', GxHtml::encodeEx(GxHtml::listDataEx(Game::model()->findAllAttributes(null, true)), false, true)); ?>
-		<h2><?php echo GxHtml::encode($model->getRelationLabel('images')); ?></h2>
-		<?php echo $form->checkBoxList($model, 'images', GxHtml::encodeEx(GxHtml::listDataEx(Image::model()->findAllAttributes(null, true)), false, true)); ?>
+		<div class="row clearfix">
+		<?php echo $form->checkBoxList($model, 'games', GxHtml::encodeEx(GxHtml::listDataEx(Game::model()->findAllAttributes(null, true)), false, true), 
+        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+    </div><!-- row -->
+<?php endif;?>		
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
-		<?php echo $form->checkBoxList($model, 'subjectMatters', GxHtml::encodeEx(GxHtml::listDataEx(SubjectMatter::model()->findAllAttributes(null, true)), false, true)); ?>
-
+		<div class="row clearfix">
+    <?php echo $form->checkBoxList($model, 'subjectMatters', GxHtml::encodeEx(GxHtml::listDataEx(SubjectMatter::model()->findAllAttributes(null, true)), false, true), 
+        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+    </div><!-- row -->
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

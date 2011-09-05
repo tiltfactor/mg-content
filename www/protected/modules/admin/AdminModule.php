@@ -12,6 +12,11 @@ class AdminModule extends CWebModule
 			'admin.models.*', // all models representing database tables are stores in application.models to keep them easily re-usable
 			'admin.components.*',
 		));
+    
+    $this->setComponents(array('pclzip'=>array(
+        'class'=>'application.extensions.pclzip.EPCLZip',
+      )
+    ));
 	}
   
   public function getAdminToolsSubMenuLinks() {

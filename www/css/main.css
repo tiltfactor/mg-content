@@ -286,3 +286,31 @@ ul#arcade-games a.image {
   background:url(../images/ajax-loader.gif) center center no-repeat #000;
 }
 
+#XUploadForm_form_container div.row {
+  margin-bottom: 10px;
+}
+
+#import-process {
+  float: right;
+}
+
+.grid-view td.image {
+  line-height:60px;
+}
+
+.grid-view td.image img {
+  float:left;
+  margin-right:10px;
+  vertical-align: bottom;
+}
+
+.grid-view td.image span {
+  font-weight: bold;
+  line-height: 16px;
+}
+
+.form h2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0 5px 0;
+}

@@ -134,7 +134,7 @@ class BlockedIpController extends GxController {
     if (isset($_POST['blocked-ip-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['blocked-ip-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted BlockedIp with IDs(' . implode(',', $_POST['blocked-ip-ids']) . ')');
+      MGHelper::log('batch-delete', 'Batch deleted BlockedIp with IDs(' . implode(',', $_POST['blocked-ip-ids']) . ')');
         
       $model = new BlockedIp;
       $model->deleteAll($criteria);

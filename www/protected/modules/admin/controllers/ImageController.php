@@ -121,7 +121,6 @@ class ImageController extends GxController {
 		));
 	}
   
-  
   public function actionBatch($op) {
     if (Yii::app()->getRequest()->getIsPostRequest()) {
       switch ($op) {
@@ -134,17 +133,5 @@ class ImageController extends GxController {
     } else
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
     
-  }
-
-  private function _batchDelete() {
-    if (isset($_POST['image-ids'])) {
-      $criteria=new CDbCriteria;
-      $criteria->addInCondition("id", $_POST['image-ids']);
-      $criteria->addInCondition("locked", array(0));      MGHelper::log('batch-delete', 'Batch deleted Image with IDs(' . implode(',', $_POST['image-ids']) . ')');
-        
-      $model = new Image;
-      $model->deleteAll($criteria);
-        
-    } 
   }
 }

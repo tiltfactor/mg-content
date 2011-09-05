@@ -34,7 +34,7 @@ $this->menu=array(
 'last_access',
 		 array(
           'name' => 'locked',
-          'type' => 'image',
+          'type' => 'raw',
           'value' => MGHelper::itemAlias('locked',$model->locked),
         ),
 'created',

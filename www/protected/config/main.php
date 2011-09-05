@@ -21,6 +21,7 @@ return array(
     'ext.yii-flash.*',
     'application.helpers.*',
     'application.modules.games.*',
+    'application.modules.plugins.*',
     'application.modules.plugins.components.*',
     'ext.yii-mail.YiiMailMessage',
 	),

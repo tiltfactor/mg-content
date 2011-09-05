@@ -133,7 +133,7 @@ class BadgeController extends GxController {
     if (isset($_POST['badge-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['badge-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted Badge with IDs(' . implode(',', $_POST['badge-ids']) . ')');
+      MGHelper::log('batch-delete', 'Batch deleted Badge with IDs(' . implode(',', $_POST['badge-ids']) . ')');
         
       $model = new Badge;
       $model->deleteAll($criteria);

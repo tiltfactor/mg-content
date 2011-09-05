@@ -134,7 +134,8 @@ class TagController extends GxController {
     if (isset($_POST['tag-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['tag-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted Tag with IDs(' . implode(',', $_POST['tag-ids']) . ')');
+            
+      MGHelper::log('batch-delete', 'Batch deleted Tag with IDs(' . implode(',', $_POST['tag-ids']) . ')');
         
       $model = new Tag;
       $model->deleteAll($criteria);

@@ -81,16 +81,21 @@
 			}
 		}
 ?>
-  <label><?php echo GxHtml::encode($model->getRelationLabel('logs')); ?></label>
-  <?php echo $form->checkBoxList($model, 'logs', GxHtml::encodeEx(GxHtml::listDataEx(Log::model()->findAllAttributes(null, true)), false, true)); ?>
-  <label><?php echo GxHtml::encode($model->getRelationLabel('sessions')); ?></label>
-  <?php echo $form->checkBoxList($model, 'sessions', GxHtml::encodeEx(GxHtml::listDataEx(Session::model()->findAllAttributes(null, true)), false, true)); ?>
-  <label><?php echo GxHtml::encode($model->getRelationLabel('games')); ?></label>
-  <?php echo $form->checkBoxList($model, 'games', GxHtml::encodeEx(GxHtml::listDataEx(Game::model()->findAllAttributes(null, true)), false, true)); ?>
-  <label><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></label>
-  <?php echo $form->checkBoxList($model, 'subjectMatters', GxHtml::encodeEx(GxHtml::listDataEx(SubjectMatter::model()->findAllAttributes(null, true)), false, true)); ?>
-
-
+  <div class="row clearfix">
+  <h2><?php echo GxHtml::encode($model->getRelationLabel('sessions')); ?></h2>
+  <?php echo $form->checkBoxList($model, 'sessions', GxHtml::encodeEx(GxHtml::listDataEx(Session::model()->findAllAttributes(null, true)), false, true), 
+        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+  </div><!-- row -->
+  <div class="row clearfix">
+  <h2><?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
+  <?php echo $form->checkBoxList($model, 'games', GxHtml::encodeEx(GxHtml::listDataEx(Game::model()->findAllAttributes(null, true)), false, true), 
+        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+  </div><!-- row -->
+  <div class="row clearfix">
+  <h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
+  <?php echo $form->checkBoxList($model, 'subjectMatters', GxHtml::encodeEx(GxHtml::listDataEx(SubjectMatter::model()->findAllAttributes(null, true)), false, true), 
+        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+  </div><!-- row -->
 <?php
 echo GxHtml::submitButton(Yii::t('app', 'Save'));
 $this->endWidget();

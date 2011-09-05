@@ -132,7 +132,7 @@ class LogController extends GxController {
     if (isset($_POST['log-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['log-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted Log with IDs(' . implode(',', $_POST['log-ids']) . ')');
+      MGHelper::log('batch-delete', 'Batch deleted Log with IDs(' . implode(',', $_POST['log-ids']) . ')');
         
       $model = new Log;
       $model->deleteAll($criteria);

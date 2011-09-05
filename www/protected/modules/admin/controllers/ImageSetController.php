@@ -144,7 +144,8 @@ class ImageSetController extends GxController {
     if (isset($_POST['image-set-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['image-set-ids']);
-      $criteria->addInCondition("locked", array(0));      MGHelper::log('batch-delete', 'Batch deleted ImageSet with IDs(' . implode(',', $_POST['image-set-ids']) . ')');
+      $criteria->addInCondition("locked", array(0));      
+      MGHelper::log('batch-delete', 'Batch deleted ImageSet with IDs(' . implode(',', $_POST['image-set-ids']) . ')');
         
       $model = new ImageSet;
       $model->deleteAll($criteria);

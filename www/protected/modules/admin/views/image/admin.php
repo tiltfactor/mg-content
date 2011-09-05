@@ -43,21 +43,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
 	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-	'selectableRows'=>2,
 	'columns' => array(
-	  array(
-      'class'=>'CCheckBoxColumn',
-      'id'=>'image-ids',
-    ),
-		 array(
-          'name' => 'name',
-          'type' => 'image',
-          'value' => 'Yii::app()->getBaseUrl() . Yii::app()->params[\'upload_url\'] . \'/thumbs/\'. $data->name',
-        ),
+    array(
+        'name' => 'name',
+        'cssClassExpression' => '"image"',
+        'type'=>'html',
+        'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->params[\'upload_url\'] . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
+      ),
 		'size',
-		'mime_type',
 		'batch_id',
 		'last_access',
+		'created',
 		/*
 		 array(
         'name' => 'locked',
@@ -65,7 +61,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'value' => 'MGHelper::itemAlias(\'locked\',$data->locked)',
         'filter'=> MGHelper::itemAlias('locked'),
       ),
-		'created',
+		
 		'modified',
 		*/
     array (

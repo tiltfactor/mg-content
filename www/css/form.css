@@ -158,3 +158,32 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 	clear: left;
 	padding-left: 110px;
 }
+
+fieldset {
+  margin-top:10px;
+}
+
+fieldset legend {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+div.checkbox {
+  float: left;
+  margin:0px 5px 5px 0px;
+  white-space:nowrap;
+}
+
+div.checkbox input,
+div.checkbox label {
+  float:left;
+}
+
+div.checkbox label {
+  margin:2px 5px 5px 5px
+}
+
+a.search-button {
+  display:block;
+  margin-bottom:10px;
+}

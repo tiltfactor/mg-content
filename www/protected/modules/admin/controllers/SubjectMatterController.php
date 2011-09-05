@@ -142,7 +142,8 @@ class SubjectMatterController extends GxController {
     if (isset($_POST['subject-matter-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['subject-matter-ids']);
-      $criteria->addInCondition("locked", array(0));      MGHelper::log('batch-delete', 'Batch deleted SubjectMatter with IDs(' . implode(',', $_POST['subject-matter-ids']) . ')');
+      $criteria->addInCondition("locked", array(0));      
+      MGHelper::log('batch-delete', 'Batch deleted SubjectMatter with IDs(' . implode(',', $_POST['subject-matter-ids']) . ')');
         
       $model = new SubjectMatter;
       $model->deleteAll($criteria);

@@ -33,7 +33,9 @@
     </div><!-- row -->
 
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('tagUses')); ?></h2>
-		<?php echo $form->checkBoxList($model, 'tagUses', GxHtml::encodeEx(GxHtml::listDataEx(TagUse::model()->findAllAttributes(null, true)), false, true)); ?>
+		<div class="row clearfix">
+		<?php echo $form->checkBoxList($model, 'tagUses', GxHtml::encodeEx(GxHtml::listDataEx(TagUse::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
+		</div><!-- row -->
 
 <?php
 echo GxHtml::submitButton($buttons);

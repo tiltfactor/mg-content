@@ -65,6 +65,11 @@ class XUploadWidget extends CJuiInputWidget {
     
     echo "\t" . CHtml::tag("div", array("id"=> $this->htmlOptions['id'] . "_container"), FALSE, FALSE);
       echo "\t\t" . CHtml::beginForm($this->url, 'post', array("enctype" => $this->htmlOptions['enctype']));
+        echo "\t\t\t" . CHtml::tag("div", array("class"=>"row"), '', FALSE);
+          echo "\t\t\t\t" . CHtml::label(Yii::t('app', 'Batch ID'), "batch_id");
+          echo "\t\t\t\t" . CHtml::textField("batch_id", "B-" . date('Y-m-d-H:i:s'), array("id" => "batch_id"));
+          echo "\t\t\t\t" . CHtml::tag("small", array(), Yii::t('app', 'The batch id will help you to distinguish images on the import process page'), TRUE);
+        echo "\t\t\t" . "</div>";
         echo "\t\t\t" . CHtml::tag("div", array("class"=>"fileupload-buttonbar"), '', FALSE);
           echo "\t\t\t\t" . CHtml::tag("label", array("class"=>"fileinput-button"), '', FALSE);
             echo "\t\t\t\t\t" . CHtml::tag("span", array(), Yii::t('app', "Add files..."));
@@ -75,6 +80,8 @@ class XUploadWidget extends CJuiInputWidget {
               echo "\t\t\t\t\t" . CHtml::fileField($name,$this->value, array("multiple"=>"multiple"));
             }
           echo "</label>";
+          echo "\t\t\t\t" . CHtml::tag("button", array("type"=>"submit", "class"=>"start"), Yii::t('app', 'Start upload'), TRUE);
+          echo "\t\t\t\t" . CHtml::tag("button", array("type"=>"reset", "class"=>"cancel"), Yii::t('app', 'Cancel upload'), TRUE);
         echo "\t\t\t" . "</div>";
       echo "\t\t" . CHtml::endForm();
       echo "\t\t" . CHtml::tag("div", array("class"=>"fileupload-content"), FALSE, FALSE);
@@ -111,8 +118,8 @@ class XUploadWidget extends CJuiInputWidget {
     $output = <<<EOD
     // Initialize the jQuery File Upload widget:
     \$('#$id').fileupload({
-      acceptFileTypes :/^image\\/(gif|jpeg|png)\$/,
-      autoUpload: true
+      acceptFileTypes :/^image\\/(jpg|jpeg)\$/,
+      send : function () {if (\$('#batch_id').val().trim() == "") {return false;}}
     });
 
     // Open download dialogs via iframes,

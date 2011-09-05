@@ -26,7 +26,7 @@ $this->menu=array(
 'name',
 		 array(
           'name' => 'locked',
-          'type' => 'image',
+          'type' => 'raw',
           'value' => MGHelper::itemAlias('locked',$model->locked),
         ),
 'created',
@@ -45,20 +45,6 @@ $this->menu=array(
 	foreach($model->imageSets as $relatedModel) {
 		echo GxHtml::openTag('li');
 		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
-?><h2><?php echo GxHtml::encode($model->getRelationLabel('users')); ?></h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->users) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->users as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('user/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
 		echo GxHtml::closeTag('li');
 	}
 	echo GxHtml::closeTag('ul');

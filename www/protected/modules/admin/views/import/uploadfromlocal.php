@@ -18,3 +18,5 @@ $this->widget('ext.xupload.XUploadWidget', array(
                     'attribute' => 'file',
 ));
 ?>
+
+<p><?php echo CHtml::link(Yii::t('app', "All uploads done? Click here to process uploaded images"), "uploadprocess", array("id"=> "import-local-upload-process")); ?></p>

@@ -40,14 +40,16 @@ class MGGame extends CComponent {
     
     // for performance reasons we use a direct db query to load the images.
     // no need to load the models
+    // Remember: to use image.locked=1 to make sure to only show imported images 
     // xxx test distinct xxx rewrite to use proper InCondition like tags
+    
     $images = Yii::app()->db->createCommand()
                 ->select('id, name', 'distinct')
                 ->from('{{image_set_to_image}} is2i')
                 ->join('{{image}} i', 'i.id=is2i.image_id')
                 ->where('is2i.image_set_id in (:ids)', array(':ids'=>implode(",", $imageSets)))
                 ->queryAll();
-    
+    //xxx add i.locked=1 AND 
     //xxx  make something with it.
     $used_images = $this->getUsedImages($game, $game_model);
     

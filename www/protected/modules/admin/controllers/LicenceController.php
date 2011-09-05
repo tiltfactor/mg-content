@@ -134,7 +134,8 @@ class LicenceController extends GxController {
     if (isset($_POST['licence-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['licence-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted Licence with IDs(' . implode(',', $_POST['licence-ids']) . ')');
+            
+      MGHelper::log('batch-delete', 'Batch deleted Licence with IDs(' . implode(',', $_POST['licence-ids']) . ')');
         
       $model = new Licence;
       $model->deleteAll($criteria);

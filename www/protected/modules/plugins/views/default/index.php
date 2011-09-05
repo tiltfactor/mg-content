@@ -16,9 +16,11 @@ $this->menu = $arr_menu;
   'id' => 'plugin-grid',
   'dataProvider' => $dataProvider,
   'columns' => array(
+    'type',
     'name',
     array(
       'name' => 'link',
+      'header' => Yii::t('app', 'Admin Tool'),
       'type' => 'html',
     )
   ),

@@ -94,7 +94,7 @@ class MGHelper {
     $file_info = pathinfo($name);
     
     if ($new_name == "") {
-      $new_name = $file_info["filename"] . "_" . $width . "_" . $height . "." . $file_info["extension"];
+      $new_name = $file_info["filename"] . ".mg-scaled." . $width . "_" . $height . "." . $file_info["extension"];
     }
     if (!file_exists($path. '/' . $folder . '/' . $new_name)) {
       $imgCPNT = Yii::app()->image->load($path . "/images/" . $name);

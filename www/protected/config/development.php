@@ -20,6 +20,7 @@ return array(
     'ext.components.*',
     'ext.yii-flash.*',
     'application.helpers.*',
+    'application.modules.plugins.*',
     'application.modules.games.*',
     'application.modules.plugins.components.*',
     'ext.yii-mail.YiiMailMessage',

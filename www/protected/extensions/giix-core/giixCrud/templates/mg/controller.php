@@ -143,6 +143,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['<?php echo $this->class2id($this->modelClass)?>-ids']);
       <?php echo ($this->tableSchema->getColumn("locked") !== null)? "\$criteria->addInCondition(\"locked\", array(0));" : ""; ?>
+      
       MGHelper::log('batch-delete', 'Batch deleted <?php echo $this->modelClass; ?> with IDs(' . implode(',', $_POST['<?php echo $this->class2id($this->modelClass)?>-ids']) . ')');
         
       $model = new <?php echo $this->modelClass; ?>;

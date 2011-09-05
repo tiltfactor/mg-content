@@ -134,7 +134,7 @@ class StopWordController extends GxController {
     if (isset($_POST['stop-word-ids'])) {
       $criteria=new CDbCriteria;
       $criteria->addInCondition("id", $_POST['stop-word-ids']);
-            MGHelper::log('batch-delete', 'Batch deleted StopWord with IDs(' . implode(',', $_POST['stop-word-ids']) . ')');
+      MGHelper::log('batch-delete', 'Batch deleted StopWord with IDs(' . implode(',', $_POST['stop-word-ids']) . ')');
         
       $model = new StopWord;
       $model->deleteAll($criteria);

@@ -88,10 +88,11 @@
     <?php echo $form->textField($model,'image_height'); ?>
     <?php echo $form->error($model,'image_height'); ?>
   </div>
-  
+  <div class="row clearfix">
   <h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
-  <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true)); ?>
-    
+  <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), 
+        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+  </div> 
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

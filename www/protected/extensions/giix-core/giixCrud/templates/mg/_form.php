@@ -83,7 +83,9 @@ endif; ?>
 <?php foreach ($this->getRelations($this->modelClass) as $relation): ?>
 <?php if ($relation[1] == GxActiveRecord::HAS_MANY || $relation[1] == GxActiveRecord::MANY_MANY): ?>
 		<h2><?php echo '<?php'; ?> echo GxHtml::encode($model->getRelationLabel('<?php echo $relation[0]; ?>')); ?></h2>
-		<?php echo '<?php ' . $this->generateActiveRelationField($this->modelClass, $relation) . "; ?>\n"; ?>
+		<div class="row clearfix">
+		<?php echo '<?php '  . $this->generateActiveRelationField($this->modelClass, $relation) ."; ?>\n"; ?>
+		</div><!-- row -->
 <?php endif; ?>
 <?php endforeach; ?>
 

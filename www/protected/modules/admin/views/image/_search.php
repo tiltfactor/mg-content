@@ -16,11 +16,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'mime_type'); ?>
-		<?php echo $form->textField($model, 'mime_type', array('maxlength' => 45)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model, 'batch_id'); ?>
 		<?php echo $form->textField($model, 'batch_id', array('maxlength' => 45)); ?>
 	</div>
