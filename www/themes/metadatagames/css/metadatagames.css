@@ -306,3 +306,37 @@ tbody tr.even td {
 }
 
 #stage {display: none;}
+
+.badge {
+  width:50px;
+  float: left;
+  margin-right:10px;
+}
+
+.badge div {
+  width:42px;
+  height:50px;
+  margin:0 auto 5px auto;
+  background: url(../images/badges.png) 0px 0px no-repeat transparent;
+}
+
+.badge.inactive #badge-id-1 {background-position: 0px 0px;}
+.badge.active #badge-id-1 {background-position: -42px 0px;}
+.badge.inactive #badge-id-2 {background-position: 0px -50px;}
+.badge.active #badge-id-2 {background-position: -42px -50px;}
+.badge.inactive #badge-id-3 {background-position: 0px -100px;}
+.badge.active #badge-id-3 {background-position: -42px -100px;}
+.badge.inactive #badge-id-4 {background-position: 0px -150px;}
+.badge.active #badge-id-4 {background-position: -42px -150px;}
+
+.badge span {
+  display: block;
+  text-align:center;
+  font-size:10px;
+}
+.badge.active span {
+  color:#000;
+}
+.badge.inactive span {
+  color:#ccc;
+}

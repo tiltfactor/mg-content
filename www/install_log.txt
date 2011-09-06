@@ -1,3 +1,5 @@
+git pull git://gitorious.org/metadatagames/metadatagames.git refs/merge-requests/1
+
 1. create database and db user
 2. Copy everything that is in /www onto the server's web root.
 3. Goto /requirements and check that everything is ok

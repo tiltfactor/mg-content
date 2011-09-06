@@ -428,10 +428,11 @@ class ImportController extends GxController {
     $image->created = date('Y-m-d H:i:s'); 
     $image->modified = date('Y-m-d H:i:s');
     $image->locked = 0; 
+    
     $relatedData = array(
       'imageSets' => array(1),
     );
-    $model->saveWithRelated($relatedData); 
+    $image->saveWithRelated($relatedData); 
     
     MGHelper::log('import-uploadfromlocal', 'Created Image with ID(' . $image->id . ')');
     

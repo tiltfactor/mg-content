@@ -68,6 +68,9 @@ class UserController extends Controller
 	{
 		$model=new User;
 		$profile=new Profile;
+    
+    // how to enable ajax for users
+    
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];

@@ -166,6 +166,8 @@ class FBVStorage extends CApplicationComponent {
     
     if ($c > 0)
       $this->saveToFile(FBVStorage::$data, $this->settingsFile);
+    
+    return true;
   }
   
   /**
@@ -247,6 +249,7 @@ class FBVStorage extends CApplicationComponent {
     
     if ($c > 0)
       $this->saveToFile(FBVStorage::$data, $this->settingsFile);
+    
   }
   
   /**

@@ -1,7 +1,7 @@
 <div class="form">
 
 <?php $form = $this->beginWidget('GxActiveForm', array(
-  'id' => 'users-form',
+  'id' => 'user-form',
   'enableAjaxValidation' => false,
     'clientOptions'=>array('validateOnSubmit'=>true),
 ));

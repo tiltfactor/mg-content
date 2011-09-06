@@ -674,6 +674,8 @@ CREATE INDEX `fk_game_partner_session1` ON `game_partner` (`session_id` ASC) ;
 
 CREATE INDEX `fk_game_partner_game1` ON `game_partner` (`game_id` ASC) ;
 
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
@@ -710,6 +712,17 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvis
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (2, 'dbmanager', 'a945e003507368542f40f13b3076ca6f', 'dbmanager@dbmanager.com', 'b58e465dcb47f8459439cf54535bc8ae', NULL, 'dbmanager', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (3, 'editor', '5aee9dbd2a188839105073571bee1b1f', 'editor@editor.com', '52c200c7ca710d13f2ba1bea3788723c', NULL, 'editor', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `activekey`, `lastvisit`, `role`, `status`, `edited_count`, `created`, `modified`) VALUES (4, 'player', '912af0dff974604f1321254ca8ff38b6', 'player@player.com', 'd3f33d7d0e80bbe3004adc82fc9e779c', NULL, 'player', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `badge`
+-- -----------------------------------------------------
+START TRANSACTION;
+INSERT INTO `badge` (`id`, `title`, `points`) VALUES (1, 'Alpha', 100);
+INSERT INTO `badge` (`id`, `title`, `points`) VALUES (2, 'Beta', 500);
+INSERT INTO `badge` (`id`, `title`, `points`) VALUES (3, 'Gamma', 1000);
+INSERT INTO `badge` (`id`, `title`, `points`) VALUES (4, 'Delta', 2000);
 
 COMMIT;
 

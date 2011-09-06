@@ -15,7 +15,7 @@ class GamesModule extends CWebModule
 			'games.components.*',
 		));
 	}
-
+  
 	public function beforeControllerAction($controller, $action)
 	{
 		if(parent::beforeControllerAction($controller, $action))
@@ -204,35 +204,41 @@ class GamesModule extends CWebModule
    * @return mixed Null if no player found or array of arrays or objects
    */
   public static function getTopPlayers($limit=10, $return_as_object=true) {
+    static $players;
     
-    $builder = Yii::app()->db->getCommandBuilder();
-    
-    $findCriteria = new CDbCriteria(array(
-      'alias' => 'ug',
-      'select' => 'username, SUM(ug.score) as score, SUM(ug.number_played) as number_played',
-      'join' => 'INNER JOIN {{user}} u ON u.id=ug.user_id INNER JOIN {{game}} g ON g.id=ug.game_id',
-      'condition' => 'g.active=1',
-      'group' => 'username',
-      'order' => 'score DESC, number_played DESC',
-      'limit' => (int)$limit,
-    ));
-    
-    $players = $builder->createFindCommand(
-        UserToGame::model()->tableSchema,
-        $findCriteria
-        )->queryAll();
-        
-    if ($players) {
-      if ($return_as_object) {
-        //remap results to objects 
-        foreach ($players as $key => $row) {
-          $players[$key] = (object)$row;  
+    if ($players || $players == -1) {
+      return ($players == -1)? null : $players;
+    } else { 
+      $builder = Yii::app()->db->getCommandBuilder();
+      
+      $findCriteria = new CDbCriteria(array(
+        'alias' => 'ug',
+        'select' => 'username, SUM(ug.score) as score, SUM(ug.number_played) as number_played',
+        'join' => 'INNER JOIN {{user}} u ON u.id=ug.user_id INNER JOIN {{game}} g ON g.id=ug.game_id',
+        'condition' => 'g.active=1',
+        'group' => 'username',
+        'order' => 'score DESC, number_played DESC',
+        'limit' => (int)$limit,
+      ));
+      
+      $players = $builder->createFindCommand(
+          UserToGame::model()->tableSchema,
+          $findCriteria
+          )->queryAll();
+          
+      if ($players) {
+        if ($return_as_object) {
+          //remap results to objects 
+          foreach ($players as $key => $row) {
+            $players[$key] = (object)$row;  
+          }
         }
-      }
-      return $players;
-    } else {
-      return null; 
-    } 
+        return $players;
+      } else {
+        $players = -1;
+        return null; 
+      } 
+    }
   }
   
   /**
@@ -242,34 +248,83 @@ class GamesModule extends CWebModule
    * @return mixed Null if no player scores found or array of objects
    */
   public static function getPlayerScores($user_id) {
-    $builder = Yii::app()->db->getCommandBuilder();
+    static $user_games; // we only want to load the players scores once per request
     
-    $findCriteria = new CDbCriteria(array(
-      'alias' => 'g',
-      'select' => 'g.id, g.unique_id, ug.score, ug.number_played',
-      'join' => 'LEFT OUTER JOIN {{user_to_game}} ug ON ug.game_id=g.id AND ug.user_id=:userID',
-      'condition' => 'g.active=1',
-      'order' => 'score DESC, number_played DESC',
-      'params' => array(':userID' => $user_id),
-    ));
+    if (!is_array($user_games)) {
+      $user_games = array();
+    }
     
-    $games = $builder->createFindCommand(
-        Game::model()->tableSchema,
-        $findCriteria
-        )->queryAll();
-    
-    if ($games) {
-      //remap results to objects 
-      foreach ($games as $key => $row) {
-        $games[$key] = (object)$row;
-        $game = GamesModule::loadGame($row['unique_id'], false);
-        $games[$key]->name = $game->name;
-        $games[$key]->score = (int)$games[$key]->score;
-        $games[$key]->number_played = (int)$games[$key]->number_played;
-      }
-      return $games;
+    if (isset($user_games[$user_id])) {
+      return $user_games[$user_id];
     } else {
-      return null; 
-    } 
+      $builder = Yii::app()->db->getCommandBuilder();
+    
+      $findCriteria = new CDbCriteria(array(
+        'alias' => 'g',
+        'select' => 'g.id, g.unique_id, ug.score, ug.number_played',
+        'join' => 'LEFT OUTER JOIN {{user_to_game}} ug ON ug.game_id=g.id AND ug.user_id=:userID',
+        'condition' => 'g.active=1',
+        'order' => 'score DESC, number_played DESC',
+        'params' => array(':userID' => $user_id),
+      ));
+      
+      $games = $builder->createFindCommand(
+          Game::model()->tableSchema,
+          $findCriteria
+          )->queryAll();
+      
+      if ($games) {
+        //remap results to objects 
+        foreach ($games as $key => $row) {
+          $games[$key] = (object)$row;
+          $game = GamesModule::loadGame($row['unique_id'], false);
+          $games[$key]->name = $game->name;
+          $games[$key]->score = (int)$games[$key]->score;
+          $games[$key]->number_played = (int)$games[$key]->number_played;
+        }
+        $user_games[$user_id] = $games;
+      } else {
+        $user_games[$user_id] = null;
+      } 
+      return $user_games[$user_id];
+    }
+  }
+  
+  /**
+   * Returns the highest scoring user on the platform
+   * 
+   * @param int $limit The number of players to return in the list
+   * @param boolean $return_as_object If true all rows will be converted to objects
+   * @return mixed Null if no player found or array of arrays or objects
+   */
+  public static function getBadges() {
+    static $badges; // we only want to load the badges once per request
+    
+    if ($badges || $badges == -1) {
+      return ($badges == -1)? null : $badges;
+    } else {
+      $builder = Yii::app()->db->getCommandBuilder();
+    
+      $findCriteria = new CDbCriteria(array(
+        'alias' => 'b',
+        'select' => 'b.id, b.title, b.points',
+        'order' => 'b.points',
+      ));
+      
+      $badges = $builder->createFindCommand(
+          Badge::model()->tableSchema,
+          $findCriteria
+          )->queryAll();
+          
+      if ($badges) {
+        foreach ($badges as $key => $row) {
+          $badges[$key] = (object)$row;  
+        }
+        return $badges;
+      } else {
+        $badges = -1;
+        return null; 
+      } 
+    }
   }
 }

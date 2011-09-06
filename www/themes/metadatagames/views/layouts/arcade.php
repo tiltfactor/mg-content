@@ -10,8 +10,7 @@
     <?php $this->widget('Top10Players'); ?>
     <?php if (Yii::app()->user->checkAccess('player')) :?>
     <?php $this->widget('PlayerScores'); ?>
-    <h2>Your Badges</h2>
-    <p>Here comes the user badges widget</p>
+    <?php $this->widget('PlayerBadges'); ?>
     <?php endif;?>
     </div><!-- sidebar -->
   </div>

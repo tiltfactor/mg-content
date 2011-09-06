@@ -114,6 +114,13 @@ return array (
       'url' => '/admin/log',
       'role' => 'dbmanager',
     ),
+    'tool-settings' => 
+    array (
+      'name' => 'Global Settings',
+      'description' => 'Some short description',
+      'url' => '/admin/settings',
+      'role' => 'dbmanager',
+    ),
   ),
   'games' => 
   array (
@@ -147,5 +154,11 @@ return array (
       'image_width' => '450',
       'image_height' => '450',
     ),
+  ),
+  'settings' => 
+  array (
+    'app_name' => 'Meta Data Games',
+    'throttle_interval' => '1500',
+    'app_email' => 'sukie@tiltfaktor.org',
   ),
 );

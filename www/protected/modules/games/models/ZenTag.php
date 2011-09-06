@@ -67,7 +67,7 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
     }
   }
   
-  public function fbvSave($runValidation=true,$attributes=null) {
+  public function fbvSave() {
     $game_data = array(
       'name' => $this->name,
       'description' => $this->description,

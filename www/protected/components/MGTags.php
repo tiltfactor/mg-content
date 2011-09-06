@@ -4,8 +4,6 @@
  * 
  * Some of the code has been taken from http://code.google.com/p/yiiext/ many thanks to Alexander Makarov 
  * 
- * 
- * 
  */
 
 class MGTags {
@@ -103,8 +101,6 @@ class MGTags {
         }
       }  
       
-      
-      
       if (count($arr_tags) > 0 || $all_tags_with_id) {
         
         if (!$all_tags_with_id) {
@@ -114,7 +110,7 @@ class MGTags {
           
           if ($known_tags) {
             foreach ($known_tags as $known_tag) {
-              $tags[$image_id][$known_tag->tag]["tag_id"] = $known_tag->id;
+              $tags[$image_id][strtolower($known_tag->tag)]["tag_id"] = $known_tag->id;
             }
           }  
         }
@@ -122,7 +118,7 @@ class MGTags {
         foreach ($tags[$image_id] as $tag => $tag_info) {
           if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag]["tag_id"] == 0) { // tag does not exist we have to create it
             $tag_model = new Tag;
-            $tag_model->tag = $tag;
+            $tag_model->tag = $tags[$image_id][$tag]["tag"];
             $tag_model->created = date('Y-m-d H:i:s');
             $tag_model->modified = date('Y-m-d H:i:s');
             
@@ -179,7 +175,15 @@ class MGTags {
    * @param string $key
    * @return string
    */
+  
+  
+  
   public static function trim(&$item, $key) {
-    $item = trim($item);
+    $item = preg_replace("/\s/", " ", $item);
+    while (strpos($item, "  ") !== FALSE) {
+      $item = str_replace("  ", " ", $item);
+    }
+    $item = preg_replace("/[^\pL\pN\p{Zs}'-]/u", "", $item);
+    $item = substr(trim($item), 0, 64); //we enforce the tags to have a maximum length of 64 characters after we've trimmed white spaces
   }
 }

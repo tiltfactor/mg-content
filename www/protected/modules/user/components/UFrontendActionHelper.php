@@ -93,7 +93,7 @@ class UFrontendActionHelper extends CApplicationComponent {
           ), 'text/html');
            
           $message->addTo($user->email);
-          $message->from = Yii::app()->params['adminEmail'];
+          $message->from = Yii::app()->fbvStorage->get("settings.app_email")
           Yii::app()->mail->send($message);
        
           if(Yii::app()->getRequest()->getIsAjaxRequest()) {

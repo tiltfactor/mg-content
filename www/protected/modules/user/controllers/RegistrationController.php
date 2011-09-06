@@ -70,7 +70,7 @@ class RegistrationController extends Controller
             ), 'text/html');
              
             $message->addTo($model->email);
-            $message->from = Yii::app()->params['adminEmail'];
+            $message->from = Yii::app()->fbvStorage->get("settings.app_email");
             Yii::app()->mail->send($message);
 					}
 					

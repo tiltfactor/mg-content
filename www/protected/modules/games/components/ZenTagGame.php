@@ -94,7 +94,8 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       $image_ids[] = $submission["image_id"];
       $image_tags = array();
       foreach (MGTags::parseTags($submission["tags"]) as $tag) {
-        $image_tags[$tag] = array(
+        $image_tags[strtolower($tag)] = array(
+          'tag' => $tag,
           'weight' => 1,
           'type' => 'new',
           'tag_id' => 0
@@ -109,7 +110,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       foreach ($submitted_image_tags as $submitted_tag => $sval) {
         if (isset($image_tags[$submitted_image_id])) {
           foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
-            if ($submitted_tag == $ival["tag"]) {
+            if ($submitted_tag == strtolower($ival["tag"])) {
               $data[$submission["image_id"]][$submitted_tag]['type'] = 'match';
               $data[$submission["image_id"]][$submitted_tag]['tag_id'] = $image_tag_id;
               break;
