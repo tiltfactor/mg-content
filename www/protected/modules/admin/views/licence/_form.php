@@ -14,33 +14,28 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-    <div class="row">
-    <?php echo $form->labelEx($model,'name'); ?>
-    <?php echo $form->textField($model, 'name', array('maxlength' => 64)); ?>
-    <?php echo $form->error($model,'name'); ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php echo $form->labelEx($model,'description'); ?>
-    <?php echo $form->textArea($model, 'description'); ?>
-    <?php echo $form->error($model,'description'); ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php if($model->created != 0) : ?>
-    <?php echo $form->labelEx($model,'created'); ?>
-    <?php echo $model->created; ?>
-    <?php endif; ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php if($model->modified != 0) : ?>
-    <?php echo $form->labelEx($model,'modified'); ?>
-    <?php echo $model->modified; ?>
-    <?php endif; ?>
-    </div><!-- row -->
-
-		<h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
-		<div class="row clearfix">
-		<?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
-		</div><!-- row -->
+  <div class="row">
+  <?php echo $form->labelEx($model,'name'); ?>
+  <?php echo $form->textField($model, 'name', array('maxlength' => 64)); ?>
+  <?php echo $form->error($model,'name'); ?>
+  </div><!-- row -->
+  <div class="row">
+  <?php echo $form->labelEx($model,'description'); ?>
+  <?php echo $form->textArea($model, 'description'); ?>
+  <?php echo $form->error($model,'description'); ?>
+  </div><!-- row -->
+  <div class="row">
+  <?php if($model->created != 0) : ?>
+  <?php echo $form->labelEx($model,'created'); ?>
+  <?php echo $model->created; ?>
+  <?php endif; ?>
+  </div><!-- row -->
+  <div class="row">
+  <?php if($model->modified != 0) : ?>
+  <?php echo $form->labelEx($model,'modified'); ?>
+  <?php echo $model->modified; ?>
+  <?php endif; ?>
+  </div><!-- row -->
 
 <?php
 echo GxHtml::submitButton($buttons);

@@ -24,7 +24,7 @@
       </div> 
     </div>
     <div id="scores"></div>
-    <div id="licence"></div>  
+    <div id="licences"></div>  
   </div> 
 </div>
 <script id="template-scores" type="text/x-jquery-tmpl">

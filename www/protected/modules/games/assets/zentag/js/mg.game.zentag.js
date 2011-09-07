@@ -47,6 +47,9 @@ MG_GAME_ZENTAG = function ($) {
       $("#image_container").html("");
       $("#template-turn").tmpl(turn_info).appendTo($("#image_container"));
       
+      $("#licences").html("");
+      $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
+      
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});
@@ -142,7 +145,7 @@ MG_GAME_ZENTAG = function ($) {
           tags_matched_score : taginfo.tags_matched.score,
         };
         
-        var licence_info = {}; //xxx add licence parsing here
+        var licence_info = {}; //xxx here should come the global info about all licences 
         
         var more_info = {}; //xxx add more_info parsing here
         
@@ -163,16 +166,16 @@ MG_GAME_ZENTAG = function ($) {
           var turn_info = {
             url_1 : MG_GAME_ZENTAG.turns[0].images[0].final_screen,
             url_full_size_1 : MG_GAME_ZENTAG.turns[0].images[0].full_size,
-            licence_info_1 : 'xxx add some licence info',
+            licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
             url_2 : MG_GAME_ZENTAG.turns[1].images[0].final_screen,
             url_full_size_2 : MG_GAME_ZENTAG.turns[1].images[0].full_size,
-            licence_info_2 : 'xxx add some licence info',
+            licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[1].licences),
             url_3 : MG_GAME_ZENTAG.turns[2].images[0].final_screen,
             url_full_size_3 : MG_GAME_ZENTAG.turns[2].images[0].full_size,
-            licence_info_3 : 'xxx add some licence info',
+            licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[2].licences),
             url_4 : MG_GAME_ZENTAG.turns[3].images[0].final_screen,
             url_full_size_4 : MG_GAME_ZENTAG.turns[3].images[0].full_size,
-            licence_info_4 : 'xxx add some licence info'
+            licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[3].licences)
           }
         }
         
@@ -190,7 +193,7 @@ MG_GAME_ZENTAG = function ($) {
           current_turn : MG_GAME_ZENTAG.turn
         };
         
-        var licence_info = {}; //xxx add licence parsing here
+        var licence_info = response.turn.licences; //xxx add licence parsing here
         
         var more_info = {}; //xxx add more_info parsing here
         
@@ -198,7 +201,7 @@ MG_GAME_ZENTAG = function ($) {
         var turn_info = {
           url : response.turn.images[0].scaled,
           url_full_size : response.turn.images[0].full_size,
-          licence_info : 'xxx add some licence info'
+          licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
         
         MG_GAME_API.renderTurn(response, score_info, turn_info, licence_info, more_info); 

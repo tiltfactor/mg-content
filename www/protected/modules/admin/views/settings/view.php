@@ -19,6 +19,9 @@ $this->menu=array(
     'app_name',
     'app_email',
     'throttle_interval',
+    'pagination_size',
+    'app_upload_path',
+    'app_upload_url',
 	),
 )); ?>
 

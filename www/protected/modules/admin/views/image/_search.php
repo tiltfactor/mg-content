@@ -25,10 +25,6 @@
 		<?php echo $form->textField($model, 'last_access'); ?>
 	</div>
 
-  <div class="row">
-    <?php echo $form->label($model, 'locked'); ?>
-    <?php echo $form->dropDownList($model,'locked', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('locked'))); ?>
-  </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>

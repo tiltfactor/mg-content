@@ -176,12 +176,12 @@ class GamesController extends ApiController {
    *      scaled : '',
    *      thumbnail : '',
    * 
-   *      licence : 'name of licence that can be found in turn.licences',
+   *      licences : [1,2,3] //id of licence(s) of the image that can be found in turn.licences,
    *      id : 1 // the id of the image in the database
    *    }, {...}],
    * 
    *    licences : [{
-   *      // 
+   *      id: '',
    *      name : '',
    *      description : '',
    *    }, {...}],   

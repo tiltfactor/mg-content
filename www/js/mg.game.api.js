@@ -36,6 +36,14 @@ MG_GAME_API = function ($) {
         }
       });
     },
+    
+    parseLicenceInfo : function (licences) {
+      var img_licence_info = [];
+      $(licences).each(function (i, licence) {
+        img_licence_info.push(licence.name);
+      })
+      return img_licence_info.join(", ");
+    }
   });
 }(jQuery);
 

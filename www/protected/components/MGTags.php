@@ -19,33 +19,25 @@ class MGTags {
     $builder = Yii::app()->db->getCommandBuilder();
     
     if ($user_id) {
-      //xxx test does this work? 
-      $findCriteria = new CDbCriteria(array(
-        'alias' => 'tu',
-        'select' => "tu.image_id, t.id as tag_id, t.tag",
-        'join' => " LEFT JOIN {{tag}} t ON t.id = tu.tag_id 
-                    LEFT JOIN {{game_submission}} gs ON gs.id = tu.game_submission_id 
-                    LEFT JOIN {{session}} s ON s.id = gs.session_id",
-        'condition' => $builder->createInCondition(TagUse::model()->tableSchema, 'image_id', array_values($image_ids), 'tu.') . " AND s.user_id=:userID",
-        'params' => array(
-            ':userID' => $user_id,
-          )
-      ));  
-      $used_tags = $builder->createFindCommand(
-        TagUse::model()->tableSchema,
-        $findCriteria
-        )->queryAll();
+      
+      $used_tags = Yii::app()->db->createCommand()
+                    ->select('tu.image_id, t.id as tag_id, t.tag')
+                    ->from('{{tag_use}} tu')
+                    ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
+                    ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
+                    ->leftJoin('{{session}} s', 's.id = gs.session_id')
+                    ->where(array('and', 's.user_id=:userID', array('in', 'tu.image_id', array_values($image_ids))), array(':userID' => $user_id)) 
+                    ->queryAll();
+                    
     } else {
-      $findCriteria = new CDbCriteria(array(
-        'alias' => 'tu',
-        'select' => "tu.image_id, t.id as tag_id, t.tag",
-        'join' => "LEFT JOIN {{tag}} t ON t.id = tu.tag_id",
-        'condition' => $builder->createInCondition(TagUse::model()->tableSchema, 'image_id', array_values($image_ids), 'tu.'),
-      )); 
-      $used_tags = $builder->createFindCommand(
-        TagUse::model()->tableSchema,
-        $findCriteria
-        )->queryAll();
+      
+      $used_tags = Yii::app()->db->createCommand()
+                    ->select('tu.image_id, t.id as tag_id, t.tag')
+                    ->from('{{tag_use}} tu')
+                    ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
+                    ->where(array('in', 'tu.image_id', array_values($image_ids))) 
+                    ->queryAll();
+                    
     }
     foreach($used_tags as $tag) {
       if (!isset($tags[$tag["image_id"]]))
@@ -104,13 +96,16 @@ class MGTags {
       if (count($arr_tags) > 0 || $all_tags_with_id) {
         
         if (!$all_tags_with_id) {
-          $builder = Yii::app()->db->getCommandBuilder();
-          $condition=$builder->createInCondition(Tag::model()->tableSchema, 'tag', $arr_tags, 't.');
-          $known_tags = Tag::model()->findAll($condition);
+          
+          $known_tags = Yii::app()->db->createCommand()
+                          ->select('t.id, t.tag')
+                          ->from('{{tag}} t')
+                          ->where(array('in', 't.tag', array_values($arr_tags))) 
+                          ->queryAll();
           
           if ($known_tags) {
             foreach ($known_tags as $known_tag) {
-              $tags[$image_id][strtolower($known_tag->tag)]["tag_id"] = $known_tag->id;
+              $tags[$image_id][strtolower($known_tag["tag"])]["tag_id"] = $known_tag["id"];
             }
           }  
         }

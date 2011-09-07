@@ -23,7 +23,6 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     if ($game->turn < $game->turns) {
       $imageSets = $this->getImageSets($game, $game_model);
     
-    
       $data["images"] = array();
       
       $used_images = array();
@@ -39,16 +38,18 @@ class ZenTagGame extends MGGame implements MGGameInterface {
           "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
           "final_screen" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", 212, 171, 80, 10),
           "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+          "licences" => $images[$i]["licences"],
         );
         $used_images[] = (int)$images[$i]["id"];
         
+        $data["licences"] = $this->getLicenceInfo($images[$i]["licences"]);
+        
         $this->setUsedImages($used_images, $game, $game_model);
-      
+
         $data["tags"] = array();
         $data["tags"]["user"] = $tags;
         
-        $data["licences"] = array(); // xxx implement
-        $data["wordstoavoid"] = array();
+        $data["wordstoavoid"] = array(); // xxx implement
       } else 
         throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough images available'));
       

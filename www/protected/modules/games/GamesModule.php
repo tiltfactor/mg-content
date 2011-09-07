@@ -146,31 +146,23 @@ class GamesModule extends CWebModule
   public static function loadUserToGameInfo($user_id, $game_id=null) {
     $data = array();
     
-    $builder = Yii::app()->db->getCommandBuilder();
-
-    $params = array();
-    $params[':userID'] = $user_id;
-    $condition = 'user_id=:userID AND g.active=1';
+    $where = array('and', 'user_id=:userID', 'g.active=1');
+    $params = array(":userID" => $user_id);
     
     if ($game_id) {
-      $params[':gameID'] = $game_id;
-      $condition .= ' AND game_id=:gameID';
+      $where[] = 'game_id=:gameID';
+      $params[":gameID"] = $game_id;
     }
     
-    $findCriteria = new CDbCriteria(array(
-      'alias' => 'ug',
-      'select' => 'ug.game_id, g.unique_id, ug.score, ug.number_played',
-      'join' => 'RIGHT JOIN {{game}} g ON g.id=ug.game_id',
-      'condition' => $condition,
-      'order' => 'score DESC, number_played DESC',
-      'params' => $params,
-    ));
+    $command = Yii::app()->db->createCommand()
+                    ->select('ug.game_id, g.unique_id, ug.score, ug.number_played')
+                    ->from('{{user_to_game}} ug')
+                    ->rightJoin('{{game}} g', 'g.id=ug.game_id')
+                    ->where($where, $params) 
+                    ->order('score DESC, number_played DESC');
+                    
+    $userToGames = $command->queryAll();
     
-    $userToGames = $builder->createFindCommand(
-        UserToGame::model()->tableSchema,
-        $findCriteria
-        )->queryAll();
-        
     //remap results
     foreach ($userToGames as $key => $info) {
       if ($game_id) {
@@ -208,23 +200,18 @@ class GamesModule extends CWebModule
     
     if ($players || $players == -1) {
       return ($players == -1)? null : $players;
-    } else { 
-      $builder = Yii::app()->db->getCommandBuilder();
-      
-      $findCriteria = new CDbCriteria(array(
-        'alias' => 'ug',
-        'select' => 'username, SUM(ug.score) as score, SUM(ug.number_played) as number_played',
-        'join' => 'INNER JOIN {{user}} u ON u.id=ug.user_id INNER JOIN {{game}} g ON g.id=ug.game_id',
-        'condition' => 'g.active=1',
-        'group' => 'username',
-        'order' => 'score DESC, number_played DESC',
-        'limit' => (int)$limit,
-      ));
-      
-      $players = $builder->createFindCommand(
-          UserToGame::model()->tableSchema,
-          $findCriteria
-          )->queryAll();
+    } else {
+    
+      $players = Yii::app()->db->createCommand()
+                    ->select('username, SUM(ug.score) as score, SUM(ug.number_played) as number_played')
+                    ->from('{{user_to_game}} ug')
+                    ->join('{{user}} u', 'u.id=ug.user_id')
+                    ->join('{{game}} g', 'g.id=ug.game_id')
+                    ->where('g.active=1')
+                    ->group('username') 
+                    ->order('score DESC, number_played DESC')
+                    ->limit((int)$limit)
+                    ->queryAll();
           
       if ($players) {
         if ($return_as_object) {
@@ -257,21 +244,14 @@ class GamesModule extends CWebModule
     if (isset($user_games[$user_id])) {
       return $user_games[$user_id];
     } else {
-      $builder = Yii::app()->db->getCommandBuilder();
-    
-      $findCriteria = new CDbCriteria(array(
-        'alias' => 'g',
-        'select' => 'g.id, g.unique_id, ug.score, ug.number_played',
-        'join' => 'LEFT OUTER JOIN {{user_to_game}} ug ON ug.game_id=g.id AND ug.user_id=:userID',
-        'condition' => 'g.active=1',
-        'order' => 'score DESC, number_played DESC',
-        'params' => array(':userID' => $user_id),
-      ));
-      
-      $games = $builder->createFindCommand(
-          Game::model()->tableSchema,
-          $findCriteria
-          )->queryAll();
+         
+      $games = Yii::app()->db->createCommand()
+                    ->select('g.id, g.unique_id, ug.score, ug.number_played')
+                    ->from('{{game}} g')
+                    ->leftJoin('{{user_to_game}} ug', 'ug.game_id=g.id AND ug.user_id=:userID', array(':userID' => $user_id))
+                    ->where('g.active=1')
+                    ->order('score DESC, number_played DESC')
+                    ->queryAll();
       
       if ($games) {
         //remap results to objects 
@@ -303,18 +283,12 @@ class GamesModule extends CWebModule
     if ($badges || $badges == -1) {
       return ($badges == -1)? null : $badges;
     } else {
-      $builder = Yii::app()->db->getCommandBuilder();
-    
-      $findCriteria = new CDbCriteria(array(
-        'alias' => 'b',
-        'select' => 'b.id, b.title, b.points',
-        'order' => 'b.points',
-      ));
       
-      $badges = $builder->createFindCommand(
-          Badge::model()->tableSchema,
-          $findCriteria
-          )->queryAll();
+      $badges = Yii::app()->db->createCommand()
+                    ->select('b.id, b.title, b.points')
+                    ->from('{{badge}} b')
+                    ->order('b.points')
+                    ->queryAll();
           
       if ($badges) {
         foreach ($badges as $key => $row) {

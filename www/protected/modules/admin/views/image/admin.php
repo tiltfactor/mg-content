@@ -43,7 +43,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
 	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-	'columns' => array(
+	'selectableRows'=>2,
+  'columns' => array(
+    array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'image-ids',
+    ),
     array(
         'name' => 'name',
         'cssClassExpression' => '"image"',
@@ -82,7 +87,7 @@ $this->widget('ext.gridbatchaction.GridBatchAction', array(
       'checkBoxId'=>'image-ids',
       'ajaxGridId'=>'image-grid', 
       'items'=>array(
-          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
+          //xxx what batch actions are here ???? array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
       ),
       'htmlOptions'=>array('class'=>'batchActions'),
   ));
