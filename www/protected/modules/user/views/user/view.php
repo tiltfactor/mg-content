@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	UserModule::t('Users')=>array('index'),
+	UserModule::t('Players')=>array('index'),
 	$model->username,
 );
 ?>

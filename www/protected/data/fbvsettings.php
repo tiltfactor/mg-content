@@ -63,7 +63,7 @@ return array (
     ),
     'tool-user' => 
     array (
-      'name' => 'Players Manager',
+      'name' => 'Players',
       'description' => 'Some short description',
       'url' => '/admin/user',
       'role' => 'dbmanager',
@@ -127,7 +127,7 @@ return array (
     ),
     'tool-logs' => 
     array (
-      'name' => 'Admin Tool Log',
+      'name' => 'Admin Log',
       'description' => 'Some short description',
       'url' => '/admin/log',
       'role' => 'dbmanager',

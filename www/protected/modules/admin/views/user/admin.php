@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	Yii::t('app', 'Admin')=>array('/admin'),
-	UserModule::t('Users'),
+	UserModule::t('Players'),
 );
 
 $this->menu = array(
@@ -56,6 +56,12 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
       'name'=>'role',
       'value'=>'$data->role',
       'filter'=>User::listRoles(),
+    ),
+    array(
+      'cssClassExpression' => "'tags'",
+      'header' => Yii::t('app', 'Top Tags'),
+      'type' => 'html',
+      'value'=>'$data->getTopTags()',
     ),
     array(
       'name' => 'status',

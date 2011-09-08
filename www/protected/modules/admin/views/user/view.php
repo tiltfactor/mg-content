@@ -1,14 +1,15 @@
 <?php
 $this->breadcrumbs=array(
 	Yii::t('app', 'Admin')=>array('/admin'),
-  UserModule::t('Users')=>array('/admin/user'),
+  UserModule::t('Players')=>array('/admin/user'),
 	$model->username,
 );
 
 $this->menu=array(
   array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
   array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-  array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id)),
+  array('label'=>Yii::t('app', 'Update') . ' ' . $model->username, 'url'=>array('update', 'id' => $model->id)),
+  array('label'=>Yii::t('app', 'View Log for ') . ' ' . $model->username, 'url'=>array('/admin/log', 'Log[user_id]' => $model->id), 'visible' => ($model->role !== "player")),
   array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this user?')),
 );
 ?>
@@ -64,20 +65,7 @@ $this->menu=array(
   'attributes' => $attributes
 )); ?>
 
-<h2><?php echo GxHtml::encode($model->getRelationLabel('log')); ?></h2>
-<?php
-  echo GxHtml::openTag('ul');
-  if (count($model->logs) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-  foreach($model->logs as $relatedModel) {
-    echo GxHtml::openTag('li');
-    echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('log/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-    echo GxHtml::closeTag('li');
-  }
-  echo GxHtml::closeTag('ul');
-?><h2><?php echo GxHtml::encode($model->getRelationLabel('session')); ?></h2>
+<h2><?php echo GxHtml::encode($model->getRelationLabel('session')); ?></h2>
 <?php
   echo GxHtml::openTag('ul');
   
