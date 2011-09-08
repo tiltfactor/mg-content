@@ -90,8 +90,6 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				// uncomment the following to show log messages on web pages
-				// xxx comment web log out. xxx configure logging
 				array(
 					'class'=>'CWebLogRoute',
 				),

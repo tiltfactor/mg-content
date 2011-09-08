@@ -302,7 +302,6 @@ class ImportController extends GxController {
           }
           
           foreach ($images as $image) {
-            // xxx $image->locked = 1;
             $image->locked = 1;
             $image->save(); 
           }

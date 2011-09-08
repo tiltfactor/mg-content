@@ -25,12 +25,12 @@ class SettingsForm extends Game
   
   public function attributeLabels() {
     return array(
-      'app_name' => Yii::t('app', 'Application Name'), // xxx make use of setting throughout the system
-      'throttle_interval' => Yii::t('app', 'Throttle Interval (how many millisecond have to be between two api requests)'), // xxx make use of setting throughout the system
+      'app_name' => Yii::t('app', 'Application Name'), 
+      'throttle_interval' => Yii::t('app', 'Throttle Interval (how many millisecond have to be between two api requests)'), 
       'app_email' => Yii::t('app', 'E-Mail address (e-mails are send from and contact form messages are send to)'),
-      'pagination_size' => Yii::t('app', 'Listings pagination size'), // xxx make use of setting throughout the system
-      'app_upload_path' => Yii::t('app', 'Upload folder (relative path to application folder)'), // xxx make use of setting throughout the system
-      'app_upload_url' => Yii::t('app', 'Upload folder URL'), // xxx make use of setting throughout the system
+      'pagination_size' => Yii::t('app', 'Listings pagination size'), 
+      'app_upload_path' => Yii::t('app', 'Upload folder (relative path to application folder)'), 
+      'app_upload_url' => Yii::t('app', 'Upload folder URL'), 
     );
   }
   
