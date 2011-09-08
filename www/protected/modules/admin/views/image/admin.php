@@ -53,7 +53,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'name' => 'name',
         'cssClassExpression' => '"image"',
         'type'=>'html',
-        'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->params[\'upload_url\'] . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
+        'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
       ),
 		'size',
 		'batch_id',
