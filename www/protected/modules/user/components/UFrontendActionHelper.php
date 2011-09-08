@@ -83,12 +83,12 @@ class UFrontendActionHelper extends CApplicationComponent {
           $message = new YiiMailMessage;
           $message->view = 'userPasswordRestore';
           $message->setSubject(UserModule::t("You have requested a password reset for {site_name}", array(
-            '{site_name}'=>Yii::app()->name,)));
+            '{site_name}'=>Yii::app()->fbvStorage->get("settings.app_name"),)));
           
           //userModel is passed to the view
           $message->setBody(array(
             'user' => $user,
-            'site_name' => Yii::app()->name,
+            'site_name' => Yii::app()->fbvStorage->get("settings.app_name"),
             'activation_url' => $activation_url
           ), 'text/html');
            

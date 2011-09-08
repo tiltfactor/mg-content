@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Error';
+$this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name") . ' - Error';
 $this->breadcrumbs=array(
 	'Error',
 );

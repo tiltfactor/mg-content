@@ -1,4 +1,4 @@
-<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Restore");
+<?php $this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name") . ' - '.UserModule::t("Restore");
 $this->breadcrumbs=array(
 	UserModule::t("Login") => array('/user/login'),
 	UserModule::t("Restore"),

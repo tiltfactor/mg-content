@@ -65,7 +65,7 @@ abstract class BaseProfile extends GxActiveRecord {
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
 			'pagination'=>array(
-        'pageSize'=>Yii::app()->params['pagination.pageSize'],
+        'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
       ),
 		));
 	}

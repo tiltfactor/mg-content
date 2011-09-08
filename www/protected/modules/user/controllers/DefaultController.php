@@ -13,7 +13,7 @@ class DefaultController extends Controller
 		        'condition'=>'status>'.User::STATUS_BANNED,
 		    ),
 			'pagination'=>array(
-				'pageSize'=>Yii::app()->params['pagination.pagesize'],
+				'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
 			),
 		));
 

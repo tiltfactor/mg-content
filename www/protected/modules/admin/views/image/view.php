@@ -26,7 +26,7 @@ $this->menu=array(
 		 array(
           'name' => 'Image',
           'type' => 'image',
-          'value' => Yii::app()->getBaseUrl() . Yii::app()->params['upload_url'] . '/thumbs/'. $model->name,
+          'value' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name,
         ),
 'size',
 'mime_type',

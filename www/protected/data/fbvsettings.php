@@ -30,61 +30,13 @@ return array (
   'throttle_interval' => 10,
   'admin-tools' => 
   array (
-    'tool-subject-matter' => 
-    array (
-      'name' => 'Subject Matters',
-      'description' => 'Some short description',
-      'url' => '/admin/subjectMatter',
-      'role' => 'editor',
-    ),
-    'tool-image-set' => 
-    array (
-      'name' => 'Image Sets',
-      'description' => 'Some short description',
-      'url' => '/admin/imageSet',
-      'role' => 'editor',
-    ),
-    'tool-licence' => 
-    array (
-      'name' => 'Licences',
-      'description' => 'Some short description',
-      'url' => '/admin/licence',
-      'role' => 'editor',
-    ),
-    'tool-import' => 
-    array (
-      'name' => 'Import',
-      'description' => 'Tools to import images or tags (? xxx) into the system',
-      'url' => '/admin/import',
-      'role' => 'editor',
-    ),
     'tool-image' => 
     array (
       'name' => 'Images',
       'description' => 'Tools to administer images the system',
       'url' => '/admin/image',
       'role' => 'editor',
-    ),
-    'tool-user' => 
-    array (
-      'name' => 'User Manager',
-      'description' => 'Some short description',
-      'url' => '/admin/user',
-      'role' => 'dbmanager',
-    ),
-    'tool-plugins' => 
-    array (
-      'name' => 'Plugins',
-      'description' => 'Some short description',
-      'url' => '/plugins',
-      'role' => 'dbmanager',
-    ),
-    'tool-games' => 
-    array (
-      'name' => 'Games',
-      'description' => 'Some short description',
-      'url' => '/games',
-      'role' => 'dbmanager',
+      'group' => 'Images & Tags',
     ),
     'tool-tag' => 
     array (
@@ -92,13 +44,55 @@ return array (
       'description' => 'Some short description',
       'url' => '/admin/tag',
       'role' => 'editor',
+      'group' => 'Images & Tags',
     ),
-    'tool-ip' => 
+    'tool-image-set' => 
     array (
-      'name' => 'IP Blacklist',
+      'name' => 'Image Sets',
       'description' => 'Some short description',
-      'url' => '/admin/blockedIp',
+      'url' => '/admin/imageSet',
       'role' => 'editor',
+      'group' => 'Images & Tags',
+    ),
+    'tool-licence' => 
+    array (
+      'name' => 'Licences',
+      'description' => 'Some short description',
+      'url' => '/admin/licence',
+      'role' => 'editor',
+      'group' => 'Images & Tags',
+    ),
+    'tool-user' => 
+    array (
+      'name' => 'Players Manager',
+      'description' => 'Some short description',
+      'url' => '/admin/user',
+      'role' => 'dbmanager',
+      'group' => 'Players',
+    ),
+    'tool-subject-matter' => 
+    array (
+      'name' => 'Subject Matters',
+      'description' => 'Some short description',
+      'url' => '/admin/subjectMatter',
+      'role' => 'editor',
+      'group' => 'Players',
+    ),
+    'tool-plugins' => 
+    array (
+      'name' => 'Plugins',
+      'description' => 'Some short description',
+      'url' => '/plugins',
+      'role' => 'dbmanager',
+      'group' => 'Games & Plugins',
+    ),
+    'tool-games' => 
+    array (
+      'name' => 'Games',
+      'description' => 'Some short description',
+      'url' => '/games',
+      'role' => 'dbmanager',
+      'group' => 'Games & Plugins',
     ),
     'tool-bages' => 
     array (
@@ -106,13 +100,23 @@ return array (
       'description' => 'Some short description',
       'url' => '/admin/badge',
       'role' => 'editor',
+      'group' => 'Games & Plugins',
     ),
-    'tool-logs' => 
+    'tool-import' => 
     array (
-      'name' => 'Admin Tool Log',
+      'name' => 'Import',
+      'description' => 'Tools to import images or tags (? xxx) into the system',
+      'url' => '/admin/import',
+      'role' => 'editor',
+      'group' => 'Import & Export',
+    ),
+    'tool-ip' => 
+    array (
+      'name' => 'IP Blacklist',
       'description' => 'Some short description',
-      'url' => '/admin/log',
-      'role' => 'dbmanager',
+      'url' => '/admin/blockedIp',
+      'role' => 'editor',
+      'group' => 'Other',
     ),
     'tool-settings' => 
     array (
@@ -120,6 +124,15 @@ return array (
       'description' => 'Some short description',
       'url' => '/admin/settings',
       'role' => 'dbmanager',
+      'group' => 'Other',
+    ),
+    'tool-logs' => 
+    array (
+      'name' => 'Admin Tool Log',
+      'description' => 'Some short description',
+      'url' => '/admin/log',
+      'role' => 'dbmanager',
+      'group' => 'Other',
     ),
   ),
   'games' => 
@@ -157,8 +170,11 @@ return array (
   ),
   'settings' => 
   array (
-    'app_name' => 'Meta Data Games',
+    'app_name' => 'Meta Data Games Test',
     'throttle_interval' => '1500',
     'app_email' => 'sukie@tiltfaktor.org',
+    'pagination_size' => '25',
+    'app_upload_path' => '/../uploads',
+    'app_upload_url' => '/uploads',
   ),
 );

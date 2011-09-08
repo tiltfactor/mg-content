@@ -70,7 +70,7 @@ foreach ($this->tableSchema->columns as $column) {
         echo "\t\t array(
           'name' => '{$column->name}',
           'type' => 'image',
-          'value' => 'Yii::app()->getBaseUrl() . Yii::app()->params[\'upload_url\'] . \'/thumbs/\'. \$data->{$column->name}',
+          'value' => 'Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. \$data->{$column->name}',
         ),\n";
       } else {
         echo "\t\t" . $this->generateGridViewColumn($this->modelClass, $column).",\n";

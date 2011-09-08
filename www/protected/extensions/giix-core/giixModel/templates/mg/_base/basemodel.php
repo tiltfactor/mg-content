@@ -128,7 +128,7 @@ abstract class <?php echo $this->baseModelClass; ?> extends <?php echo $this->ba
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
 			'pagination'=>array(
-        'pageSize'=>Yii::app()->params['pagination.pageSize'],
+        'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
       ),
 		));
 	}

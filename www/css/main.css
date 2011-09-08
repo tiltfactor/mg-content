@@ -314,3 +314,22 @@ ul#arcade-games a.image {
   font-weight: bold;
   margin: 10px 0 5px 0;
 }
+
+
+fieldset.admin-tools {
+  float:left;
+  width: 180px;
+  margin-right:20px;
+  border:1px solid #ccc;
+  padding:10px;
+}
+
+fieldset.admin-tools legend {
+  font-size:14px;
+}
+
+fieldset.admin-tools h3 {
+  font-size:14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}

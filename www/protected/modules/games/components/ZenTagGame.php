@@ -31,7 +31,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       if ($images && count($images) > 0) {
         $i = array_rand($images, 1);
       
-        $path = Yii::app()->getBaseUrl(true) . Yii::app()->params['upload_url'];
+        $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
         $data["images"][] = array(
           "image_id" => $images[$i]["id"],
           "full_size" => $path . "/images/". $images[$i]["name"],

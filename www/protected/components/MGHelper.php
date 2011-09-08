@@ -79,7 +79,7 @@ class MGHelper {
    * 
    */
   public static function createScaledImage($name, $new_name, $folder, $width, $height, $quality=FALSE, $sharpen=FALSE) {
-    $path= realpath(Yii::app()->getBasePath() . Yii::app()->params['upload_path']);
+    $path= realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
     
     if(!is_dir($path)){
       throw new CHttpException(500, "{$path} does not exists.");

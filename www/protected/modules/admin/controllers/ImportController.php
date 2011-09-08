@@ -370,7 +370,7 @@ class ImportController extends GxController {
           'name' => $model->name,
           'size' => $model->size,
           'type' => $model->mime_type,
-          'thumbnail_url' => Yii::app()->getBaseUrl() . Yii::app()->params['upload_url'] . "/thumbs/". $model->name,  
+          'thumbnail_url' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . "/thumbs/". $model->name,  
           'error' => null
         );
       } else {
@@ -449,7 +449,7 @@ class ImportController extends GxController {
   
   private function checkUploadFolder() {
     if(!isset($this->path)){
-      $this->path = realpath(Yii::app()->getBasePath() . Yii::app()->params['upload_path']);
+      $this->path = realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
     }
     
     if(!is_dir($this->path)){

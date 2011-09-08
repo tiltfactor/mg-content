@@ -27,7 +27,7 @@ class Image extends BaseImage
     return new CActiveDataProvider($this, array(
       'criteria' => $criteria,
       'pagination'=>array(
-        'pageSize'=>Yii::app()->params['pagination.pageSize'],
+        'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
       ),
     ));
   }
@@ -51,7 +51,7 @@ class Image extends BaseImage
     return new CActiveDataProvider($this, array(
       'criteria' => $criteria,
       'pagination'=>array(
-        'pageSize'=>Yii::app()->params['pagination.pageSize'] * 2,
+        'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size") * 2,
       ),
     ));
   }
@@ -61,7 +61,7 @@ class Image extends BaseImage
    * has been deleted.
    */
   public function afterDelete() {
-    $path = realpath(Yii::app()->getBasePath() . Yii::app()->params['upload_path']);
+    $path = realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
     $path_parts = pathinfo($this->name);
     
     //remove file from .../uploads/images

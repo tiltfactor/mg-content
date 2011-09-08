@@ -61,10 +61,10 @@ class RegistrationController extends Controller
 						
 						$message = new YiiMailMessage;
             $message->view = 'userRegistrationConfirmation';
-            $message->setSubject(UserModule::t("You registered from {site_name}",array('{site_name}'=>Yii::app()->name)));
+            $message->setSubject(UserModule::t("You registered from {site_name}",array('{site_name}'=>Yii::app()->fbvStorage->get("settings.app_name"))));
             //userModel is passed to the view
             $message->setBody(array(
-              'site_name' => Yii::app()->name,
+              'site_name' => Yii::app()->fbvStorage->get("settings.app_name"),
               'user' => $model,
               'activation_url' => $activation_url
             ), 'text/html');

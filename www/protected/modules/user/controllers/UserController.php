@@ -64,7 +64,7 @@ class UserController extends Controller
 		    ),
 				
 			'pagination'=>array(
-				'pageSize'=>Yii::app()->params['pagination.pagesize'],
+				'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
 			),
 		));
 

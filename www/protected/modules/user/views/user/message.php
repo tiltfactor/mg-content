@@ -1,4 +1,4 @@
-<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Login"); ?>
+<?php $this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name") . ' - '.UserModule::t("Login"); ?>
 
 <h1><?php echo $title; ?></h1>
 

@@ -16,7 +16,12 @@ class Log extends BaseLog
     $criteria->compare('message', $this->message, true);
     $criteria->compare('user_id', $this->user_id);
     $criteria->compare('created', $this->created, true);
-
+    
+    
+    if (!Yii::app()->getRequest()->getIsAjaxRequest())
+      $criteria->order = "created DESC";
+    
+    
     return new CActiveDataProvider($this, array(
       'criteria' => $criteria,
       'pagination'=>array(

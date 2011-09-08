@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Contact Us';
+$this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name") . ' - Contact Us';
 $this->breadcrumbs=array(
 	'Contact',
 );

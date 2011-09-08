@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Login");
+$this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name") . ' - '.UserModule::t("Login");
 $this->breadcrumbs=array(
 	UserModule::t("Login"),
 );
