@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
   Yii::t('app', 'Admin')=>array('/admin'),
-  UserModule::t('Users')=>array('/admin/user'),
+  UserModule::t('Players')=>array('/admin/user'),
   UserModule::t('Profile Fields')=>array('admin'),
   UserModule::t('Create Profile Field')
 );

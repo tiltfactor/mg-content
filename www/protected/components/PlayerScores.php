@@ -18,14 +18,30 @@ Yii::import('zii.widgets.CPortlet');
  
 class PlayerScores extends CPortlet
 {
+  /**
+   * @var int the user id of whom the scores should be retrieved.  
+   */  
+  public $user_id;
+  
+  /**
+   * @var boolean If true list only active games.  
+   */  
+  public $active = true;
+    
+    
   public function init() {
+    parent::init();
+    
     $this->title=Yii::t('app', "Your Scores");
-      parent::init();
+    
+    if (is_null($this->user_id)) 
+      $this->user_id = Yii::app()->user->id;
+    
   }
  
   protected function renderContent() {
-    if ($user_id = Yii::app()->user->id) {
-      $games = GamesModule::getPlayerScores($user_id);
+    if ($this->user_id) {
+      $games = GamesModule::getPlayerScores($this->user_id, $this->active);
       
       if (is_null($games))
         $games = array();

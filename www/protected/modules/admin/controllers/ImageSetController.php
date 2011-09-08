@@ -65,11 +65,12 @@ class ImageSetController extends GxController {
 		if (isset($_POST['ImageSet'])) {
 			$model->setAttributes($_POST['ImageSet']);
 			$relatedData = array(
-				'games' => $_POST['ImageSet']['games'] === '' ? null : $_POST['ImageSet']['games'],
-				'images' => $_POST['ImageSet']['images'] === '' ? null : $_POST['ImageSet']['images'],
 				'subjectMatters' => $_POST['ImageSet']['subjectMatters'] === '' ? null : $_POST['ImageSet']['subjectMatters'],
 				);
-
+      
+      if (isset($_POST['ImageSet']['games']))
+        $relatedData['games'] = $_POST['ImageSet']['games'] === '' ? null : $_POST['ImageSet']['games'];
+        
 			if ($model->saveWithRelated($relatedData)) {
         MGHelper::log('update', 'Updated ImageSet with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "ImageSet updated"));

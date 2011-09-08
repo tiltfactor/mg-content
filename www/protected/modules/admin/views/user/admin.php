@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	Yii::t('app', 'Admin')=>array('/admin'),
-	UserModule::t('Users'),
+	UserModule::t('Players'),
 );
 
 $this->menu = array(
@@ -37,20 +37,32 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+
+echo CHtml::beginForm('','post',array('id'=>'users-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
   'id' => 'users-grid',
   'dataProvider' => $model->search(),
+  'filter' => $model,
   'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
   'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-  'filter' => $model,
+  'baseScriptUrl' => "/css/yii/gridview",
+  'selectableRows'=>2,
   'columns' => array(
-    'id',
-    'username',
+    array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'users-ids',
+    ),
+    array(
+      'name' => 'username',
+      'cssClassExpression' => "'un'",
+    ),
     'email',
     array(
-      'name' => 'lastvisit',
-      'type' => 'raw',
-      'value' => "((\$data->lastvisit)?\$data->lastvisit:UserModule::t('Not visited'))" 
+      'cssClassExpression' => "'tags'",
+      'header' => Yii::t('app', 'Top Tags'),
+      'type' => 'html',
+      'value'=>'$data->getTopTags()',
     ),
     array(
       'name'=>'role',
@@ -65,9 +77,25 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
     ),
     'edited_count',
     'created',
-    'modified',
+    array(
+      'name' => 'lastvisit',
+      'type' => 'raw',
+      'value' => "((\$data->lastvisit)?\$data->lastvisit:UserModule::t('Not visited'))" 
+    ),
     array(
       'class' => 'CButtonColumn',
     ),
   ),
-)); ?>
+)); 
+echo CHtml::endForm();
+
+$this->widget('ext.gridbatchaction.GridBatchAction', array(
+      'formId'=>'users-form',
+      'checkBoxId'=>'users-ids',
+      'ajaxGridId'=>'users-grid', 
+      'items'=>array(
+          array('label'=>Yii::t('ui','Ban selected players'),'url'=>array('batch', 'op' => 'ban'))
+      ),
+      'htmlOptions'=>array('class'=>'batchActions'),
+  ));
+?>

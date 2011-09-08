@@ -340,3 +340,21 @@ tbody tr.even td {
 .badge.inactive span {
   color:#ccc;
 }
+
+/* PlayerSubjectMatter */
+td.sm-name {
+  font-weight: bold;
+}
+
+td.sm-value span {
+  display: block;
+  margin:5px;
+  float: left;
+  font-weight: bold;
+}
+
+td.sm-value .ui-slider {
+  float:left;
+  width: 150px;
+  margin:7px 10px 3px 10px;
+}

@@ -59,6 +59,11 @@ class ProfileController extends Controller
 			if($model->validate() && $profile->validate()) {
 				$model->save();
 				$profile->save();
+       
+        if (isset($_POST['User']['subjectMatters'])) {
+          UserToSubjectMatter::saveRelationShips($model->id, $_POST['User']['subjectMatters']);
+        }
+        
         Flash::add('success', UserModule::t("Profile saved."));
 				$this->redirect(array('/user/profile'));
 			} else $profile->validate();

@@ -41,7 +41,6 @@ class SubjectMatterController extends GxController {
 			$model->setAttributes($_POST['SubjectMatter']);
 			$relatedData = array(
 				'imageSets' => $_POST['SubjectMatter']['imageSets'] === '' ? null : $_POST['SubjectMatter']['imageSets'],
-				'users' => $_POST['SubjectMatter']['users'] === '' ? null : $_POST['SubjectMatter']['users'],
 				);
 
 			if ($model->saveWithRelated($relatedData)) {

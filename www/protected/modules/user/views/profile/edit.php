@@ -59,6 +59,10 @@ $this->menu = array(
 			}
 		}
 ?>
+<div class="row clearfix">
+  <h2><?php echo Yii::t('app', 'Interests'); ?></h2>
+  <?php $this->widget('PlayerSubjectMatter', array('user_id' => $model->id, 'update' => true, 'admin' => false)); ?>
+  </div><!-- row -->
 <div class="row buttons">
 	<?php echo CHtml::submitButton($model->isNewRecord ? UserModule::t('Create') : UserModule::t('Save')); ?>
 </div>

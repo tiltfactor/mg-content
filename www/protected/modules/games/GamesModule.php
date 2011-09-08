@@ -234,7 +234,7 @@ class GamesModule extends CWebModule
    * @param int $user_id The user_id in the database of the player whoms scores should be returned
    * @return mixed Null if no player scores found or array of objects
    */
-  public static function getPlayerScores($user_id) {
+  public static function getPlayerScores($user_id, $active=true) {
     static $user_games; // we only want to load the players scores once per request
     
     if (!is_array($user_games)) {
@@ -249,7 +249,7 @@ class GamesModule extends CWebModule
                     ->select('g.id, g.unique_id, ug.score, ug.number_played')
                     ->from('{{game}} g')
                     ->leftJoin('{{user_to_game}} ug', 'ug.game_id=g.id AND ug.user_id=:userID', array(':userID' => $user_id))
-                    ->where('g.active=1')
+                    ->where( ($active)? 'g.active=1' : null)
                     ->order('score DESC, number_played DESC')
                     ->queryAll();
       

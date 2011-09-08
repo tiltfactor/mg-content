@@ -41,6 +41,16 @@
 		<?php echo $form->label($model, 'edited_count'); ?>
 		<?php echo $form->textField($model, 'edited_count'); ?>
 	</div>
+	
+	<div class="row">
+    <?php echo $form->label($model, 'created'); ?>
+    <?php echo $form->textField($model, 'created'); ?>
+  </div>
+
+  <div class="row">
+    <?php echo $form->label($model, 'modified'); ?>
+    <?php echo $form->textField($model, 'modified'); ?>
+  </div>
 
 	<div class="row buttons">
 		<?php echo GxHtml::submitButton(Yii::t('app', 'Search')); ?>

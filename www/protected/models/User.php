@@ -12,6 +12,10 @@ class User extends BaseUser
     return parent::model($className);
   }
   
+  public static function label($n = 1) {
+    return Yii::t('app', 'Player|Players', $n);
+  }
+  
   public function tableName() {
     return Yii::app()->getModule('user')->tableUsers;
   }
@@ -71,42 +75,64 @@ class User extends BaseUser
     );
   }
   
-  public function scopes()
-    {
-        return array(
-            'active'=>array(
-                'condition'=>'status='.self::STATUS_ACTIVE,
-            ),
-            'notactvie'=>array(
-                'condition'=>'status='.self::STATUS_NOACTIVE,
-            ),
-            'banned'=>array(
-                'condition'=>'status='.self::STATUS_BANNED,
-            ),
-            'player'=>array(
-                'condition'=>'role=\'player\'',
-            ),
-            'editor'=>array(
-                'condition'=>'role=\'editor\'',
-            ),
-            'dbmanager'=>array(
-                'condition'=>'role=\'dbmanager\'',
-            ),
-            'admin'=>array(
-                'condition'=>'role=\'admin\'',
-            ),
-            'notsafe'=>array(
-              'select' => 'id, username, password, email, activekey, edited_count, created, modified, lastvisit, role, status',
-            ),
-        );
-    }
+  public function scopes() {
+    return array(
+      'active'=>array(
+          'condition'=>'status='.self::STATUS_ACTIVE,
+      ),
+      'notactvie'=>array(
+          'condition'=>'status='.self::STATUS_NOACTIVE,
+      ),
+      'banned'=>array(
+          'condition'=>'status='.self::STATUS_BANNED,
+      ),
+      'player'=>array(
+          'condition'=>'role=\'player\'',
+      ),
+      'editor'=>array(
+          'condition'=>'role=\'editor\'',
+      ),
+      'dbmanager'=>array(
+          'condition'=>'role=\'dbmanager\'',
+      ),
+      'admin'=>array(
+          'condition'=>'role=\'admin\'',
+      ),
+      'notsafe'=>array(
+        'select' => 'id, username, password, email, activekey, edited_count, created, modified, lastvisit, role, status',
+      ),
+    );
+  }
   
-  public function defaultScope()
-    {
-        return array(
-            'select' => 'id, username, email, edited_count, modified, created, lastvisit, role, status',
-        );
+  public function getTopTags($num_tags=10) {
+    $tags = Yii::app()->db->createCommand()
+                  ->select('count(t.id) as counted, t.id, t.tag')
+                  ->from('{{session}} s')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->where('s.user_id=:userID', array(":userID" => $this->id))
+                  ->group('t.id, t.tag')
+                  ->order('counted DESC')
+                  ->limit($num_tags)
+                  ->queryAll();
+        
+    if ($tags) {
+      $out = array();
+      foreach ($tags as $tag) {
+        $out[] = CHtml::link($tag["tag"] . '(' .$tag["counted"] . ')', array("/admin/tag/view", "id" =>$tag["id"]));  
+      }
+      return implode(", ", $out);
+    } else {
+      return ""; 
     }
+  }
+  
+  public function defaultScope() {
+    return array(
+      'select' => 'id, username, email, edited_count, modified, created, lastvisit, role, status',
+    );
+  }
   
   public static function itemAlias($type,$code=NULL) {
     $roles = array();

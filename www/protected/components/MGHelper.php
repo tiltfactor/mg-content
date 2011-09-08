@@ -114,12 +114,12 @@ class MGHelper {
     }
   }
 
-  public static function createSharedSecretAndSession($user_id, $user_name) {
+  public static function createSharedSecretAndSession($user_id, $user_name, $refresh=false) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     if (!isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
       Yii::app()->session[$api_id .'_SHARED_SECRET'] = uniqid($api_id) . substr(Yii::app()->session->sessionID, 0, 5);
     }
-    if (!isset(Yii::app()->session[$api_id .'_SESSION_ID'])) {
+    if (!isset(Yii::app()->session[$api_id .'_SESSION_ID']) || $refresh) {
       $session = new Session;
       $session->username = $user_name;
       $session->ip_address = ip2long(Yii::app()->request->userHostAddress);

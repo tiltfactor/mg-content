@@ -252,6 +252,9 @@ div.search-form
 }
 
 /* mg basics */
+
+h2 {margin:10px 0px 5px 0px;}
+
 .ir {
   display:block;
   text-indent: -3000px;
@@ -309,6 +312,16 @@ ul#arcade-games a.image {
   line-height: 16px;
 }
 
+.grid-view td.tags a {
+  font-size:10px;
+  color:#000000;
+  text-decoration: none;
+}
+
+.grid-view td.tags a:hover {
+  color:#666;
+}
+
 .form h2 {
   font-size: 16px;
   font-weight: bold;
@@ -318,7 +331,7 @@ ul#arcade-games a.image {
 
 fieldset.admin-tools {
   float:left;
-  width: 180px;
+  width: 230px;
   margin-right:20px;
   border:1px solid #ccc;
   padding:10px;
@@ -332,4 +345,22 @@ fieldset.admin-tools h3 {
   font-size:14px;
   font-weight: bold;
   margin-bottom: 5px;
+}
+
+/* PlayerSubjectMatter */
+td.sm-name {
+  font-weight: bold;
+}
+
+td.sm-value span {
+  display: block;
+  margin:5px;
+  float: left;
+  font-weight: bold;
+}
+
+td.sm-value .ui-slider {
+  float:left;
+  width: 150px;
+  margin:7px 10px 3px 10px;
 }

@@ -82,12 +82,22 @@
 .grid-view .button-column
 {
 	text-align: center;
-	width: 60px;
+	width: 90px;
+}
+
+#users-grid .un {
+  font-weight: bold;
 }
 
 .grid-view .button-column img
 {
 	border: 0;
+	margin:2px;
+}
+
+.grid-view .button-column a:hover img
+{
+  opacity: 0.65;
 }
 
 .grid-view .checkbox-column

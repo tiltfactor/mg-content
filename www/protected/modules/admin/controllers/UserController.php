@@ -24,7 +24,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update','view'),
+				'actions'=>array('admin','delete','create','update','view', 'batch'),
 				'roles'=>array('dbmanager', 'admin'),
 			),
 			array('deny',  // deny all users
@@ -136,13 +136,17 @@ class UserController extends Controller
 					$model->activekey=UserModule::encrypting(microtime().$model->password);
 				}
         
-        $relatedData = array(
-          'games' => $_POST['User']['games'] === '' ? null : $_POST['User']['games'],
-          'subjectMatters' => $_POST['User']['subjectMatters'] === '' ? null : $_POST['User']['subjectMatters'],
-          );
+        $relatedData = array();
+        if (isset($_POST['User']['games']))
+          $relatedData['games'] = $_POST['User']['games'] === '' ? null : $_POST['User']['games'];
         
         if($model->saveWithRelated($relatedData)) {
           $profile->save();
+          
+          if (isset($_POST['User']['subjectMatters'])) {
+            UserToSubjectMatter::saveRelationShips($model->id, $_POST['User']['subjectMatters']);
+          }
+          
           MGHelper::log('update', 'Updated user with ID(' . $model->id . ')');
           Flash::add('success', Yii::t('app', "User updated"));
           $this->redirect(array('view','id'=>$model->id));  
@@ -216,5 +220,35 @@ class UserController extends Controller
         throw new CHttpException(404,'The requested page does not exist.');
     }
     return $this->_model;
+  }
+  
+  public function actionBatch($op) {
+    if (Yii::app()->getRequest()->getIsPostRequest()) {
+      switch ($op) {
+        case "ban":
+          $this->_batchBan();
+          break;
+      }
+      if (!Yii::app()->getRequest()->getIsAjaxRequest())
+        $this->redirect(array('admin'));
+    } else
+      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
+    
+  }
+  
+  private function _batchBan() {
+    if (isset($_POST['users-ids'])) {
+      $criteria=new CDbCriteria;
+      $criteria->addInCondition("id", $_POST['users-ids']);
+      MGHelper::log('batch-ban', 'Banned players with IDs(' . implode(',', $_POST['users-ids']) . ')');
+      
+      // xxx implement batch ban and 
+      
+      /**
+       *  $model = new Badge;
+          $model->deleteAll($criteria);
+       */
+      throw new CHttpException(500, Yii::t('app', 'This method is not fully implented yet.'));  
+    } 
   }
 }

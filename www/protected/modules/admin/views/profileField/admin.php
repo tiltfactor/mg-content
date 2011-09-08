@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
   Yii::t('app', 'Admin')=>array('/admin'),
-  UserModule::t('Users')=>array('/admin/user'),
+  UserModule::t('Players')=>array('/admin/user'),
   UserModule::t('Profile Fields'),
 );
 
@@ -17,6 +17,7 @@ $this->menu = array(
 	'dataProvider'=>$dataProvider,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
   'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+  'baseScriptUrl' => "/css/yii/gridview",
   'columns'=>array(
 		'id',
 		'varname',

@@ -82,19 +82,8 @@
 		}
 ?>
   <div class="row clearfix">
-  <h2><?php echo GxHtml::encode($model->getRelationLabel('sessions')); ?></h2>
-  <?php echo $form->checkBoxList($model, 'sessions', GxHtml::encodeEx(GxHtml::listDataEx(Session::model()->findAllAttributes(null, true)), false, true), 
-        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
-  </div><!-- row -->
-  <div class="row clearfix">
-  <h2><?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
-  <?php echo $form->checkBoxList($model, 'games', GxHtml::encodeEx(GxHtml::listDataEx(Game::model()->findAllAttributes(null, true)), false, true), 
-        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
-  </div><!-- row -->
-  <div class="row clearfix">
   <h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
-  <?php echo $form->checkBoxList($model, 'subjectMatters', GxHtml::encodeEx(GxHtml::listDataEx(SubjectMatter::model()->findAllAttributes(null, true)), false, true), 
-        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
+  <?php $this->widget('PlayerSubjectMatter', array('user_id' => $model->id, 'update' => true, 'admin' => true)); ?>
   </div><!-- row -->
 <?php
 echo GxHtml::submitButton(Yii::t('app', 'Save'));
