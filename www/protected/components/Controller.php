@@ -54,7 +54,7 @@ class Controller extends CController
     } else {
       $time = microtime(true);
       $throttle_interval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500);  
-      if (($time - Yii::app()->session[$api_id .'_LAST_ACCESS']) > $throttle_interval) {
+      if (($time - Yii::app()->session[$api_id .'_LAST_ACCESS']) * 1000 > $throttle_interval) {
         Yii::app()->session[$api_id .'_LAST_ACCESS'] = $time;
         $filterChain->run();
       } else {
