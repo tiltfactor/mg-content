@@ -158,7 +158,7 @@ return array (
       'arcade_image' => 'zentag_arcade.png',
       'more_info_url' => '',
       'play_once_and_move_on' => '1',
-      'play_once_and_move_on_url' => 'http://metadatagames.test/index.php/site/contact',
+      'play_once_and_move_on_url' => 'http://www.metadatagames.com',
       'turns' => '4',
       'score_new' => '2',
       'score_match' => '1',
