@@ -36,16 +36,32 @@ class Controller extends CController
   }
   
   /**
-   * The filter method for 'ajaxOnly' filter.
-   * If the current request is not an ajax request the user will be shown the API's index page
+   * The filter method for 'Throttle' filter.
+   * The current microtime of will be compared to the user's last access microtime (which is stored 
+   * in the session). If the current time minus the stored time is smaller than the configured throttle interval 
+   * (as configured in Global Settings) is the stored time will be actualized and a HTTP 420 'Enhance your calm' 
+   * exception will be thrown.    
    * 
    * @param CFilterChain $filterChain the filter chain that the filter is on.
    * 
    */
   public function filterThrottle($filterChain)
   {
-    $filterChain->run();
-    // xxx implement 
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    if (!isset(Yii::app()->session[$api_id .'_LAST_ACCESS'])) {
+      Yii::app()->session[$api_id .'_LAST_ACCESS'] = microtime(true);
+      $filterChain->run();  
+    } else {
+      $time = microtime(true);
+      $throttle_interval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500);  
+      if (($time - Yii::app()->session[$api_id .'_LAST_ACCESS']) > $throttle_interval) {
+        Yii::app()->session[$api_id .'_LAST_ACCESS'] = $time;
+        $filterChain->run();
+      } else {
+        Yii::app()->session[$api_id .'_LAST_ACCESS'] = $time;
+        throw new CHttpException(420, Yii::t('app', 'Enhance your calm.'));        
+      }
+    }
   }
   
   /**

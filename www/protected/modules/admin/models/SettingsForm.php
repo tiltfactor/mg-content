@@ -8,7 +8,7 @@
 class SettingsForm extends Game
 {
   public $app_name = "Meta Data Games";  
-  public $throttle_interval = 5000; //interval in miliseconds
+  public $throttle_interval = 2500; //interval in miliseconds
   public $app_email = "sukie@tiltfaktor.org";
   public $pagination_size = 25;
   public $app_upload_path = "/../uploads";
@@ -26,7 +26,7 @@ class SettingsForm extends Game
   public function attributeLabels() {
     return array(
       'app_name' => Yii::t('app', 'Application Name'), // xxx make use of setting throughout the system
-      'throttle_interval' => Yii::t('app', 'Throttle Interval (how many millisecond)'), // xxx make use of setting throughout the system
+      'throttle_interval' => Yii::t('app', 'Throttle Interval (how many millisecond have to be between two api requests)'), // xxx make use of setting throughout the system
       'app_email' => Yii::t('app', 'E-Mail address (e-mails are send from and contact form messages are send to)'),
       'pagination_size' => Yii::t('app', 'Listings pagination size'), // xxx make use of setting throughout the system
       'app_upload_path' => Yii::t('app', 'Upload folder (relative path to application folder)'), // xxx make use of setting throughout the system

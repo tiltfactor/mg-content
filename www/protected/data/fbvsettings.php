@@ -6,7 +6,6 @@ return array (
   array (
     'description' => 'This is a short description of the project',
   ),
-  'throttleInterval' => 5,
   'image' => 
   array (
     'formats' => 
@@ -171,7 +170,7 @@ return array (
   'settings' => 
   array (
     'app_name' => 'Meta Data Games Test',
-    'throttle_interval' => '1500',
+    'throttle_interval' => '2500',
     'app_email' => 'sukie@tiltfaktor.org',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',

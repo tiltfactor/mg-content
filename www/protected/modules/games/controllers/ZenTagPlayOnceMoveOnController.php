@@ -41,7 +41,7 @@ class ZenTagPlayOnceMoveOnController extends ZenTagController
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/zentag/js/mg.game.zentag.js', CClientScript::POS_END);
       
-      $throttleInterval = (int)Yii::app()->fbvStorage->get("throttleInterval", 5);
+      $throttleInterval = ((int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500)/1000); // we want to show the user seconds and not miliseconds
       $js = <<<EOD
     MG_GAME_ZENTAG.init({
         gid : 'ZenTagPlayOnceMoveOn',

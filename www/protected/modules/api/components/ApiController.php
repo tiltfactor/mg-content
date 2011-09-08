@@ -16,8 +16,8 @@ class ApiController extends Controller
    * Defines the filter that are active for the API controller
    */
   public function filters() {
-    return array( // add blocked IP filter here
-        'throttle',
+    return array( 
+        'throttle - sharedsecret', // as shared secret and the first game turn should be served immediately we can't throttle shared secret 
         'IPBlock',
         'APIAjaxOnly', // custom filter defined in this class accepts only requests with the header HTTP_X_REQUESTED_WITH === 'XMLHttpRequest'
         'accessControl',
