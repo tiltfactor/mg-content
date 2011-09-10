@@ -50,7 +50,7 @@ class PluginsModule extends CWebModule
           print "here";
           $url = $component->adminPath;
         } else {
-          $info = split("-", $uid);
+          $info = explode("-", $uid);
           $type = $info[0];
           $class = $info[1];
           $controller = str_replace("Plugin", "", $class);
@@ -63,7 +63,7 @@ class PluginsModule extends CWebModule
   }
   
   public static function getPluginClassName($uid) {
-    $info = split("-", $uid);
+    $info = explode("-", $uid);
     return $info[1];
   }
   
@@ -76,7 +76,7 @@ class PluginsModule extends CWebModule
     foreach ($plugins as $plugin) {
       try {
       
-        $info = split("-", $plugin->unique_id);
+        $info = explode("-", $plugin->unique_id);
         $plugin_type = $info[0];
         $plugin_class = $info[1];
         
