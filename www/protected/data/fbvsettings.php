@@ -45,6 +45,14 @@ return array (
       'role' => 'editor',
       'group' => 'Images & Tags',
     ),
+    'tool-import' => 
+    array (
+      'name' => 'Import',
+      'description' => 'Tools to import images or tags (? xxx) into the system',
+      'url' => '/admin/import',
+      'role' => 'editor',
+      'group' => 'Images & Tags',
+    ),
     'tool-image-set' => 
     array (
       'name' => 'Image Sets',
@@ -100,14 +108,6 @@ return array (
       'url' => '/admin/badge',
       'role' => 'editor',
       'group' => 'Games & Plugins',
-    ),
-    'tool-import' => 
-    array (
-      'name' => 'Import',
-      'description' => 'Tools to import images or tags (? xxx) into the system',
-      'url' => '/admin/import',
-      'role' => 'editor',
-      'group' => 'Import & Export',
     ),
     'tool-ip' => 
     array (
