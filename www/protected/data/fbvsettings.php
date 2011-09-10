@@ -171,7 +171,7 @@ return array (
   array (
     'app_name' => 'Meta Data Games Test',
     'throttle_interval' => '2500',
-    'app_email' => 'sukie@tiltfaktor.org',
+    'app_email' => 'sukie@tiltfactor.org',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
