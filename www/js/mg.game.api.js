@@ -29,11 +29,13 @@ MG_GAME_API = function ($) {
     },
     
     loadGame : function () {
-      MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
-        if (MG_API.checkResponse(response)) {
-          MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
-          MG_GAME_API.settings.ongameinit(response);
-        }
+      MG_API.waitForThrottleIntervalToPass(function () {
+        MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
+          if (MG_API.checkResponse(response)) {
+            MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
+            MG_GAME_API.settings.ongameinit(response);
+          }
+        });  
       });
     },
     

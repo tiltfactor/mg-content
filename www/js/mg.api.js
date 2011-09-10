@@ -3,12 +3,15 @@ MG_API = function ($) {
     curtain : null,
     fancyboxLink : null, // fancybox needs to be triggered via a link so we have to generate this invisible link
     modals : null,
-    busy : false, // flag to give you a handle to avoid double submits  
+    busy : false, // flag to give you a handle to avoid double submits
+    
+    timeLastRequests : 0, //some requests might want to make sure to wait for the throttle interval to pass before makeing a call
+    
     settings : {
       shared_secret : '',
       api_url : '',
       app_id : 'MG_API',
-      throttleInterval : 5,
+      throttleInterval : 2500,
       onapiinit : function () {}
     },
        
@@ -59,7 +62,16 @@ MG_API = function ($) {
     },
     
     enhanceYourCalm : function () {
-      MG_API.error('<h1>Not so fast!</h1><p>The system accepts submissions every ' + MG_API.settings.throttleInterval + ' seconds.</p>');
+      MG_API.error('<h1>Not so fast!</h1><p>The system accepts submissions every ' + (MG_API.settings.throttleInterval/1000) + ' seconds.</p>');
+    },
+    
+    waitForThrottleIntervalToPass : function (callback) {
+      var timePastSinceLastCall = new Date().getTime() - MG_API.timeLastRequests;
+      if (timePastSinceLastCall < MG_GAME_API.settings.throttleInterval) {
+        setTimeout(callback, MG_GAME_API.settings.throttleInterval - timePastSinceLastCall);
+      } else {
+        callback();
+      }
     },
     
     error : function (msg) {
@@ -130,7 +142,8 @@ MG_API = function ($) {
       if (options) {
         defaults = $.extend(defaults, options); //Pull from both defaults and supplied options
       }
-      $.ajax(defaults);
+      MG_API.timeLastRequests = new Date().getTime();
+      var jsXHR = $.ajax(defaults);
     },
     
     showModal : function(modalContent, onclosed) {
