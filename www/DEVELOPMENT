@@ -52,6 +52,30 @@ http://www.yiiframework.com/extension/xupload MIT
 
 NOT sure if used
 
+Generally there are technical challenges with image import and export.
+
+    Manage various server configurations which will vary on the servers
+
+    The functionality of the system depends on
+    1. php ini post_max_size
+    2. php ini memory_limit
+    3. php ini max_input_time
+    4. php ini max_execution_time
+    5. php ini upload_max_filesize
+
+    These settings influence the import tools differently
+        Upload from local computer is generally not really affected as each image will be uploaded in a single request
+
+        Upload zip is affected by all settings (making it it therefore the most difficult tool to control). If we want to bring it into a controlled zone we have either make sure the server settings are "good" [implying to make the user of the system tweak the server settings] or reduce the maxium file size of zip files drastically. One other problem is that raw image material is rather large so a zip file can already reach the max file size quite quickly (10*3MB is 30MB which is already quite big for an upload file size setting)
+
+        FTP is mainly influence by max_execution_time. This is fairly simple to control making it therefore in my eyes the tool of choice.
+
+    Generation of scaled version
+    In a further comment you suggested to make use of a queueing system for processing images. At the moment the thumbnail is generated on image import. All other version are created on the first request. This basically crowd sources the task. The first requesting user will have to wait a bit longer for the images but it will do.
+
+    In future versions we could have a queue/cron job based image processing engine
+
+
 Documentation default settings in fbvsettings.php 
 
 return array (

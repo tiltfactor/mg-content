@@ -125,16 +125,18 @@ class ImportController extends GxController {
                   
                 $file_info = pathinfo($file['stored_filename']);
                 
-                $mime_type = CFileHelper::getMimeType($file['filename']);
-                if ($mime_type == "image/jpeg") {
-                  $cnt_added++;
+                if (!$file["folder"] && strpos($file['stored_filename'], "__MACOSX") === false) { // we don't want to process folder and MACOSX meta data file mirrors as the mirrored files also return the image/jpg mime type
+                  $mime_type = CFileHelper::getMimeType($file['filename']);
+                  if ($mime_type == "image/jpeg") {
+                    $cnt_added++;
+                    
+                    $file['stored_filename'] = $this->checkFileName($path, $file_info["basename"]);
+                    rename($file['filename'], $path . $file['stored_filename']);
+                    $this->createImage($file['stored_filename'], $file['size'], $_POST['ImportZipForm']["batch_id"], $mime_type);
                   
-                  $file['stored_filename'] = $this->checkFileName($path, $file_info["basename"]);
-                  rename($file['filename'], $path . $file['stored_filename']);
-                  $this->createImage($file['stored_filename'], $file['size'], $_POST['ImportZipForm']["batch_id"], $mime_type);
-                
-                } else {
-                  $cnt_skipped++;
+                  } else {
+                    $cnt_skipped++;
+                  }
                 }
               }
               Flash::add("success", Yii::t('app', '{total} files found, {num} images imported, {num_skipped} other files skipped', array("{num}" => $cnt_added, "{total}" => $cnt_added + $cnt_skipped, "{num_skipped}" => $cnt_skipped)));
@@ -157,6 +159,8 @@ class ImportController extends GxController {
   }
   
   public function actionUploadFtp() {
+    
+    // add page resubmit if script time out is close. 
     $this->layout='//layouts/column1';  
     $this->checkUploadFolder();
     
