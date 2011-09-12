@@ -82,12 +82,13 @@
 .grid-view .button-column
 {
 	text-align: center;
-	width: 60px;
+	width: 90px;
 }
 
 .grid-view .button-column img
 {
 	border: 0;
+	margin:2px;
 }
 
 .grid-view .checkbox-column
