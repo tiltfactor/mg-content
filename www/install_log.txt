@@ -3,6 +3,45 @@ git pull git://gitorious.org/metadatagames/metadatagames.git refs/merge-requests
 1. create database and db user
 2. Copy everything that is in /www onto the server's web root.
 3. Goto /requirements and check that everything is ok
+
+3.1 The system needs an image manipulation component. While it works with GD we recommend to use ImageMagick. 
+  xxx add how to install image magick and recommendations for php ini settings
+    "sudo aptitude install imagemagick"
+    
+    UBUNTU 
+    " sudo apt-get update
+      sudo apt-get install imagemagick --fix-missing 
+      "
+  xxx make sure the image magick is part of the open_base_dir 
+  
+    Plesk:
+      For domain http://www.linuxweblog.com/plesk-vhost.conf
+      For subdomain http://enarion.net/web/plesk/subdomains-and-open_basedir/
+      
+      Use:  /usr/local/psa/admin/sbin/httpdmng --reconfigure-all to refresh configuration
+            then apache2ctl graceful to restart the server
+  xxx make sure that we configure imagemagick as the driver for the image extension/component if ImageMagick is installed
+  
+3.2 PHP INI
+  Come up with sensible php ini settings and suggest here 
+  If GD memory limit has to be at least 96MB better 128MB 
+  mention here that we recommend to turn safe mode off
+  
+  The functionality of the system depends on
+    1. php ini post_max_size
+    2. php ini memory_limit
+    3. php ini max_input_time
+    4. php ini max_execution_time
+    5. php ini upload_max_filesize
+
+    These settings influence the import tools differently
+        Upload from local computer is generally not really affected as each image will be uploaded in a single request
+
+        Upload zip is affected by all settings (making it it therefore the most difficult tool to control). If we want to bring it into a controlled zone we have either make sure the server settings are "good" [implying to make the user of the system tweak the server settings] or reduce the maxium file size of zip files drastically. One other problem is that raw image material is rather large so a zip file can already reach the max file size quite quickly (10*3MB is 30MB which is already quite big for an upload file size setting)
+
+        FTP is mainly influence by max_execution_time (and memory limit if GD is used). This is fairly simple to control making it therefore in my eyes the tool of choice.
+
+  
 4. Make sure the following folder are empty and write able for the web server
 /assets
 /uploads

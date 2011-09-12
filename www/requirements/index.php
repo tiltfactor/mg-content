@@ -115,6 +115,12 @@ $requirements=array(
 		//extension_loaded('gd'),
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		$message),
+  array(
+    t('yii','ImageMagic'),
+    false,
+    checkImageMagick(),
+    'Metadata Games recommend to use Image Magick for image resizing.',
+    ''),
 	array(
 		t('yii','Ctype extension'),
 		false,
@@ -237,6 +243,10 @@ function getServerInfo()
 	$info[]=@strftime('%Y-%m-%d %H:%M',time());
 
 	return implode(' ',$info);
+}
+
+function checkImageMagick() {
+  return is_file($path = exec('which convert'));  
 }
 
 function renderFile($_file_,$_params_=array())
