@@ -675,6 +675,64 @@ CREATE INDEX `fk_game_partner_session1` ON `game_partner` (`session_id` ASC) ;
 CREATE INDEX `fk_game_partner_game1` ON `game_partner` (`game_id` ASC) ;
 
 
+-- -----------------------------------------------------
+-- Table `AuthItem`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `AuthItem` ;
+
+CREATE  TABLE IF NOT EXISTS `AuthItem` (
+  `name` VARCHAR(64) NOT NULL ,
+  `type` INT NOT NULL ,
+  `description` TEXT NULL DEFAULT NULL ,
+  `bizrule` TEXT NULL DEFAULT NULL ,
+  `data` TEXT NULL DEFAULT NULL ,
+  PRIMARY KEY (`name`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `AuthItemChild`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `AuthItemChild` ;
+
+CREATE  TABLE IF NOT EXISTS `AuthItemChild` (
+  `parent` VARCHAR(64) NOT NULL ,
+  `child` VARCHAR(64) NOT NULL ,
+  PRIMARY KEY (`parent`, `child`) ,
+  CONSTRAINT `fk_{D3C449C2-B9CC-46EA-80A5-1FBCB86CD3A2}`
+    FOREIGN KEY (`parent` )
+    REFERENCES `AuthItem` (`name` )
+    ON DELETE cascade
+    ON UPDATE cascade,
+  CONSTRAINT `fk_{818C790C-3BBE-4C8D-A383-37DED516A298}`
+    FOREIGN KEY (`child` )
+    REFERENCES `AuthItem` (`name` )
+    ON DELETE cascade
+    ON UPDATE cascade)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_{818C790C-3BBE-4C8D-A383-37DED516A298}` ON `AuthItemChild` (`child` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `AuthAssignment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `AuthAssignment` ;
+
+CREATE  TABLE IF NOT EXISTS `AuthAssignment` (
+  `itemname` VARCHAR(64) NOT NULL ,
+  `userid` VARCHAR(64) NOT NULL ,
+  `bizrule` TEXT NULL DEFAULT NULL ,
+  `data` TEXT NULL DEFAULT NULL ,
+  PRIMARY KEY (`itemname`, `userid`) ,
+  CONSTRAINT `fk_{4D666442-7B7E-4C6F-84DC-566EB7E44203}`
+    FOREIGN KEY (`itemname` )
+    REFERENCES `AuthItem` (`name` )
+    ON DELETE cascade
+    ON UPDATE cascade)
+ENGINE = InnoDB;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -734,5 +792,29 @@ INSERT INTO `profile` (`user_id`) VALUES (1);
 INSERT INTO `profile` (`user_id`) VALUES (2);
 INSERT INTO `profile` (`user_id`) VALUES (3);
 INSERT INTO `profile` (`user_id`) VALUES (4);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `AuthItem`
+-- -----------------------------------------------------
+START TRANSACTION;
+INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('player', 2, 'A player can only record his or her games', NULL, NULL);
+INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('editor', 2, 'An editor has access to several tools in the system', NULL, NULL);
+INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('dbmanager', 2, 'A db manager has access to nearly all tools', NULL, NULL);
+INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('admin', 2, 'The admin can access everything', NULL, NULL);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `AuthItemChild`
+-- -----------------------------------------------------
+START TRANSACTION;
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('editor', 'player');
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('dbmanager', 'player');
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('dbmanager', 'editor');
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'player');
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'editor');
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'dbmanager');
 
 COMMIT;
