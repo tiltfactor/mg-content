@@ -37,14 +37,20 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+echo CHtml::beginForm('','post',array('id'=>'users-form'));
+$this->widget('zii.widgets.grid.CGridView', array(
   'id' => 'users-grid',
   'dataProvider' => $model->search(),
+  'filter' => $model,
   'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
   'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-  'filter' => $model,
+  'selectableRows'=>2,
   'columns' => array(
-    'id',
+    array(
+      'class'=>'CCheckBoxColumn',
+      'id'=>'users-ids',
+    ),
     'username',
     'email',
     array(
@@ -76,4 +82,16 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
       'class' => 'CButtonColumn',
     ),
   ),
-)); ?>
+)); 
+echo CHtml::endForm();
+
+$this->widget('ext.gridbatchaction.GridBatchAction', array(
+      'formId'=>'users-form',
+      'checkBoxId'=>'users-ids',
+      'ajaxGridId'=>'users-grid', 
+      'items'=>array(
+          array('label'=>Yii::t('ui','Ban selected players'),'url'=>array('batch', 'op' => 'ban'))
+      ),
+      'htmlOptions'=>array('class'=>'batchActions'),
+  ));
+?>
