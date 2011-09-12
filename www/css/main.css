@@ -364,3 +364,63 @@ td.sm-value .ui-slider {
   width: 150px;
   margin:7px 10px 3px 10px;
 }
+
+#user-tags-listview,
+#user-images-listview {
+  padding:0 0 20px 0;
+}
+
+#user-tags-listview .pager .first,
+#user-tags-listview .pager .last,
+#user-images-listview .pager .first,
+#user-images-listview .pager .last {
+  display: none;
+}
+
+a.listview-image {
+  border: 1px solid #bbb;
+  background-color: #eee;
+  float: left;
+  margin: 0px 5px 5px 0px;
+  padding:5px;
+  vertical-align: top;
+  line-height: 60px;
+  text-decoration: none;
+  color:#333;
+  font-weight: bold;
+  line-height: 16px;
+}
+
+a.listview-image:hover {
+  border: 1px solid #bbb;
+  background-color: #ccc;
+}
+
+.listview-image img {
+  margin-right: 10px;
+  vertical-align: bottom;
+}
+
+a.listview-tag {
+  border: 1px solid #bbb;
+  background-color: #eee;
+  display: block;
+  float: left;
+  margin: 0px 5px 5px 0px;
+  padding:2px;
+  text-decoration: none;
+  color:#333;
+  font-weight: bold;
+  line-height: 16px;
+}
+
+a.listview-tag:hover {
+  border: 1px solid #bbb;
+  background-color: #ccc;
+}
+
+a.listview-tag span {} /* here you could style the counter */
+
+.list-view .pager {
+  clear: both;
+}

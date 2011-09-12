@@ -48,7 +48,6 @@ class UserController extends Controller
     ));
 	}
 
-
 	/**
 	 * Displays a particular model.
 	 */
@@ -87,10 +86,9 @@ class UserController extends Controller
 			if($model->validate() && $profile->validate()) {
 				$model->password=UserModule::encrypting($model->password);
 				
-        $relatedData = array(
-          'games' => $_POST['User']['games'] === '' ? null : $_POST['User']['games'],
-          'subjectMatters' => $_POST['User']['subjectMatters'] === '' ? null : $_POST['User']['subjectMatters'],
-          );
+        $relatedData = array();
+        if (isset($_POST['User']['games']))
+          $relatedData['games'] = $_POST['User']['games'] === '' ? null : $_POST['User']['games'];
 				
 				if($model->saveWithRelated($relatedData)) {
 					$profile->user_id=$model->id;
@@ -128,7 +126,9 @@ class UserController extends Controller
 			 $profile->attributes=$_POST['Profile'];
       
       $model->modified = date('Y-m-d H:i:s');
-
+      
+      // xxx implement a on "Ban" routine
+      
 			if($model->validate()&&$profile->validate()) {
 				$old_password = User::model()->notsafe()->findByPk($model->id);
 				if ($old_password->password!=$model->password) {
@@ -168,6 +168,8 @@ class UserController extends Controller
 	 */
 	public function actionDelete()
 	{
+		throw new CHttpException(400,'Invalid request. Players cannot be deleted.');  
+      
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request

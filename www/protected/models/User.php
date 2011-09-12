@@ -26,6 +26,7 @@ class User extends BaseUser
       array('status, edited_count', 'numerical', 'integerOnly'=>true),
       array('username', 'length', 'max'=>32),
       array('email', 'email'),
+      array('password', 'required', 'on'=>'insert'),
       array('password, email, activekey', 'length', 'max'=>128),
       array('role', 'length', 'max'=>45),
       array('role', 'checkRoleAccess'),

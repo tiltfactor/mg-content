@@ -38,10 +38,6 @@ class PlayerSubjectMatter extends CPortlet
     parent::init();
     
     $this->title=Yii::t('app', "Subject Matters");
-    
-    if (is_null($this->user_id)) 
-      $this->user_id = Yii::app()->user->id;
-    
   }
  
   protected function renderContent() {

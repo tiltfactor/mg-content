@@ -82,4 +82,29 @@ class Image extends BaseImage
     
     parent::afterDelete(); 
   }
+  
+  
+  public function searchUserImages($user_id) {
+    $command = Yii::app()->db->createCommand()
+                  ->select('i.id, i.name')
+                  ->from('{{session}} s')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  ->join('{{image}} i', 'i.id = tu.image_id')
+                  ->where('s.user_id=:userID', array(":userID" => $user_id))
+                  ->order('gs.created DESC');
+    $command->distinct = true;          
+    $tags = $command->queryAll();
+    return  new CArrayDataProvider($tags, array(
+      'id'=>'id',
+      'sort'=>array(
+          'attributes'=>array(
+               'id', 'name',
+          ),
+      ),
+      'pagination'=>array(
+          'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size")
+      ),
+    ));
+  }
 }

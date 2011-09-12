@@ -17,6 +17,7 @@ ul.yiiPager
 	padding:0;
 	line-height:100%;
 	display:inline;
+	line-height: 20px;
 }
 
 ul.yiiPager li

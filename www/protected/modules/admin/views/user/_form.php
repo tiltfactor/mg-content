@@ -48,7 +48,7 @@
     <?php echo CHtml::dropDownList('User[role]', $model->role, User::listRoles()); ?>
     <?php echo $form->error($model,'role'); ?>
   </div>
-  
+<?php if ($model->id) : ?>  
   <div class="row">
     <?php echo $form->labelEx($model,'created'); ?>
     <?php echo $model->created; ?>
@@ -57,6 +57,7 @@
     <?php echo $form->labelEx($model,'modified'); ?>
     <?php echo $model->modified; ?>
   </div><!-- row -->
+<?php endif; ?>
 <?php 
 		$profileFields=$profile->getFields();
 		if ($profileFields) {
@@ -81,10 +82,13 @@
 			}
 		}
 ?>
+
+<?php if ($model->id) : ?>
   <div class="row clearfix">
   <h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
   <?php $this->widget('PlayerSubjectMatter', array('user_id' => $model->id, 'update' => true, 'admin' => true)); ?>
   </div><!-- row -->
+<?php endif; ?>
 <?php
 echo GxHtml::submitButton(Yii::t('app', 'Save'));
 $this->endWidget();

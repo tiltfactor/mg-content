@@ -9,9 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu = array(
   array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
+  array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profileField')),
   array('label' => Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-  array('label'=>Yii::t('app', 'View Log for ') . ' ' . $model->username, 'url'=>array('/admin/log', 'Log[user_id]' => $model->id), 'visible' => ($model->role !== "player")),
   array('label' => Yii::t('app', 'View') . ' ' . $model->username, 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
+  array('label'=>Yii::t('app', 'View Log for ') . ' ' . $model->username, 'url'=>array('/admin/log', 'Log[user_id]' => $model->id), 'visible' => ($model->role !== "player")),
 );
 
 

@@ -55,8 +55,7 @@ return array(
 			'loginUrl' => array('/user/login'),
 		),
 		'authManager'=>array(
-            'class'=>'CPhpAuthManager',
-            // 'authFile' => 'path'                  // only if necessary
+      'class'=>'CDbAuthManager',
     ),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
