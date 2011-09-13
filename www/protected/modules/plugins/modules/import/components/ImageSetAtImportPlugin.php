@@ -5,7 +5,8 @@
  */
 
 class ImageSetAtImportPlugin extends MGImportPlugin {
-      
+  public $enableOnInstall = true;
+     
   function init() {
     parent::init();
   }

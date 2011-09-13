@@ -188,6 +188,10 @@ class DefaultController extends GxController
     try {
       $component = Yii::createComponent($plugin["class"]);
       $installed = $component->install(); 
+      
+      if ($component->enableOnInstall)
+        $model->active = 1;
+      
     } catch (Exception $e) {
       Flash::add("error", Yii::t('app', "The install method of the plugin of type {$listed_plugin->type} with the unique id {$listed_plugin->unique_id} could not be called!"), TRUE);
     }

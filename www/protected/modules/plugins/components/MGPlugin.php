@@ -6,9 +6,15 @@
 
 class MGPlugin extends CComponent {
   /**
+   * Set true to allow the plugin system to auto activate the plugin on registration
+   */  
+  public $enableOnInstall = FALSE;
+  
+  /**
    * Set true if the plug-in has got an admin tool
    */  
   public $hasAdmin = FALSE;
+  
   /**
    * If the admin tools path is not the default location please specify it here. 
    * User absolute or relative paths. 
