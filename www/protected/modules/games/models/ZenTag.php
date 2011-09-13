@@ -1,9 +1,6 @@
 <?php
 
 /**
- * LoginForm class.
- * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'SiteController'.
  */
 class ZenTag extends MGGameModel implements MGGameModelInterface
 {
@@ -20,17 +17,16 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
   public $score_expert = 3;
   public $image_width = 450;
   public $image_height = 450;
-  public $words_to_avoid_threshold = 10;
   
   public function rules() {
     return array(
-        array('name, description, arcade_image, active, play_once_and_move_on, score_new, score_match, score_expert, turns, words_to_avoid_threshold', 'required'),
+        array('name, description, arcade_image, active, play_once_and_move_on, score_new, score_match, score_expert, turns', 'required'),
         array('name', 'length', 'min'=>1, 'max'=>100),
         array('description', 'length', 'min'=>50, 'max'=>500),
         array('more_info_url, play_once_and_move_on_url','url'),
         array('image_width, image_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('active, play_once_and_move_on', 'numerical', 'min'=>0, 'max'=>1),
-        array('score_new, score_match, score_expert, turns, words_to_avoid_threshold', 'numerical', 'min'=>1, 'max'=>1000),
+        array('score_new, score_match, score_expert, turns', 'numerical', 'min'=>1, 'max'=>1000),
     );
   }
   
@@ -47,7 +43,6 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
       'image_width' => Yii::t('app', 'Stage Image max. Width'),
       'image_height' => Yii::t('app', 'Stage Image max. Height'),
       'turns' => Yii::t('app', 'Turns'),
-      'words_to_avoid_threshold' => Yii::t('app', 'Words to avoid weight threshold'),
     );
   }
   
@@ -66,7 +61,6 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
       $this->score_expert = (int)$game_data["score_expert"];
       $this->image_width = (int)$game_data["image_width"];
       $this->image_height = (int)$game_data["image_height"];
-      $this->words_to_avoid_threshold = (int)$game_data["words_to_avoid_threshold"];
     }
   }
   
@@ -84,7 +78,6 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
       'score_expert' => $this->score_expert,
       'image_width' => $this->image_width,
       'image_height' => $this->image_height,
-      'words_to_avoid_threshold' => $this->words_to_avoid_threshold,
     );
     Yii::app()->fbvStorage->set("games." . $this->getGameID(), $game_data);
   }

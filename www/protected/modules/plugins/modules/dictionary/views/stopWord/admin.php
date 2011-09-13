@@ -2,7 +2,9 @@
 
 $this->breadcrumbs = array(
 	Yii::t('app', 'Admin')=>array('/admin'),
-	$model->label(2),
+  Yii::t('app', 'Plugins')=>array('/plugins'),
+  Yii::t('app', 'Dictionary'),
+  $model->label(2),
 );
 
 $this->menu = array(

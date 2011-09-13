@@ -173,6 +173,7 @@ class MGTags {
    *        "original_comment" => "" //optional if set an original version entry will be created/updated
    *        "original_by_user_id" => null | user_id //optional if set an original version entry will be created/updated
    *        "tag_id" => -1|tag_id // the tag id mark it as -1 to make sure that the tag is registered as a new tag.
+   *        "type" => "new" // the type the tag use will be registered with. It can be new, matched, wordstoavoid, or set by an plugin
    *     )
    *     ...
    *   )

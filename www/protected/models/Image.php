@@ -91,7 +91,7 @@ class Image extends BaseImage
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')
                   ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
                   ->join('{{image}} i', 'i.id = tu.image_id')
-                  ->where('s.user_id=:userID', array(":userID" => $user_id))
+                  ->where(array('and', 'tu.weight >= 1', 's.user_id=:userID'), array(":userID" => $user_id))
                   ->order('gs.created DESC');
     $command->distinct = true;          
     $tags = $command->queryAll();

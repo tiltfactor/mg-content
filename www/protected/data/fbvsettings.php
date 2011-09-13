@@ -150,7 +150,6 @@ return array (
       'score_expert' => '3',
       'image_width' => '450',
       'image_height' => '450',
-      'words_to_avoid_threshold' => '2',
     ),
     'ZenTagPlayOnceMoveOn' => 
     array (
@@ -166,7 +165,6 @@ return array (
       'score_expert' => '3',
       'image_width' => '450',
       'image_height' => '450',
-      'words_to_avoid_threshold' => '10',
     ),
   ),
   'settings' => 
@@ -177,5 +175,15 @@ return array (
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
+  ),
+  'plugins' => 
+  array (
+    'dictionary' => 
+    array (
+      'WordsToAvoid' => 
+      array (
+        'words_to_avoid_threshold' => '2',
+      ),
+    ),
   ),
 );

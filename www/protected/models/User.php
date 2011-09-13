@@ -112,7 +112,7 @@ class User extends BaseUser
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')
                   ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
                   ->join('{{tag}} t', 'tu.tag_id = t.id')
-                  ->where('s.user_id=:userID', array(":userID" => $this->id))
+                  ->where(array('and', 'tu.weight >= 1', 's.user_id=:userID'), array(":userID" => $this->id))
                   ->group('t.id, t.tag')
                   ->order('counted DESC')
                   ->limit($num_tags)

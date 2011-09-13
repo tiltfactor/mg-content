@@ -35,7 +35,6 @@ $this->menu = array(
     'score_expert',
     'image_width',
     'image_height',
-    'words_to_avoid_threshold',
 	),
 )); ?>
 

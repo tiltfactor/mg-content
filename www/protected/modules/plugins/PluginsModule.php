@@ -68,6 +68,52 @@ class PluginsModule extends CWebModule
   }
   
   /**
+   * This method returns all active plugins of a plugin category. This method does not regard the 
+   * plugins $accessRole settings
+   * 
+   * @param string $type the plugin type that should be retrieved
+   * @return array all active plugins of that category
+   */
+  public static function getActivePlugins($type) {
+    static $plugin_list;
+    
+    $list = array();
+    
+    if (!isset($plugin_list)) {
+      $plugins = Plugin::model()->findAll('active=1');
+      
+      foreach ($plugins as $plugin) {
+        try {
+        
+          $info = explode("-", $plugin->unique_id);
+          $plugin_type = $info[0];
+          $plugin_class = $info[1];
+          
+          Yii::import("plugins.modules.$plugin_type.components.*");
+          Yii::import("plugins.modules.$plugin_type.models.*");
+          
+          $component_name = str_replace("Plugin", "", $plugin_class);
+          $component = Yii::createComponent($plugin_class);
+          
+          $plugin_list[$plugin_type][] = (object) array(
+            'id' => null, 
+            'type' => $plugin_type, 
+            'name' => $component_name, 
+            'link' => self::pluginAdminLink($plugin->unique_id),
+            'class' => $plugin_class,
+            'component' => $component
+          );
+        } catch (Exception $e) {}
+      }
+    }
+    if (array_key_exists($type, $plugin_list)) {
+      $list = $plugin_list[$type];
+    }
+    return $list;
+  }
+  
+  
+  /**
    * This method lists all active plug-ins the current user has got access to.
    */
   public static function getAccessiblePlugins($type=null, $active=1) {
