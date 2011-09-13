@@ -73,8 +73,8 @@ class Controller extends CController
   public function jsonResponse($var, $noCache=true) {
     $this->layout=false;
     if ($noCache) {
-      header('Cache-Control: no-cache, must-revalidate'); // xxx really no caching?
-      header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // xxx really no caching?
+      header('Cache-Control: no-cache, must-revalidate');
+      header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
     }
     header('Content-type: application/json');
     echo json_encode($var);

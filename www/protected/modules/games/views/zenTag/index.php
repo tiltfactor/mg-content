@@ -24,7 +24,8 @@
       </div> 
     </div>
     <div id="scores"></div>
-    <div id="licences"></div>  
+    <div id="licences"></div>
+    <div id="more_info"></div>  
   </div> 
 </div>
 <script id="template-scores" type="text/x-jquery-tmpl">
@@ -60,6 +61,9 @@
   <div style="text-align:center" class="clearfix">
     <a href="${url_full_size}" rel="zoom" title="${licence_info}"><img src="${url}" alt="game image" /></a>
   </div>
+</script>
+<script id="template-more-info" type="text/x-jquery-tmpl">
+  <a href="${url}">Click here to learn more about ${name}</a>
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>

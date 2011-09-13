@@ -247,6 +247,15 @@ h4 {
   color:#666;
 }
 
+#more_info {
+  position: absolute;
+  top:50%;
+  margin-top: -25px;
+  left: 50px;
+  width:200px;
+  height: 50px;
+}
+
 /* error modal window content */
 #mg_error {
   text-align: left;

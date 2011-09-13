@@ -141,7 +141,7 @@ return array (
       'name' => 'Zen Tag',
       'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
       'arcade_image' => 'zentag_arcade.png',
-      'more_info_url' => '',
+      'more_info_url' => 'http://www.google.co.uk',
       'play_once_and_move_on' => '0',
       'play_once_and_move_on_url' => '',
       'turns' => '4',

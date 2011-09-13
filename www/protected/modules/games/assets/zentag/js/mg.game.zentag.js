@@ -50,6 +50,9 @@ MG_GAME_ZENTAG = function ($) {
       $("#licences").html("");
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
+      $("#more_info").html("");
+      $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
+      
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});
@@ -60,7 +63,6 @@ MG_GAME_ZENTAG = function ($) {
       
       $("#scores").html(""); 
       
-      // xxx what about licence info
       $("#fieldholder").html("");
       $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
       if (score_info.tags_new != "") 
@@ -68,9 +70,14 @@ MG_GAME_ZENTAG = function ($) {
         
       if (score_info.tags_matched != "")
         $("#template-final-tags-matched").tmpl(score_info ).appendTo($("#fieldholder"));
-        
-      $("#image_container").html("");
       
+      $("#licences").html("");
+      $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
+      
+      $("#more_info").html("");
+      $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
+      
+      $("#image_container").html("");
       if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
         $("#template-final-info-play-once").tmpl(score_info ).appendTo($("#fieldholder"));
         $("#template-final-summary-play-once").tmpl(turn_info).appendTo($("#image_container"));
@@ -92,11 +99,14 @@ MG_GAME_ZENTAG = function ($) {
       
       MG_GAME_ZENTAG.turn++;
       MG_GAME_ZENTAG.turns.push(response.turn);
-
+      
+      var more_info = {}; 
+      if (MG_GAME_ZENTAG.game.more_info_url.trim() != "")
+        var more_info = {url: MG_GAME_ZENTAG.game.more_info_url, name: MG_GAME_ZENTAG.game.name};
+      
       if (MG_GAME_ZENTAG.turn > MG_GAME_ZENTAG.game.turns) { // render final result
-        
-        MG_GAME_ZENTAG.turn
-        
+        var licence_info = [];  
+          
         var taginfo = {
           'tags_new' : {
             tags : [],
@@ -108,10 +118,10 @@ MG_GAME_ZENTAG = function ($) {
           },
         };
         
-        if (MG_GAME_ZENTAG.turns.length) {
+        if (MG_GAME_ZENTAG.turns.length) { // extract scoring and licence info
           for (i_turn in MG_GAME_ZENTAG.turns) {
             var turn = MG_GAME_ZENTAG.turns[i_turn];
-            for (i_img in turn.tags.user) {
+            for (i_img in turn.tags.user) { //scores
               var image = turn.tags.user[i_img];
               for (i_tag in image) {
                 var tag = image[i_tag];
@@ -127,6 +137,21 @@ MG_GAME_ZENTAG = function ($) {
                     break;  
                 }
               }
+            }
+            
+            if (turn.licences.length) {
+              for (licence in turn.licences) { // licences
+                var found = false;
+                for (l_index in licence_info) {
+                  if (licence_info[l_index].id == turn.licences[licence].id) { 
+                    found = true;
+                    break;
+                  }
+                }
+                
+                if (!found)
+                  licence_info.push(turn.licences[licence]);
+              }  
             }
           }
         }
@@ -145,10 +170,10 @@ MG_GAME_ZENTAG = function ($) {
           tags_matched_score : taginfo.tags_matched.score,
         };
         
-        var licence_info = {}; //xxx here should come the global info about all licences 
-        
-        var more_info = {}; //xxx add more_info parsing here
-        
+        var more_info = {}; 
+        if (MG_GAME_ZENTAG.game.more_info_url.trim() != "")
+          var more_info = {url: MG_GAME_ZENTAG.game.more_info_url}; 
+          
         if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
           if (MG_GAME_ZENTAG.game.play_once_and_move_on_url == "")
             MG_GAME_ZENTAG.game.play_once_and_move_on_url = "/";
@@ -159,7 +184,7 @@ MG_GAME_ZENTAG = function ($) {
           var turn_info = {
             url : MG_GAME_ZENTAG.turns[0].images[0].scaled,
             url_full_size : MG_GAME_ZENTAG.turns[0].images[0].full_size,
-            licence_info : 'xxx add some licence info',
+            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
           };
         } else {
           // turn info == image 
@@ -193,10 +218,8 @@ MG_GAME_ZENTAG = function ($) {
           current_turn : MG_GAME_ZENTAG.turn
         };
         
-        var licence_info = response.turn.licences; //xxx add licence parsing here
-        
-        var more_info = {}; //xxx add more_info parsing here
-        
+        var licence_info = response.turn.licences; 
+
         // turn info == image 
         var turn_info = {
           url : response.turn.images[0].scaled,

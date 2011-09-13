@@ -75,8 +75,18 @@ class MGHelper {
   } 
   
   /** 
-   * xxx if new_name == "" it generates width_height_name file name and returns it
+   * Creates a scaled image of an image and saves it in the specified folder. You can set $new_name to "" empty string
+   * the system will then generate the scaled image's file name automatically. It follows the follwing pattern
+   * $name + '_' + $width + '_' + $height + '.' + extension.
    * 
+   * @param string $name the name of the image that can be found in the images subfolder of settings.app_upload_path
+   * @param string $new_name the name the image should be save with. Leave blank "" to let the system autogenerate a new file name
+   * @param string $folder the subfolder of settings.app_upload_path the image should be saved in. If the folder does not exist the method will attempt to create it     
+   * @param int $width the max width to which the image should be scale to
+   * @param int $height the max height to which the image should be scale to
+   * @param mixed $quality if int the system will save the image with this quality setting. If false a default quality will be applied
+   * @param mixed $sharpen if int the system will sharpen the image with this setting. If false the scaled image will not be sharpened
+   * @return mixed the file name of the newly generated image or false on error  
    */
   public static function createScaledImage($name, $new_name, $folder, $width, $height, $quality=FALSE, $sharpen=FALSE) {
     $path= realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
