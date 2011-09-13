@@ -28,13 +28,58 @@ class GamesController extends ApiController {
   }
   
   /**
-   * This action returns a list of all games available in the system xxx
+   * This action returns a list of all games available in the system
+   * You'll have to set the HTTP_X_<fbvStorage(api_id)>_SHARED_SECRET with the current session's
+   * shared secret.
+   * 
+   * It will return an array of objects. Each object represents the game
+   * 
+   * Returned JSON
+   * {
+   *  "status" : "ok" or "error",
+   *  "games" : [{
+   *    "name":"Game Name",
+   *    "description":"Game description",
+   *    "arcade_image":"zentag_arcade.png",
+   *    "more_info_url":"",
+   *    "play_once_and_move_on":"0",
+   *    "play_once_and_move_on_url":"",
+   *    "turns":"4",
+   *    "score_new":"2",
+   *    "score_match":"1",
+   *    "score_expert":"3",
+   *    "image_width":"450",
+   *    "image_height":"450",
+   *    "game_id":"1",
+   *    "gid":"ZenTag",
+   *    "url":"\/index_dev.php\/games\/ZenTag",
+   *    "image_url":"\/assets\/66beaa01\/zentag\/images\/zentag_arcade.png",
+   *    "api_base_url":"http:\/\/metadatagames.test\/index_dev.php\/api",
+   *    "base_url":"http:\/\/metadatagames.test",
+   *    "user_name":"Guest",
+   *    "user_num_played":0,
+   *    "user_score":0,
+   *    "user_authenticated":false
+   *  },
+   *  ...
+   *  ]
+   * }
+   * 
    */
   public function actionIndex() {
     if(Yii::app()->getRequest()->getIsAjaxRequest()) {
       $data = array();
       $data['status'] = "ok";
-      $data['games'] = GamesModule::listActiveGames();
+      $data['games'] = array();
+      
+      $games = GamesModule::listActiveGames();
+      if ($games) {
+        foreach($games as $game) {
+          // we want to hide some things
+          unset($game->game_model);
+          $data['games'][] = $game;
+        }
+      }
       $this->sendResponse($data);  
     } else {
       parent::actionIndex();
@@ -42,13 +87,25 @@ class GamesController extends ApiController {
   }
   
   /**
-   * Returns the top 10 list of scores of all users xxx
+   * Returns the top 10 score list of all users
    * 
+   * Returned JSON
+   * {
+   *  "status" : "ok" or "error",
+   *  "scores" : [{
+   *      "id":"1",
+   *      "username":"admin",
+   *      "score":"291",
+   *      "number_played":"22"
+   *    },
+   *    ...
+   *  ]
+   * }
    */
   public function actionScores() {
     $data = array();
     $data['status'] = "ok";
-    $data['scores'] = array(); // xxx add scores
+    $data['scores'] = GamesModule::getTopPlayers();
     $this->sendResponse($data);
   }
   
@@ -67,7 +124,14 @@ class GamesController extends ApiController {
   }
   
   /**
-   * This 
+   * This method handels play requests into the system. It distinguishes between GET and POST requests. 
+   * A GET requests is the initial call for a game. It prepares the needed database entries and provides 
+   * the first turn's information. 
+   * 
+   * The user submits data as POST request. In the post request the users submission will be parsed, weightend, 
+   * scored and stored in the database. The post method returns scoring results and the next turns information.
+   * 
+   * @param string $gid the unique id the game is regitered with in the system  
    */
   public function actionPlay($gid) {
     $game = GamesModule::loadGame($gid);
@@ -89,6 +153,8 @@ class GamesController extends ApiController {
       
       $game->played_game_id = null;
       if (Yii::app()->getRequest()->getIsPostRequest()) {
+        $game->request = new stdClass(); // all request parameter will be stored in this object
+        
         if (isset($_POST["played_game_id"])) {
           $game->played_game_id = (int)$_POST["played_game_id"]; 
         }
@@ -96,8 +162,7 @@ class GamesController extends ApiController {
         if (isset($_POST["turn"])) {
           $game->turn = (int)$_POST["turn"]; 
         }
-        
-        if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $game_engine->validateSubmission($game, $game_model)) {
+        if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $game_engine->parseSubmission($game, $game_model)) {
           $this->_playPost($game, $game_model, $game_engine);  
         } else {
           throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
@@ -129,6 +194,8 @@ class GamesController extends ApiController {
    *      image_id: //id of the image that has been tagged
    *      tags: //string of submitted tags
    *  } 
+   *  ... // you can add further values that are important for a particular game e.g. wordstoavoid
+   *  
    * }
    * 
    * Returned JSON
@@ -237,7 +304,7 @@ class GamesController extends ApiController {
   }
   
   /**
-   * Processes the POST request of the play method call
+   * Processes the POST request of the play method call xxx
    */
   private function _playPost($game, $game_model, $game_engine) {
     $data = array();
@@ -247,7 +314,7 @@ class GamesController extends ApiController {
     
     if ($game->submission_id) {
       
-      $tags = $game_engine->getTags($game, $game_model);
+      $tags = $game_engine->parseTags($game, $game_model);
       
       $tags = $game_engine->setWeights($game, $game_model, $tags); // in there you can use weighting functions
       
@@ -297,7 +364,7 @@ class GamesController extends ApiController {
     unset($data['game']->score_match);
     unset($data['game']->score_expert);
     unset($data['game']->arcade_image);
-    unset($data['game']->submissions);
+    unset($data['game']->request);
     
     $this->sendResponse($data);
   }

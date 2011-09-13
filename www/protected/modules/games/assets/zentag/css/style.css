@@ -256,6 +256,23 @@ h4 {
   height: 50px;
 }
 
+#words_to_avoid {
+  position: absolute;
+  top:50%;
+  margin-top: -50px;
+  right: 50px;
+  width:200px;
+  height: 100px;
+  line-height: 16px;
+}
+
+#words_to_avoid span {
+  display: block;
+  height: 20px;
+  line-height: 16px;
+  font-weight: bold;
+}
+
 /* error modal window content */
 #mg_error {
   text-align: left;

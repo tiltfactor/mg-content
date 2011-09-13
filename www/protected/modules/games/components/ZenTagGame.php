@@ -3,19 +3,28 @@
 class ZenTagGame extends MGGame implements MGGameInterface {
   public $two_player_game = false;
   
-  public function validateSubmission($game, &$game_model) {
-    $game->submissions = array();  
+  public function parseSubmission(&$game, &$game_model) {
+    $game->request->submissions = array();  
 
     if (isset($_POST["submissions"]) && is_array($_POST["submissions"]) && count($_POST["submissions"]) > 0) {
       foreach ($_POST["submissions"] as $submission) {
         if ($submission["image_id"] && (int)$submission["image_id"] != 0
           && $submission["tags"] && (string)$submission["tags"] != "") {
-          $game->submissions[] = $submission;
+          $game->request->submissions[] = $submission;
         } 
       }
     }
     
-    return (count($game->submissions) > 0);
+    $game->request->wordstoavoid = array(); 
+    if (isset($_POST["wordstoavoid"]) && is_array($_POST["wordstoavoid"]) && count($_POST["wordstoavoid"]) > 0) {
+      foreach ($_POST["wordstoavoid"] as $image_id => $image) {
+        if (is_array($image) && count($image) > 0) {
+          $game->request->wordstoavoid[$image_id] = $image;
+        }
+      }
+    }
+    
+    return (count($game->request->submissions) > 0);
   }
     
   public function getTurn($game, &$game_model, $tags=array()) {
@@ -48,8 +57,8 @@ class ZenTagGame extends MGGame implements MGGameInterface {
 
         $data["tags"] = array();
         $data["tags"]["user"] = $tags;
+        $data["wordstoavoid"] = MGTags::getTagsByWeightThreshold($used_images, (int)$game->words_to_avoid_threshold);
         
-        $data["wordstoavoid"] = array(); // xxx implement
       } else 
         throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough images available'));
       
@@ -63,6 +72,22 @@ class ZenTagGame extends MGGame implements MGGameInterface {
   }
   
   public function setWeights($game, &$game_model, $tags) {
+    
+    // go through last turns words to avoid and weight matching tags 0
+    if (isset($game->request->wordstoavoid) && is_array($game->request->wordstoavoid)) {
+      foreach ($game->request->wordstoavoid as $wta_image_id => $wta_image) {
+        if (array_key_exists($wta_image_id, $tags)) {
+          foreach ($wta_image as $wta_tag_id => $wta_tag) {
+            if (array_key_exists($wta_tag["tag"], $tags[$wta_image_id])) {
+              $tags[$wta_image_id][$wta_tag["tag"]]["type"] = 'wordstoavoid';
+              $tags[$wta_image_id][$wta_tag["tag"]]["weight"] = 0;
+            }
+          }
+        }
+      }
+    }
+    
+    // xxx implement stopword weight here
     return $tags;
   }
   
@@ -70,28 +95,30 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     $score = 0;
     foreach ($tags as $image_id => $image_tags) {
       foreach ($image_tags as $tag => $tag_info) {
-        switch ($tag_info["type"]) {
-          case "new":
-            $tags[$image_id][$tag]["score"] = (int)$game->score_new;
-            $score = $score + (int)$game->score_new;
-            break;
-            
-          case "match":
-            $tags[$image_id][$tag]["score"] = (int)$game->score_match;
-            $score = $score + (int)$game->score_match;
-            break;
-            
-          // get expert trust whatever scoring here
+        if ($tag_info["weight"] > 0) {
+          switch ($tag_info["type"]) {
+            case "new":
+              $tags[$image_id][$tag]["score"] = (int)$game->score_new;
+              $score = $score + (int)$game->score_new;
+              break;
+              
+            case "match":
+              $tags[$image_id][$tag]["score"] = (int)$game->score_match;
+              $score = $score + (int)$game->score_match;
+              break;
+              
+            //xxx get expert trust whatever scoring here
+          }
         }
       }
     }
     return $score;
   }
   
-  public function getTags($game, &$game_model) {
+  public function parseTags($game, &$game_model) {
     $data = array();
     $image_ids = array();
-    foreach ($game->submissions as $submission) {
+    foreach ($game->request->submissions as $submission) {
       $image_ids[] = $submission["image_id"];
       $image_tags = array();
       foreach (MGTags::parseTags($submission["tags"]) as $tag) {

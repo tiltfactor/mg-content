@@ -8,9 +8,9 @@ class MGGame extends CComponent {
    */
   public function saveSubmission($game, &$game_model) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-    if (isset($game->submissions) && is_array($game->submissions)&& count($game->submissions) > 0) {
+    if (isset($game->request->submissions) && is_array($game->request->submissions)&& count($game->request->submissions) > 0) {
       $game_submission = new GameSubmission;
-      $game_submission->submission = json_encode($game->submissions);
+      $game_submission->submission = json_encode($game->request->submissions);
       $game_submission->session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
       $game_submission->played_game_id = $game->played_game_id;
       $game_submission->created = date('Y-m-d H:i:s'); 
@@ -171,8 +171,8 @@ class MGGame extends CComponent {
  */
 interface MGGameInterface
 {
-  public function validateSubmission($game, &$game_model);
-  public function getTags($game, &$game_model);
+  public function parseSubmission(&$game, &$game_model);
+  public function parseTags($game, &$game_model);
   public function setWeights($game, &$game_model, $tags);
   public function getTurn($game, &$game_model, $tags=array());
   public function getScore($game, &$game_model, &$tags);

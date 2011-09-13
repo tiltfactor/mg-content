@@ -203,7 +203,7 @@ class GamesModule extends CWebModule
     } else {
     
       $players = Yii::app()->db->createCommand()
-                    ->select('username, SUM(ug.score) as score, SUM(ug.number_played) as number_played')
+                    ->select('u.id, u.username, SUM(ug.score) as score, SUM(ug.number_played) as number_played')
                     ->from('{{user_to_game}} ug')
                     ->join('{{user}} u', 'u.id=ug.user_id')
                     ->join('{{game}} g', 'g.id=ug.game_id')

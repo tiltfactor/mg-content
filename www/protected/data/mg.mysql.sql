@@ -483,8 +483,9 @@ CREATE  TABLE IF NOT EXISTS `tag_use` (
   `image_id` INT(11) NOT NULL ,
   `tag_id` INT(11) NOT NULL ,
   `weight` INT(3) NOT NULL DEFAULT 0 ,
-  `created` DATETIME NOT NULL ,
+  `type` VARCHAR(64) NOT NULL DEFAULT '' ,
   `game_submission_id` INT UNSIGNED NOT NULL ,
+  `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   CONSTRAINT `fk_tag_uses_images1`
     FOREIGN KEY (`image_id` )

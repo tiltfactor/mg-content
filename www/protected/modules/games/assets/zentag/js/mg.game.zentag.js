@@ -35,7 +35,7 @@ MG_GAME_ZENTAG = function ($) {
       });
     },
     
-    renderTurn : function (response, score_info, turn_info, licence_info, more_info) {
+    renderTurn : function (response, score_info, turn_info, licence_info, more_info, words_to_avoid) {
       $("#stage").hide();
       
       $("#scores").html(""); 
@@ -52,6 +52,10 @@ MG_GAME_ZENTAG = function ($) {
       
       $("#more_info").html("");
       $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
+      
+      $("#words_to_avoid").html("");
+      $("#template-words-to-avoid-heading").tmpl().appendTo($("#words_to_avoid"))
+      $("#template-words-to-avoid").tmpl(words_to_avoid).appendTo($("#words_to_avoid"));
       
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
@@ -76,6 +80,8 @@ MG_GAME_ZENTAG = function ($) {
       
       $("#more_info").html("");
       $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
+      
+      $("#words_to_avoid").html("");
       
       $("#image_container").html("");
       if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
@@ -218,8 +224,20 @@ MG_GAME_ZENTAG = function ($) {
           current_turn : MG_GAME_ZENTAG.turn
         };
         
-        var licence_info = response.turn.licences; 
-
+        var licence_info = response.turn.licences;
+        
+        $("#words_to_avoid").hide(); 
+        var words_to_avoid = []
+        if (response.turn.wordstoavoid) {
+          for (image in response.turn.wordstoavoid) {
+            for (tag in response.turn.wordstoavoid[image]) {
+              words_to_avoid.push(response.turn.wordstoavoid[image][tag]);
+            }
+          }
+          if (words_to_avoid.length) 
+            $("#words_to_avoid").show();
+        }
+        
         // turn info == image 
         var turn_info = {
           url : response.turn.images[0].scaled,
@@ -227,7 +245,7 @@ MG_GAME_ZENTAG = function ($) {
           licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
         
-        MG_GAME_API.renderTurn(response, score_info, turn_info, licence_info, more_info); 
+        MG_GAME_API.renderTurn(response, score_info, turn_info, licence_info, more_info, words_to_avoid); 
       }
     },
     
@@ -250,6 +268,7 @@ MG_GAME_ZENTAG = function ($) {
             type:'post',
             data: {
               turn:MG_GAME_ZENTAG.turn,
+              wordstoavoid: MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].wordstoavoid,
               played_game_id:MG_GAME_ZENTAG.game.played_game_id,
               'submissions': [{
                 image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,

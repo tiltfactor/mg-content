@@ -88,6 +88,11 @@
     <?php echo $form->textField($model,'image_height'); ?>
     <?php echo $form->error($model,'image_height'); ?>
   </div>
+  <div class="row">
+    <?php echo $form->labelEx($model,'words_to_avoid_threshold'); ?>
+    <?php echo $form->textField($model,'words_to_avoid_threshold'); ?>
+    <?php echo $form->error($model,'words_to_avoid_threshold'); ?>
+  </div>
   <div class="row clearfix">
   <h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
   <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), 
