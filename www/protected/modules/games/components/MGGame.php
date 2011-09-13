@@ -50,7 +50,7 @@ class MGGame extends CComponent {
     
     $used_images = $this->getUsedImages($game, $game_model);
     
-    // for performance reasons we use a direct db query to load the images.
+    // xxx here should interest come into play. 
     $images = Yii::app()->db->createCommand()
                 ->selectDistinct('i.id, i.name, is.licence_id')
                 ->from('{{image_set_to_image}} is2i')

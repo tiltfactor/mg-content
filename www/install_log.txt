@@ -101,7 +101,7 @@ PWD: player
 
 11. Goto admin tools
 
-11. Goto Plugins/Manage Plugins and enable the available import plugins
+11. Goto Plugins/Manage Plugins and enable the needed plugins. Note: some might auto enable themnselves once you visit this page.
 
 12. Use the import tools to upload some images into the system.  
 13. Process the uploaded images to make them available for the games. 

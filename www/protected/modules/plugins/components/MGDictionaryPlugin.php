@@ -16,8 +16,7 @@ class MGDictionaryPlugin extends MGPlugin {
    * @param object $game_model the active model of the current game
    * @return boolean true if parsing was successful
    */
-  function parseSubmission (&$game, &$game_model) {
-    
+  function parseSubmission(&$game, &$game_model) {
     return true;
   }
   

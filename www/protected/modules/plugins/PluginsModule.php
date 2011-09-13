@@ -80,6 +80,7 @@ class PluginsModule extends CWebModule
     $list = array();
     
     if (!isset($plugin_list)) {
+      $plugin_list = array();
       $plugins = Plugin::model()->findAll('active=1');
       
       foreach ($plugins as $plugin) {

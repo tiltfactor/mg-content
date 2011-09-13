@@ -182,7 +182,7 @@ return array (
     array (
       'WordsToAvoid' => 
       array (
-        'words_to_avoid_threshold' => '2',
+        'words_to_avoid_threshold' => 10,
       ),
     ),
   ),
