@@ -145,9 +145,6 @@ return array (
       'play_once_and_move_on' => '0',
       'play_once_and_move_on_url' => '',
       'turns' => '4',
-      'score_new' => '2',
-      'score_match' => '1',
-      'score_expert' => '3',
       'image_width' => '450',
       'image_height' => '450',
     ),
@@ -160,9 +157,6 @@ return array (
       'play_once_and_move_on' => '1',
       'play_once_and_move_on_url' => 'http://www.metadatagames.com',
       'turns' => '4',
-      'score_new' => '2',
-      'score_match' => '1',
-      'score_expert' => '3',
       'image_width' => '450',
       'image_height' => '450',
     ),
@@ -182,7 +176,19 @@ return array (
     array (
       'WordsToAvoid' => 
       array (
-        'words_to_avoid_threshold' => 10,
+        'words_to_avoid_threshold' => '2',
+      ),
+    ),
+    'weighting' => 
+    array (
+      'ScoreBySubjectMatter' => 
+      array (
+        'score_new' => '2',
+        'score_match' => '1',
+        'score_new_expert' => '5',
+        'score_new_trusted' => '5',
+        'score_match_expert' => '4',
+        'score_match_trusted' => '4',
       ),
     ),
   ),

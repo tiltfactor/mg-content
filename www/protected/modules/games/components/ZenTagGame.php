@@ -20,30 +20,26 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     
     $plugins = PluginsModule::getActivePlugins("dictionary");
     if (count($plugins) > 0) {
-      try {
-        foreach ($plugins as $plugin) {
-          if (method_exists($plugin->component, "parseSubmission")) {
-            $success = $success  && $plugin->component->parseSubmission($game, $game_model);
-          }
+      foreach ($plugins as $plugin) {
+        if (method_exists($plugin->component, "parseSubmission")) {
+          $success = $success  && $plugin->component->parseSubmission($game, $game_model);
         }
-      } catch (Exception $e) {}
+      }
     }
     
     $plugins = PluginsModule::getActivePlugins("weighting");
     if (count($plugins) > 0) {
-      try {
-        foreach ($plugins as $plugin) {
-          if (method_exists($plugin->component, "parseSubmission")) {
-            $success = $success  && $plugin->component->parseSubmission($game, $game_model);
-          }
+      foreach ($plugins as $plugin) {
+        if (method_exists($plugin->component, "parseSubmission")) {
+          $success = $success  && $plugin->component->parseSubmission($game, $game_model);
         }
-      } catch (Exception $e) {}
+      }
     }
     
     return $success;
   }
     
-  public function getTurn($game, &$game_model, $tags=array()) {
+  public function getTurn(&$game, &$game_model, $tags=array()) {
     $data = array();
     if ($game->turn < $game->turns) {
       $imageSets = $this->getImageSets($game, $game_model);
@@ -77,14 +73,12 @@ class ZenTagGame extends MGGame implements MGGameInterface {
         
         $plugins = PluginsModule::getActivePlugins("dictionary");
         if (count($plugins) > 0) {
-          try {
-            foreach ($plugins as $plugin) {
-              if (method_exists($plugin->component, "wordsToAvoid")) {
-                // this method gets all elements by reference. $data["wordstoavoid"] might be changed
-                $plugin->component->wordsToAvoid($data["wordstoavoid"], $used_images, $game, $game_model, $tags);
-              }
+          foreach ($plugins as $plugin) {
+            if (method_exists($plugin->component, "wordsToAvoid")) {
+              // this method gets all elements by reference. $data["wordstoavoid"] might be changed
+              $plugin->component->wordsToAvoid($data["wordstoavoid"], $used_images, $game, $game_model, $tags);
             }
-          } catch (Exception $e) {}
+          }
         }
         
       } else 
@@ -99,56 +93,42 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     return $data;
   }
   
-  public function setWeights($game, &$game_model, $tags) {
+  public function setWeights(&$game, &$game_model, $tags) {
     $plugins = PluginsModule::getActivePlugins("dictionary");
     if (count($plugins) > 0) {
-      try {
-        foreach ($plugins as $plugin) {
-          if (method_exists($plugin->component, "setWeights")) {
-            $tags = $plugin->component->setWeights($game, $game_model, $tags);
-          }
+      foreach ($plugins as $plugin) {
+        if (method_exists($plugin->component, "setWeights")) {
+          $tags = $plugin->component->setWeights($game, $game_model, $tags);
         }
-      } catch (Exception $e) {}
+      }
     }
     
     $plugins = PluginsModule::getActivePlugins("weighting");
     if (count($plugins) > 0) {
-      try {
-        foreach ($plugins as $plugin) {
-          if (method_exists($plugin->component, "setWeights")) {
-            $tags = $plugin->component->setWeights($game, $game_model, $tags);
-          }
+      foreach ($plugins as $plugin) {
+        if (method_exists($plugin->component, "setWeights")) {
+          $tags = $plugin->component->setWeights($game, $game_model, $tags);
         }
-      } catch (Exception $e) {}
+      }
     }
     return $tags;
   }
   
-  public function getScore($game, &$game_model, &$tags) {
+  public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
-    foreach ($tags as $image_id => $image_tags) {
-      foreach ($image_tags as $tag => $tag_info) {
-        if ($tag_info["weight"] > 0) {
-          switch ($tag_info["type"]) {
-            case "new":
-              $tags[$image_id][$tag]["score"] = (int)$game->score_new;
-              $score = $score + (int)$game->score_new;
-              break;
-              
-            case "match":
-              $tags[$image_id][$tag]["score"] = (int)$game->score_match;
-              $score = $score + (int)$game->score_match;
-              break;
-              
-            //xxx get expert trust whatever scoring here
-          }
+    
+    $plugins = PluginsModule::getActivePlugins("weighting");
+    if (count($plugins) > 0) {
+      foreach ($plugins as $plugin) {
+        if (method_exists($plugin->component, "score")) {
+          $score = $plugin->component->score($game, $game_model, $tags, $score);
         }
       }
     }
     return $score;
   }
   
-  public function parseTags($game, &$game_model) {
+  public function parseTags(&$game, &$game_model) {
     $data = array();
     $image_ids = array();
     foreach ($game->request->submissions as $submission) {

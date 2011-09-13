@@ -294,14 +294,18 @@ class ImportController extends GxController {
         $plugins = PluginsModule::getAccessiblePlugins("import");
         if (count($plugins) > 0) {
           foreach ($plugins as $plugin) {
-            $plugin->component->validate($firstModel, $errors);
+            if (method_exists($plugin->component, "validate")) {
+              $plugin->component->validate($firstModel, $errors);
+            }
           }  
         }
         
         if (count($errors) == 0) {
           if (count($plugins) > 0) {
-          foreach ($plugins as $plugin) {
-              $plugin->component->process($images);
+            foreach ($plugins as $plugin) {
+              if (method_exists($plugin->component, "process")) {
+                $plugin->component->process($images);
+              }
             }  
           }
           

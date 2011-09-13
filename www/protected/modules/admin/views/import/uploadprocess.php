@@ -27,7 +27,9 @@ $plugins = PluginsModule::getAccessiblePlugins("import");
 if (count($plugins) > 0) {
   try {
     foreach ($plugins as $plugin) {
-      echo $plugin->component->form($form);      
+      if (method_exists($plugin->component, "form")) {
+        echo $plugin->component->form($form);
+      }      
     }
   } catch (Exception $e) {}
 }

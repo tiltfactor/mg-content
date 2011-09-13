@@ -6,7 +6,7 @@ Yii::import('application.modules.plugins.models.MGPluginModel');
 
 class WordsToAvoid extends MGPluginModel implements MGPluginModelInterface
 {
-  public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Game database entry
+  public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Plugin database entry
   public $words_to_avoid_threshold = 10;
   
   public function rules() {

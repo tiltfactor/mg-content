@@ -83,6 +83,7 @@ $this->menu=array(
 $this->widget('zii.widgets.CListView', array(
     'id' => 'user-tags-listview',
     'dataProvider'=> Tag::model()->searchUserTags($model->id),
+    'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
     'itemView'=>'_viewTagListItem',
     'sortableAttributes'=>array(
         'tag' => Yii::t('app', 'Tag name'),
@@ -98,6 +99,7 @@ $this->widget('zii.widgets.CListView', array(
 $this->widget('zii.widgets.CListView', array(
     'id' => 'user-images-listview',
     'dataProvider'=>Image::model()->searchUserImages($model->id),
+    'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
     'itemView'=>'_viewImageListItem',
     'sortableAttributes'=>array(
         'name' => Yii::t('app', 'Image name'),

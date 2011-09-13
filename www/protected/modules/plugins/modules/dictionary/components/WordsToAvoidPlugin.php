@@ -54,5 +54,4 @@ class WordsToAvoidPlugin extends MGDictionaryPlugin  {
     $model = new WordsToAvoid;
     $model->fbvSave();
   }
-
 }

@@ -88,9 +88,6 @@ class MGJuiSliderInput extends CJuiSliderInput
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
-    if ($this->admin)
-      $this->htmlOptions['disabled'] = 'disabled';
-
 		if($this->hasModel())
 		{
 			$attribute=$this->attribute;

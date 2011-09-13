@@ -52,24 +52,6 @@
     <?php echo $form->textField($model,'play_once_and_move_on_url'); ?>
     <?php echo $form->error($model,'play_once_and_move_on_url'); ?>
   </div>
-  
-  <div class="row">
-    <?php echo $form->labelEx($model,'score_new'); ?>
-    <?php echo $form->textField($model,'score_new'); ?>
-    <?php echo $form->error($model,'score_new'); ?>
-  </div>
-
-  <div class="row">
-    <?php echo $form->labelEx($model,'score_match'); ?>
-    <?php echo $form->textField($model,'score_match'); ?>
-    <?php echo $form->error($model,'score_match'); ?>
-  </div>
-
-  <div class="row">
-    <?php echo $form->labelEx($model,'score_expert'); ?>
-    <?php echo $form->textField($model,'score_expert'); ?>
-    <?php echo $form->error($model,'score_expert'); ?>
-  </div>
 
   <div class="row">
     <?php echo $form->labelEx($model,'turns'); ?>

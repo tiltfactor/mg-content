@@ -172,8 +172,8 @@ class MGGame extends CComponent {
 interface MGGameInterface
 {
   public function parseSubmission(&$game, &$game_model);
-  public function parseTags($game, &$game_model);
-  public function setWeights($game, &$game_model, $tags);
-  public function getTurn($game, &$game_model, $tags=array());
-  public function getScore($game, &$game_model, &$tags);
+  public function parseTags(&$game, &$game_model);
+  public function setWeights(&$game, &$game_model, $tags);
+  public function getTurn(&$game, &$game_model, $tags=array());
+  public function getScore(&$game, &$game_model, &$tags);
 }

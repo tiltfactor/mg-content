@@ -4,6 +4,8 @@ Yii::import('application.models._base.BaseImage');
 
 class Image extends BaseImage
 {
+  // xxx make use of last_access
+  
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}

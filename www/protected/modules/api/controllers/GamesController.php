@@ -45,9 +45,6 @@ class GamesController extends ApiController {
    *    "play_once_and_move_on":"0",
    *    "play_once_and_move_on_url":"",
    *    "turns":"4",
-   *    "score_new":"2",
-   *    "score_match":"1",
-   *    "score_expert":"3",
    *    "image_width":"450",
    *    "image_height":"450",
    *    "game_id":"1",
@@ -295,9 +292,6 @@ class GamesController extends ApiController {
     
     //we don't want to send certain data
     unset($data['game']->game_id);
-    unset($data['game']->score_new);
-    unset($data['game']->score_match);
-    unset($data['game']->score_expert);
     unset($data['game']->arcade_image);
     
     $this->sendResponse($data);
@@ -360,9 +354,6 @@ class GamesController extends ApiController {
     
     //we don't want to send certain data
     unset($data['game']->game_id);
-    unset($data['game']->score_new);
-    unset($data['game']->score_match);
-    unset($data['game']->score_expert);
     unset($data['game']->arcade_image);
     unset($data['game']->request);
     

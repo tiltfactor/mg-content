@@ -94,7 +94,6 @@ class UserToSubjectMatter extends BaseUserToSubjectMatter
     }
   }
   
-  
   /**
    * List the subject matters for the user
    * 
@@ -119,5 +118,45 @@ class UserToSubjectMatter extends BaseUserToSubjectMatter
     } else {
       return null;
     }
+  }
+  
+  /**
+   * List the subject matters values for the user filtered by images. This method returns only subject matters 
+   * that belong to the image's image sets
+   * 
+   * @param int $user_id The id of the user for whom the list should be generated
+   * @param array $image_ids list of images for which you would like to retrieve the related subject matters user values
+   * @return array null if no values or array of arrays [[image.id, usm.subject_matter_id, usm.interest, usm.expertise, usm.trust], ... ]
+   */
+  public static function listForUserAndImages($user_id, $image_ids) {
+    $command = Yii::app()->db->createCommand()
+                  ->select('i.id as image_id, usm.subject_matter_id, usm.interest, usm.expertise, usm.trust')
+                  ->from('{{image}} i')
+                  ->rightJoin('{{image_set_to_image}} is2i', 'is2i.image_id=i.id')
+                  ->rightJoin('{{image_set_to_subject_matter}} is2sm', 'is2sm.image_set_id=is2i.image_set_id')
+                  ->rightJoin('{{user_to_subject_matter}} usm', 'usm.subject_matter_id=is2sm.subject_matter_id')
+                  ->where(array('and', 'usm.user_id=:userID', array(  'in', 'i.id', array_values($image_ids))), array('userID' => $user_id));
+    $command->distinct = true;
+    return $command->queryAll();
+  }
+  
+  /**
+   * List the subject matters MAX(values) for the user filtered by images. This method returns only subject matters 
+   * that belong to the image's image sets. It will only return one row per image. 
+   * 
+   * @param int $user_id The id of the user for whom the list should be generated
+   * @param array $image_ids list of images for which you would like to retrieve the related subject matters user values
+   * @return array null if no values or array of arrays [[image.id, usm.subject_matter_id, usm.interest, usm.expertise, usm.trust], ... ]
+   */
+  public static function listMAXForUserAndImages($user_id, $image_ids) {
+    return Yii::app()->db->createCommand()
+                  ->select('i.id as image_id, MAX(usm.interest) as interest, MAX(usm.expertise) as expertise, MAX(usm.trust) as trust')
+                  ->from('{{image}} i')
+                  ->rightJoin('{{image_set_to_image}} is2i', 'is2i.image_id=i.id')
+                  ->rightJoin('{{image_set_to_subject_matter}} is2sm', 'is2sm.image_set_id=is2i.image_set_id')
+                  ->rightJoin('{{user_to_subject_matter}} usm', 'usm.subject_matter_id=is2sm.subject_matter_id')
+                  ->where(array('and', 'usm.user_id=:userID', array(  'in', 'i.id', array_values($image_ids))), array('userID' => $user_id))
+                  ->group('i.id')
+                  ->queryAll();
   }
 }
