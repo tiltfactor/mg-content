@@ -18,37 +18,52 @@
       
       <tr>
         <td class="sm-name"><?php echo $sm->name; ?></td>
-        <td class="sm-value interest"><span><?php echo Yii::t('app', 'low'); ?></span><?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
+        <td class="sm-value interest">
+          <?php if (!$admin) : ?><span><?php echo Yii::t('app', 'low'); ?></span><?php endif; ?>
+          <?php $this->widget('application.components.MGJuiSliderInput', array(
             'name'=>"User[subjectMatters][{$sm->id}][interest]",
             'value'=>$sm->interest,
+            'admin' => $admin,
             'options'=>array(
                 'min'=>0,
                 'max'=>100,
             ),
             'htmlOptions'=>array(
             ),
-        )); ?><span><?php echo Yii::t('app', 'high'); ?></span></td>
+        )); ?>
+          <?php if (!$admin) : ?><span><?php echo Yii::t('app', 'high'); ?></span><?php endif; ?>
+        </td>
       <?php if ($admin) : ?>
-        <td class="sm-value expertise"><span>0</span><?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
+        <td class="sm-value expertise">
+          <?php if (!$admin) : ?><span>0</span><?php endif; ?>
+          <?php $this->widget('application.components.MGJuiSliderInput', array(
             'name'=>"User[subjectMatters][{$sm->id}][expertise]",
             'value'=>$sm->expertise,
+            'admin' => $admin,
             'options'=>array(
                 'min'=>0,
                 'max'=>100,
             ),
             'htmlOptions'=>array(
             ),
-        )); ?><span>100</span></td>
-        <td class="sm-value trust"><span>0</span><?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
+        )); ?>
+          <?php if (!$admin) : ?><span>100</span><?php endif; ?>
+        </td>
+        <td class="sm-value trust">
+          <?php if (!$admin) : ?><span>0</span><?php endif; ?>
+          <?php $this->widget('application.components.MGJuiSliderInput', array(
             'name'=>"User[subjectMatters][{$sm->id}][trust]",
             'value'=>$sm->trust,
+            'admin' => $admin,
             'options'=>array(
                 'min'=>0,
                 'max'=>100,
             ),
             'htmlOptions'=>array(
             ),
-        )); ?><span>100</span></td>
+        )); ?>
+          <?php if (!$admin) : ?><span>100</span><?php endif; ?>
+        </td>
       <?php endif; ?>
       </tr>
     <?php endforeach; ?>  
@@ -58,14 +73,4 @@
   <p>There are no subject matters added to the system.</p>
 <?php endif; 
 
-/**
- * xxx remove <tr>
-        <td><?php echo $sm->name; ?></td>
-        <td><?php echo CHtml::textField("User[subjectMatters][{$sm->id}][interest]", $sm->interest, array("length" => 3)) ?></td>
-      <?php if ($admin) : ?>
-        <td><?php echo CHtml::textField("User[subjectMatters][{$sm->id}][expertise]", $sm->expertise, array("length" => 3)) ?></td>
-        <td><?php echo CHtml::textField("User[subjectMatters][{$sm->id}][trust]", $sm->trust, array("length" => 3)) ?></td>
-      <?php endif; ?>
-      </tr>
- */
 ?>
