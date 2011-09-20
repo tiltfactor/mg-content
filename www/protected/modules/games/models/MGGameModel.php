@@ -11,8 +11,9 @@ class MGGameModel extends Game {
   public $more_info_url = "";
   public $image_width = 450;
   public $image_height = 450;
-  
-   
+  public $play_once_and_move_on = 0;
+  public $play_once_and_move_on_url = "";
+  public $partner_wait_threshold = 0;
 }
 
 /**

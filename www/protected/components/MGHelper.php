@@ -34,6 +34,7 @@ class MGHelper {
     $theme = Yii::app()->fbvStorage->get("frontend_theme", "");
     if ($theme != "")
       Yii::app()->setTheme($theme);
+    
   }
   
   /**

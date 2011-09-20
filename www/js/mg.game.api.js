@@ -10,16 +10,15 @@ MG_GAME_API = function ($) {
     },
     
     game_init : function (options) {
-      var settings = $.extend(options, {
-        onapiinit: MG_GAME_API.onapiinit
-      });
+      var settings = $.extend({
+        onapiinit: MG_GAME_API.onapiinit,
+        partner_wait_threshold: 20,
+        partner_waiting_time: 0
+      }, options);
       
-      //Combine options with default settings
-      if (options) {
-        MG_GAME_API.settings = $.extend(MG_GAME_API.settings, settings); //Pull from both defaults and supplied options
-      }
+      MG_GAME_API.settings = $.extend(MG_GAME_API.settings, settings); //Pull from both defaults and supplied options
       
-      MG_GAME_API.api_init(settings);
+      MG_GAME_API.api_init(MG_GAME_API.settings);
       
       $(window).bind('beforeunload', function() {return 'Quit ' + MG_GAME_API.game.name + '?';});
     },

@@ -1,6 +1,7 @@
 <?php
 
-class ZenTagGame extends MGGame implements MGGameInterface {
+class ZenPondGame extends MGGame implements MGGameInterface {
+  public $two_player_game = true;
   
   public function parseSubmission(&$game, &$game_model) {
     $game->request->submissions = array();  

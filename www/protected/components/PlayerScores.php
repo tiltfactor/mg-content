@@ -30,13 +30,12 @@ class PlayerScores extends CPortlet
     
     
   public function init() {
-    parent::init();
-    
     $this->title=Yii::t('app', "Your Scores");
     
     if (is_null($this->user_id)) 
       $this->user_id = Yii::app()->user->id;
     
+    parent::init(); // it is important to call this method after you've assigned any new values
   }
  
   protected function renderContent() {

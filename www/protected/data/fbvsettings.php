@@ -160,6 +160,17 @@ return array (
       'image_width' => '450',
       'image_height' => '450',
     ),
+    'ZenPond' => 
+    array (
+      'name' => 'Zen Pond',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'zenpond_arcade.png',
+      'more_info_url' => '',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
+      'partner_wait_threshold' => '10',
+    ),
   ),
   'settings' => 
   array (

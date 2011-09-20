@@ -51,7 +51,9 @@ MG_GAME_ZENTAG = function ($) {
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
       $("#more_info").html("");
-      $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
+      
+      if (more_info.length > 0)
+        $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
       
       $("#words_to_avoid").html("");
       $("#template-words-to-avoid-heading").tmpl().appendTo($("#words_to_avoid"))
@@ -79,7 +81,9 @@ MG_GAME_ZENTAG = function ($) {
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
       $("#more_info").html("");
-      $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
+      
+      if (more_info.length > 0)
+        $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
       
       $("#words_to_avoid").html("");
       
@@ -176,10 +180,6 @@ MG_GAME_ZENTAG = function ($) {
           tags_matched_score : taginfo.tags_matched.score,
         };
         
-        var more_info = {}; 
-        if (MG_GAME_ZENTAG.game.more_info_url.trim() != "")
-          var more_info = {url: MG_GAME_ZENTAG.game.more_info_url}; 
-          
         if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
           if (MG_GAME_ZENTAG.game.play_once_and_move_on_url == "")
             MG_GAME_ZENTAG.game.play_once_and_move_on_url = "/";

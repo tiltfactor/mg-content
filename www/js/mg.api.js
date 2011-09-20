@@ -5,7 +5,7 @@ MG_API = function ($) {
     modals : null,
     busy : false, // flag to give you a handle to avoid double submits
     
-    timeLastRequests : 0, //some requests might want to make sure to wait for the throttle interval to pass before makeing a call
+    timeLastCall : 0, //some requests might want to make sure to wait for the throttle interval to pass before makeing a call
     
     settings : {
       shared_secret : '',
@@ -65,10 +65,16 @@ MG_API = function ($) {
       MG_API.error('<h1>Not so fast!</h1><p>The system accepts submissions every ' + (MG_API.settings.throttleInterval/1000) + ' seconds.</p>');
     },
     
-    waitForThrottleIntervalToPass : function (callback) {
-      var timePastSinceLastCall = new Date().getTime() - MG_API.timeLastRequests;
-      if (timePastSinceLastCall < MG_GAME_API.settings.throttleInterval) {
-        setTimeout(callback, MG_GAME_API.settings.throttleInterval - timePastSinceLastCall);
+    waitForThrottleIntervalToPass : function (callback, minimumInterval) {
+      var timePastSinceLastResponse = new Date().getTime() - MG_API.timeLastCall;
+      
+      var interval = MG_GAME_API.settings.throttleInterval;
+      if (minimumInterval !== undefined)
+        interval = minimumInterval;
+      
+      if (timePastSinceLastResponse < interval) {
+        var timeout = interval - timePastSinceLastResponse;
+        setTimeout(callback, timeout + 100); // xxx investigate this further there are some discripancies between JavaScript and the server site time logging the added mills are even this out
       } else {
         callback();
       }
@@ -109,6 +115,7 @@ MG_API = function ($) {
           switch(status_code) {
             case "success":
             case "notmodified":
+            case "retry":
               break;
             
             case "error":
@@ -142,8 +149,8 @@ MG_API = function ($) {
       if (options) {
         defaults = $.extend(defaults, options); //Pull from both defaults and supplied options
       }
-      MG_API.timeLastRequests = new Date().getTime();
       var jsXHR = $.ajax(defaults);
+      MG_API.timeLastCall = new Date().getTime();
     },
     
     showModal : function(modalContent, onclosed) {

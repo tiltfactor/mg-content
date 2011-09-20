@@ -38,13 +38,13 @@ class GamesModule extends CWebModule
   
   public static function listActiveGames() {
     $criteria=new CDbCriteria;
-    $criteria->select='unique_id';  // only select the 'title' column
+    $criteria->select='id, unique_id';  // only select the 'title' column
     $criteria->condition='active=1';
     $models = Game::model()->findAll($criteria);  
     
     $games = array();
     foreach ($models as $model) {
-      $games[] = self::loadGame($model->unique_id);
+      $games[] = self::loadGame($model->unique_id, false, $model->id);
     }
     return $games;
   }
@@ -54,9 +54,10 @@ class GamesModule extends CWebModule
    * 
    * @param string $unique_id The unique id of the game
    * @param boolean $active If true it will check whether the game is active
+   * @param int $game_id the id of the game in the database
    * @return object The game as object or null if the game could not be found
    */
-  public static function loadGame($unique_id, $active=true) {
+  public static function loadGame($unique_id, $active=true, $game_id=null) {
     $game = null;
       
     $registered_game = null;
@@ -86,10 +87,10 @@ class GamesModule extends CWebModule
       $game->user_num_played = 0;
       $game->user_score =  0;  
         
-      if (!Yii::app()->user->isGuest && isset($game->game_id)) {
-        $game_info = GamesModule::loadUserToGameInfo(Yii::app()->user->id, $game->game_id);
+      if (!Yii::app()->user->isGuest && (isset($game->game_id) || $game_id)) {
+        $game_info = GamesModule::loadUserToGameInfo(Yii::app()->user->id, ($game_id)? $game_id : $game->game_id);
         if ($game_info) {
-          $game->user_score =  $game_info->score; 
+          $game->user_score = $game_info->score; 
           $game->user_num_played = $game_info->number_played;   
         }
       }
@@ -144,6 +145,7 @@ class GamesModule extends CWebModule
    * @return mixed array of info for all game or just the object   
    */
   public static function loadUserToGameInfo($user_id, $game_id=null) {
+    
     $data = array();
     
     $where = array('and', 'user_id=:userID', 'g.active=1');
@@ -180,12 +182,16 @@ class GamesModule extends CWebModule
   
   public static function loadGameFromDB($unique_id, $active=true) {
     $criteria=new CDbCriteria;
-    $criteria->params='unique_id=:unique_id';
+    
+    $where = 'unique_id=:unique_id';
     
     if ($active)
-      $criteria->condition='active=1';
+      $where .= ' AND active=1';
     
-    return Game::model()->find($criteria, array(':unique_id'=>$unique_id)); 
+    $criteria->condition = $where;
+    $criteria->params = array(':unique_id'=>$unique_id);
+    
+    return Game::model()->find($criteria); 
   }
   
   /**

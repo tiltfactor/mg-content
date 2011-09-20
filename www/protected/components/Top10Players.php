@@ -20,7 +20,7 @@ class Top10Players extends CPortlet
 {
   public function init() {
     $this->title=Yii::t('app', "Top 10 Players");
-      parent::init();
+    parent::init();  // it is important to call this method after you've assigned any new values
   }
  
   protected function renderContent() {
