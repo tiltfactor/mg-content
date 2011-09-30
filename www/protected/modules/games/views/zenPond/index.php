@@ -26,9 +26,10 @@
     <div id="scores"></div>
     <div id="licences"></div>
     <div id="more_info"></div>
-    <div id="words_to_avoid"></div>  
+    <div id="words_to_avoid"></div>
+    <div id="partner-waiting">Your game partner is waiting for your submission!</div>
   </div>
-  <div id="partner-waiting"></div>
+  <div id="partner-waiting-modal"></div>
 </div>
 <script id="template-scores" type="text/x-jquery-tmpl">
   <h2>Welcome ${user_name}</h2>
@@ -82,7 +83,10 @@
 <script id="template-final-tags-matched" type="text/x-jquery-tmpl">
   <p class="tag-info">Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b> point(s).</p>
 </script>
-<script id="template-partner-waiting" type="text/x-jquery-tmpl">
+<script id="template-partner-waiting-modal" type="text/x-jquery-tmpl">
   Waiting for partner; timeout in <b>'${seconds}'</b> seconds.
+</script>
+<script id="template-partner-waiting-modal-turn" type="text/x-jquery-tmpl">
+  Waiting for partner to submit turn.
 </script>
 

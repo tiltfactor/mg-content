@@ -11,6 +11,7 @@
  *
  * @property string $id
  * @property string $submission
+ * @property integer $turn
  * @property integer $session_id
  * @property integer $played_game_id
  * @property string $created
@@ -40,10 +41,10 @@ abstract class BaseGameSubmission extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('submission, session_id, played_game_id', 'required'),
-			array('session_id, played_game_id', 'numerical', 'integerOnly'=>true),
+			array('turn, session_id, played_game_id', 'numerical', 'integerOnly'=>true),
 			array('created', 'safe'),
-			array('created', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, submission, session_id, played_game_id, created', 'safe', 'on'=>'search'),
+			array('turn, created', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, submission, turn, session_id, played_game_id, created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +65,7 @@ abstract class BaseGameSubmission extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'submission' => Yii::t('app', 'Submission'),
+			'turn' => Yii::t('app', 'Turn'),
 			'session_id' => null,
 			'played_game_id' => null,
 			'created' => Yii::t('app', 'Created'),
@@ -78,6 +80,7 @@ abstract class BaseGameSubmission extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('submission', $this->submission, true);
+		$criteria->compare('turn', $this->turn);
 		$criteria->compare('session_id', $this->session_id);
 		$criteria->compare('played_game_id', $this->played_game_id);
 		$criteria->compare('created', $this->created, true);

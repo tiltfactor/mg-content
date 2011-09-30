@@ -12,8 +12,9 @@ MG_GAME_API = function ($) {
     game_init : function (options) {
       var settings = $.extend({
         onapiinit: MG_GAME_API.onapiinit,
-        partner_wait_threshold: 20,
-        partner_waiting_time: 0
+        partner_wait_threshold: 20, // how many seconds will we wait until timeout
+        partner_waiting_time: 0, // how many seconds did we wait until timeout
+        message_queue_interval: 500
       }, options);
       
       MG_GAME_API.settings = $.extend(MG_GAME_API.settings, settings); //Pull from both defaults and supplied options
@@ -44,7 +45,7 @@ MG_GAME_API = function ($) {
         img_licence_info.push(licence.name);
       })
       return img_licence_info.join(", ");
-    }
+    },
   });
 }(jQuery);
 

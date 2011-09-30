@@ -10,8 +10,10 @@
  * followed by relations of table "message" available as properties of the model.
  *
  * @property integer $session_id
+ * @property integer $played_game_id
  * @property string $message
  *
+ * @property PlayedGame $playedGame
  * @property Session $session
  */
 abstract class BaseMessage extends GxActiveRecord {
@@ -34,16 +36,17 @@ abstract class BaseMessage extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('session_id', 'required'),
-			array('session_id', 'numerical', 'integerOnly'=>true),
+			array('session_id, played_game_id', 'required'),
+			array('session_id, played_game_id', 'numerical', 'integerOnly'=>true),
 			array('message', 'length', 'max'=>1000),
 			array('message', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('session_id, message', 'safe', 'on'=>'search'),
+			array('session_id, played_game_id, message', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
+			'playedGame' => array(self::BELONGS_TO, 'PlayedGame', 'played_game_id'),
 			'session' => array(self::BELONGS_TO, 'Session', 'session_id'),
 		);
 	}
@@ -56,7 +59,9 @@ abstract class BaseMessage extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'session_id' => null,
+			'played_game_id' => null,
 			'message' => Yii::t('app', 'Message'),
+			'playedGame' => null,
 			'session' => null,
 		);
 	}
@@ -65,6 +70,7 @@ abstract class BaseMessage extends GxActiveRecord {
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('session_id', $this->session_id);
+		$criteria->compare('played_game_id', $this->played_game_id);
 		$criteria->compare('message', $this->message, true);
 
 		return new CActiveDataProvider($this, array(

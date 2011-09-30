@@ -1,8 +1,8 @@
 MG_GAME_ZENPOND = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
-    
     submitButton : null,
+    doQueryMessages : false,
     
     init : function (options) {
       var settings = $.extend(options, {
@@ -23,6 +23,34 @@ MG_GAME_ZENPOND = function ($) {
       MG_GAME_ZENPOND.submitButton = $("#button-play").click(MG_GAME_ZENPOND.onsubmit);
       
       MG_GAME_API.game_init(settings);
+      
+    },
+    
+    queryMessages : function () {
+      if (MG_GAME_ZENPOND.doQueryMessages) {
+        MG_API.ajaxCall('/games/messages/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id , function (response) {
+          if (MG_API.checkResponse(response)) { // we have to check whether the API returned a HTTP Status 200 but still json.status == "error" response
+            if (MG_GAME_ZENPOND.doQueryMessages) {
+              log(response.messages !== undefined, response.messages.length);
+              if (response.messages !== undefined && response.messages.length > 0) {
+                for (index in response.messages) {
+                  message = response.messages[index].message;
+                  if (message == "waiting") { // the other user has submitted the turn and now waits for the current users turn
+                    $("#partner-waiting").show();
+                    log("called waiting");
+                  } else if (message == "posted") { // the current user has been waiting for the other user to submit. this happended now
+                    log("called posted");
+                    $("#partner-waiting-modal:visible").fadeOut(500);
+                    MG_GAME_ZENPOND.busy = false;
+                    MG_GAME_ZENPOND.onsubmit(); 
+                  }
+                }
+              }
+            }
+          }
+        }, {}, true);
+        setTimeout(MG_GAME_ZENPOND.queryMessages, MG_GAME_API.settings.message_queue_interval);  
+      }
     },
     
     submit : function () {
@@ -98,11 +126,23 @@ MG_GAME_ZENPOND = function ($) {
     },
     
     onresponse : function (response) {
-      if (response.status == "retry") {
+      MG_GAME_ZENPOND.doQueryMessages = false;
+      
+      if (response.status == "wait") {
+        MG_GAME_ZENPOND.doQueryMessages = true;
+        MG_GAME_ZENPOND.queryMessages();
+        
+        MG_GAME_API.curtain.show();
+        $("#partner-waiting-modal").html("");
+        $("#template-partner-waiting-modal-turn").tmpl().appendTo($("#partner-waiting-modal"));
+        $("#partner-waiting-modal:hidden").fadeIn(500);
+        
+        //MG_GAME_ZENPOND.game.played_game_id
+      } else if (response.status == "retry") {
         // no partner available
-        $("#partner-waiting").html("");
-        $("#template-partner-waiting").tmpl({seconds: Math.round(MG_GAME_API.settings.partner_wait_threshold - MG_GAME_API.settings.partner_waiting_time)}).appendTo($("#partner-waiting"));
-        $("#partner-waiting:hidden").fadeIn(500);
+        $("#partner-waiting-modal").html("");
+        $("#template-partner-waiting-modal").tmpl({seconds: Math.round(MG_GAME_API.settings.partner_wait_threshold - MG_GAME_API.settings.partner_waiting_time)}).appendTo($("#partner-waiting-modal"));
+        $("#partner-waiting-modal:hidden").fadeIn(500);
         
         // wait for throttle interval to pass and check if a partner came online
         MG_API.waitForThrottleIntervalToPass(function () {
@@ -124,8 +164,10 @@ MG_GAME_ZENPOND = function ($) {
           }
           
         }, 1000);
-      } else {
-        $("#partner-waiting").hide();
+      } else if (response.status = 'ok'){
+        MG_GAME_ZENPOND.wordField.val("");
+        
+        $("#partner-waiting-modal").hide();
         MG_GAME_API.curtain.hide();
       
         MG_GAME_ZENPOND.turn++;
@@ -253,6 +295,9 @@ MG_GAME_ZENPOND = function ($) {
           }
           
           MG_GAME_API.renderTurn(response, score_info, turn_info, licence_info, more_info, words_to_avoid); 
+          
+          MG_GAME_ZENPOND.doQueryMessages = true;
+          MG_GAME_ZENPOND.queryMessages();
         }
       }
       
@@ -261,17 +306,19 @@ MG_GAME_ZENPOND = function ($) {
     
     onsubmit : function () {
       if (!MG_GAME_ZENPOND.busy) {
+        
         var tags = MG_GAME_ZENPOND.wordField.val().replace(/^\s+|\s+$/g,"");
         if (tags == "") {
           // val filtered for all white spaces (trim)
           MG_GAME_ZENPOND.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
         } else {
+          $("#partner-waiting").hide();
+          
           MG_GAME_API.curtain.show();
           MG_GAME_ZENPOND.busy = true;
           
           MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
             if (MG_API.checkResponse(response)) {
-              MG_GAME_ZENPOND.wordField.val("");
               MG_GAME_ZENPOND.onresponse(response);
             }
           }, {
@@ -294,6 +341,7 @@ MG_GAME_ZENPOND = function ($) {
     ongameinit : function (response) {
       MG_GAME_ZENPOND.onresponse(response);
     },
+
   });
 }(jQuery);
 

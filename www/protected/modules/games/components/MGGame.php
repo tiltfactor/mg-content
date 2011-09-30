@@ -11,6 +11,7 @@ class MGGame extends CComponent {
     if (isset($game->request->submissions) && is_array($game->request->submissions)&& count($game->request->submissions) > 0) {
       $game_submission = new GameSubmission;
       $game_submission->submission = json_encode($game->request->submissions);
+      $game_submission->turn = $game->turn;
       $game_submission->session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
       $game_submission->played_game_id = $game->played_game_id;
       $game_submission->created = date('Y-m-d H:i:s'); 

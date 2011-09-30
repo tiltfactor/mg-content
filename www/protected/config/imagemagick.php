@@ -73,8 +73,8 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=mg', //xxx set via installer
 			'emulatePrepare' => true,
-			'username' => 'mg', //xxx set via installer
-			'password' => 'mg789', //xxx set via installer
+			'username' => 'root', //xxx set via installer
+			'password' => '', //xxx set via installer
 			'charset' => 'utf8',
 			'tablePrefix'=>'', //xxx set via installer
 		),
@@ -118,6 +118,7 @@ return array(
     'image'=>array(
       'class'=>'ext.image.CImageComponent',
       'driver'=>'ImageMagick',
+      'directory' => '/opt/local/bin',
     ),
     
     'mail' => array(

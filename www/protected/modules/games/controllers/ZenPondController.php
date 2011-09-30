@@ -41,6 +41,7 @@ class ZenPondController extends GxController
       $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/zenpond/js/mg.game.zenpond.js', CClientScript::POS_END);
       
       $throttleInterval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500); 
+      $message_queue_interval = (int)Yii::app()->fbvStorage->get("settings.message_queue_interval", 500); 
       $js = <<<EOD
     MG_GAME_ZENPOND.init({
         gid : 'ZenPond',
@@ -48,8 +49,8 @@ class ZenPondController extends GxController
         api_url : '{$game->api_base_url}',
         msg_url : '{$game->base_url}/mg_api_messages.php',
         throttleInterval : $throttleInterval,
+        message_queue_interval : $message_queue_interval,
         partner_wait_threshold : {$game->partner_wait_threshold},
-        xxx: 1,
       });
 EOD;
       Yii::app()->clientScript->registerScript(__CLASS__.'#game', $js, CClientScript::POS_READY);

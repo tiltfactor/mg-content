@@ -25,6 +25,11 @@
   <?php echo $form->error($model,'throttle_interval'); ?>
   </div><!-- row -->
   <div class="row">
+  <?php echo $form->labelEx($model,'message_queue_interval'); ?>
+  <?php echo $form->textField($model, 'message_queue_interval'); ?>
+  <?php echo $form->error($model,'message_queue_interval'); ?>
+  </div><!-- row -->
+  <div class="row">
   <?php echo $form->labelEx($model,'app_email'); ?>
   <?php echo $form->textField($model, 'app_email'); ?>
   <?php echo $form->error($model,'app_email'); ?>

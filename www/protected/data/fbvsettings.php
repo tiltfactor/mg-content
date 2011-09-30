@@ -26,7 +26,6 @@ return array (
       ),
     ),
   ),
-  'throttle_interval' => 10,
   'admin-tools' => 
   array (
     'tool-image' => 
@@ -176,6 +175,7 @@ return array (
   array (
     'app_name' => 'Meta Data Games Test',
     'throttle_interval' => '500',
+    'message_queue_interval' => '450',
     'app_email' => 'sukie@tiltfactor.org',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',

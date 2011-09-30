@@ -103,7 +103,7 @@ MG_API = function ($) {
       return true;
     },
     
-    ajaxCall : function (path, callback, options) {
+    ajaxCall : function (path, callback, options, doNotSaveLastCallTime) {
       var defaults = {
         url : MG_API.settings.api_url + path,
         headers : $.parseJSON('{"X_' + MG_API.settings.app_id + '_SHARED_SECRET" : "' + MG_API.settings.shared_secret + '"}'),
@@ -150,7 +150,10 @@ MG_API = function ($) {
         defaults = $.extend(defaults, options); //Pull from both defaults and supplied options
       }
       var jsXHR = $.ajax(defaults);
-      MG_API.timeLastCall = new Date().getTime();
+      
+      if (!doNotSaveLastCallTime) {
+        MG_API.timeLastCall = new Date().getTime();
+      }
     },
     
     showModal : function(modalContent, onclosed) {
