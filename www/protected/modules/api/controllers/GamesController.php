@@ -640,7 +640,7 @@ class GamesController extends ApiController {
     //var_dump($game->submission_id);
     //exit();
     
-    $other_players_info = Yii::app()->db->createCommand()
+    $opponent_info = Yii::app()->db->createCommand()
                   ->select('pg.session_id_1, pg.session_id_2, gs.submission')
                   ->from('{{played_game}} pg')
                   ->leftJoin('{{game_submission}} gs', 'gs.played_game_id=pg.id AND gs.turn=:turn AND gs.session_id <> :sessionID', array(
@@ -650,13 +650,21 @@ class GamesController extends ApiController {
                   ->where('pg.id=:pGameID', array(':pGameID' => $game->played_game_id)) 
                   ->queryRow();
       
-    if ($other_players_info && $game->submission_id) { // yes request is for a valid and regstered two player game
-      $other_players_session_id = ($other_players_info["session_id_1"] == $user_session_id)? $other_players_info["session_id_2"] : $other_players_info["session_id_1"];
+    if ($opponent_info && $game->submission_id) { // yes request is for a valid and regstered two player game
+      $opponent_session_id = ($opponent_info["session_id_1"] == $user_session_id)? $opponent_info["session_id_2"] : $opponent_info["session_id_1"];
+      $game->oponenents_submission = json_decode($opponent_info["submission"]);
       
-      if (!is_null($other_players_info["submission"])) { // other user has submitted and been waiting for result
-        $this->leaveMessage($other_players_session_id, $game->played_game_id, 'posted'); // posted will trigger the games javascript to repost the turn to finish it
+      if ($game->oponenents_submission) { // other user has submitted and been waiting for result
+        $this->leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the games javascript to repost the turn to finish it
         
+        var_dump($opponent_submission);
+        exit();
+        
+       
         /*
+         * LOOP through  $game->oponenents_submission and parse tags
+         * HERE SHOULD BE A BLENDED PARSING OF THE USERS SUBMISSION. THINK THAT IT WOULD BE BEST IF the weighting plugins make use of $game_
+         * 
          * check here for other users submission if yes then score and render new request else save session and
         /*
         $tags = $game_engine->parseTags($game, $game_model);
@@ -699,8 +707,7 @@ class GamesController extends ApiController {
         }
          */
       } else { // other player has not submitted this turn
-        $this->leaveMessage($other_players_session_id, $game->played_game_id, 'waiting');
-        
+        $this->leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
         $data['status'] = "wait"; // this will make the client wait. It will query the message queue for a message that the other user has posted
       }
       
