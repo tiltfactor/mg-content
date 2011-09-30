@@ -23,6 +23,39 @@ class Image extends BaseImage
     $criteria->compare('created', $this->created, true);
     $criteria->compare('modified', $this->modified, true);
     
+    if (isset($_GET["Image"]) && isset($_GET["Image"]["tags"])) {
+      $parsed_tags = MGTags::parseTags($_GET["Image"]["tags"]);
+      if (count($parsed_tags) > 0) {
+        $cmd =  Yii::app()->db->createCommand();
+        $cmd->distinct = true; 
+        
+        $tags = null;
+        if ($_GET["Image"]["tags_search_option"] == "OR") {
+          $tags = $cmd->select('tu.image_id')
+                  ->from('{{tag_use}} tu')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->where(array('and', 'tu.weight >= 1',array('in', 't.tag', array_values($parsed_tags))))
+                  ->queryAll();
+        } else {
+          $tags = $cmd->select('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
+                  ->from('{{tag_use}} tu')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->where(array('and', 'tu.weight >= 1',array('in', 't.tag', array_values($parsed_tags))))
+                  ->group('tu.image_id')
+                  ->having('counted = :counted', array(':counted' => count($parsed_tags)))
+                  ->queryAll();
+        }
+        
+        if ($tags) {
+          $ids = array();
+          foreach ($tags as $tag) {
+            $ids[] = $tag["image_id"];
+          }
+          $criteria->addInCondition('id', array_values($ids));
+        }          
+      }
+    }
+    
     if(!Yii::app()->request->isAjaxRequest)
         $criteria->order = 'name ASC';
     
@@ -85,7 +118,6 @@ class Image extends BaseImage
     parent::afterDelete(); 
   }
   
-  
   public function searchUserImages($user_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('i.id, i.name')
@@ -109,4 +141,27 @@ class Image extends BaseImage
       ),
     ));
   }
+  
+  public function getTopTags($num_tags=10) {
+    $tags = Yii::app()->db->createCommand()
+                  ->select('count(t.id) as counted, t.id, t.tag')
+                  ->from('{{tag_use}} tu')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->where(array('and', 'tu.weight >= 1', 'tu.image_id=:imageID'), array(":imageID" => $this->id))
+                  ->group('t.id, t.tag')
+                  ->order('counted DESC')
+                  ->limit($num_tags)
+                  ->queryAll();
+        
+    if ($tags) {
+      $out = array();
+      foreach ($tags as $tag) {
+        $out[] = CHtml::link($tag["tag"] . '(' .$tag["counted"] . ')', array("/admin/tag/view", "id" =>$tag["id"]));  
+      }
+      return implode(", ", $out);
+    } else {
+      return ""; 
+    }
+  }
+
 }

@@ -187,3 +187,16 @@ a.search-button {
   display:block;
   margin-bottom:10px;
 }
+
+div.inline-radio {
+  display: inline;
+  margin:0;
+}
+
+div.inline-radio label,
+div.wide.form div.inline-radio label {
+  position: static;
+  float: none;
+  display: inline;
+  width: auto;
+}

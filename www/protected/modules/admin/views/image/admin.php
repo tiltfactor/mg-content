@@ -56,9 +56,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'type'=>'html',
         'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
       ),
+    array(
+      'cssClassExpression' => "'tags'",
+      'header' => Yii::t('app', 'Top Tags'),
+      'type' => 'html',
+      'value'=>'$data->getTopTags(15)',
+    ),
 		'size',
 		'batch_id',
-		'last_access',
+		'last_access', // implement last access
 		'created',
 		/*
 		 array(
