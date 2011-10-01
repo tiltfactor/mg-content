@@ -18,7 +18,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
     }
     $success = (count($game->request->submissions) > 0);
     
-    $plugins = PluginsModule::getActivePlugins("dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -27,7 +27,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActivePlugins("weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -71,7 +71,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
         $data["tags"]["user"] = $tags;
         $data["wordstoavoid"] = array();
         
-        $plugins = PluginsModule::getActivePlugins("dictionary");
+        $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
         if (count($plugins) > 0) {
           foreach ($plugins as $plugin) {
             if (method_exists($plugin->component, "wordsToAvoid")) {
@@ -94,7 +94,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   }
   
   public function setWeights(&$game, &$game_model, $tags) {
-    $plugins = PluginsModule::getActivePlugins("dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -103,7 +103,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActivePlugins("weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -117,7 +117,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
     
-    $plugins = PluginsModule::getActivePlugins("weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "score")) {

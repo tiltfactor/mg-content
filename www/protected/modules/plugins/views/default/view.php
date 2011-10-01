@@ -33,6 +33,10 @@ array(
 
 'created',
 'modified',
-	),
+array(
+      'name' => Yii::t('app', 'Used By Games'),
+      'type' => 'html',
+      'value'=> Plugin::getGamesUsingPlugin($model->id),
+    ),	),
 )); ?>
 

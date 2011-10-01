@@ -19,6 +19,11 @@ $this->menu = $arr_menu;
     'type',
     'name',
     array(
+      'header' => Yii::t('app', 'Used By Games'),
+      'type' => 'html',
+      'value'=>'Plugin::getGamesUsingPlugin($data->id)',
+    ),
+    array(
       'name' => 'link',
       'header' => Yii::t('app', 'Admin Tool'),
       'type' => 'html',

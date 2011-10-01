@@ -87,10 +87,10 @@ EOD;
       
       $relatedData = array(
         'imageSets' => $_POST['ZenTagPlayOnceMoveOn']['imageSets'] === '' ? null : $_POST['ZenTagPlayOnceMoveOn']['imageSets'],
+        'plugins' => $_POST['ZenTagPlayOnceMoveOn']['plugins'] === '' ? null : $_POST['ZenTagPlayOnceMoveOn']['plugins'],
         );
       
       if ($model->saveWithRelated($relatedData)) {
-        
         $model->fbvSave();
         MGHelper::log('update', 'Game ' . $model->name . ' updated');
         Flash::add('success', $model->name . ' ' . Yii::t('app', "Updated"));

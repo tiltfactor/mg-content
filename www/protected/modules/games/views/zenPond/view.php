@@ -45,5 +45,22 @@ $this->menu = array(
     echo GxHtml::closeTag('li');
   }
   echo GxHtml::closeTag('ul');
+?><h2><?php echo GxHtml::encode($model->getRelationLabel('plugins')); ?></h2>
+<?php
+  echo GxHtml::openTag('ul');
+  
+  if (count($model->plugins) == 0) {
+    echo "<li>no item(s) assigned</li>";
+  }
+  
+  foreach($model->plugins as $relatedModel) {
+    echo GxHtml::openTag('li');
+    if (Yii::app()->user->checkAccess('admin')) {
+      echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('/plugins/default/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
+    } else {
+      echo GxHtml::encode(GxHtml::valueEx($relatedModel));
+    }
+    echo GxHtml::closeTag('li');
+  }
+  echo GxHtml::closeTag('ul');
 ?>
-

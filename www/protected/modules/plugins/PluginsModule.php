@@ -47,7 +47,6 @@ class PluginsModule extends CWebModule
       $component = Yii::createComponent(self::getPluginClassName($uid));
       if ($component->hasAdmin) {
         if ($component->adminPath != "") {
-          print "here";
           $url = $component->adminPath;
         } else {
           $info = explode("-", $uid);
@@ -97,7 +96,7 @@ class PluginsModule extends CWebModule
           $component = Yii::createComponent($plugin_class);
           
           $plugin_list[$plugin_type][] = (object) array(
-            'id' => null, 
+            'id' => $plugin->id, 
             'type' => $plugin_type, 
             'name' => $component_name, 
             'link' => self::pluginAdminLink($plugin->unique_id),
@@ -113,6 +112,61 @@ class PluginsModule extends CWebModule
     return $list;
   }
   
+  
+  /**
+   * This method returns all active plugins that have been activated for the current game of a plugin category. 
+   * This method does not regard the plugins $accessRole settings
+   * 
+   * @param int $gid the game_id in the database
+   * @param string $type the plugin type that should be retrieved
+   * @return array all active plugins of that category
+   */
+  public static function getActiveGamePlugins($gid, $type) {
+    static $game_plugin_list;
+    
+    $list = array();
+    
+    if (!isset($game_plugin_list)) {
+      $game_plugin_list = array();
+      
+      $tags = Yii::app()->db->createCommand()
+                  ->select('p.id, p.unique_id')
+                  ->from('{{plugin}} p')
+                  ->join('{{game_to_plugin}} gp', 'gp.plugin_id=p.id')
+                  ->where(array('and', 'gp.game_id = :gameID', 'p.type=:type'), array(":gameID" => $gid, ":type" => $type))
+                  ->queryAll();
+      
+      $plugins = Plugin::model()->findAll('active=1');
+      
+      foreach ($plugins as $plugin) {
+        try {
+        
+          $info = explode("-", $plugin["unique_id"]);
+          $plugin_type = $info[0];
+          $plugin_class = $info[1];
+          
+          Yii::import("plugins.modules.$plugin_type.components.*");
+          Yii::import("plugins.modules.$plugin_type.models.*");
+          
+          $component_name = str_replace("Plugin", "", $plugin_class);
+          $component = Yii::createComponent($plugin_class);
+          
+          $game_plugin_list[$plugin_type][] = (object) array(
+            'id' => $plugin["id"], 
+            'type' => $plugin_type, 
+            'name' => $component_name, 
+            'link' => self::pluginAdminLink($plugin["unique_id"]),
+            'class' => $plugin_class,
+            'component' => $component
+          );
+        } catch (Exception $e) {}
+      }
+    }
+    if (array_key_exists($type, $game_plugin_list)) {
+      $list = $game_plugin_list[$type];
+    }
+    return $list;
+  }
   
   /**
    * This method lists all active plug-ins the current user has got access to.
@@ -136,7 +190,7 @@ class PluginsModule extends CWebModule
         if (Yii::app()->user->checkAccess($component->accessRole)) {
           if (is_null($type) || $type == $plugin_type) {
             $list[] = (object) array(
-              'id' => null, 
+              'id' => $plugin->id, 
               'type' => $plugin_type, 
               'name' => $component_name, 
               'link' => self::pluginAdminLink($plugin->unique_id),

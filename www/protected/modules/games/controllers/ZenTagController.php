@@ -80,14 +80,13 @@ EOD;
     $model = $this->loadModel(array("unique_id" => "ZenTag"), 'ZenTag');
     $model->fbvLoad();
     
-    // xxx here you need some solution do enable disable plugins for a game
-    
     $this->performAjaxValidation($model, 'zentag-form');
     if (isset($_POST['ZenTag'])) {
       $model->setAttributes($_POST['ZenTag']);
       
       $relatedData = array(
         'imageSets' => $_POST['ZenTag']['imageSets'] === '' ? null : $_POST['ZenTag']['imageSets'],
+        'plugins' => $_POST['ZenTag']['plugins'] === '' ? null : $_POST['ZenTag']['plugins'],
         );
       
       if ($model->saveWithRelated($relatedData)) {

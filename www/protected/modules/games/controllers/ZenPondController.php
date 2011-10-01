@@ -78,14 +78,13 @@ EOD;
     $model = $this->loadModel(array("unique_id" => "ZenPond"), 'ZenPond');
     $model->fbvLoad();
     
-    // xxx here you need some solution do enable disable plugins for a game
-    
     $this->performAjaxValidation($model, 'zenpond-form');
     if (isset($_POST['ZenPond'])) {
       $model->setAttributes($_POST['ZenPond']);
       
       $relatedData = array(
         'imageSets' => $_POST['ZenPond']['imageSets'] === '' ? null : $_POST['ZenPond']['imageSets'],
+        'plugins' => $_POST['ZenPond']['plugins'] === '' ? null : $_POST['ZenPond']['plugins'],
         );
       
       if ($model->saveWithRelated($relatedData)) {

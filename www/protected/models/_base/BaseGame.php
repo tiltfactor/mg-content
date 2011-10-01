@@ -16,7 +16,9 @@
  * @property string $created
  * @property string $modified
  *
+ * @property GamePartner[] $gamePartners
  * @property ImageSet[] $imageSets
+ * @property Plugin[] $plugins
  * @property PlayedGame[] $playedGames
  * @property User[] $users
  */
@@ -50,7 +52,9 @@ abstract class BaseGame extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'gamePartners' => array(self::HAS_MANY, 'GamePartner', 'game_id'),
 			'imageSets' => array(self::MANY_MANY, 'ImageSet', 'game_to_image_set(game_id, image_set_id)'),
+			'plugins' => array(self::MANY_MANY, 'Plugin', 'game_to_plugin(game_id, plugin_id)'),
 			'playedGames' => array(self::HAS_MANY, 'PlayedGame', 'game_id'),
 			'users' => array(self::MANY_MANY, 'User', 'user_to_game(game_id, user_id)'),
 		);
@@ -59,6 +63,7 @@ abstract class BaseGame extends GxActiveRecord {
 	public function pivotModels() {
 		return array(
 			'imageSets' => 'GameToImageSet',
+			'plugins' => 'GameToPlugin',
 			'users' => 'UserToGame',
 		);
 	}
@@ -71,7 +76,9 @@ abstract class BaseGame extends GxActiveRecord {
 			'unique_id' => Yii::t('app', 'Unique'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
+			'gamePartners' => null,
 			'imageSets' => null,
+			'plugins' => null,
 			'playedGames' => null,
 			'users' => null,
 		);

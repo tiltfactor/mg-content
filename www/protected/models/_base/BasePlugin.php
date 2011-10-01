@@ -7,7 +7,7 @@
  * property or method in class "Plugin".
  *
  * Columns in table "plugin" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "plugin" available as properties of the model.
  *
  * @property integer $id
  * @property string $type
@@ -16,6 +16,7 @@
  * @property string $created
  * @property string $modified
  *
+ * @property Game[] $games
  */
 abstract class BasePlugin extends GxActiveRecord {
 
@@ -32,7 +33,7 @@ abstract class BasePlugin extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'type';
+		return 'unique_id';
 	}
 
 	public function rules() {
@@ -47,11 +48,13 @@ abstract class BasePlugin extends GxActiveRecord {
 
 	public function relations() {
 		return array(
+			'games' => array(self::MANY_MANY, 'Game', 'game_to_plugin(plugin_id, game_id)'),
 		);
 	}
 
 	public function pivotModels() {
 		return array(
+			'games' => 'GameToPlugin',
 		);
 	}
 
@@ -63,6 +66,7 @@ abstract class BasePlugin extends GxActiveRecord {
 			'unique_id' => Yii::t('app', 'Unique'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
+			'games' => null,
 		);
 	}
 

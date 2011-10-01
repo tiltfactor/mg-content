@@ -33,3 +33,20 @@ ALTER TABLE `mg`.`message` CHANGE COLUMN `played_game_id` `played_game_id` INT(1
 
 ALTER TABLE `mg`.`game_submission` ADD COLUMN `turn` INT(11) NOT NULL DEFAULT 1  AFTER `submission`;
 
+CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
+  `game_id` INT(11) NOT NULL ,
+  `plugin_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`game_id`, `plugin_id`) ,
+  INDEX `fk_game_to_plugin_plugin1` (`plugin_id` ASC) ,
+  INDEX `fk_game_to_plugin_game1` (`game_id` ASC) ,
+  CONSTRAINT `fk_game_to_plugin_game1`
+    FOREIGN KEY (`game_id` )
+    REFERENCES `mg`.`game` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_game_to_plugin_plugin1`
+    FOREIGN KEY (`plugin_id` )
+    REFERENCES `mg`.`plugin` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB

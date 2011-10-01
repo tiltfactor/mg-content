@@ -60,6 +60,11 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
       'filter'=> MGHelper::itemAlias("active"),
     ),
     array(
+      'header' => Yii::t('app', 'Used By Games'),
+      'type' => 'html',
+      'value'=>'Plugin::getGamesUsingPlugin($data->id)',
+    ),
+    array(
       'header' => Yii::t('app', 'Manage'),
       'type' => 'raw',
       'value' => 'PluginsModule::pluginAdminLink($data->unique_id)',

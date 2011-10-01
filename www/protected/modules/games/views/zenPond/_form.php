@@ -70,6 +70,10 @@
   <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), 
         array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
   </div> 
+  <h2><?php echo GxHtml::encode($model->getRelationLabel('plugins')); ?></h2>
+  <div class="row clearfix">
+  <?php echo $form->checkBoxList($model, 'plugins', GxHtml::encodeEx(GxHtml::listDataEx(Plugin::listActivePluginsForGames()), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
+  </div><!-- row -->
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

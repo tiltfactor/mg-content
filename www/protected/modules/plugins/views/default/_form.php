@@ -40,8 +40,10 @@
     <?php echo $model->modified; ?>
     <?php endif; ?>
     </div><!-- row -->
-
-
+    <div class="row">
+    <?php echo CHtml::label(Yii::t('app', 'Used By Games'), 'used_by'); ?>
+    <?php echo Plugin::getGamesUsingPlugin($model->id); ?>
+    </div><!-- row -->
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

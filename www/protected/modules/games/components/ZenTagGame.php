@@ -17,7 +17,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     }
     $success = (count($game->request->submissions) > 0);
     
-    $plugins = PluginsModule::getActivePlugins("dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -26,7 +26,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActivePlugins("weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -70,7 +70,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
         $data["tags"]["user"] = $tags;
         $data["wordstoavoid"] = array();
         
-        $plugins = PluginsModule::getActivePlugins("dictionary");
+        $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
         if (count($plugins) > 0) {
           foreach ($plugins as $plugin) {
             if (method_exists($plugin->component, "wordsToAvoid")) {
@@ -86,14 +86,14 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
-      $data["licences"] = array(); // xxx implement
+      $data["licences"] = array(); // no need to show licences on the last screen as the previous turns are cached by javascript and therefore all licence info is available
     } 
     
     return $data;
   }
   
   public function setWeights(&$game, &$game_model, $tags) {
-    $plugins = PluginsModule::getActivePlugins("dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -102,7 +102,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActivePlugins("weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -116,7 +116,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
   public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
     
-    $plugins = PluginsModule::getActivePlugins("weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "score")) {
