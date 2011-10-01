@@ -503,9 +503,14 @@ class GamesController extends ApiController {
     
     $data['status'] = "ok";
     
-    $data['turn'] = $game_engine->getTurn($game, $game_model);
-    $data['turn']['score'] = 0;
+    $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, 1);
+    if (is_null($data['turn'])) {
+      $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+      $data['turn'] = $game_engine->getTurn($game, $game_model);
+      $this->saveTwoPlayerTurnToDb($game->played_game_id, 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn']);
+    }   
     
+    $data['turn']['score'] = 0;
     
     $data['game'] = $game;
     
@@ -625,7 +630,7 @@ class GamesController extends ApiController {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
     
-     $game->submission_id = Yii::app()->db->createCommand()
+    $game->submission_id = Yii::app()->db->createCommand()
                   ->select('gs.id')
                   ->from('{{game_submission}} gs')
                   ->where('gs.session_id=:sessionID AND gs.turn=:turn AND gs.played_game_id = :pGameID', array(
@@ -654,39 +659,47 @@ class GamesController extends ApiController {
       $opponent_session_id = ($opponent_info["session_id_1"] == $user_session_id)? $opponent_info["session_id_2"] : $opponent_info["session_id_1"];
       $game->oponenents_submission = json_decode($opponent_info["submission"]);
       
+      
+      
       if ($game->oponenents_submission) { // other user has submitted and been waiting for result
         $this->leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the games javascript to repost the turn to finish it
         
-        var_dump($opponent_submission);
-        exit();
-        
-       
-        /*
-         * LOOP through  $game->oponenents_submission and parse tags
-         * HERE SHOULD BE A BLENDED PARSING OF THE USERS SUBMISSION. THINK THAT IT WOULD BE BEST IF the weighting plugins make use of $game_
-         * 
-         * check here for other users submission if yes then score and render new request else save session and
-        /*
         $tags = $game_engine->parseTags($game, $game_model);
         
         $tags = $game_engine->setWeights($game, $game_model, $tags); // in there you can use weighting functions
-        
-        $data['turn']['score'] = 0; 
+
         $turn_score = $game_engine->getScore($game, $game_model, $tags);
         
-        $data['turn'] = $game_engine->getTurn($game, $game_model, $tags);
+        $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, $game->turn + 1);
+        if (is_null($data['turn'])) {
+          $data['turn'] = $game_engine->getTurn($game, $game_model);
+          $this->saveTwoPlayerTurnToDb($game->played_game_id, $game->turn + 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn']);
+        }   
+        
+        $data['turn']['score'] = 0;
+        
+        $data["tags"] = array();
+        $data["tags"]["user"] = $tags;
+        
+        if (isset($game->oponenents_submission["parsed"]))
+          $data["tags"]["oponenent"] = $game->oponenents_submission["parsed"];
         
         MGTags::saveTags($tags, $game->submission_id);
-      
         
         // update played_game
         $played_game = PlayedGame::model()->findByPk($game->played_game_id);
         if ($played_game) {
           $played_game->modified = date('Y-m-d H:i:s');
-          $played_game->score_1 = $played_game->score_1 + $turn_score;
           
-          // we want to return the game's total score to the user.
-          $data['turn']['score'] = $played_game->score_1;
+          if ($played_game->session_id_1 == $user_session_id) {
+            $played_game->score_1 = $played_game->score_1 + $turn_score;
+            // we want to return the game's total score to the user.
+            $data['turn']['score'] = $played_game->score_1;
+          } else {
+            $played_game->score_2 = $played_game->score_2 + $turn_score;
+            // we want to return the game's total score to the user.
+            $data['turn']['score'] = $played_game->score_2;
+          }
           
           if ($game->turn == $game->turns) { // final turn 
             $played_game->finished = date('Y-m-d H:i:s');
@@ -705,7 +718,7 @@ class GamesController extends ApiController {
         if ($game->turn == $game->turns || (isset($game->play_once_and_move_on) && (int)$game->play_once_and_move_on == 1)) { // final turn
           $this->_saveUserToGame($game, $data['turn']['score']);
         }
-         */
+        
       } else { // other player has not submitted this turn
         $this->leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
         $data['status'] = "wait"; // this will make the client wait. It will query the message queue for a message that the other user has posted
@@ -754,7 +767,6 @@ class GamesController extends ApiController {
    * @param int $session_id The session id of the for whom a message should be stored
    * @param int $played_game_id the played game id for which a message should be stored
    * @param string $message the message for the user
-   * 
    */
   private function leaveMessage($session_id, $played_game_id, $message) {
     $num_rows_affected = Yii::app()->db->createCommand()
@@ -763,5 +775,47 @@ class GamesController extends ApiController {
                               'played_game_id' => $played_game_id,
                               'message' => $message
                               ));
+  }
+  
+  
+  /** 
+   * loads a turn from the played_game_turn_info table and parses and returns the stored turn info
+   * 
+   * @param int $played_game_id the played game id
+   * @param int $turn the turn number
+   * @param boolean $assoc flag for the json_decode assoc array flag (if true elements will be returned as array and not objects)
+   * @return mixed array of turn data or null
+   */
+  private function loadTwoPlayerTurnFromDb($played_game_id, $turn, $assoc=TRUE) {
+    $turn_data = Yii::app()->db->createCommand()
+                  ->select('pgti.data')
+                  ->from('{{played_game_turn_info}} pgti')
+                  ->where('pgti.turn=:turn AND pgti.played_game_id = :pGameID', array(
+                      ':turn' => $turn,
+                      ':pGameID' => $played_game_id)) 
+                  ->queryScalar();
+    if ($turn_data) {
+      return json_decode($turn_data, $assoc);
+    } else {
+      return null;
+    }
+  }
+  
+  /** 
+   * stores a turn into the database. the passed data will be json_encoded
+   * 
+   * @param int $played_game_id the played game id
+   * @param int $turn the turn number
+   * @param int $session_id the current user's session id
+   * @param mixed $data the data that shall be stored in the database 
+   */
+  private function saveTwoPlayerTurnToDb($played_game_id, $turn, $session_id, $data) {
+    $cmd  = Yii::app()->db->createCommand()
+                    ->insert('{{played_game_turn_info}}', array(
+                      'played_game_id' => $played_game_id, 
+                      'turn' => $turn, 
+                      'created_by_session_id' => $session_id, 
+                      'data' => json_encode($data),
+                    ));
   }
 }

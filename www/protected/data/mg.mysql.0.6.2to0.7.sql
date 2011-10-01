@@ -49,4 +49,23 @@ CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
     REFERENCES `mg`.`plugin` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
+
+CREATE  TABLE IF NOT EXISTS `played_game_turn_info` (
+  `played_game_id` INT(11) NOT NULL ,
+  `turn` INT(11) NOT NULL ,
+  `data` TEXT NOT NULL ,
+  `created_by_session_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`played_game_id`, `turn`) ,
+  INDEX `fk_played_game_turn_info_session1` (`created_by_session_id` ASC) ,
+  CONSTRAINT `fk_table1_played_game1`
+    FOREIGN KEY (`played_game_id` )
+    REFERENCES `mg`.`played_game` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_played_game_turn_info_session1`
+    FOREIGN KEY (`created_by_session_id` )
+    REFERENCES `mg`.`session` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;

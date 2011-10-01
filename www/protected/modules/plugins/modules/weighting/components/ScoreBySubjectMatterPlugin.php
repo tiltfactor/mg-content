@@ -45,17 +45,17 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
               
               switch ($image_subject_matter[$image_id]) {
                 case "expert":
-                  $tags[$image_id][$tag]["score"] = (int)$model->score_new_expert;
+                  $this->addScore($tags[$image_id][$tag], (int)$model->score_new_expert);
                   $score = $score + (int)$model->score_new_expert;
                   break;
                   
                 case "trusted":
-                  $tags[$image_id][$tag]["score"] = (int)$model->score_new_trusted;
+                  $this->addScore($tags[$image_id][$tag], (int)$model->score_new_trusted);
                   $score = $score + (int)$model->score_new_trusted;
                   break;
                   
                 default:
-                  $tags[$image_id][$tag]["score"] = (int)$model->score_new;
+                  $this->addScore($tags[$image_id][$tag], (int)$model->score_new);
                   $score = $score + (int)$model->score_new;
                   break;
               }
@@ -64,17 +64,17 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
             case "match":
               switch ($image_subject_matter[$image_id]) {
                 case "expert":
-                  $tags[$image_id][$tag]["score"] = (int)$model->score_match_expert;
+                  $this->addScore($tags[$image_id][$tag], (int)$model->score_match_expert);
                   $score = $score + (int)$model->score_match_expert;
                   break;
                   
                 case "trusted":
-                  $tags[$image_id][$tag]["score"] = (int)$model->score_match_trusted;
+                  $this->addScore($tags[$image_id][$tag], (int)$model->score_match_trusted);
                   $score = $score + (int)$model->score_match_trusted;
                   break;
                   
                 default:
-                  $tags[$image_id][$tag]["score"] = (int)$model->score_match;
+                  $this->addScore($tags[$image_id][$tag], (int)$model->score_match);
                   $score = $score + (int)$model->score_match;
                   break;
               }

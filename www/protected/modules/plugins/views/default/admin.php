@@ -62,7 +62,7 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
     array(
       'header' => Yii::t('app', 'Used By Games'),
       'type' => 'html',
-      'value'=>'Plugin::getGamesUsingPlugin($data->id)',
+      'value'=>'Plugin::listGamesUsingPlugin($data->id)',
     ),
     array(
       'header' => Yii::t('app', 'Manage'),

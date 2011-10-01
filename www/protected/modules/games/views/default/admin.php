@@ -53,6 +53,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
       ),
 		'number_played',
 		'unique_id',
+		array(
+      'header' => Yii::t('app', 'Used Plugins'),
+      'type' => 'html',
+      'value' => 'Plugin::listPluginsUsedByGame($data->id)',
+    ),
 		'created',
 		'modified',
     array (

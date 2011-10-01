@@ -35,7 +35,7 @@ class WordsToAvoidPlugin extends MGDictionaryPlugin  {
           foreach ($wta_image as $wta_tag_id => $wta_tag) {
             if (array_key_exists($wta_tag["tag"], $tags[$wta_image_id])) {
               $tags[$wta_image_id][$wta_tag["tag"]]["type"] = 'wordstoavoid';
-              $tags[$wta_image_id][$wta_tag["tag"]]["weight"] = 0;
+              $this->adjustWeight($tags[$wta_image_id][$wta_tag["tag"]], 0);
             }
           }
         }

@@ -21,7 +21,7 @@ $this->menu = $arr_menu;
     array(
       'header' => Yii::t('app', 'Used By Games'),
       'type' => 'html',
-      'value'=>'Plugin::getGamesUsingPlugin($data->id)',
+      'value'=>'Plugin::listGamesUsingPlugin($data->id)',
     ),
     array(
       'name' => 'link',

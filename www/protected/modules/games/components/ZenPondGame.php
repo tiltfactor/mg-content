@@ -18,7 +18,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
     }
     $success = (count($game->request->submissions) > 0);
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -27,7 +27,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -71,7 +71,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
         $data["tags"]["user"] = $tags;
         $data["wordstoavoid"] = array();
         
-        $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
+        $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
         if (count($plugins) > 0) {
           foreach ($plugins as $plugin) {
             if (method_exists($plugin->component, "wordsToAvoid")) {
@@ -94,7 +94,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   }
   
   public function setWeights(&$game, &$game_model, $tags) {
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -103,7 +103,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -117,7 +117,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "score")) {
@@ -145,15 +145,37 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       $data[$submission["image_id"]] = $image_tags;
     }
     
-    $image_tags = MGTags::getTags($image_ids);
+    if ($this->two_player_game && isset($game->oponenents_submission) && is_array($game->oponenents_submission)) {
+      // it is really a two player game and we have to parse the oppenents_submission to make the tags info available for later use
+      
+      $game->oponenents_submission["parsed"] = array();
+      
+      foreach ($game->oponenents_submission as $image) {
+        if (is_object($image)) {
+          $image_ids[] = $image->image_id;
+        
+          $image_tags = array();
+          foreach (MGTags::parseTags($image->tags) as $tag) {
+            $image_tags[strtolower($tag)] = array(
+              'tag' => $tag,
+              'weight' => 1,
+              'type' => 'new',
+              'tag_id' => 0
+            );
+          }
+          $game->oponenents_submission["parsed"][$image->image_id] = $image_tags;
+        }
+      }
+    }
     
+    $image_tags = MGTags::getTags($image_ids);
     foreach ($data as $submitted_image_id => $submitted_image_tags) {
       foreach ($submitted_image_tags as $submitted_tag => $sval) {
         if (isset($image_tags[$submitted_image_id])) {
           foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
             if ($submitted_tag == strtolower($ival["tag"])) {
-              $data[$submission["image_id"]][$submitted_tag]['type'] = 'match';
-              $data[$submission["image_id"]][$submitted_tag]['tag_id'] = $image_tag_id;
+              $data[$submitted_image_id][$submitted_tag]['type'] = 'match';
+              $data[$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
               break;
             }
           }          
@@ -161,8 +183,21 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    // xxx get somehow tags of user here tags here
-     
+    if ($this->two_player_game && isset($game->oponenents_submission) && is_array($game->oponenents_submission["parsed"])) {
+      foreach ($game->oponenents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
+        foreach ($submitted_image_tags as $submitted_tag => $sval) {
+          if (isset($image_tags[$submitted_image_id])) {
+            foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
+              if ($submitted_tag == strtolower($ival["tag"])) {
+                $game->oponenents_submission["parsed"][$submitted_image_id][$submitted_tag]['type'] = 'match';
+                $game->oponenents_submission["parsed"][$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
+                break;
+              }
+            }          
+          }
+        }
+      }
+    }
     return $data;
   }
 }

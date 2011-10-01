@@ -17,7 +17,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
     }
     $success = (count($game->request->submissions) > 0);
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -26,7 +26,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "parseSubmission")) {
@@ -70,7 +70,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
         $data["tags"]["user"] = $tags;
         $data["wordstoavoid"] = array();
         
-        $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
+        $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
         if (count($plugins) > 0) {
           foreach ($plugins as $plugin) {
             if (method_exists($plugin->component, "wordsToAvoid")) {
@@ -93,7 +93,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
   }
   
   public function setWeights(&$game, &$game_model, $tags) {
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "dictionary");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -102,7 +102,7 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       }
     }
     
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "setWeights")) {
@@ -115,8 +115,8 @@ class ZenTagGame extends MGGame implements MGGameInterface {
   
   public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
-    
-    $plugins = PluginsModule::getActiveGamePlugins($game->gid, "weighting");
+
+    $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
         if (method_exists($plugin->component, "score")) {
@@ -151,8 +151,8 @@ class ZenTagGame extends MGGame implements MGGameInterface {
         if (isset($image_tags[$submitted_image_id])) {
           foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
             if ($submitted_tag == strtolower($ival["tag"])) {
-              $data[$submission["image_id"]][$submitted_tag]['type'] = 'match';
-              $data[$submission["image_id"]][$submitted_tag]['tag_id'] = $image_tag_id;
+              $data[$submitted_image_id][$submitted_tag]['type'] = 'match';
+              $data[$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
               break;
             }
           }          
@@ -160,8 +160,6 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       }
     }
     
-    // xxx get somehow tags of user here tags here
-     
     return $data;
   }
 }

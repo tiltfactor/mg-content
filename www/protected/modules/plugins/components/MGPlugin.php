@@ -40,4 +40,42 @@ class MGPlugin extends CComponent {
   function uninstall() {
     return TRUE;
   }
+  
+  /**
+   * This function adds a value to the score of a tag. If the key "score" is not set it will set it
+   * 
+   * @param array $tag the tag to be scored passed by reference
+   * @param int $score the score to be added to the tag
+   */
+  function addScore(&$tag, $score) {
+    if (is_array($tag)) {
+      if (array_key_exists("score", $tag)) {
+        $tag["score"] += $score;
+      } else {
+        $tag["score"] = $score;
+      }
+    } 
+  }
+  
+  /**
+   * This function adds or substracts a value from the weight of a tag.
+   * If If the key "weight" is not set it will set it.
+   * 
+   * If the weight is 0 it will remain 0 if you don't set $overRideZero
+   * 
+   * @param array $tag the tag to be scored passed by reference
+   * @param float $weight the weight to be added or substracted (pass negative values to substract)
+   * @param boolean $overRideZero set to true to set a value that might be zero
+   */
+  function adjustWeight(&$tag, $weight, $overRideZero=false) {
+    if (is_array($tag)) {
+      if (array_key_exists("weight", $tag)) {
+        if ($tag["weight"] != 0 || $overRideZero) {
+          $tag["weight"] = ($weight == 0)? 0 : (float)$tag["weight"] + $weight;
+        }
+      } else {
+        $tag["weight"] = $weight;
+      }
+    } 
+  }
 }

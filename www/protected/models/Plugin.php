@@ -44,7 +44,7 @@ class Plugin extends BasePlugin
     return Plugin::model()->findAllAttributes(array('unique_id'), true, $criteria);
   }
 
-  public static function getGamesUsingPlugin($id) {
+  public static function listGamesUsingPlugin($id) {
     $games = Yii::app()->db->createCommand()
                   ->select('g.unique_id')
                   ->from('{{game}} g')
@@ -60,6 +60,30 @@ class Plugin extends BasePlugin
           $out[] = CHtml::link($game["unique_id"], array("/games/" . $game["unique_id"] . "/view")); 
         } else {
           $out[] = $game["unique_id"];
+        }
+      }
+      return implode(", ", $out);
+    } else {
+      return Yii::t('app', 'none'); 
+    }
+  }
+  
+  public static function listPluginsUsedByGame($gid) {
+    $plugins = Yii::app()->db->createCommand()
+                  ->select('p.id, p.unique_id')
+                  ->from('{{plugin}} p')
+                  ->join('{{game_to_plugin}} gp', 'gp.plugin_id=p.id')
+                  ->where(array('and', 'gp.game_id = :gameID'), array(":gameID" => $gid))
+                  ->order('unique_id')
+                  ->queryAll();
+        
+    if ($plugins) {
+      $out = array();
+      foreach ($plugins as $plugin) {
+        if (Yii::app()->user->checkAccess('admin')) {
+          $out[] = CHtml::link($plugin["unique_id"], array("/plugins/default/view/", "id" => $plugin["id"])); 
+        } else {
+          $out[] = $plugin["unique_id"];
         }
       }
       return implode(", ", $out);

@@ -201,6 +201,16 @@ return array (
         'score_match_expert' => '4',
         'score_match_trusted' => '4',
       ),
+      'ScoreNewMatch' => 
+      array (
+        'score_new' => 2,
+        'score_match' => 1,
+      ),
+      'TwoPlayerBonus' => 
+      array (
+        'score_new' => '20',
+        'score_match' => '10',
+      ),
     ),
   ),
 );

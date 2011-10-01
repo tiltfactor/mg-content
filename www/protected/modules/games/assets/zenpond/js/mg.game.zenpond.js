@@ -31,15 +31,12 @@ MG_GAME_ZENPOND = function ($) {
         MG_API.ajaxCall('/games/messages/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id , function (response) {
           if (MG_API.checkResponse(response)) { // we have to check whether the API returned a HTTP Status 200 but still json.status == "error" response
             if (MG_GAME_ZENPOND.doQueryMessages) {
-              log(response.messages !== undefined, response.messages.length);
               if (response.messages !== undefined && response.messages.length > 0) {
                 for (index in response.messages) {
                   message = response.messages[index].message;
                   if (message == "waiting") { // the other user has submitted the turn and now waits for the current users turn
                     $("#partner-waiting").show();
-                    log("called waiting");
                   } else if (message == "posted") { // the current user has been waiting for the other user to submit. this happended now
-                    log("called posted");
                     $("#partner-waiting-modal:visible").fadeOut(500);
                     MG_GAME_ZENPOND.busy = false;
                     MG_GAME_ZENPOND.onsubmit(); 
@@ -317,21 +314,23 @@ MG_GAME_ZENPOND = function ($) {
           MG_GAME_API.curtain.show();
           MG_GAME_ZENPOND.busy = true;
           
-          MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
-            if (MG_API.checkResponse(response)) {
-              MG_GAME_ZENPOND.onresponse(response);
-            }
-          }, {
-            type:'post',
-            data: {
-              turn:MG_GAME_ZENPOND.turn,
-              wordstoavoid: MG_GAME_ZENPOND.turns[MG_GAME_ZENPOND.turn-1].wordstoavoid,
-              played_game_id:MG_GAME_ZENPOND.game.played_game_id,
-              'submissions': [{
-                image_id : MG_GAME_ZENPOND.turns[MG_GAME_ZENPOND.turn-1].images[0].image_id,
-                tags: tags
-              }]
-            }
+          MG_API.waitForThrottleIntervalToPass(function () {
+            MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
+              if (MG_API.checkResponse(response)) {
+                MG_GAME_ZENPOND.onresponse(response);
+              }
+            }, {
+              type:'post',
+              data: {
+                turn:MG_GAME_ZENPOND.turn,
+                wordstoavoid: MG_GAME_ZENPOND.turns[MG_GAME_ZENPOND.turn-1].wordstoavoid,
+                played_game_id:MG_GAME_ZENPOND.game.played_game_id,
+                'submissions': [{
+                  image_id : MG_GAME_ZENPOND.turns[MG_GAME_ZENPOND.turn-1].images[0].image_id,
+                  tags: tags
+                }]
+              }
+            });
           });
         }
       }

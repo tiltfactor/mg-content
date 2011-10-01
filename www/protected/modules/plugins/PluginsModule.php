@@ -126,17 +126,15 @@ class PluginsModule extends CWebModule
     
     $list = array();
     
-    if (!isset($game_plugin_list)) {
+    if (!isset($game_plugin_list) || (is_array($game_plugin_list) && !array_key_exists($type, $game_plugin_list))) {
       $game_plugin_list = array();
       
-      $tags = Yii::app()->db->createCommand()
+      $plugins = Yii::app()->db->createCommand()
                   ->select('p.id, p.unique_id')
                   ->from('{{plugin}} p')
                   ->join('{{game_to_plugin}} gp', 'gp.plugin_id=p.id')
                   ->where(array('and', 'gp.game_id = :gameID', 'p.type=:type'), array(":gameID" => $gid, ":type" => $type))
                   ->queryAll();
-      
-      $plugins = Plugin::model()->findAll('active=1');
       
       foreach ($plugins as $plugin) {
         try {
@@ -144,14 +142,13 @@ class PluginsModule extends CWebModule
           $info = explode("-", $plugin["unique_id"]);
           $plugin_type = $info[0];
           $plugin_class = $info[1];
-          
           Yii::import("plugins.modules.$plugin_type.components.*");
           Yii::import("plugins.modules.$plugin_type.models.*");
           
           $component_name = str_replace("Plugin", "", $plugin_class);
           $component = Yii::createComponent($plugin_class);
           
-          $game_plugin_list[$plugin_type][] = (object) array(
+          $game_plugin_list[$type][] = (object) array(
             'id' => $plugin["id"], 
             'type' => $plugin_type, 
             'name' => $component_name, 
@@ -159,7 +156,8 @@ class PluginsModule extends CWebModule
             'class' => $plugin_class,
             'component' => $component
           );
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
       }
     }
     if (array_key_exists($type, $game_plugin_list)) {

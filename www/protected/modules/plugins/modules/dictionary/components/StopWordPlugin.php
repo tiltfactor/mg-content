@@ -24,7 +24,7 @@ class StopWordPlugin extends MGDictionaryPlugin  {
         foreach ($image_tags as $tag) {
           if (array_key_exists(strtolower($tag["tag"]), $arr_stopwords)) { // tag is in stopword list
             $tags[$image_id][$tag["tag"]]["type"] = 'stopword';
-            $tags[$image_id][$tag["tag"]]["weight"] = 0;
+            $this->adjustWeight($tags[$image_id][$tag["tag"]], 0);
             $arr_used_stopwords[] = $arr_stopwords[strtolower($tag["tag"])]["id"];
           }
         }

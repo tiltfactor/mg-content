@@ -16,8 +16,8 @@
  * @property string $created
  * @property integer $played_game_id
  *
- * @property PlayedGame $playedGame
  * @property Game $game
+ * @property PlayedGame $playedGame
  * @property Session $sessionId1
  * @property Session $sessionId2
  */
@@ -50,8 +50,8 @@ abstract class BaseGamePartner extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'playedGame' => array(self::BELONGS_TO, 'PlayedGame', 'played_game_id'),
 			'game' => array(self::BELONGS_TO, 'Game', 'game_id'),
+			'playedGame' => array(self::BELONGS_TO, 'PlayedGame', 'played_game_id'),
 			'sessionId1' => array(self::BELONGS_TO, 'Session', 'session_id_1'),
 			'sessionId2' => array(self::BELONGS_TO, 'Session', 'session_id_2'),
 		);
@@ -70,8 +70,8 @@ abstract class BaseGamePartner extends GxActiveRecord {
 			'game_id' => null,
 			'created' => Yii::t('app', 'Created'),
 			'played_game_id' => null,
-			'playedGame' => null,
 			'game' => null,
+			'playedGame' => null,
 			'sessionId1' => null,
 			'sessionId2' => null,
 		);

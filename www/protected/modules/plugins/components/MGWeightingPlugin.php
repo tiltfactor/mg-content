@@ -36,6 +36,13 @@ class MGWeightingPlugin extends MGPlugin {
   }
   
   /**
+   * comment xxx
+   */
+  function setWeights(&$game, &$game_model, $tags) {
+    return $tags;
+  }
+  
+  /**
    * With help of this method you can add further elements to the words to avoid array
    * 
    * See MGTags::saveTags for the data structure of the $tags array

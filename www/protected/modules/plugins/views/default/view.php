@@ -36,7 +36,7 @@ array(
 array(
       'name' => Yii::t('app', 'Used By Games'),
       'type' => 'html',
-      'value'=> Plugin::getGamesUsingPlugin($model->id),
+      'value'=> Plugin::listGamesUsingPlugin($model->id),
     ),	),
 )); ?>
 
