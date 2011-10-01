@@ -101,6 +101,11 @@ MG_GAME_ZENPOND = function ($) {
       if (score_info.tags_matched != "")
         $("#template-final-tags-matched").tmpl(score_info ).appendTo($("#fieldholder"));
       
+      if (score_info.tags_same_as != "")
+        $("#template-final-tags-same_as").tmpl(score_info ).appendTo($("#fieldholder"));
+      
+      log(score_info);
+      
       $("#licences").html("");
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
@@ -186,6 +191,9 @@ MG_GAME_ZENPOND = function ($) {
               tags : [],
               score: 0
             },
+            'tags_same_as' : {
+              tags : []
+            },
           };
           
           if (MG_GAME_ZENPOND.turns.length) { // extract scoring and licence info
@@ -193,6 +201,7 @@ MG_GAME_ZENPOND = function ($) {
               var turn = MG_GAME_ZENPOND.turns[i_turn];
               for (i_img in turn.tags.user) { //scores
                 var image = turn.tags.user[i_img];
+                var o_image = turn.tags.opponent[i_img];
                 for (i_tag in image) {
                   var tag = image[i_tag];
                   switch (tag.type) {
@@ -205,6 +214,12 @@ MG_GAME_ZENPOND = function ($) {
                       taginfo.tags_matched.tags.push(i_tag);
                       taginfo.tags_matched.score += tag.score;
                       break;  
+                  }
+                  
+                  if (turn.tags.opponent !== undefined && turn.tags.opponent.constructor === Array && turn.tags.opponent[i_img] !== undefined) {
+                    if (i_tag in turn.tags.opponent[i_img]) {
+                      taginfo.tags_same_as.tags.push(i_tag);
+                    }
                   }
                 }
               }
@@ -229,6 +244,7 @@ MG_GAME_ZENPOND = function ($) {
           //score box
           var score_info = {
             user_name : MG_GAME_ZENPOND.game.user_name,
+            game_partner_name : MG_GAME_ZENPOND.game.game_partner_name,
             user_score : MG_GAME_ZENPOND.game.user_score,
             current_score : response.turn.score,
             user_num_played : MG_GAME_ZENPOND.game.user_num_played,
@@ -238,6 +254,7 @@ MG_GAME_ZENPOND = function ($) {
             tags_new_score : taginfo.tags_new.score,
             tags_matched : taginfo.tags_matched.tags.join(", "),
             tags_matched_score : taginfo.tags_matched.score,
+            tags_same_as : taginfo.tags_same_as.tags.join(", "),
           };
           
           // turn info == image 
@@ -263,6 +280,7 @@ MG_GAME_ZENPOND = function ($) {
           //score box
           var score_info = {
             user_name : MG_GAME_ZENPOND.game.user_name,
+            game_partner_name : MG_GAME_ZENPOND.game.game_partner_name,
             user_score : MG_GAME_ZENPOND.game.user_score,
             current_score : response.turn.score,
             user_num_played : MG_GAME_ZENPOND.game.user_num_played,

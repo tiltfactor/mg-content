@@ -33,6 +33,7 @@
 </div>
 <script id="template-scores" type="text/x-jquery-tmpl">
   <h2>Welcome ${user_name}</h2>
+  <div class="game_partner">You're playing with <span>${game_partner_name}!</span></div>
   <div class="total_score">You played <span>${user_num_played}</span> times and scored <span>${user_score}</span> Points</div>
   <div class="current_score">This game's score <span>${current_score}</span> Points</div>
   <div class="total_turns">Turn <span>${current_turn}</span>/<span>${turns}</span></div>
@@ -82,6 +83,9 @@
 </script>
 <script id="template-final-tags-matched" type="text/x-jquery-tmpl">
   <p class="tag-info">Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b> point(s).</p>
+</script>
+<script id="template-final-tags-same_as" type="text/x-jquery-tmpl">
+  <p class="tag-info">Same as ${game_partner_name}: <b>'${tags_same}'</b>.</p>
 </script>
 <script id="template-partner-waiting-modal" type="text/x-jquery-tmpl">
   Waiting for partner; timeout in <b>'${seconds}'</b> seconds.

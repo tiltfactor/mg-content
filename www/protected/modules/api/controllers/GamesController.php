@@ -191,8 +191,12 @@ class GamesController extends ApiController {
           if (isset($_GET["a"]))  // "a" == "attempt"
             $attempt -= (int)$_GET["a"];
           
+          $game->game_partner_name = "anonymous";
           $partner_session_id = $this->_getPlayer($attempt, $game, $game_model, $game_engine); // this method changes the $game object by reference
           if ($partner_session_id) {
+            $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+            Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
+            
             $game->turn = 0;
             $this->_playTwoPlayerGet($game, $game_model, $game_engine);  
           } else {
@@ -204,9 +208,6 @@ class GamesController extends ApiController {
             $this->sendResponse($data);
           }
         }
-        //
-        
-        //
       } else {
         // if the game is configured to be play once move on then set turns to 1
         // sometimes play_once_and_move_on might not be set at all
@@ -258,10 +259,11 @@ class GamesController extends ApiController {
     
       // does someone wait to play?
       $partner_session = Yii::app()->db->createCommand()
-                    ->select('id, session_id_1')
+                    ->select('gp.id, gp.session_id_1, s.username')
                     ->from('{{game_partner}} gp')
-                    ->where(array('and', 'session_id_1 <> :sessionID', 'created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold))) 
-                    ->order('created ASC')
+                    ->join('{{session}} s', 's.id=gp.session_id_1')
+                    ->where(array('and', 'gp.session_id_1 <> :sessionID', 'gp.created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold))) 
+                    ->order('gp.created ASC')
                     ->limit(1)
                     ->queryRow();
       
@@ -273,6 +275,8 @@ class GamesController extends ApiController {
                   'session_id_2'=> $user_session_id,
                   'played_game_id'=> $game->played_game_id,
                 ), 'id=:id', array(':id'=>$partner_session["id"]));
+        
+        $game->game_partner_name = $partner_session["username"];
         
         $found = true;
         
@@ -294,12 +298,14 @@ class GamesController extends ApiController {
         $game->game_partner_id = (int)$_GET["gp"];
         
         $partner_session = Yii::app()->db->createCommand()
-                    ->select('id, played_game_id')
+                    ->select('gp.id, gp.played_game_id, s.username')
                     ->from('{{game_partner}} gp')
-                    ->where('id=:ID', array(":ID" => (int)$_GET["gp"])) 
+                    ->join('{{session}} s', 's.id=gp.session_id_2')
+                    ->where('gp.id=:ID', array(":ID" => (int)$_GET["gp"])) 
                     ->queryRow();
         if ($partner_session && !is_null($partner_session["played_game_id"])) { // yes return the other users session id to go on
           $game->played_game_id = $partner_session["played_game_id"];
+          $game->game_partner_name = $partner_session["username"];
           $found = true;
         }
       }
@@ -642,9 +648,6 @@ class GamesController extends ApiController {
     if (!$game->submission_id)
       $game->submission_id = $game_engine->saveSubmission($game, $game_model); 
     
-    //var_dump($game->submission_id);
-    //exit();
-    
     $opponent_info = Yii::app()->db->createCommand()
                   ->select('pg.session_id_1, pg.session_id_2, gs.submission')
                   ->from('{{played_game}} pg')
@@ -657,13 +660,13 @@ class GamesController extends ApiController {
       
     if ($opponent_info && $game->submission_id) { // yes request is for a valid and regstered two player game
       $opponent_session_id = ($opponent_info["session_id_1"] == $user_session_id)? $opponent_info["session_id_2"] : $opponent_info["session_id_1"];
-      $game->oponenents_submission = json_decode($opponent_info["submission"]);
+      $game->opponents_submission = json_decode($opponent_info["submission"]);
       
-      
-      
-      if ($game->oponenents_submission) { // other user has submitted and been waiting for result
-        $this->leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the games javascript to repost the turn to finish it
-        
+      if ($game->opponents_submission) { // other user has submitted and been waiting for result
+        if (!Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id]) {
+          // the other user is waiting thus let him now that i've posted  
+          $this->leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the game's javascript to repost the turn to finish it
+        }
         $tags = $game_engine->parseTags($game, $game_model);
         
         $tags = $game_engine->setWeights($game, $game_model, $tags); // in there you can use weighting functions
@@ -678,11 +681,11 @@ class GamesController extends ApiController {
         
         $data['turn']['score'] = 0;
         
-        $data["tags"] = array();
-        $data["tags"]["user"] = $tags;
+        $data['turn']["tags"] = array();
+        $data['turn']["tags"]["user"] = $tags;
         
-        if (isset($game->oponenents_submission["parsed"]))
-          $data["tags"]["oponenent"] = $game->oponenents_submission["parsed"];
+        if (isset($game->opponents_submission["parsed"]))
+          $data['turn']["tags"]["opponent"] = $game->opponents_submission["parsed"];
         
         MGTags::saveTags($tags, $game->submission_id);
         
@@ -718,9 +721,10 @@ class GamesController extends ApiController {
         if ($game->turn == $game->turns || (isset($game->play_once_and_move_on) && (int)$game->play_once_and_move_on == 1)) { // final turn
           $this->_saveUserToGame($game, $data['turn']['score']);
         }
-        
+        Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
       } else { // other player has not submitted this turn
         $this->leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
+        Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = true;
         $data['status'] = "wait"; // this will make the client wait. It will query the message queue for a message that the other user has posted
       }
       

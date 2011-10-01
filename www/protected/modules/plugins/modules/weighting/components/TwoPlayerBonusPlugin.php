@@ -14,8 +14,8 @@ class TwoPlayerBonusPlugin extends MGWeightingPlugin  {
    */
   function setWeights(&$game, &$game_model, $tags) {
     // go through last turns words to avoid and weight matching tags 0
-    if (isset($game->oponenents_submission) && isset($game->oponenents_submission["parsed"]) && is_array($game->oponenents_submission["parsed"])) { // make sure the game is really a two player game and the oponents_submission is set
-      foreach ($game->oponenents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
+    if (isset($game->opponents_submission) && isset($game->opponents_submission["parsed"]) && is_array($game->opponents_submission["parsed"])) { // make sure the game is really a two player game and the opponents_submission is set
+      foreach ($game->opponents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
         if (array_key_exists($submitted_image_id, $tags)) {
           foreach ($submitted_image_tags as $submitted_tag => $sval) {
             foreach ($tags[$submitted_image_id] as $image_tag_id => $ival) {
@@ -34,8 +34,8 @@ class TwoPlayerBonusPlugin extends MGWeightingPlugin  {
   function score(&$game, &$game_model, &$tags, $score) {
     $model = new TwoPlayerBonus;
     $model->fbvLoad();
-    if (isset($game->oponenents_submission) && isset($game->oponenents_submission["parsed"]) && is_array($game->oponenents_submission["parsed"])) { // make sure the game is really a two player game and the oponents_submission is set
-      foreach ($game->oponenents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
+    if (isset($game->opponents_submission) && isset($game->opponents_submission["parsed"]) && is_array($game->opponents_submission["parsed"])) { // make sure the game is really a two player game and the opponents_submission is set
+      foreach ($game->opponents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
         if (array_key_exists($submitted_image_id, $tags)) {
           foreach ($submitted_image_tags as $submitted_tag => $sval) {
             foreach ($tags[$submitted_image_id] as $image_tag_id => $ival) {

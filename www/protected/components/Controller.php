@@ -47,10 +47,8 @@ class Controller extends CController
    */
   public function filterThrottle($filterChain)
   {
-    
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     
-    Yii::log('throttle - ' . Yii::app()->session[$api_id .'_SESSION_ID'] . ' -' . Yii::app()->session[$api_id .'_LAST_ACCESS'], 'error');
     if (!isset(Yii::app()->session[$api_id .'_LAST_ACCESS'])) {
       Yii::app()->session[$api_id .'_LAST_ACCESS'] = microtime(true);
       $filterChain->run();  

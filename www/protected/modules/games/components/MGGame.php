@@ -2,7 +2,7 @@
 
 class MGGame extends CComponent {
   public $two_player_game = false;
-  public $oponenents_submission = null;
+  public $opponents_submission = null;
   
   /**
    * @param array Array of image id's that have been used.

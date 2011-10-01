@@ -236,6 +236,10 @@ h4 {
   color: #F3611A;
 }
 
+#scores .game_partner {
+  margin-bottom: 15px;
+} 
+
 #licences {
   position: absolute;
   bottom:50px;

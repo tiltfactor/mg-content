@@ -145,12 +145,12 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       $data[$submission["image_id"]] = $image_tags;
     }
     
-    if ($this->two_player_game && isset($game->oponenents_submission) && is_array($game->oponenents_submission)) {
+    if ($this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission)) {
       // it is really a two player game and we have to parse the oppenents_submission to make the tags info available for later use
       
-      $game->oponenents_submission["parsed"] = array();
+      $game->opponents_submission["parsed"] = array();
       
-      foreach ($game->oponenents_submission as $image) {
+      foreach ($game->opponents_submission as $image) {
         if (is_object($image)) {
           $image_ids[] = $image->image_id;
         
@@ -163,7 +163,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
               'tag_id' => 0
             );
           }
-          $game->oponenents_submission["parsed"][$image->image_id] = $image_tags;
+          $game->opponents_submission["parsed"][$image->image_id] = $image_tags;
         }
       }
     }
@@ -183,14 +183,14 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    if ($this->two_player_game && isset($game->oponenents_submission) && is_array($game->oponenents_submission["parsed"])) {
-      foreach ($game->oponenents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
+    if ($this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission["parsed"])) {
+      foreach ($game->opponents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
         foreach ($submitted_image_tags as $submitted_tag => $sval) {
           if (isset($image_tags[$submitted_image_id])) {
             foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
               if ($submitted_tag == strtolower($ival["tag"])) {
-                $game->oponenents_submission["parsed"][$submitted_image_id][$submitted_tag]['type'] = 'match';
-                $game->oponenents_submission["parsed"][$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
+                $game->opponents_submission["parsed"][$submitted_image_id][$submitted_tag]['type'] = 'match';
+                $game->opponents_submission["parsed"][$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
                 break;
               }
             }          
