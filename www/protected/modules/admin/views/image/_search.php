@@ -22,7 +22,7 @@
     <?php echo CHtml::checkBoxList("Custom[imagesets]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["imagesets"]))? $_GET["Custom"]["imagesets"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array(
         'template' => '<div class="checkbox">{input} {label}</div>',
         'separator' => '',
-        )); ?><?php echo Yii::t('app', "(you can enter a full user name or parts of it 'a' will find all users whom's names contain 'a')"); ?>
+        )); ?>
   </div><!-- row -->
   
   <div class="row">
@@ -37,7 +37,7 @@
                 'showAnim'=>'fold',
         ),
     ));
-    ?>
+    ?><?php echo Yii::t('app', "(you can enter a full user name or parts of it 'a' will find all users whom's names contain 'a')"); ?>
   </div>
   
 	<div class="row">

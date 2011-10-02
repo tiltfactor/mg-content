@@ -54,9 +54,9 @@ class Image extends BaseImage
             foreach ($tags as $tag) {
               $ids[] = $tag["image_id"];
             }
-            $criteria->addInCondition('id', array_values($ids));
+            $criteria->addInCondition('t.id', array_values($ids));
           } else {
-            $criteria->addInCondition('id', array(0));
+            $criteria->addInCondition('t.id', array(0));
           }
         }
       }
