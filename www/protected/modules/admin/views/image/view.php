@@ -18,56 +18,73 @@ $this->menu=array(
 
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+  $image_sets = array();
+  if (count($model->imageSets) == 0) {
+    $image_sets[] = "<li>no item(s) assigned</li>";
+  }
+  
+  foreach($model->imageSets as $relatedModel) {
+    $image_sets[] = GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
+  }
+
+$this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
   'attributes' => array(
-'id',
+  'id',
 		 array(
           'name' => 'Image',
           'type' => 'image',
           'value' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name,
         ),
-'size',
-'mime_type',
-'batch_id',
-'last_access',
-		 array(
-          'name' => 'locked',
-          'type' => 'raw',
-          'value' => MGHelper::itemAlias('locked',$model->locked),
-        ),
-'created',
-'modified',
+  'size',
+  'mime_type',
+  'batch_id',
+  'last_access',
+	 array(
+        'name' => 'locked',
+        'type' => 'raw',
+        'value' => MGHelper::itemAlias('locked',$model->locked),
+      ),
+    'created',
+    'modified',
+    array(
+        'name' => Yii::t('app', 'Image Set(s)'),
+        'type' => 'raw',
+        'value' => join(", ", $image_sets),
+      ),
 	),
 )); ?>
+<div class="span-16 clearfix">
+  <h2><?php echo Yii::t('app', 'Image is tagged with'); ?></h2>  
 
-<h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->imageSets) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->imageSets as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
-?><h2><?php echo GxHtml::encode($model->getRelationLabel('tagUses')); ?></h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->tagUses) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->tagUses as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('tagUse/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
-?>
+<?php 
+$this->widget('zii.widgets.CListView', array(
+    'id' => 'user-tags-listview',
+    'dataProvider'=> Tag::model()->searchImageTags($model->id),
+    'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+    'itemView'=>'_viewTagListItem',
+    'sortableAttributes'=>array(
+        'tag' => Yii::t('app', 'Tag name'),
+        'counted' => Yii::t('app', 'Counted'),
+    ),
+));  ?>
+
+</div>
+
+<div class="span-7 last clearfix">
+  <h2><?php echo Yii::t('app', 'Tagged by'); ?></h2>  
+
+<?php 
+$this->widget('zii.widgets.CListView', array(
+    'id' => 'image-user-listview',
+    'dataProvider'=> User::model()->searchImageUsers($model->id),
+    'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+    'itemView'=>'_viewUserListItem',
+    'sortableAttributes'=>array(
+        'username' => Yii::t('app', 'User name'),
+    ),
+));  ?>
+
+</div>

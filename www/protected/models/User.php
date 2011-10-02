@@ -36,6 +36,68 @@ class User extends BaseUser
     );
   }
   
+  public function search() {
+    $criteria = new CDbCriteria;
+
+    $criteria->compare('id', $this->id);
+    $criteria->compare('username', $this->username, true);
+    $criteria->compare('password', $this->password, true);
+    $criteria->compare('email', $this->email, true);
+    $criteria->compare('activekey', $this->activekey, true);
+    $criteria->compare('lastvisit', $this->lastvisit, true);
+    $criteria->compare('role', $this->role, true);
+    $criteria->compare('status', $this->status);
+    $criteria->compare('edited_count', $this->edited_count);
+    $criteria->compare('created', $this->created, true);
+    $criteria->compare('modified', $this->modified, true);
+    
+    if (isset($_GET["Custom"]) && isset($_GET["Custom"]["tags"])) {
+      $parsed_tags = MGTags::parseTags($_GET["Custom"]["tags"]);
+      if (count($parsed_tags) > 0) {
+        $cmd =  Yii::app()->db->createCommand();
+        $cmd->distinct = true; 
+        
+        $tags = null;
+        if ($_GET["Custom"]["tags_search_option"] == "OR") {
+          $tags = $cmd->select('s.user_id')
+                  ->from('{{tag_use}} tu')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->leftJoin('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
+                  ->leftJoin('{{session}} s', 's.id=gs.session_id')
+                  ->where(array('and', 'tu.weight >= 1', 's.user_id IS NOT NULL', array('in', 't.tag', array_values($parsed_tags))))
+                  ->queryAll();
+        } else {
+          $tags = $cmd->select('s.user_id, COUNT(DISTINCT tu.tag_id) as counted')
+                  ->from('{{tag_use}} tu')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->join('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
+                  ->join('{{session}} s', 's.id=gs.session_id')
+                  ->where(array('and', 'tu.weight >= 1', 's.user_id IS NOT NULL', array('in', 't.tag', array_values($parsed_tags))))
+                  ->group('s.user_id')
+                  ->having('counted = :counted', array(':counted' => count($parsed_tags)))
+                  ->queryAll();
+        }
+        
+        if ($tags) {
+          $ids = array();
+          foreach ($tags as $tag) {
+            $ids[] = $tag["user_id"];
+          }
+          $criteria->addInCondition('id', array_values($ids));
+        } else {
+          $criteria->addInCondition('id', array(0));
+        }          
+      }
+    }
+    
+    return new CActiveDataProvider($this, array(
+      'criteria' => $criteria,
+      'pagination'=>array(
+        'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
+      ),
+    ));
+  }
+  
   /**
    * checks if the currently logged in user tries to changer her own role and throws an validation error if so
    */
@@ -167,5 +229,46 @@ class User extends BaseUser
       $roles[$role->name] = Yii::t('app', $role->name);
     }
     return $roles; 
+  }
+  
+  /**
+   * lists user names that start with the passed parameter. It is mainly used for autocomplete
+   * widgets
+   * 
+   * @param string $name the begin of the user name that should be found
+   * @return mixed array containing the username column or null
+   */
+  function searchForNames($name) {
+    return Yii::app()->db->createCommand()
+                  ->select('u.username')
+                  ->from('{{user}} u')
+                  ->where(array('like', 'username', '%' . $name . '%'))
+                  ->order('u.username')
+                  ->limit(50)
+                  ->queryColumn();
+  }
+  
+  public function searchImageUsers($image_id) {
+    $command = Yii::app()->db->createCommand()
+                  ->select('u.id, u.username')
+                  ->from('{{user}} u')
+                  ->join('{{session}} s', 's.user_id=u.id')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  ->where(array('and', 'tu.weight >= 1', 'tu.image_id=:imageID'), array(":imageID" => $image_id))
+                  ->order('gs.created DESC');
+    $command->distinct = true;          
+    $tags = $command->queryAll();
+    return  new CArrayDataProvider($tags, array(
+      'id'=>'id',
+      'sort'=>array(
+          'attributes'=>array(
+               'id', 'username',
+          ),
+      ),
+      'pagination'=>array(
+          'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size")
+      ),
+    ));
   }
 }

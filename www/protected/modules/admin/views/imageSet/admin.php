@@ -63,7 +63,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
 				'value'=>'GxHtml::valueEx($data->licence)',
 				'filter'=>GxHtml::listDataEx(Licence::model()->findAllAttributes(null, true)),
 				),
-		'created',
+	   array (
+      'header' => Yii::t('app', 'Images'),
+      'type' => 'raw',
+      'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Images&nbsp;', array(\"{count}\" => count(\$data->images))) . ((count(\$data->images))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/image/?Custom[imagesets][]=' . \$data->id)) . ')' : '') . '</b>'",
+    ),
+		//'created',
 		/*
 		'modified',
 		*/

@@ -141,6 +141,10 @@ class UserController extends Controller
           $relatedData['games'] = $_POST['User']['games'] === '' ? null : $_POST['User']['games'];
         
         if($model->saveWithRelated($relatedData)) {
+          if ($model->status == -1) {
+            $this->_banUser($model->id);
+          }
+            
           $profile->save();
           
           if (isset($_POST['User']['subjectMatters'])) {
@@ -151,7 +155,6 @@ class UserController extends Controller
           Flash::add('success', Yii::t('app', "User updated"));
           $this->redirect(array('view','id'=>$model->id));  
         }
-				
 			} else $profile->validate();
 		}
 
@@ -244,13 +247,23 @@ class UserController extends Controller
       $criteria->addInCondition("id", $_POST['users-ids']);
       MGHelper::log('batch-ban', 'Banned players with IDs(' . implode(',', $_POST['users-ids']) . ')');
       
-      // xxx implement batch ban and 
+      $model = new User;
+      $users = $model->findAll($criteria);
       
-      /**
-       *  $model = new Badge;
-          $model->deleteAll($criteria);
-       */
-      throw new CHttpException(500, Yii::t('app', 'This method is not fully implented yet.'));  
+      if ($users) {
+        foreach ($users as $user) {
+          $this->_banUser($user->id);
+          $user->status = -1;
+          $user->save();
+        }
+      }
     } 
+  }
+
+  private function _banUser($user_id) {
+    TagUse::model()->banUser($user_id);
+    UserToGame::model()->banUser($user_id);
+    
+    //xxx how to deal with the problem that the banned user still might be logged in?
   }
 }

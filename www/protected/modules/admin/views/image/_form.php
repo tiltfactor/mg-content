@@ -16,18 +16,15 @@
 
     <div class="row">
     <?php echo $form->labelEx($model,'name'); ?>
-    <?php echo $form->textField($model, 'name', array('maxlength' => 254)); ?>
-    <?php echo $form->error($model,'name'); ?>
+    <?php echo $model->name; ?>
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'size'); ?>
-    <?php echo $form->textField($model, 'size'); ?>
-    <?php echo $form->error($model,'size'); ?>
+    <?php echo $model->size; ?>
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'mime_type'); ?>
-    <?php echo $form->textField($model, 'mime_type', array('maxlength' => 45)); ?>
-    <?php echo $form->error($model,'mime_type'); ?>
+    <?php echo $model->mime_type; ?>
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'batch_id'); ?>
@@ -36,8 +33,7 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'last_access'); ?>
-    <?php echo $form->textField($model, 'last_access'); ?>
-    <?php echo $form->error($model,'last_access'); ?>
+    <?php echo $model->last_access; ?>
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'locked'); ?>
@@ -61,11 +57,13 @@
 		<div class="row clearfix">
 		<?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
 		</div><!-- row -->
+		<?php /*
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('tagUses')); ?></h2>
 		<div class="row clearfix">
 		<?php echo $form->checkBoxList($model, 'tagUses', GxHtml::encodeEx(GxHtml::listDataEx(TagUse::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
 		</div><!-- row -->
-
+    */
+?>
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

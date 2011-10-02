@@ -75,6 +75,7 @@ return array(
 			'password' => '', //xxx set via installer
 			'charset' => 'utf8',
 			'tablePrefix'=>'', //xxx set via installer
+			'enableParamLogging'=>true
 		),
 		
 		'errorHandler'=>array(
@@ -92,6 +93,12 @@ return array(
 				array(
 					'class'=>'CWebLogRoute',
 				),
+				array(
+          'class'=>'CFileLogRoute',
+          'levels'=>'error,trace,info,warning',
+          'categories'=>'system.db.*',
+          'logFile'=>'sql.log'
+        )
 			),
 		),
 		

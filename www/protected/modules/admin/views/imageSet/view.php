@@ -38,9 +38,9 @@ $this->menu=array(
   'created',
   'modified',
   array (
-    'name' => Yii::t('app', 'images'),
+    'name' => Yii::t('app', 'Images'),
     'type' => 'html',
-    'value' => '<b>' . Yii::t('app', 'This image set contains {count} images: ', array("{count}" => count($model->images))) . CHtml::link(Yii::t('app', 'view'), array('/admin/image')) . ' xxx implement link</b>',
+    'value' => '<b>' . Yii::t('app', 'This image set contains {count} images: ', array("{count}" => count($model->images))) . CHtml::link(Yii::t('app', 'view'), array('/admin/image/?Custom[imagesets][]=' . $model->id)) . '</b>',
   )
 	),
 )); ?>

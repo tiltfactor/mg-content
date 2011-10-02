@@ -15,7 +15,7 @@ class ImageController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete', 'searchUser'),
   				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
@@ -133,5 +133,13 @@ class ImageController extends GxController {
     } else
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
     
+  }
+  
+  public function actionSearchUser() {
+    $res = array();
+    if (isset($_GET["term"])) {
+      $res = User::model()->searchForNames((string)$_GET["term"]);
+    }
+    $this->jsonResponse($res);
   }
 }

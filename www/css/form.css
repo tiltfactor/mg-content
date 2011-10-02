@@ -63,6 +63,12 @@ div.form label
 div.form .row
 {
 	margin: 5px 0;
+	overflow-x: auto;
+}
+
+div.form .row.small
+{
+  margin-top: 0;
 }
 
 div.form .hint
@@ -175,8 +181,10 @@ div.checkbox {
 }
 
 div.checkbox input,
-div.checkbox label {
+div.checkbox label,
+div.wide.form .checkbox label {
   float:left;
+  width: auto;
 }
 
 div.checkbox label {

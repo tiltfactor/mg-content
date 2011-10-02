@@ -12,7 +12,8 @@ class Image extends BaseImage
   
   public function search() {
     $criteria = new CDbCriteria;
-
+    $criteria->alias = 't';
+    $criteria->join = "";
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
     $criteria->compare('size', $this->size);
@@ -23,46 +24,67 @@ class Image extends BaseImage
     $criteria->compare('created', $this->created, true);
     $criteria->compare('modified', $this->modified, true);
     
-    if (isset($_GET["Image"]) && isset($_GET["Image"]["tags"])) {
-      $parsed_tags = MGTags::parseTags($_GET["Image"]["tags"]);
-      if (count($parsed_tags) > 0) {
-        $cmd =  Yii::app()->db->createCommand();
-        $cmd->distinct = true; 
-        
-        $tags = null;
-        if ($_GET["Image"]["tags_search_option"] == "OR") {
-          $tags = $cmd->select('tu.image_id')
-                  ->from('{{tag_use}} tu')
-                  ->join('{{tag}} t', 'tu.tag_id = t.id')
-                  ->where(array('and', 'tu.weight >= 1',array('in', 't.tag', array_values($parsed_tags))))
-                  ->queryAll();
-        } else {
-          $tags = $cmd->select('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
-                  ->from('{{tag_use}} tu')
-                  ->join('{{tag}} t', 'tu.tag_id = t.id')
-                  ->where(array('and', 'tu.weight >= 1',array('in', 't.tag', array_values($parsed_tags))))
-                  ->group('tu.image_id')
-                  ->having('counted = :counted', array(':counted' => count($parsed_tags)))
-                  ->queryAll();
-        }
-        
-        if ($tags) {
-          $ids = array();
-          foreach ($tags as $tag) {
-            $ids[] = $tag["image_id"];
+    if (isset($_GET["Custom"])) {
+      
+      if (isset($_GET["Custom"]["tags"])) {
+        $parsed_tags = MGTags::parseTags($_GET["Custom"]["tags"]);
+        if (count($parsed_tags) > 0) {
+          $cmd =  Yii::app()->db->createCommand();
+          $cmd->distinct = true; 
+          
+          $tags = null;
+          if ($_GET["Custom"]["tags_search_option"] == "OR") {
+            $tags = $cmd->select('tu.image_id')
+                    ->from('{{tag_use}} tu')
+                    ->join('{{tag}} tag', 'tu.tag_id = tag.id')
+                    ->where(array('and', 'tu.weight >= 1',array('in', 'tag.tag', array_values($parsed_tags))))
+                    ->queryAll();
+          } else {
+            $tags = $cmd->select('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
+                    ->from('{{tag_use}} tu')
+                    ->join('{{tag}} tag', 'tu.tag_id = tag.id')
+                    ->where(array('and', 'tu.weight >= 1',array('in', 'tag.tag', array_values($parsed_tags))))
+                    ->group('tu.image_id')
+                    ->having('counted = :counted', array(':counted' => count($parsed_tags)))
+                    ->queryAll();
           }
-          $criteria->addInCondition('id', array_values($ids));
-        }          
+          
+          if ($tags) {
+            $ids = array();
+            foreach ($tags as $tag) {
+              $ids[] = $tag["image_id"];
+            }
+            $criteria->addInCondition('id', array_values($ids));
+          } else {
+            $criteria->addInCondition('id', array(0));
+          }
+        }
+      }
+    
+      if (isset($_GET["Custom"]["imagesets"]) && is_array($_GET["Custom"]["imagesets"])) {
+        $criteria->join .= ' LEFT JOIN {{image_set_to_image}} isi ON isi.image_id=t.id';
+        $criteria->addInCondition('isi.image_set_id', array_values($_GET["Custom"]["imagesets"]));
+      }
+      
+      if (isset($_GET["Custom"]["username"]) && trim($_GET["Custom"]["username"]) != "") {
+        $criteria->distinct = true;
+        
+        $criteria->join .= "  LEFT JOIN {{tag_use tu}} ON tu.image_id=t.id
+                              LEFT JOIN {{game_submission}} gs ON gs.id=tu.game_submission_id
+                              LEFT JOIN {{session}} s ON s.id=gs.session_id
+                              LEFT JOIN {{user}} u ON u.id=s.user_id";
+                              
+        $criteria->addSearchCondition('u.username', $_GET["Custom"]["username"]);                    
       }
     }
-    
+
     if(!Yii::app()->request->isAjaxRequest)
         $criteria->order = 'name ASC';
     
     return new CActiveDataProvider($this, array(
       'criteria' => $criteria,
       'pagination'=>array(
-        'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
+        'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size"),
       ),
     ));
   }

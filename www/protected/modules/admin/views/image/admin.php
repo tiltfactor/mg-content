@@ -62,10 +62,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'type' => 'html',
       'value'=>'$data->getTopTags(15)',
     ),
-		'size',
+		//'size',
 		'batch_id',
-		'last_access', // implement last access
-		'created',
+		//'last_access', //xxx implement last access
+		//'created',
 		/*
 		 array(
         'name' => 'locked',

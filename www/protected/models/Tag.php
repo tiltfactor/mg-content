@@ -51,4 +51,27 @@ class Tag extends BaseTag
        ),
     ));
   }
+  
+  public function searchImageTags($image_id) {
+    $tags = Yii::app()->db->createCommand()
+                  ->select('count(t.id) as counted, t.id, t.tag')
+                  ->from('{{tag_use}} tu')
+                  ->join('{{tag}} t', 'tu.tag_id = t.id')
+                  ->where(array('and', 'tu.weight >= 1', 'tu.image_id=:imageID'), array(":imageID" => $image_id))
+                  ->group('t.id, t.tag')
+                  ->order('counted DESC')
+                  ->queryAll();
+    
+    return new CArrayDataProvider($tags, array(
+      'id'=>'id',
+      'sort'=>array(
+          'attributes'=>array(
+               'id', 'tag', 'counted',
+          ),
+      ),
+      'pagination'=>array(
+          'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size") * 4,
+       ),
+    ));
+  }
 }

@@ -9,8 +9,8 @@ class LogoutController extends Controller
 	 */
 	public function actionLogout()
 	{
-	  Yii::app()->session->clear(); //remove all of the session variables. 
-		Yii::app()->user->logout();
+	  Yii::app()->session->destroy(); //remove all of the session variables.
+	  Yii::app()->user->logout();
 		$this->redirect(Yii::app()->controller->module->returnLogoutUrl);
 	}
 

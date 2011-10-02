@@ -5,10 +5,18 @@
 	'method' => 'get',
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->textField($model, 'id'); ?>
-	</div>
+  <div class="row">
+    <?php echo CHtml::label(Yii::t('app', "Tag(s)"), "Custom_tags") ?>
+    <?php echo CHtml::textField("Custom[tags]",  ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags"]))? $_GET["Custom"]["tags"] : '')); ?>
+    <?php echo Yii::t('app', "(separate tags or phrases with a ',')"); ?>
+  </div>
+  <div class="row small">
+    <?php echo CHtml::label(Yii::t('app', "&nbsp;"), "") ?>
+    <?php echo CHtml::radioButtonList("Custom[tags_search_option]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags_search_option"]))? $_GET["Custom"]["tags_search_option"] : 'OR'), array("OR"=>"OR", "AND" => "AND"), array(
+        'template' => '<div class="inline-radio">{input} {label}</div>',
+        'separator' => '',
+        )) ?><?php echo Yii::t('app', "(show users that have submitted at least one (OR) or all (AND) of the given tags)"); ?>
+  </div><!-- row -->
 
 	<div class="row">
 		<?php echo $form->label($model, 'username'); ?>
@@ -36,7 +44,7 @@
     <?php echo CHtml::dropDownList('User[role]', $model->role, User::listRoles(), array('prompt' => Yii::t('app', 'Please Choose'))); ?>
     <?php echo $form->error($model,'role'); ?>
   </div>
-
+  
 	<div class="row">
 		<?php echo $form->label($model, 'edited_count'); ?>
 		<?php echo $form->textField($model, 'edited_count'); ?>
