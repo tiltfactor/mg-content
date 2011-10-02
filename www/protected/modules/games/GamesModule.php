@@ -82,7 +82,7 @@ class GamesModule extends CWebModule
       $game->image_url =  self::getAssetsUrl() . '/' . strtolower($unique_id) . '/images/' . (isset($game->arcade_image)? $game->arcade_image : '');
       $game->api_base_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/api');
       $game->base_url = Yii::app()->getRequest()->getHostInfo();
-      
+      $game->game_base_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/games');
       $game->user_name = Yii::app()->user->name;
       $game->user_num_played = 0;
       $game->user_score =  0;  

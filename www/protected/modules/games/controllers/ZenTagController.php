@@ -46,7 +46,6 @@ class ZenTagController extends GxController
         gid : 'ZenTag',
         app_id : 'MG_API',
         api_url : '{$game->api_base_url}',
-        msg_url : '{$game->base_url}/mg_api_messages.php',
         play_once_and_move_on : {$game->play_once_and_move_on},
         play_once_and_move_on_url : '{$game->play_once_and_move_on_url}',
         throttleInterval : $throttleInterval

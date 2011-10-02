@@ -225,7 +225,11 @@ class MGTags {
             $tag_model->modified = date('Y-m-d H:i:s');
             
             if ($tag_model->validate()) {
-              $tag_model->save();  
+              try {
+                $tag_model->save();
+              } catch (CDbException $e) {
+                Tag::model()->findByAttribute(array("tag" => $tags[$image_id][$tag]["tag"]));
+              } 
             } else {
               throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
             }

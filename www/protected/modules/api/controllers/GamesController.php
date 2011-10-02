@@ -262,7 +262,7 @@ class GamesController extends ApiController {
                     ->select('gp.id, gp.session_id_1, s.username')
                     ->from('{{game_partner}} gp')
                     ->join('{{session}} s', 's.id=gp.session_id_1')
-                    ->where(array('and', 'gp.session_id_1 <> :sessionID', 'gp.created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold))) 
+                    ->where(array('and', 'gp.session_id_1 <> :sessionID', 'gp.created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1))) // we have to adjust the milisecond threshol as javascript and server side time measuerment are slightly out of tune 
                     ->order('gp.created ASC')
                     ->limit(1)
                     ->queryRow();
@@ -513,8 +513,13 @@ class GamesController extends ApiController {
     if (is_null($data['turn'])) {
       $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
       $data['turn'] = $game_engine->getTurn($game, $game_model);
-      $this->saveTwoPlayerTurnToDb($game->played_game_id, 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn']);
-    }   
+      if (!$this->saveTwoPlayerTurnToDb($game->played_game_id, 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn']))
+        $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, 1); // in a freak accident if might happen that for both user it might appear to be the first one to read the table
+    }  
+    
+    if (is_null($data['turn'])) {
+      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+    }
     
     $data['turn']['score'] = 0;
     
@@ -814,12 +819,17 @@ class GamesController extends ApiController {
    * @param mixed $data the data that shall be stored in the database 
    */
   private function saveTwoPlayerTurnToDb($played_game_id, $turn, $session_id, $data) {
-    $cmd  = Yii::app()->db->createCommand()
-                    ->insert('{{played_game_turn_info}}', array(
-                      'played_game_id' => $played_game_id, 
-                      'turn' => $turn, 
-                      'created_by_session_id' => $session_id, 
-                      'data' => json_encode($data),
-                    ));
+    try {
+      $cmd  = Yii::app()->db->createCommand()
+                  ->insert('{{played_game_turn_info}}', array(
+                    'played_game_id' => $played_game_id, 
+                    'turn' => $turn, 
+                    'created_by_session_id' => $session_id, 
+                    'data' => json_encode($data),
+                  ));
+    } catch (CDbException $e) {
+      return false;
+    }
+    return true;
   }
 }

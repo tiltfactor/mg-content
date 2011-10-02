@@ -68,13 +68,14 @@ MG_GAME_ZENTAG = function ($) {
       $("#stage").hide();
       
       $("#scores").html(""); 
+      log(score_info);
       
       $("#fieldholder").html("");
       $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
-      if (score_info.tags_new != "") 
+      if (score_info.tags_new !== undefined && score_info.tags_new != "") 
         $("#template-final-tags-new").tmpl(score_info ).appendTo($("#fieldholder"));
         
-      if (score_info.tags_matched != "")
+      if (score_info.tags_matched !== undefined && score_info.tags_matched != "")
         $("#template-final-tags-matched").tmpl(score_info ).appendTo($("#fieldholder"));
       
       $("#licences").html("");
@@ -149,6 +150,29 @@ MG_GAME_ZENTAG = function ($) {
               }
             }
             
+            for (var scope in taginfo) {
+              var o_scope = taginfo[scope];
+              var tmp = {};
+              var tmp2 = [];
+              if (o_scope.tags !== undefined && o_scope.tags.length) {
+                for(var index in o_scope.tags) {
+                  if (o_scope.tags[index] in tmp) {
+                    tmp[o_scope.tags[index]]++;
+                  } else {
+                    tmp[o_scope.tags[index]] = 1;
+                  }
+                }
+                for (var tag in tmp) {
+                  if (tmp[tag] > 1) {
+                    tmp2.push(tag + ' (' + tmp[tag] + ')');
+                  } else {
+                    tmp2.push(tag);  
+                  }
+                }
+                taginfo[scope].scoreinfo = tmp2.join(", ").trim();
+              }
+            }
+            
             if (turn.licences.length) {
               for (licence in turn.licences) { // licences
                 var found = false;
@@ -174,9 +198,9 @@ MG_GAME_ZENTAG = function ($) {
           user_num_played : MG_GAME_ZENTAG.game.user_num_played,
           turns : MG_GAME_ZENTAG.game.turns,
           current_turn : MG_GAME_ZENTAG.turn,
-          tags_new : taginfo.tags_new.tags.join(", "),
+          tags_new : taginfo.tags_new.scoreinfo,
           tags_new_score : taginfo.tags_new.score,
-          tags_matched : taginfo.tags_matched.tags.join(", "),
+          tags_matched : taginfo.tags_matched.scoreinfo,
           tags_matched_score : taginfo.tags_matched.score,
         };
         

@@ -85,12 +85,15 @@
   <p class="tag-info">Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b> point(s).</p>
 </script>
 <script id="template-final-tags-same_as" type="text/x-jquery-tmpl">
-  <p class="tag-info">Same as ${game_partner_name}: <b>'${tags_same}'</b>.</p>
+  <p class="tag-info">Same as ${game_partner_name}: <b>'${tags_same_as}'</b>.</p>
 </script>
 <script id="template-partner-waiting-modal" type="text/x-jquery-tmpl">
   Waiting for partner; timeout in <b>'${seconds}'</b> seconds.
 </script>
 <script id="template-partner-waiting-modal-turn" type="text/x-jquery-tmpl">
   Waiting for partner to submit turn.
+</script>
+<script id="template-partner-waiting-time-out" type="text/x-jquery-tmpl">
+  No game partner found. <a href="${game_base_url}/ZenPond">retry.</a> You could also play a round of <a href="${game_base_url}/ZenTag">Zen Tag</a> instead.
 </script>
 

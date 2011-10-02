@@ -46,8 +46,8 @@ class ZenPondController extends GxController
     MG_GAME_ZENPOND.init({
         gid : 'ZenPond',
         app_id : 'MG_API',
+        game_base_url : '{$game->game_base_url}',
         api_url : '{$game->api_base_url}',
-        msg_url : '{$game->base_url}/mg_api_messages.php',
         throttleInterval : $throttleInterval,
         message_queue_interval : $message_queue_interval,
         partner_wait_threshold : {$game->partner_wait_threshold},
