@@ -35,6 +35,8 @@ MG_GAME_ZENPOND = function ($) {
                 for (index in response.messages) {
                   message = response.messages[index].message;
                   if (message == "waiting") { // the other user has submitted the turn and now waits for the current users turn
+                    $("#partner-waiting").html("");
+                    $("#template-partner-waiting-for-submit").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
                     $("#partner-waiting").show();
                   } else if (message == "posted") { // the current user has been waiting for the other user to submit. this happended now
                     $("#partner-waiting-modal:visible").fadeOut(500);

@@ -27,7 +27,7 @@
     <div id="licences"></div>
     <div id="more_info"></div>
     <div id="words_to_avoid"></div>
-    <div id="partner-waiting">Your game partner is waiting for your submission!</div>
+    <div id="partner-waiting"></div>
   </div>
   <div id="partner-waiting-modal"></div>
 </div>
@@ -95,5 +95,8 @@
 </script>
 <script id="template-partner-waiting-time-out" type="text/x-jquery-tmpl">
   No game partner found. <a href="${game_base_url}/ZenPond">retry.</a> You could also play a round of <a href="${game_base_url}/ZenTag">Zen Tag</a> instead.
+</script>
+<script id="template-partner-waiting-for-submit" type="text/x-jquery-tmpl">
+  <b>${game_partner_name}</b> waits for your submission!
 </script>
 

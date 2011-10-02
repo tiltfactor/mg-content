@@ -118,7 +118,6 @@ return array(
     'image'=>array(
       'class'=>'ext.image.CImageComponent',
       'driver'=>'ImageMagick',
-      'directory' => '/opt/local/bin',
     ),
     
     'mail' => array(
