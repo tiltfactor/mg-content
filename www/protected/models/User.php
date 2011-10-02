@@ -23,6 +23,7 @@ class User extends BaseUser
   public function rules() {
     return array(
       array('username, email', 'required'),
+      array('username, email', 'unique'),
       array('status, edited_count', 'numerical', 'integerOnly'=>true),
       array('username', 'length', 'max'=>32),
       array('email', 'email'),
