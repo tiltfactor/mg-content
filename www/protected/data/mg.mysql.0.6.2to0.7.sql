@@ -9,7 +9,7 @@ DROP FOREIGN KEY `fk_game_partner_session1`,
  ADD CONSTRAINT `fk_game_partner_session_id_2` FOREIGN KEY `fk_game_partner_session_id_2` (`session_id_2`)
     REFERENCES `session` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    ON UPDATE NO ACTION,
  ADD CONSTRAINT `fk_game_partner_played_game_id` FOREIGN KEY `fk_game_partner_played_game_id` (`played_game_id`)
     REFERENCES `played_game` (`id`)
     ON DELETE RESTRICT
