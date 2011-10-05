@@ -99,7 +99,7 @@ MG_GAME_ZENTAG = function ($) {
       }
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
-      $(window).unbind('beforeunload');
+      MG_GAME_API.releaseOnBeforeUnload();
       MG_GAME_ZENTAG.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
       
       $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});

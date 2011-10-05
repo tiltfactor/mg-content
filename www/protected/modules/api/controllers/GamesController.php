@@ -4,7 +4,7 @@ class GamesController extends ApiController {
   
   public function filters() {
     return array( // add blocked IP filter here
-        'throttle - messages',
+        'throttle - messages, abort',
         'IPBlock',
         'APIAjaxOnly', // custom filter defined in this class accepts only requests with the header HTTP_X_REQUESTED_WITH === 'XMLHttpRequest'
         'accessControl - messages',
@@ -18,7 +18,7 @@ class GamesController extends ApiController {
   public function accessRules() {
     return array(
       array('allow',
-        'actions'=>array('index', 'scores', 'play', 'partner', 'messages'),
+        'actions'=>array('index', 'scores', 'play', 'partner', 'messages', 'abort'),
         'users'=>array('*'),
         ),
       array('deny', 
@@ -138,6 +138,28 @@ class GamesController extends ApiController {
           ->delete('{{message}}', 'session_id=:sessionID AND played_game_id=:pGameID', array(':sessionID' => $user_session_id, ':pGameID' => $played_game_id));
     }
     $this->sendResponse($data);       
+  }
+  
+  public function actionAbort($played_game_id) {
+    $data = array();
+    $data['status'] = "ok";
+    
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+    
+    $played_game = Yii::app()->db->createCommand()
+                  ->select('pg.session_id_1, pg.session_id_2')
+                  ->from('{{played_game}} pg')
+                  ->where('pg.id=:pGameID', array(':pGameID' => $played_game_id)) 
+                  ->queryRow();
+                  
+    if ($played_game) {
+      $opponent_session_id = ($played_game["session_id_1"] == $user_session_id)? $played_game["session_id_2"] : $played_game["session_id_1"];
+      $this->leaveMessage($opponent_session_id, $played_game_id, 'aborted'); 
+    } else {
+      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+    }
+    $this->sendResponse($data);
   }
   
   
@@ -281,14 +303,14 @@ class GamesController extends ApiController {
         $found = true;
         
       } else { // no one is waiting let's register this user's request for waiting
-        $played_game = new GamePartner;
-        $played_game->session_id_1 = $user_session_id;
-        $played_game->game_id = $game->game_id;
-        $played_game->created = date('Y-m-d H:i:s');
+        $game_partner = new GamePartner;
+        $game_partner->session_id_1 = $user_session_id;
+        $game_partner->game_id = $game->game_id;
+        $game_partner->created = date('Y-m-d H:i:s');
         
-        $played_game->save();
+        $game_partner->save();
         
-        $game->game_partner_id = $played_game->id;
+        $game->game_partner_id = $game_partner->id;
       }
     } else {
       // the user waits for a partner. 

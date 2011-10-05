@@ -6,7 +6,26 @@ MG_GAME_ZENPOND = function ($) {
     
     init : function (options) {
       var settings = $.extend(options, {
-        ongameinit: MG_GAME_ZENPOND.ongameinit
+        ongameinit: MG_GAME_ZENPOND.ongameinit,
+        onunload: function() {
+          if (/chrome/.test(navigator.userAgent.toLowerCase())) {
+            // chrome does not show confirm messages in onbeforeunload. 
+            // we can't make use of onunload to send an ajax request as the browser immidiatly stops working and the request might not be processed. 
+            // thus if we are playing a multiplayer game chrome will exit without error message
+            log(MG_GAME_ZENPOND.game.game_partner_id);
+            if (MG_GAME_ZENPOND.game.game_partner_id !== undefined && MG_GAME_ZENPOND.game.game_partner_id) {
+              MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
+            } else {
+              return 'Quit ' + MG_GAME_API.game.name + '?';
+            }
+          } else {
+            if (confirm('Quit ' + MG_GAME_API.game.name + '?')) {
+              if (MG_GAME_ZENPOND.game.played_game_id !== undefined && MG_GAME_ZENPOND.game.played_game_id) {
+                MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
+              }
+            }
+          }
+        }
       });
       MG_GAME_ZENPOND.wordField = $("#words");
       
@@ -34,14 +53,33 @@ MG_GAME_ZENPOND = function ($) {
               if (response.messages !== undefined && response.messages.length > 0) {
                 for (index in response.messages) {
                   message = response.messages[index].message;
-                  if (message == "waiting") { // the other user has submitted the turn and now waits for the current users turn
-                    $("#partner-waiting").html("");
-                    $("#template-partner-waiting-for-submit").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
-                    $("#partner-waiting").show();
-                  } else if (message == "posted") { // the current user has been waiting for the other user to submit. this happended now
-                    $("#partner-waiting-modal:visible").fadeOut(500);
-                    MG_GAME_ZENPOND.busy = false;
-                    MG_GAME_ZENPOND.onsubmit(); 
+                  switch (message) {
+                    case "aborted":
+                      MG_GAME_API.releaseOnBeforeUnload(); // make sure the user can navigate away without seeing the leaving confirmation
+                      MG_GAME_ZENPOND.busy = true;
+                      MG_GAME_ZENPOND.doQueryMessages = false;
+                      
+                      MG_GAME_API.curtain.show();
+                      $("#partner-waiting-modal").html("");
+                      $("#template-partner-aborted").tmpl({
+                        game_partner_name: MG_GAME_API.game.game_partner_name,
+                        game_base_url: MG_GAME_API.game.game_base_url,
+                        arcade_url: MG_GAME_API.game.arcade_url
+                      }).appendTo($("#partner-waiting-modal"));
+                      $("#partner-waiting-modal:hidden").fadeIn(500);
+                      break;
+                      
+                    case "waiting":
+                      $("#partner-waiting").html("");
+                      $("#template-partner-waiting-for-submit").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+                      $("#partner-waiting").show();
+                      break;
+                      
+                    case "posted":
+                      $("#partner-waiting-modal:visible").fadeOut(500);
+                      MG_GAME_ZENPOND.busy = false;
+                      MG_GAME_ZENPOND.onsubmit(); 
+                      break;
                   }
                 }
               }
@@ -123,7 +161,7 @@ MG_GAME_ZENPOND = function ($) {
 
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
-      $(window).unbind('beforeunload');
+      MG_GAME_API.releaseOnBeforeUnload(); // make sure the user can navigate away without seeing the leaving confirmation
       MG_GAME_ZENPOND.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
       
       $("#stage").fadeIn(1000, function () {MG_GAME_ZENPOND.busy = false;MG_GAME_ZENPOND.wordField.focus();});
@@ -162,9 +200,12 @@ MG_GAME_ZENPOND = function ($) {
               }
             }); 
           } else {
-            $(window).unbind('beforeunload'); // make sure the user can navigate away without seeing the leaving confirmation
+            MG_GAME_API.releaseOnBeforeUnload(); // make sure the user can navigate away without seeing the leaving confirmation
             $("#partner-waiting-modal").html("");
-            $("#template-partner-waiting-time-out").tmpl({game_base_url: MG_GAME_API.game.game_base_url}).appendTo($("#partner-waiting-modal"));
+            $("#template-partner-waiting-time-out").tmpl({
+              game_base_url: MG_GAME_API.game.game_base_url,
+              arcade_url: MG_GAME_API.game.arcade_url
+            }).appendTo($("#partner-waiting-modal"));
           }
         }, 1000);
       } else if (response.status = 'ok'){

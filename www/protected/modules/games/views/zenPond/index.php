@@ -94,9 +94,12 @@
   Waiting for partner to submit turn.
 </script>
 <script id="template-partner-waiting-time-out" type="text/x-jquery-tmpl">
-  No game partner found. <a href="${game_base_url}/ZenPond">retry.</a> You could also play a round of <a href="${game_base_url}/ZenTag">Zen Tag</a> instead.
+  No game partner found. <a href="${game_base_url}/ZenPond">Retry</a>. You could also play a round of <a href="${game_base_url}/ZenTag">Zen Tag</a>, or go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 <script id="template-partner-waiting-for-submit" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> waits for your submission!
+</script>
+<script id="template-partner-aborted" type="text/x-jquery-tmpl">
+  <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/ZenPond">Retry</a>. You could also play a round  of <a href="${game_base_url}/ZenTag">Zen Tag</a>, or go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 
