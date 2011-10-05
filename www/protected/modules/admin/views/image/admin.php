@@ -66,6 +66,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'batch_id',
 		//'last_access', //xxx implement last access
 		//'created',
+		    // xxx show image sets and allow for dropdown filter
 		/*
 		 array(
         'name' => 'locked',
@@ -94,6 +95,7 @@ $this->widget('ext.gridbatchaction.GridBatchAction', array(
       'checkBoxId'=>'image-ids',
       'ajaxGridId'=>'image-grid', 
       'items'=>array(
+      //xxx add batch add to image set functionality here
           //xxx what batch actions are here ???? array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
       ),
       'htmlOptions'=>array('class'=>'batchActions'),

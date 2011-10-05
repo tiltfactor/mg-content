@@ -138,7 +138,7 @@ return array (
     'ZenTag' => 
     array (
       'name' => 'Zen Tag',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm. <br/><small>Click on the image to see a full-screen version.</small>',
       'arcade_image' => 'zentag_arcade.png',
       'more_info_url' => 'http://www.google.co.uk',
       'play_once_and_move_on' => '0',
@@ -150,7 +150,7 @@ return array (
     'ZenTagPlayOnceMoveOn' => 
     array (
       'name' => 'Zen Tag (Play Once Move On)',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm. <br/><small>Click on the image to see a full-screen version.</small>',
       'arcade_image' => 'zentag_arcade.png',
       'more_info_url' => '',
       'play_once_and_move_on' => '1',
@@ -162,7 +162,7 @@ return array (
     'ZenPond' => 
     array (
       'name' => 'Zen Pond',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm. <br/><small>Click on the image to see a full-screen version.</small>',
       'arcade_image' => 'zenpond_arcade.png',
       'more_info_url' => '',
       'turns' => '4',
@@ -176,7 +176,7 @@ return array (
     'app_name' => 'Meta Data Games Test',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
-    'app_email' => 'sukie@tiltfactor.org',
+    'app_email' => 'tiltfactoradmin@dartmouth.edu',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',

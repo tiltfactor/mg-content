@@ -98,6 +98,7 @@ EOD;
     'checkBoxId'=>'image-ids',
     'ajaxGridId'=>'image-grid', 
     'items'=>array(
+    //xxx add batch add to image set funcitonality
         array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
     ),
     'htmlOptions'=>array('class'=>'batchActions'),
