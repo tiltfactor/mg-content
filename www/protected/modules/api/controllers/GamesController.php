@@ -262,7 +262,7 @@ class GamesController extends ApiController {
                     ->select('gp.id, gp.session_id_1, s.username')
                     ->from('{{game_partner}} gp')
                     ->join('{{session}} s', 's.id=gp.session_id_1')
-                    ->where(array('and', 'gp.session_id_1 <> :sessionID', 'gp.created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1))) // we have to adjust the milisecond threshol as javascript and server side time measuerment are slightly out of tune 
+                    ->where(array('and', 'gp.session_id_1 <> :sessionID', 'gp.session_id_2 IS NULL', 'gp.created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1))) // we have to adjust the milisecond threshol as javascript and server side time measuerment are slightly out of tune 
                     ->order('gp.created ASC')
                     ->limit(1)
                     ->queryRow();
