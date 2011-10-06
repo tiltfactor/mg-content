@@ -71,11 +71,24 @@ git pull git://gitorious.org/metadatagames/metadatagames.git refs/merge-requests
       'charset' => 'utf8',
       'tablePrefix'=>'', //xxx set via installer
     ),
-    
-  SAVE the file
+ 
+6.1 if you have got imagemagick installed on your server you can use that for image handling. We adivse you to do this as it permforms much better.
+To enabled find 
 
-6.1 configure the admin email address on the very bottom of the same file. 
-  
+  'image'=>array(
+      'class'=>'ext.image.CImageComponent',
+      'driver'=>'GD',
+    ),
+     
+and replace it with
+
+  'image'=>array(
+      'class'=>'ext.image.CImageComponent',
+      'driver'=>'ImageMagick',
+    ),
+    
+6.2 Save the file
+    
 7. Goto the website and see it complain that the active record classes can't be found in the database (CHECK 1 system works)
 
 8. Import the sql script /protected/data/mg.mysql.sql into your database 

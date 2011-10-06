@@ -138,7 +138,7 @@ return array (
     'ZenTag' => 
     array (
       'name' => 'Zen Tag',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm. <br/><small>Click on the image to see a full-screen version.</small>',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
       'arcade_image' => 'zentag_arcade.png',
       'more_info_url' => 'http://www.google.co.uk',
       'play_once_and_move_on' => '0',
@@ -150,7 +150,7 @@ return array (
     'ZenTagPlayOnceMoveOn' => 
     array (
       'name' => 'Zen Tag (Play Once Move On)',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm. <br/><small>Click on the image to see a full-screen version.</small>',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
       'arcade_image' => 'zentag_arcade.png',
       'more_info_url' => '',
       'play_once_and_move_on' => '1',
@@ -162,7 +162,7 @@ return array (
     'ZenPond' => 
     array (
       'name' => 'Zen Pond',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm. <br/><small>Click on the image to see a full-screen version.</small>',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
       'arcade_image' => 'zenpond_arcade.png',
       'more_info_url' => '',
       'turns' => '4',

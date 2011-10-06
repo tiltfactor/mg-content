@@ -17,8 +17,6 @@ MG_GAME_ZENTAG = function ($) {
           MG_GAME_ZENTAG.onsubmit(); 
           return false;
         }
-        
-        $('#game_description:visible').fadeOut(3500);
       });
       
       MG_GAME_ZENTAG.submitButton = $("#button-play").click(MG_GAME_ZENTAG.onsubmit);

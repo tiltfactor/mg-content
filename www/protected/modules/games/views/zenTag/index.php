@@ -2,7 +2,7 @@
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
-    <div id="game_description"><h2>How To Play</h2>Describe the image as accurately as you can. Use commas to separate phrases or individual words. Hit enter of click Ohm when you are done.</div>
+    <div id="game_description"><h2>How To Play</h2>Describe the image as accurately as you can. Use commas to separate phrases or individual words. Hit enter of click Ohm when you are done. <br/>Click on the image to see a full-screen version.</div>
     <div id="zentag"> 
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/zentag/images/zentag.gif" alt="Zen Tag" width="222" height="46" /> 
     </div> 

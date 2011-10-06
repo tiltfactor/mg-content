@@ -2,7 +2,7 @@
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
-    <div id="game_description"><h2>How To Play</h2>Describe the image as accurately as you can. Use commas to separate phrases or individual words. Hit enter of click Ohm when you are done.</div>
+    <div id="game_description"><h2>How To Play</h2>Describe the image as accurately as you can. Use commas to separate phrases or individual words. Hit enter of click Ohm when you are done. <br/>Click on the image to see a full-screen version.</div>
     <div id="zenpond"> 
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/zenpond/images/zenpond.gif" alt="Zen Pond" width="222" height="46" /> 
     </div> 
@@ -31,6 +31,10 @@
   </div>
   <div id="partner-waiting-modal"></div>
 </div>
+<h3 id="debug">SESSION ID: <?php 
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    echo (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+    ?><span></span></h3>
 <script id="template-scores" type="text/x-jquery-tmpl">
   <h2>Welcome ${user_name}</h2>
   <div class="game_partner">You're playing with <span>${game_partner_name}!</span></div>

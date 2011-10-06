@@ -35,8 +35,6 @@ MG_GAME_ZENPOND = function ($) {
           MG_GAME_ZENPOND.onsubmit(); 
           return false;
         }
-        
-        $('#game_description:visible').fadeOut(3500);
       });
       
       MG_GAME_ZENPOND.submitButton = $("#button-play").click(MG_GAME_ZENPOND.onsubmit);
@@ -209,6 +207,8 @@ MG_GAME_ZENPOND = function ($) {
           }
         }, 1000);
       } else if (response.status = 'ok'){
+        $('#debug span').html('<br/>GAME PARTNER NAME:' + MG_GAME_ZENPOND.game.game_partner_name + '<br/>PLAYED GAME ID:' + MG_GAME_ZENPOND.game.played_game_id);
+        
         MG_GAME_ZENPOND.wordField.val("");
         
         $("#partner-waiting-modal").hide();

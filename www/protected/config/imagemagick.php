@@ -73,8 +73,8 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=mg', //xxx set via installer
 			'emulatePrepare' => true,
-			'username' => 'root', //xxx set via installer
-			'password' => '', //xxx set via installer
+			'username' => 'mg', //xxx set via installer
+			'password' => 'mg789', //xxx set via installer
 			'charset' => 'utf8',
 			'tablePrefix'=>'', //xxx set via installer
 		),
@@ -89,7 +89,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error',
 				),
 				// uncomment the following to show log messages on web pages
 				// xxx comment web log out. xxx configure logging
