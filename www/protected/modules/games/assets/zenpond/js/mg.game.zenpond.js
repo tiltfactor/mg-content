@@ -129,6 +129,8 @@ MG_GAME_ZENPOND = function ($) {
     renderFinal : function (response, score_info, turn_info, licence_info, more_info) {
       $("#stage").hide();
       
+      $('#game_description').hide();
+      
       $("#scores").html(""); 
       
       $("#fieldholder").html("");
