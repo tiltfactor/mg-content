@@ -278,7 +278,12 @@ class GamesController extends ApiController {
     $found = false;
     
     if ($attempt == $game->partner_wait_threshold) { // first request for this game play
-    
+      
+      // lock the table for other players reads until the current user has done his game_partner search
+      // this is needed to avoid freak conditions where two users read at the same time the game_partner table and
+      // register themselves as second player for the same game partner request
+      Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE, {{played_game}} WRITE, {{game_partner}} gp WRITE, {{session}} s READ, {{game}} WRITE")->execute(); 
+      
       // does someone wait to play?
       $partner_session = Yii::app()->db->createCommand()
                     ->select('gp.id, gp.session_id_1, s.username')
@@ -312,6 +317,7 @@ class GamesController extends ApiController {
         
         $game->game_partner_id = $game_partner->id;
       }
+      Yii::app()->db->createCommand("UNLOCK TABLES")->execute(); 
     } else {
       // the user waits for a partner. 
       
@@ -535,8 +541,15 @@ class GamesController extends ApiController {
     if (is_null($data['turn'])) {
       $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
       $data['turn'] = $game_engine->getTurn($game, $game_model);
-      if (!$this->saveTwoPlayerTurnToDb($game->played_game_id, 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn']))
-        $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, 1); // in a freak accident if might happen that for both user it might appear to be the first one to read the table
+      
+      // it might happen that for both user it might appear to be the first one to read the table
+      // thus the next statement check whether the turn has been saved for this played game and turn
+      // if it has been a unique exception forces the second user to load the turn from the db
+      // can't use table locks as $game_engine->getTurn uses various and potentually unknown tables that would all have to 
+      // be included into the lock statement
+      if (!$this->saveTwoPlayerTurnToDb($game->played_game_id, 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn'])) {
+        $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, 1); 
+      }
     }  
     
     if (is_null($data['turn'])) {
