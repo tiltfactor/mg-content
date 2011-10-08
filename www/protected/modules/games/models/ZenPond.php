@@ -13,6 +13,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
   public $image_width = 450;
   public $image_height = 450;
   public $partner_wait_threshold = 20; // how many seconds should the system wait to look for a partner
+  public $play_against_computer = 1; // if true the system will simulate a human player
   
   public function rules() {
     return array(
@@ -22,6 +23,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
         array('more_info_url','url'),
         array('image_width, image_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('active', 'numerical', 'min'=>0, 'max'=>1),
+        array('play_against_computer', 'numerical', 'min'=>0, 'max'=>1),
         array('turns, partner_wait_threshold', 'numerical', 'min'=>1, 'max'=>1000),
     );
   }
@@ -35,6 +37,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
       'image_height' => Yii::t('app', 'Stage Image max. Height'),
       'turns' => Yii::t('app', 'Turns'),
       'partner_wait_threshold' => Yii::t('app', 'Partner Search Time Frame (seconds)'),
+      'play_against_computer' => Yii::t('app', 'Enable play against computer mode'),
     );
   }
   
@@ -49,6 +52,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
       $this->image_width = (int)$game_data["image_width"];
       $this->image_height = (int)$game_data["image_height"];
       $this->partner_wait_threshold = (int)$game_data["partner_wait_threshold"];
+      $this->play_against_computer = (int)$game_data["play_against_computer"];
     }
   }
   
@@ -62,6 +66,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
       'image_width' => $this->image_width,
       'image_height' => $this->image_height,
       'partner_wait_threshold' => $this->partner_wait_threshold,
+      'play_against_computer' => $this->play_against_computer,
     );
     
     Yii::app()->fbvStorage->set("games." . $this->getGameID(), $game_data);

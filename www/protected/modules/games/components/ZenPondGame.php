@@ -40,6 +40,34 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   }
     
   public function getTurn(&$game, &$game_model, $tags=array()) {
+    if ($game->played_against_computer) {
+      return $this->_createTurn($game, $game_model, $tags);
+    } else {
+      $turn = $this->loadTwoPlayerTurnFromDb($game->played_game_id, $game->turn + 1);
+      if (is_null($turn)) {
+        $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+        $turn = $this->_createTurn($game, $game_model, $tags);
+        
+        // it might happen that for both user it might appear to be the first one to read the table
+        // thus the next statement check whether the turn has been saved for this played game and turn
+        // if it has been a unique exception forces the second user to load the turn from the db
+        // can't use table locks as $game_engine->getTurn uses various and potentually unknown tables that would all have to 
+        // be included into the lock statement
+        if (!$this->saveTwoPlayerTurnToDb($game->played_game_id, $game->turn + 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $turn)) {
+          $turn = $this->loadTwoPlayerTurnFromDb($game->played_game_id, $game->turn + 1); 
+        }
+      }
+    }
+    
+    if (is_null($turn)) {
+      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+    }
+    
+    return $turn;
+  }  
+    
+  private function _createTurn(&$game, &$game_model, $tags=array()) {
+    // you could make use of $game->played_against_computer - if true player 1 is playing against the computer
     $data = array();
     if ($game->turn < $game->turns) {
       $imageSets = $this->getImageSets($game, $game_model);
@@ -116,7 +144,6 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   
   public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
-    
     $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
       foreach ($plugins as $plugin) {
@@ -145,7 +172,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       $data[$submission["image_id"]] = $image_tags;
     }
     
-    if ($this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission)) {
+    if (!$game->played_against_computer && $this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission)) {
       // it is really a two player game and we have to parse the oppenents_submission to make the tags info available for later use
       
       $game->opponents_submission["parsed"] = array();
@@ -183,7 +210,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       }
     }
     
-    if ($this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission["parsed"])) {
+    if (!$game->played_against_computer && $this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission["parsed"])) {
       foreach ($game->opponents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
         foreach ($submitted_image_tags as $submitted_tag => $sval) {
           if (isset($image_tags[$submitted_image_id])) {

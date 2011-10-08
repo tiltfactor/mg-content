@@ -165,6 +165,52 @@ class MGGame extends CComponent {
     }
     return $data; 
   }
+  
+  /** 
+   * loads a turn from the played_game_turn_info table and parses and returns the stored turn info
+   * 
+   * @param int $played_game_id the played game id
+   * @param int $turn the turn number
+   * @param boolean $assoc flag for the json_decode assoc array flag (if true elements will be returned as array and not objects)
+   * @return mixed array of turn data or null
+   */
+  protected function loadTwoPlayerTurnFromDb($played_game_id, $turn, $assoc=TRUE) {
+    $turn_data = Yii::app()->db->createCommand()
+                  ->select('pgti.data')
+                  ->from('{{played_game_turn_info}} pgti')
+                  ->where('pgti.turn=:turn AND pgti.played_game_id = :pGameID', array(
+                      ':turn' => $turn,
+                      ':pGameID' => $played_game_id)) 
+                  ->queryScalar();
+    if ($turn_data) {
+      return json_decode($turn_data, $assoc);
+    } else {
+      return null;
+    }
+  }
+  
+  /** 
+   * stores a turn into the database. the passed data will be json_encoded
+   * 
+   * @param int $played_game_id the played game id
+   * @param int $turn the turn number
+   * @param int $session_id the current user's session id
+   * @param mixed $data the data that shall be stored in the database 
+   */
+  protected function saveTwoPlayerTurnToDb($played_game_id, $turn, $session_id, $data) {
+    try {
+      $cmd  = Yii::app()->db->createCommand()
+                  ->insert('{{played_game_turn_info}}', array(
+                    'played_game_id' => $played_game_id, 
+                    'turn' => $turn, 
+                    'created_by_session_id' => $session_id, 
+                    'data' => json_encode($data),
+                  ));
+    } catch (CDbException $e) {
+      return false;
+    }
+    return true;
+  }
 }
 
 /**

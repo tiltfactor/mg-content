@@ -168,7 +168,8 @@ return array (
       'turns' => '4',
       'image_width' => '450',
       'image_height' => '450',
-      'partner_wait_threshold' => '10',
+      'partner_wait_threshold' => '30',
+      'play_against_computer' => '1',
     ),
   ),
   'settings' => 
@@ -208,8 +209,8 @@ return array (
       ),
       'TwoPlayerBonus' => 
       array (
-        'score_new' => '20',
-        'score_match' => '10',
+        'score_new' => '2',
+        'score_match' => '1',
       ),
     ),
   ),

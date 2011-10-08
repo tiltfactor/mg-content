@@ -87,7 +87,8 @@ class GamesModule extends CWebModule
       $game->user_name = Yii::app()->user->name;
       $game->user_num_played = 0;
       $game->user_score =  0;  
-        
+      $game->played_against_computer = false;
+      
       if (!Yii::app()->user->isGuest && (isset($game->game_id) || $game_id)) {
         $game_info = GamesModule::loadUserToGameInfo(Yii::app()->user->id, ($game_id)? $game_id : $game->game_id);
         if ($game_info) {

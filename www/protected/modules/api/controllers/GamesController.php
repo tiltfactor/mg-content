@@ -175,6 +175,7 @@ class GamesController extends ApiController {
    */
   public function actionPlay($gid) {
     $game = GamesModule::loadGame($gid);
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     
     if($game && $game->game_model) {
         
@@ -195,6 +196,12 @@ class GamesController extends ApiController {
           
           if (isset($_POST["played_game_id"])) {
             $game->played_game_id = (int)$_POST["played_game_id"]; 
+            
+            if (isset(Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id]) && 
+                      Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id] === true) {
+              $game->played_against_computer = true;
+              Yii::log('herer', 'error');
+            }
           }
           
           if (isset($_POST["turn"])) {
@@ -210,24 +217,45 @@ class GamesController extends ApiController {
           // this means she has first to find a partner.
           $attempt = $game->partner_wait_threshold;
             
-          if (isset($_GET["a"]))  // "a" == "attempt"
+          if (isset($_GET["a"]))  // "a" == "attempt" attemp counts dowm
             $attempt -= (int)$_GET["a"];
           
-          $game->game_partner_name = "anonymous";
+          $game->turn = 0;
+          
+          $game->game_partner_name = Yii::t('app', "Anonymous");
           $partner_session_id = $this->_getPlayer($attempt, $game, $game_model, $game_engine); // this method changes the $game object by reference
           if ($partner_session_id) {
-            $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
             Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
-            
-            $game->turn = 0;
             $this->_playTwoPlayerGet($game, $game_model, $game_engine);  
           } else {
-            $data = array();
-            $data['status'] = "retry";
-            $data['game'] = $game;
-            unset($data['game']->game_id);
-            unset($data['game']->arcade_image);
-            $this->sendResponse($data);
+            if ($attempt == 0 && $game->play_against_computer) {
+              $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+              
+              Yii::app()->db->createCommand()
+                  ->update('{{game_partner}}', array(
+                      'session_id_2'=> $user_session_id,
+                      'played_game_id'=> $game->played_game_id,
+                    ), 'id=:id', array(':id'=>$user_session_id));
+              
+              $game->game_partner_name = Yii::t('app', "Computer");
+              $game->played_against_computer = true;
+              if (!$game->played_game_id && isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
+                $this->_createPlayedGame($game, $game_model, $game_engine);
+              }
+              if ($game->played_game_id) {
+                Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id] = true;
+                $this->_playTwoPlayerGet($game, $game_model, $game_engine);
+              } else {
+                throw new CHttpException(500, Yii::t('app', 'Could not initialize game.'));
+              }
+            } else {
+              $data = array();
+              $data['status'] = "retry";
+              $data['game'] = $game;
+              unset($data['game']->game_id);
+              unset($data['game']->arcade_image);
+              $this->sendResponse($data);  
+            }
           }
         }
       } else {
@@ -536,25 +564,7 @@ class GamesController extends ApiController {
     $data = array();
     
     $data['status'] = "ok";
-    
-    $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, 1);
-    if (is_null($data['turn'])) {
-      $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-      $data['turn'] = $game_engine->getTurn($game, $game_model);
-      
-      // it might happen that for both user it might appear to be the first one to read the table
-      // thus the next statement check whether the turn has been saved for this played game and turn
-      // if it has been a unique exception forces the second user to load the turn from the db
-      // can't use table locks as $game_engine->getTurn uses various and potentually unknown tables that would all have to 
-      // be included into the lock statement
-      if (!$this->saveTwoPlayerTurnToDb($game->played_game_id, 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn'])) {
-        $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, 1); 
-      }
-    }  
-    
-    if (is_null($data['turn'])) {
-      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
-    }
+    $data['turn'] = $game_engine->getTurn($game, $game_model);
     
     $data['turn']['score'] = 0;
     
@@ -688,7 +698,9 @@ class GamesController extends ApiController {
     if (!$game->submission_id)
       $game->submission_id = $game_engine->saveSubmission($game, $game_model); 
     
-    $opponent_info = Yii::app()->db->createCommand()
+    $opponent_info = false;
+    if (!$game->played_against_computer) {
+      $opponent_info = Yii::app()->db->createCommand()
                   ->select('pg.session_id_1, pg.session_id_2, gs.submission')
                   ->from('{{played_game}} pg')
                   ->leftJoin('{{game_submission}} gs', 'gs.played_game_id=pg.id AND gs.turn=:turn AND gs.session_id <> :sessionID', array(
@@ -697,13 +709,18 @@ class GamesController extends ApiController {
                       ))
                   ->where('pg.id=:pGameID', array(':pGameID' => $game->played_game_id)) 
                   ->queryRow();
+    }
+
+    if ($game->played_against_computer || ($opponent_info && $game->submission_id)) { // yes request is for a valid and registered two player game
+      $game->opponents_submission = null;
+    
+      if (!$game->played_against_computer) {
+        $opponent_session_id = ($opponent_info["session_id_1"] == $user_session_id)? $opponent_info["session_id_2"] : $opponent_info["session_id_1"];
+        $game->opponents_submission = json_decode($opponent_info["submission"]);
+      }
       
-    if ($opponent_info && $game->submission_id) { // yes request is for a valid and regstered two player game
-      $opponent_session_id = ($opponent_info["session_id_1"] == $user_session_id)? $opponent_info["session_id_2"] : $opponent_info["session_id_1"];
-      $game->opponents_submission = json_decode($opponent_info["submission"]);
-      
-      if ($game->opponents_submission) { // other user has submitted and been waiting for result
-        if (!Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id]) {
+      if ($game->played_against_computer || $game->opponents_submission) { // other user has submitted and been waiting for result
+        if (!$game->played_against_computer && !Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id]) {
           // the other user is waiting thus let him now that i've posted  
           $this->leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the game's javascript to repost the turn to finish it
         }
@@ -713,11 +730,7 @@ class GamesController extends ApiController {
 
         $turn_score = $game_engine->getScore($game, $game_model, $tags);
         
-        $data['turn'] = $this->loadTwoPlayerTurnFromDb($game->played_game_id, $game->turn + 1);
-        if (is_null($data['turn'])) {
-          $data['turn'] = $game_engine->getTurn($game, $game_model);
-          $this->saveTwoPlayerTurnToDb($game->played_game_id, $game->turn + 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $data['turn']);
-        }   
+        $data['turn'] = $game_engine->getTurn($game, $game_model, $tags);
         
         $data['turn']['score'] = 0;
         
@@ -734,15 +747,22 @@ class GamesController extends ApiController {
         if ($played_game) {
           $played_game->modified = date('Y-m-d H:i:s');
           
-          if ($played_game->session_id_1 == $user_session_id) {
+          if ($game->played_against_computer) {
             $played_game->score_1 = $played_game->score_1 + $turn_score;
             // we want to return the game's total score to the user.
             $data['turn']['score'] = $played_game->score_1;
           } else {
-            $played_game->score_2 = $played_game->score_2 + $turn_score;
-            // we want to return the game's total score to the user.
-            $data['turn']['score'] = $played_game->score_2;
+            if ($played_game->session_id_1 == $user_session_id) {
+              $played_game->score_1 = $played_game->score_1 + $turn_score;
+              // we want to return the game's total score to the user.
+              $data['turn']['score'] = $played_game->score_1;
+            } else {
+              $played_game->score_2 = $played_game->score_2 + $turn_score;
+              // we want to return the game's total score to the user.
+              $data['turn']['score'] = $played_game->score_2;
+            }
           }
+          
           
           if ($game->turn == $game->turns) { // final turn 
             $played_game->finished = date('Y-m-d H:i:s');
@@ -762,6 +782,7 @@ class GamesController extends ApiController {
           $this->_saveUserToGame($game, $data['turn']['score']);
         }
         Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
+      
       } else { // other player has not submitted this turn
         $this->leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
         Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = true;
@@ -821,50 +842,4 @@ class GamesController extends ApiController {
                               ));
   }
   
-  
-  /** 
-   * loads a turn from the played_game_turn_info table and parses and returns the stored turn info
-   * 
-   * @param int $played_game_id the played game id
-   * @param int $turn the turn number
-   * @param boolean $assoc flag for the json_decode assoc array flag (if true elements will be returned as array and not objects)
-   * @return mixed array of turn data or null
-   */
-  private function loadTwoPlayerTurnFromDb($played_game_id, $turn, $assoc=TRUE) {
-    $turn_data = Yii::app()->db->createCommand()
-                  ->select('pgti.data')
-                  ->from('{{played_game_turn_info}} pgti')
-                  ->where('pgti.turn=:turn AND pgti.played_game_id = :pGameID', array(
-                      ':turn' => $turn,
-                      ':pGameID' => $played_game_id)) 
-                  ->queryScalar();
-    if ($turn_data) {
-      return json_decode($turn_data, $assoc);
-    } else {
-      return null;
-    }
-  }
-  
-  /** 
-   * stores a turn into the database. the passed data will be json_encoded
-   * 
-   * @param int $played_game_id the played game id
-   * @param int $turn the turn number
-   * @param int $session_id the current user's session id
-   * @param mixed $data the data that shall be stored in the database 
-   */
-  private function saveTwoPlayerTurnToDb($played_game_id, $turn, $session_id, $data) {
-    try {
-      $cmd  = Yii::app()->db->createCommand()
-                  ->insert('{{played_game_turn_info}}', array(
-                    'played_game_id' => $played_game_id, 
-                    'turn' => $turn, 
-                    'created_by_session_id' => $session_id, 
-                    'data' => json_encode($data),
-                  ));
-    } catch (CDbException $e) {
-      return false;
-    }
-    return true;
-  }
 }

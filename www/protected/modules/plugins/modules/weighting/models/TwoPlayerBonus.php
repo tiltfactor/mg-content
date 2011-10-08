@@ -19,8 +19,8 @@ class TwoPlayerBonus extends MGPluginModel implements MGPluginModelInterface
   
   public function attributeLabels() {
     return array(
-      'score_new' => Yii::t('app', 'Bonus both player submitted new tag'),
-      'score_match' => Yii::t('app', 'Bonus both player submitted same matching tag'),
+      'score_new' => Yii::t('app', 'Bonus both player submitted new tag for the same image'),
+      'score_match' => Yii::t('app', 'Bonus both player submitted same matching tag for the same image'),
     );
   }
   

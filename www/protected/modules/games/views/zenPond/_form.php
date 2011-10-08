@@ -65,6 +65,12 @@
     <?php echo $form->error($model,'partner_wait_threshold'); ?>
   </div>
   
+  <div class="row">
+    <?php echo $form->labelEx($model,'play_against_computer'); ?>
+    <?php echo $form->dropDownList($model,'play_against_computer', MGHelper::itemAlias('yes-no')); ?>
+    <?php echo $form->error($model,'play_against_computer'); ?>
+  </div>
+  
   <div class="row clearfix">
   <h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
   <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), 

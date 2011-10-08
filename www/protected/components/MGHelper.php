@@ -21,9 +21,9 @@ class MGHelper {
       ),
     );
     if (isset($code))
-      return isset($_items[$type][$code]) ? $_items[$type][$code] : false;
+      return isset($_items[$type][$code]) ? $_items[$type][$code] : array();
     else
-      return isset($_items[$type]) ? $_items[$type] : false;
+      return isset($_items[$type]) ? $_items[$type] : array();
   }
   
   /**

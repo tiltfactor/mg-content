@@ -12,15 +12,14 @@ MG_GAME_ZENPOND = function ($) {
             // chrome does not show confirm messages in onbeforeunload. 
             // we can't make use of onunload to send an ajax request as the browser immidiatly stops working and the request might not be processed. 
             // thus if we are playing a multiplayer game chrome will exit without error message
-            log(MG_GAME_ZENPOND.game.game_partner_id);
-            if (MG_GAME_ZENPOND.game.game_partner_id !== undefined && MG_GAME_ZENPOND.game.game_partner_id) {
+            if (MG_GAME_ZENPOND.game.game_partner_id !== undefined && MG_GAME_ZENPOND.game.game_partner_id && !MG_GAME_ZENPOND.game.played_against_computer) {
               MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
             } else {
               return 'Quit ' + MG_GAME_API.game.name + '?';
             }
           } else {
             if (confirm('Quit ' + MG_GAME_API.game.name + '?')) {
-              if (MG_GAME_ZENPOND.game.played_game_id !== undefined && MG_GAME_ZENPOND.game.played_game_id) {
+              if (MG_GAME_ZENPOND.game.played_game_id !== undefined && MG_GAME_ZENPOND.game.played_game_id && !MG_GAME_ZENPOND.game.played_against_computer) {
                 MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
               }
             }
@@ -44,7 +43,7 @@ MG_GAME_ZENPOND = function ($) {
     },
     
     queryMessages : function () {
-      if (MG_GAME_ZENPOND.doQueryMessages) {
+      if (MG_GAME_ZENPOND.doQueryMessages && !MG_GAME_ZENPOND.game.played_against_computer) {
         MG_API.ajaxCall('/games/messages/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id , function (response) {
           if (MG_API.checkResponse(response)) { // we have to check whether the API returned a HTTP Status 200 but still json.status == "error" response
             if (MG_GAME_ZENPOND.doQueryMessages) {
