@@ -23,7 +23,11 @@ MG_API = function ($) {
         
         // create curtain and display it
         MG_API.curtain = $('<div id="mg_curtain"/>');
-        MG_API.curtain.appendTo($("body")).css({opacity:0.7}); 
+        MG_API.curtain.appendTo($("body")).css({
+          opacity:0.7, 
+          height: $(document).height(),
+          backgroundPosition : '50% ' + ($(window).height()/2) + 'px'
+        }); 
         
         MG_API.fancyboxLink = $('<a id="mg_fancybox_link" href="#" class="ir"></a>');
         
@@ -166,7 +170,7 @@ MG_API = function ($) {
         });
         MG_API.fancyboxLink.trigger("click");
       } 
-    }
+    },
   };
 }(jQuery);
 

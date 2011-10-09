@@ -1,6 +1,6 @@
 <?php
 
-class ZenPondGame extends MGGame implements MGGameInterface {
+class GuessWhatGame extends MGGame implements MGGameInterface {
   public $two_player_game = true;
   
   public function parseSubmission(&$game, &$game_model) {
@@ -48,6 +48,8 @@ class ZenPondGame extends MGGame implements MGGameInterface {
         $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
         $turn = $this->_createTurn($game, $game_model, $tags);
         
+        Yii::log('aaaa','error');
+        
         // it might happen that for both user it might appear to be the first one to read the table
         // thus the next statement check whether the turn has been saved for this played game and turn
         // if it has been a unique exception forces the second user to load the turn from the db
@@ -55,7 +57,12 @@ class ZenPondGame extends MGGame implements MGGameInterface {
         // be included into the lock statement
         if (!$this->saveTwoPlayerTurnToDb($game->played_game_id, $game->turn + 1, (int)Yii::app()->session[$api_id .'_SESSION_ID'], $turn)) {
           $turn = $this->loadTwoPlayerTurnFromDb($game->played_game_id, $game->turn + 1); 
+          if ($game->turn + 1 == 1)
+            $turn["mode"] = "describe";
         }
+      } else {
+        if ($game->turn + 1 == 1)
+          $turn["mode"] = "describe";
       }
     }
     
@@ -68,29 +75,48 @@ class ZenPondGame extends MGGame implements MGGameInterface {
     
   private function _createTurn(&$game, &$game_model, $tags=array()) {
     $data = array();
+    $data["mode"] = "guess";
+    
     if ($game->turn < $game->turns) {
       $imageSets = $this->getImageSets($game, $game_model);
     
-      $data["images"] = array();
+      $data["images"] = array(
+        "guess" => array(),
+        "describe" => array(),
+      );
       
       $used_images = array();
-      $images = $this->getImages($imageSets, $game, $game_model);
+      $images = $this->getImages($imageSets, $game, $game_model, 12);
       
-      if ($images && count($images) > 0) {
-        $i = array_rand($images, 1);
-      
+      if ($images && count($images) >= 12) {
         $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
-        $data["images"][] = array(
-          "image_id" => $images[$i]["id"],
-          "full_size" => $path . "/images/". $images[$i]["name"],
-          "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
-          "final_screen" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", 212, 171, 80, 10),
-          "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
-          "licences" => $images[$i]["licences"],
-        );
+        $turn_images = array_rand($images, 12);
+        
+        $image_licences = array();
+        
+        $arr_licence_ids = array();
+        foreach ($turn_images as $i) {
+          $data["images"]["guess"][] = array(
+            "image_id" => $images[$i]["id"],
+            "full_size" => $path . "/images/". $images[$i]["name"],
+            "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
+            "guess" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_grid_width, $game->image_grid_height, 80, 10),
+            "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+            "licences" => $images[$i]["licences"],
+          );
+          $image_licences = array_merge($image_licences, $images[$i]["licences"]);
+          $used_images[] = (int)$images[$i]["id"];
+        }
+        
+        shuffle($data["images"]["guess"]); // mix the images up
+        
+        // select out of the twelve one that will be shown to the describing user
+        $data["images"]["describe"] = $data["images"]["guess"][array_rand($turn_images, 1)];
+        $describe_image_id = array((int)$data["images"]["describe"]["image_id"]);
+        
         $used_images[] = (int)$images[$i]["id"];
         
-        $data["licences"] = $this->getLicenceInfo($images[$i]["licences"]);
+        $data["licences"] = $this->getLicenceInfo($image_licences);
         
         $this->setUsedImages($used_images, $game, $game_model);
 
@@ -103,7 +129,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
           foreach ($plugins as $plugin) {
             if (method_exists($plugin->component, "wordsToAvoid")) {
               // this method gets all elements by reference. $data["wordstoavoid"] might be changed
-              $plugin->component->wordsToAvoid($data["wordstoavoid"], $used_images, $game, $game_model, $tags);
+              $plugin->component->wordsToAvoid($data["wordstoavoid"], $describe_image_id, $game, $game_model, $tags);
             }
           }
         }
@@ -141,6 +167,13 @@ class ZenPondGame extends MGGame implements MGGameInterface {
   }
   
   public function getScore(&$game, &$game_model, &$tags) {
+    
+    /*
+     * new tag = +1 point
+[08/10/2011 17:41:39] punkybuddha: guess on first try = +5 point
+[08/10/2011 17:41:50] punkybuddha: guess on second try = +3 point
+[08/10/2011 17:41:56] punkybuddha: guess on third try = +1 point
+     */
     $score = 0;
     $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
@@ -225,4 +258,38 @@ class ZenPondGame extends MGGame implements MGGameInterface {
     }
     return $data;
   }
+  
+  /**
+   * This method is a callback to be called via the game API. It checks a whether a hint is in the stop word
+   * list if the StopWord plugin is activated for guess what?
+   *  
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param object $parameter optional parameter for the method call
+   * @return boolean true if the hint is valid false if the hint has been found in the stopword list.
+   */
+  public function validateHint(&$game, &$game_model, $parameter) {
+    $return_valid = "";
+      
+    if (isset($parameter->hint) && trim($parameter->hint) != "") {
+      $arr_tags = MGTags::parseTags($parameter->hint);
+      if (count($arr_tags)) {
+          
+        $plugin = PluginsModule::getActiveGamePlugin($game->game_id, "dictionary", 'StopWord');
+        if ($plugin) {
+          if (method_exists($plugin->component, "lookup")) {
+            $tags = $plugin->component->lookup($game, $game_model, array($arr_tags[0]));
+            
+            foreach ($tags as $tag => $valid) {
+              if ($tag == strtolower($arr_tags[0]) && !$valid) {
+                $return_valid = $arr_tags[0];
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    return $return_valid;
+  } 
 }

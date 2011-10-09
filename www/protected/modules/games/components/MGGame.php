@@ -45,10 +45,12 @@ class MGGame extends CComponent {
    * 
    * @param array $imageSets The id's of the image sets assigned to the game
    * @param object $game The game object
-   * @param object $game_model Tha game model
+   * @param object $game_model The game model
+   * @param int $num_images how many images have to be found at least, if not enough images are found the system clears the seen images in the session and recalls this method
+   * @param boolean $second_attempt used to indicate that the seen images in the session have been cleared an the system tries a second time to load images
    * @return array Array of Array: array(array("id", "name"), ...)
    */
-  protected function getImages($imageSets, $game, &$game_model, $second_attempt=false) {
+  protected function getImages($imageSets, $game, &$game_model, $num_images=1, $second_attempt=false) {
     
     $used_images = $this->getUsedImages($game, $game_model);
     
@@ -61,7 +63,7 @@ class MGGame extends CComponent {
                 ->where(array('and', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images))) 
                 ->queryAll();
     
-    if ($images) {
+    if ($images && count($images) >= $num_images) {
       $arr_image = array();
       
       foreach ($images as $image) {
@@ -82,7 +84,7 @@ class MGGame extends CComponent {
       // no images available could it be that the user has already seen all in this session?
       // reset session images and try again
       $this->resetUsedImages($game, $game_model);
-      return $this->getImages($imageSets, $game, $game_model, true);
+      return $this->getImages($imageSets, $game, $game_model, $num_images, true);
     }
   } 
  
@@ -210,6 +212,21 @@ class MGGame extends CComponent {
       return false;
     }
     return true;
+  }
+  
+  /**
+   * This method allows for extension of the game api. The API provides an action that bridges all
+   * valid calls to the this method.
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param string $method the name of the method to be called
+   * @param object $parameter optional parameter for the method call
+   */
+  public function gameAPI(&$game, &$game_model, $method, $parameter) {
+    if (method_exists($this, $method)) {
+      return call_user_func_array(array($this, $method), array($game, $game_model, $parameter));
+    }
   }
 }
 

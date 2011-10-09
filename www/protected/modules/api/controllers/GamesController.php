@@ -4,10 +4,10 @@ class GamesController extends ApiController {
   
   public function filters() {
     return array( // add blocked IP filter here
-        'throttle - messages, abort',
+        'throttle - messages, abort, abortpartnersearch, postmessage',
         'IPBlock',
         'APIAjaxOnly', // custom filter defined in this class accepts only requests with the header HTTP_X_REQUESTED_WITH === 'XMLHttpRequest'
-        'accessControl - messages',
+        'accessControl - messages, abort, abortpartnersearch, gameapi, postmessage',
         'sharedSecret', // the API is protected by a shared secret this filter ensures that it is regarded 
     );
   }
@@ -18,7 +18,7 @@ class GamesController extends ApiController {
   public function accessRules() {
     return array(
       array('allow',
-        'actions'=>array('index', 'scores', 'play', 'partner', 'messages', 'abort'),
+        'actions'=>array('index', 'scores', 'play', 'partner', 'messages', 'abort', 'abortpartnersearch', 'gameapi', 'postmessage'),
         'users'=>array('*'),
         ),
       array('deny', 
@@ -109,6 +109,67 @@ class GamesController extends ApiController {
   }
   
   /**
+   * Attempts to retrive the played game identified by the current users session id and the 
+   * given played game id to notifiy the opponent that the user has left the game.
+   * 
+   * @param int $played_game_id the id of the currently played game
+   */
+  public function actionAbort($played_game_id) {
+    $data = array();
+    $data['status'] = "ok";
+    
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+    
+    $played_game = Yii::app()->db->createCommand()
+                  ->select('pg.session_id_1, pg.session_id_2')
+                  ->from('{{played_game}} pg')
+                  ->where('pg.id=:pGameID', array(':pGameID' => $played_game_id)) 
+                  ->queryRow();
+                  
+    if ($played_game) {
+      $opponent_session_id = ($played_game["session_id_1"] == $user_session_id)? $played_game["session_id_2"] : $played_game["session_id_1"];
+      $this->_leaveMessage($opponent_session_id, $played_game_id, 'aborted'); 
+    } else {
+      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+    }
+    $this->sendResponse($data);
+  }
+  
+  /**
+   * Attempts to retrive the game_partner table entry identified by the given id. 
+   * It it finds it. It will delete the set the row date to an 01/01/1970 and sends the other
+   * user an abort message. If a second user should happen to be assigned to this id. 
+   * 
+   * @param int $game_partner_id the id of the game_partner table entry
+   */
+  public function actionAbortPartnerSearch($game_partner_id) {
+    $data = array();
+    $data['status'] = "ok";
+    
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+    
+    $game_partner = Yii::app()->db->createCommand()
+                  ->select('gp.session_id_1, gp.session_id_2, gp.played_game_id')
+                  ->from('{{game_partner}} gp')
+                  ->where('gp.id=:gpID', array(':gpID' => $game_partner_id)) 
+                  ->queryRow();
+                  
+    if ($game_partner) {
+      Yii::app()->db->createCommand()
+                  ->update('{{game_partner}}', array('created' => date('Y-m-d H:i:s', 1)), 'id=:gpID',  array(':gpID' => $game_partner_id));
+      if (!is_null($game_partner["played_game_id"]) && !is_null($game_partner["session_id_1"]) && !is_null($game_partner["session_id_2"])) {
+        $opponent_session_id = ($game_partner["session_id_1"] == $user_session_id)? $game_partner["session_id_2"] : $game_partner["session_id_1"];
+        $this->_leaveMessage($opponent_session_id, $game_partner["played_game_id"], 'aborted');
+      }
+    } else {
+      throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
+    }
+    $this->sendResponse($data);
+  }
+  
+  /**
    * Returns messages for the user playing the given game
    * 
    * Returned JSON: 
@@ -140,28 +201,126 @@ class GamesController extends ApiController {
     $this->sendResponse($data);       
   }
   
-  public function actionAbort($played_game_id) {
+  /**
+   * Attempts to retrive the played game identified by the current users session id and the 
+   * given played game id to leave the posted message for the opponent. 
+   * 
+   * You have to make sure $_POST['message'] is set
+   * 
+   * @param int $played_game_id the id of the currently played game
+   */
+  public function actionPostMessage($played_game_id) {
     $data = array();
     $data['status'] = "ok";
     
-    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-    $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
-    
-    $played_game = Yii::app()->db->createCommand()
-                  ->select('pg.session_id_1, pg.session_id_2')
-                  ->from('{{played_game}} pg')
-                  ->where('pg.id=:pGameID', array(':pGameID' => $played_game_id)) 
-                  ->queryRow();
-                  
-    if ($played_game) {
-      $opponent_session_id = ($played_game["session_id_1"] == $user_session_id)? $played_game["session_id_2"] : $played_game["session_id_1"];
-      $this->leaveMessage($opponent_session_id, $played_game_id, 'aborted'); 
+    if (Yii::app()->getRequest()->getIsPostRequest() && isset($_POST['message']) && (is_array($_POST['message']) || trim($_POST['message']) != "")) {
+      $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+      $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+      
+      $played_game = Yii::app()->db->createCommand()
+                    ->select('pg.session_id_1, pg.session_id_2')
+                    ->from('{{played_game}} pg')
+                    ->where('pg.id=:pGameID', array(':pGameID' => $played_game_id)) 
+                    ->queryRow();
+                    
+      if ($played_game) {
+        $opponent_session_id = ($played_game["session_id_1"] == $user_session_id)? $played_game["session_id_2"] : $played_game["session_id_1"];
+        $this->_leaveMessage($opponent_session_id, $played_game_id, $_POST['message']); 
+      } else {
+        throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      }
     } else {
-      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      $data['status'] = "error";
     }
     $this->sendResponse($data);
   }
   
+  /**
+   * This method is a bridge between the api and game engines. It allows games to extend the 
+   * api with further game specific functionality.
+   * 
+   * All requests to this API hook are throttled for security. 
+   * 
+   * You have to make sure $_POST['call'] is set as this is required at the game engine to processs
+   * the request. 
+   * 
+   * The JSON of call should be:
+   * 
+   * $_POST['call'] = {'method', 'name of method'}
+   * 
+   * You can optionally pass parameter by setting $_POST['parameter']
+   * 
+   * The minimum JSON of data should be:
+   * 
+   * $_POST['parameter'] = {
+   *  'parameter1', 'value', 
+   *  'parameter2', 'value',
+   *  ... 
+   * }
+   * 
+   * @param string $gid the unique id the game is registered with in the system
+   * @param int $played_game_id the id of the currently played game
+   */
+  public function actionGameApi($gid, $played_game_id) {
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    
+    $data = array();
+    $data['status'] = "ok";
+    $valid_request = false;
+    Yii::log('1', 'error');
+    
+    if (Yii::app()->getRequest()->getIsPostRequest() && isset($_POST['call']) && is_array($_POST['call'])) {
+      $counted = Yii::app()->db->createCommand()
+                    ->select('count(pg.id) as counted')
+                    ->from('{{played_game}} pg')
+                    ->where('pg.id=:pGameID', array(':pGameID' => $played_game_id)) 
+                    ->queryScalar();
+      
+      Yii::log('2', 'error');
+      
+      if ($counted && $counted > 0) {
+        Yii::log('3', 'error');
+        
+        $call = (object)$_POST['call'];
+        if (isset($call->method) && trim($call->method) != "") {
+          Yii::log('4', 'error');
+          
+          $game = GamesModule::loadGame($gid);
+          if($game && $game->game_model) {
+            Yii::log('5', 'error');
+            
+            $game_model = $game->game_model;
+            $game_engine = GamesModule::getGameEngine($gid);
+            if (is_null($game_engine)) {
+              throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+            }
+            
+            $game->played_game_id = (int)$played_game_id; 
+            
+            if (isset(Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id]) && 
+                      Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id] === true) {
+              $game->played_against_computer = true;
+            }
+            
+            $parameter = null;
+            if (isset($_POST['parameter']) && is_array($_POST['parameter'])) {
+              $parameter = (object)$_POST['parameter'];
+            }
+            
+            $data['response'] = $game_engine->gameAPI($game, $game_model, $call->method, $parameter);
+            
+            $valid_request = true;
+          }  
+        }
+      }
+    }
+      
+    if (!$valid_request) {
+      throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
+    } else {
+      $this->sendResponse($data);
+    }
+  }
   
   /**
    * This method handels play requests into the system. It distinguishes between GET and POST requests. 
@@ -171,7 +330,7 @@ class GamesController extends ApiController {
    * The user submits data as POST request. In the post request the users submission will be parsed, weightend, 
    * scored and stored in the database. The post method returns scoring results and the next turns information.
    * 
-   * @param string $gid the unique id the game is regitered with in the system  
+   * @param string $gid the unique id the game is registered with in the system  
    */
   public function actionPlay($gid) {
     $game = GamesModule::loadGame($gid);
@@ -200,7 +359,6 @@ class GamesController extends ApiController {
             if (isset(Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id]) && 
                       Yii::app()->session[$api_id .'_PLAYED_AGAINST_COMPUTER_' . $game->played_game_id] === true) {
               $game->played_against_computer = true;
-              Yii::log('herer', 'error');
             }
           }
           
@@ -317,7 +475,7 @@ class GamesController extends ApiController {
                     ->select('gp.id, gp.session_id_1, s.username')
                     ->from('{{game_partner}} gp')
                     ->join('{{session}} s', 's.id=gp.session_id_1')
-                    ->where(array('and', 'gp.session_id_1 <> :sessionID', 'gp.session_id_2 IS NULL', 'gp.created > :created'), array(":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1))) // we have to adjust the milisecond threshol as javascript and server side time measuerment are slightly out of tune 
+                    ->where(array('and', 'gp.game_id = :gameID', 'gp.session_id_1 <> :sessionID', 'gp.session_id_2 IS NULL', 'gp.created > :created'), array(":gameID" => $game->game_id, ":sessionID" => $user_session_id, ":created" => date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1))) // we have to adjust the milisecond threshol as javascript and server side time measuerment are slightly out of tune 
                     ->order('gp.created ASC')
                     ->limit(1)
                     ->queryRow();
@@ -332,6 +490,7 @@ class GamesController extends ApiController {
                 ), 'id=:id', array(':id'=>$partner_session["id"]));
         
         $game->game_partner_name = $partner_session["username"];
+        $game->game_partner_id = $partner_session["id"];
         
         $found = true;
         
@@ -722,7 +881,7 @@ class GamesController extends ApiController {
       if ($game->played_against_computer || $game->opponents_submission) { // other user has submitted and been waiting for result
         if (!$game->played_against_computer && !Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id]) {
           // the other user is waiting thus let him now that i've posted  
-          $this->leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the game's javascript to repost the turn to finish it
+          $this->_leaveMessage($opponent_session_id, $game->played_game_id, 'posted'); // posted will trigger the game's javascript to repost the turn to finish it
         }
         $tags = $game_engine->parseTags($game, $game_model);
         
@@ -784,7 +943,7 @@ class GamesController extends ApiController {
         Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
       
       } else { // other player has not submitted this turn
-        $this->leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
+        $this->_leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
         Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = true;
         $data['status'] = "wait"; // this will make the client wait. It will query the message queue for a message that the other user has posted
       }
@@ -819,7 +978,6 @@ class GamesController extends ApiController {
         if ($userToGame->validate()) { // final turn
           $userToGame->save();
         } else {
-          Yii::log($userToGame->errors, 'error');
           throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
         }
       }
@@ -833,12 +991,12 @@ class GamesController extends ApiController {
    * @param int $played_game_id the played game id for which a message should be stored
    * @param string $message the message for the user
    */
-  private function leaveMessage($session_id, $played_game_id, $message) {
+  private function _leaveMessage($session_id, $played_game_id, $message) {
     $num_rows_affected = Yii::app()->db->createCommand()
                             ->insert('{{message}}', array(
                               'session_id' => $session_id,
                               'played_game_id' => $played_game_id,
-                              'message' => $message
+                              'message' => is_string($message)? $message : json_encode($message)
                               ));
   }
   

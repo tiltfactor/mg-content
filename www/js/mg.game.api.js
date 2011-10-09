@@ -54,8 +54,33 @@ MG_GAME_API = function ($) {
     
     releaseOnBeforeUnload : function () {
       $(window).unbind('beforeunload');
-    }
+    },
     
+    postMessage : function (message) {
+      if (message !== undefined && MG_GAME_API.game.played_game_id !== undefined) {
+        MG_API.ajaxCall('/games/postmessage/played_game_id/' + MG_GAME_API.game.played_game_id , function (response) { 
+            // no need to do anything errors are caught be the api 
+          }, {
+            type : 'post',
+            data : {'message': message}
+          }, true);
+      }
+    },
+    
+    callGameAPI : function (method, parameter, callback, options) {
+      MG_API.waitForThrottleIntervalToPass(function () {
+       MG_API.ajaxCall('/games/gameapi/gid/' + MG_GAME_API.settings.gid + '/played_game_id/' + MG_GAME_API.game.played_game_id,
+          callback,
+          $.extend({
+           type : 'post', 
+            'data': {
+              'call': {'method':method}, 
+              'parameter': parameter
+             }
+           }, options));     
+        
+      });
+    }
   });
 }(jQuery);
 

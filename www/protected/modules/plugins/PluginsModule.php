@@ -167,6 +167,29 @@ class PluginsModule extends CWebModule
   }
   
   /**
+   * This method checks if a requested game is active for this game and returns a plugin instance 
+   * This method does not regard the plugins $accessRole settings
+   * 
+   * @param int $gid the game_id in the database
+   * @param string $type the plugin type that should be retrieved
+   * @param string $name the name of the plugin class
+   * @return array all active plugins of that category
+   */
+  public static function getActiveGamePlugin($gid, $type, $name) {
+    $return_plugin = null;
+    $plugins = PluginsModule::getActiveGamePlugins($gid, $type);
+    if (count($plugins) > 0) {
+      foreach ($plugins as $plugin) {
+        if ($plugin->name == $name) {
+          $return_plugin = $plugin;
+          break;
+        }
+      }
+    }
+    return $return_plugin;
+  }
+  
+  /**
    * This method lists all active plug-ins the current user has got access to.
    */
   public static function getAccessiblePlugins($type=null, $active=1) {

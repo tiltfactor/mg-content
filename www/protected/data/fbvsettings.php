@@ -171,6 +171,21 @@ return array (
       'partner_wait_threshold' => '30',
       'play_against_computer' => '1',
     ),
+    'GuessWhat' => 
+    array (
+      'name' => 'Guess What?',
+      'description' => 'Lorem ipsum sit amed dolor cum laude. xxx change the description',
+      'arcade_image' => 'guesswhat_arcade.png',
+      'more_info_url' => 'http://thisismoreinfo.com',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
+      'image_grid_width' => '150',
+      'image_grid_height' => '150',
+      'number_guesses' => '3',
+      'partner_wait_threshold' => '30',
+      'play_against_computer' => '0',
+    ),
   ),
   'settings' => 
   array (
@@ -188,7 +203,7 @@ return array (
     array (
       'WordsToAvoid' => 
       array (
-        'words_to_avoid_threshold' => '2',
+        'words_to_avoid_threshold' => '1',
       ),
     ),
     'weighting' => 

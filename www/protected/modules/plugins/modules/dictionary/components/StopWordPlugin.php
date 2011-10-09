@@ -9,6 +9,51 @@ class StopWordPlugin extends MGDictionaryPlugin  {
   public $hasAdmin = TRUE;
   public $accessRole = "editor";
   
+  /**
+   * Checks whether one or more of the given tags are in the stop word list. It will return the tags
+   * as an array in this form
+   * 
+   * array(
+   *  'tag1', true/false // true if found
+   *  'tag2', true/false // true if found
+   *   ...
+   * )
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param array $tags the tags to be looked up as a single dimension array array('tag1', 'tag2', ...)
+   * @param array $user_ids optional user_ids that might influence the lookup
+   * @param array $image_ids optional image_ids that might influence the lookup
+   * @return array the checked tags
+   */
+  function lookup(&$game, &$game_model, $tags, $user_id=null, $image_ids=null) {
+    $tags_return = array();
+    $tags_lookup = array();
+    
+    if (is_array($tags) && count($tags) > 0) {
+      foreach ($tags as $tag) {
+        $tags_return[strtolower($tag)] = false;
+        $tags_lookup[] = $tag;
+      }
+      
+      $stopped_words = Yii::app()->db->createCommand()
+                        ->select('s.word')
+                        ->from('{{stop_word}} s')
+                        ->where(array('in', 's.word', array_values($tags_lookup))) 
+                        ->queryAll();
+      
+      if ($stopped_words) {
+        foreach ($stopped_words as $stop_word) {
+          if (array_key_exists(strtolower($stop_word["word"]), $tags_return)) {
+            $tags_return[strtolower($stop_word["word"])] = true;
+          }
+        }  
+      }
+    }
+    
+    return $tags_return;
+  }
+  
   function setWeights(&$game, &$game_model, $tags) {
     $stop_words = StopWord::getStopWordList();
     

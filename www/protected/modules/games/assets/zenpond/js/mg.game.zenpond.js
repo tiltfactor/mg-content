@@ -8,21 +8,18 @@ MG_GAME_ZENPOND = function ($) {
       var settings = $.extend(options, {
         ongameinit: MG_GAME_ZENPOND.ongameinit,
         onunload: function() {
-          if (/chrome/.test(navigator.userAgent.toLowerCase())) {
-            // chrome does not show confirm messages in onbeforeunload. 
-            // we can't make use of onunload to send an ajax request as the browser immidiatly stops working and the request might not be processed. 
-            // thus if we are playing a multiplayer game chrome will exit without error message
-            if (MG_GAME_ZENPOND.game.game_partner_id !== undefined && MG_GAME_ZENPOND.game.game_partner_id && !MG_GAME_ZENPOND.game.played_against_computer) {
-              MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
-            } else {
-              return 'Quit ' + MG_GAME_API.game.name + '?';
-            }
-          } else {
-            if (confirm('Quit ' + MG_GAME_API.game.name + '?')) {
+          // we can't make use of onunload to send an ajax request as the browser immidiatly stops working and the request might not be processed. 
+          // thus if we are playing a multiplayer game the browsers will exit without error message
+          if (MG_GAME_ZENPOND.game.game_partner_id !== undefined && MG_GAME_ZENPOND.game.game_partner_id && !MG_GAME_ZENPOND.game.played_against_computer) {
+            if (MG_GAME_ZENPOND.game.game_partner_name == "Anonymous") {
+              MG_API.ajaxCall('/games/abortPartnerSearch/game_partner_id/' + MG_GAME_ZENPOND.game.game_partner_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
+            } else {    
               if (MG_GAME_ZENPOND.game.played_game_id !== undefined && MG_GAME_ZENPOND.game.played_game_id && !MG_GAME_ZENPOND.game.played_against_computer) {
-                MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload
+                MG_API.ajaxCall('/games/abort/played_game_id/' + MG_GAME_ZENPOND.game.played_game_id, function(response) {}, {async:false}, true); // we have to send a synchronous request as a async request might be aborted by page unload  
               }
             }
+          } else {
+            return 'Quit ' + MG_GAME_API.game.name + '?';
           }
         }
       });
@@ -143,8 +140,6 @@ MG_GAME_ZENPOND = function ($) {
       if (score_info.tags_same_as !== undefined && score_info.tags_same_as != "")
         $("#template-final-tags-same_as").tmpl(score_info ).appendTo($("#fieldholder"));
       
-      log(score_info);
-      
       $("#licences").html("");
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
@@ -208,7 +203,7 @@ MG_GAME_ZENPOND = function ($) {
           }
         }, 1000);
       } else if (response.status = 'ok'){
-        $('#debug span').html('<br/>GAME PARTNER NAME:' + MG_GAME_ZENPOND.game.game_partner_name + '<br/>PLAYED GAME ID:' + MG_GAME_ZENPOND.game.played_game_id);
+        $('#debug span').html('<br/>GAME PARTNER NAME:' + MG_GAME_ZENPOND.game.game_partner_name + '<br/>PLAYED GAME ID:' + MG_GAME_ZENPOND.game.played_game_id); // xxx remove
         
         MG_GAME_ZENPOND.wordField.val("");
         
