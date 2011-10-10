@@ -146,7 +146,7 @@ class GamesController extends ApiController {
   public function actionAbortPartnerSearch($game_partner_id) {
     $data = array();
     $data['status'] = "ok";
-    
+    //xxx make use of lock table 
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
     
