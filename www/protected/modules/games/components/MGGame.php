@@ -54,6 +54,8 @@ class MGGame extends CComponent {
     
     $used_images = $this->getUsedImages($game, $game_model);
     
+    Yii::log(json_encode($imageSets) . "\n" . json_encode($used_images), 'error');
+    
     // xxx here should interest come into play. 
     $images = Yii::app()->db->createCommand()
                 ->selectDistinct('i.id, i.name, is.licence_id')
@@ -65,7 +67,7 @@ class MGGame extends CComponent {
     
     if ($images && count($images) >= $num_images) {
       $arr_image = array();
-      
+
       foreach ($images as $image) {
         if (!array_key_exists($image["id"], $arr_image)) {
           $arr_image[$image["id"]] = array(
@@ -84,7 +86,14 @@ class MGGame extends CComponent {
         }
       }
       
-      return array_values($arr_image);    
+      if (count($arr_image) >= $num_images) {
+        return array_values($arr_image);
+      } else if ($second_attempt) {
+        return null;
+      } else {
+        $this->resetUsedImages($game, $game_model);
+        return $this->getImages($imageSets, $game, $game_model, $num_images, true);
+      }
     } else if ($second_attempt) {
       return null;
     } else {

@@ -15,6 +15,7 @@
   <div id="messages"></div>
   <div id="game">
     <div class="describe">
+      <div id="wrong-guesses"><h3>Guessed Image(s)</h3></div>
       <div class="image"></div>
       <div class="form">
         <div class="hints clearfix"><h3>Hints given</h3></div>
@@ -48,7 +49,11 @@
 </script>
 
 <script id="template-guess-image" type="text/x-jquery-tmpl">
- <div><a href="#${image_id}" class="guessthis" title="click to send this image as guess"><img src="${url}" alt="game image" /></a><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
+ <div><a href="#" id="guess-me-${image_id}" class="guessthis" title="click to send this image as guess"><img src="${url}" alt="game image" /></a><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a><span class="wrong"></span></div>
+</script>
+
+<script id="template-wrong-guess-image" type="text/x-jquery-tmpl">
+ <div><span><img src="${url}" alt="game image" /></span><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
 </script>
 
 <script id="template-scores" type="text/x-jquery-tmpl">
@@ -89,6 +94,9 @@
 <script id="template-info-modal-waiting-for-hint" type="text/x-jquery-tmpl">
   Waiting for <b>${game_partner_name}</b> to submit a hint. <a href="${arcade_url}">Abort</a> game.
 </script>
+<script id="template-info-modal-wrong-guess-waiting-for-hint" type="text/x-jquery-tmpl">
+  Wrong Guess! Waiting for <b>${game_partner_name}</b> to give another hint. <a href="${arcade_url}">Abort</a> game.
+</script>
 <script id="template-info-modal-waiting-for-guess" type="text/x-jquery-tmpl">
   Waiting for <b>${game_partner_name}</b> to make a guess. <a href="${arcade_url}">Abort</a> game.
 </script>
@@ -100,6 +108,9 @@
 </script>
 <script id="template-wating-for-guess" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> waits for you to make a guess.
+</script>
+<script id="template-wrong-guess-wating-for-guess" type="text/x-jquery-tmpl">
+  <b>${game_partner_name}</b> made a wrong guess. Please give another hint. 
 </script>
 <script id="template-error-hint-stop-word" type="text/x-jquery-tmpl">
   <h1>Ooops</h1><p>Your hint is on our stop word list. Please give another hint.</p>

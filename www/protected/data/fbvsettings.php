@@ -183,8 +183,8 @@ return array (
       'image_grid_width' => '150',
       'image_grid_height' => '150',
       'number_guesses' => '3',
-      'partner_wait_threshold' => '30',
-      'play_against_computer' => '0',
+      'partner_wait_threshold' => '10',
+      'play_against_computer' => '1',
     ),
   ),
   'settings' => 

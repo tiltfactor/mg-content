@@ -35,6 +35,9 @@ jQuery Template
   http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js
   http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js
 
+jQuery jPlayer
+http://jplayer.org/ for audio playback GPL/MIT
+
 USED Extensions
 http://www.yiiframework.com/extension/yii-flash/ NEW BSD
 http://www.yiiframework.com/extension/giix/ NEW BSD

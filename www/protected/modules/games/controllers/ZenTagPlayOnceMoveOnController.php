@@ -40,12 +40,14 @@ class ZenTagPlayOnceMoveOnController extends ZenTagController
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/zentag/js/mg.game.zentag.js', CClientScript::POS_END);
-      
-      $throttleInterval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500); 
+      $throttleInterval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500);
+      $asset_url = Yii::app()->baseUrl;
+       
       $js = <<<EOD
     MG_GAME_ZENTAG.init({
         gid : 'ZenTagPlayOnceMoveOn',
         app_id : 'MG_API',
+        asset_url : '$asset_url',
         api_url : '{$game->api_base_url}',
         msg_url : '{$game->base_url}/mg_api_messages.php',
         play_once_and_move_on : {$game->play_once_and_move_on},

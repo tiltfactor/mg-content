@@ -195,6 +195,8 @@ class GamesController extends ApiController {
                   ->queryAll();
     if ($messages) {
       $data['messages'] = $messages;
+      if (YII_DEBUG) 
+        Yii::log(json_encode($messages), 'error'); //xxx remove after development
       Yii::app()->db->createCommand()
           ->delete('{{message}}', 'session_id=:sessionID AND played_game_id=:pGameID', array(':sessionID' => $user_session_id, ':pGameID' => $played_game_id));
     }
@@ -267,7 +269,6 @@ class GamesController extends ApiController {
     $data = array();
     $data['status'] = "ok";
     $valid_request = false;
-    Yii::log('1', 'error');
     
     if (Yii::app()->getRequest()->getIsPostRequest() && isset($_POST['call']) && is_array($_POST['call'])) {
       $counted = Yii::app()->db->createCommand()
@@ -276,18 +277,13 @@ class GamesController extends ApiController {
                     ->where('pg.id=:pGameID', array(':pGameID' => $played_game_id)) 
                     ->queryScalar();
       
-      Yii::log('2', 'error');
-      
       if ($counted && $counted > 0) {
-        Yii::log('3', 'error');
         
         $call = (object)$_POST['call'];
         if (isset($call->method) && trim($call->method) != "") {
-          Yii::log('4', 'error');
           
           $game = GamesModule::loadGame($gid);
           if($game && $game->game_model) {
-            Yii::log('5', 'error');
             
             $game_model = $game->game_model;
             $game_engine = GamesModule::getGameEngine($gid);

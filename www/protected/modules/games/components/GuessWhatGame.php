@@ -48,8 +48,6 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
         $turn = $this->_createTurn($game, $game_model, $tags);
         
-        Yii::log('aaaa','error');
-        
         // it might happen that for both user it might appear to be the first one to read the table
         // thus the next statement check whether the turn has been saved for this played game and turn
         // if it has been a unique exception forces the second user to load the turn from the db
@@ -91,6 +89,47 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
       if ($images && count($images) >= 12) {
         $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
         $turn_images = array_rand($images, 12);
+        $describe_image_id = 0;
+        $image_tags = array();
+        
+        foreach ($turn_images as $i) {
+          $used_images[] = (int)$images[$i]["id"];
+        }
+        
+        if ($game->played_against_computer) { // we have to make sure that at least one of the images has got more than 10 tags to give hints on. 
+          $attempts = 10;
+          $available_images = array();  
+          
+          while ($attempts > 0) {
+            $image_tags = MGTags::getTags($used_images);
+            $found_one = false;
+            $available_images = array();
+            
+            foreach ($image_tags as $image_id => $tags) {
+                if (count($tags) > 10) {
+                  $available_images[] = $image_id;
+                  break;
+                } 
+            }
+           
+            if (count($available_images)) {
+              break;
+            } else {
+              $used_images = array();
+              $turn_images = array_rand($images, 12);
+              foreach ($turn_images as $i) {
+                $used_images[] = (int)$images[$i]["id"];
+              }
+            }
+            $attempts--; 
+          }  
+          
+          if ($attempts == 0)
+            throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough tagges images available to play in computer mode'));
+          
+          $describe_image_id = $available_images[array_rand($available_images, 1)];
+        }   
+          
         
         $image_licences = array();
         
@@ -110,11 +149,21 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         
         shuffle($data["images"]["guess"]); // mix the images up
         
-        // select out of the twelve one that will be shown to the describing user
-        $data["images"]["describe"] = $data["images"]["guess"][array_rand($turn_images, 1)];
-        $describe_image_id = array((int)$data["images"]["describe"]["image_id"]);
-        
-        $used_images[] = (int)$images[$i]["id"];
+        $data["images"]["describe"] = array();
+        if ($game->played_against_computer) {
+          foreach ($data["images"]["guess"] as $desc_image) {
+            if ($desc_image["image_id"] == $describe_image_id) {
+              $data["images"]["describe"] = $desc_image;
+              break;
+            }
+          }
+          $data["images"]["describe"]["hints"] = $image_tags[$describe_image_id];
+          $describe_image_id = array($describe_image_id); // wrap it in array for words to avoid plugin(s) call
+        } else {
+          // select out of the twelve one that will be shown to the describing user
+          $data["images"]["describe"] = $data["images"]["guess"][array_rand($turn_images, 1)];
+          $describe_image_id = array((int)$data["images"]["describe"]["image_id"]);
+        }
         
         $data["licences"] = $this->getLicenceInfo($image_licences);
         
