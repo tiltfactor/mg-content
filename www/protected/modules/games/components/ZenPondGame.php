@@ -78,7 +78,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       
       if ($images && count($images) > 0) {
         $i = array_rand($images, 1);
-      
+        
         $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
         $data["images"][] = array(
           "image_id" => $images[$i]["id"],
@@ -114,6 +114,7 @@ class ZenPondGame extends MGGame implements MGGameInterface {
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
+      $data["licences"] = array();
     } 
     
     return $data;

@@ -228,7 +228,12 @@ class MGTags {
               try {
                 $tag_model->save();
               } catch (CDbException $e) {
-                Tag::model()->findByAttribute(array("tag" => $tags[$image_id][$tag]["tag"]));
+                $tag_searched = Tag::model()->findByAttributes(array("tag" => $tags[$image_id][$tag]["tag"]));
+                if (is_null($tag_searched)) {
+                  throw new CHttpException(500, Yii::t('app', 'Internal Server Error: - TAG SAVE: ' . json_encode($tag_model->errors)));
+                } else {
+                  $tag_model = $tag_searched;
+                }
               } 
             } else {
               throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));

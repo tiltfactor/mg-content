@@ -140,6 +140,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
+      $data["licences"] = array();
     } 
     
     return $data;

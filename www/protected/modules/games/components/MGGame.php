@@ -77,6 +77,13 @@ class MGGame extends CComponent {
           $arr_image[$image["id"]]["licences"][] = (int)$image["licence_id"];
         }
       }
+      
+      foreach ($arr_image as $key => $image) { // we want to hide the default licence if the image has got another licence
+        if (count($arr_image[$key]["licences"]) > 0 && ($index = array_search(1, $arr_image[$key]["licences"]) !== false)) {
+          unset($arr_image[$key]["licences"][$index]);
+        }
+      }
+      
       return array_values($arr_image);    
     } else if ($second_attempt) {
       return null;
