@@ -283,6 +283,7 @@ tbody tr.even td {
 
 #mg_curtain {
   position: absolute;
+  z-index: 10;
   top:0px;
   left:0px;
   width:100%;
