@@ -62,6 +62,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'type' => 'html',
       'value'=>'$data->getTopTags(15)',
     ),
+    array(
+      'cssClassExpression' => "'tags'",
+      'header' => Yii::t('app', 'Image Sets'),
+      'type' => 'html',
+      'value'=>'$data->listImageSets()',
+    ),
 		//'size',
 		'batch_id',
 		//'last_access', //xxx implement last access
@@ -90,14 +96,25 @@ $this->widget('zii.widgets.grid.CGridView', array(
 )); 
 echo CHtml::endForm();
 
+$batch_actions = array();
+$image_sets = GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true));
+
+if (count($image_sets)) {
+  foreach ($image_sets as $id => $name) {
+    if ($id != 1)
+      $batch_actions[] = array('label'=>Yii::t('ui','Assign to image set: ' . $name),'url'=>array('batch', 'op' => 'image-set-add', 'isid' => $id)); 
+  }
+  foreach ($image_sets as $id => $name) {
+    if ($id != 1)
+      $batch_actions[] = array('label'=>Yii::t('ui','Remove from image set: ' . $name),'url'=>array('batch', 'op' => 'image-set-remove', 'isid' => $id)); 
+  }
+}
+
 $this->widget('ext.gridbatchaction.GridBatchAction', array(
       'formId'=>'image-form',
       'checkBoxId'=>'image-ids',
       'ajaxGridId'=>'image-grid', 
-      'items'=>array(
-      //xxx add batch add to image set functionality here
-          //xxx what batch actions are here ???? array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
-      ),
+      'items'=> $batch_actions,
       'htmlOptions'=>array('class'=>'batchActions'),
   ));
 

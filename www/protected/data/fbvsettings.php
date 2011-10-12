@@ -168,7 +168,7 @@ return array (
       'turns' => '4',
       'image_width' => '450',
       'image_height' => '450',
-      'partner_wait_threshold' => '30',
+      'partner_wait_threshold' => '5',
       'play_against_computer' => '1',
     ),
     'GuessWhat' => 

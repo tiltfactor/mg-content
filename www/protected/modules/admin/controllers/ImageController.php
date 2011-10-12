@@ -124,8 +124,11 @@ class ImageController extends GxController {
   public function actionBatch($op) {
     if (Yii::app()->getRequest()->getIsPostRequest()) {
       switch ($op) {
-        case "delete":
-          $this->_batchDelete();
+        case "image-set-add":
+          $this->_batchAddImageSet("add");
+          break;
+        case "image-set-remove":
+          $this->_batchAddImageSet("remove");
           break;
       }
       if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -133,6 +136,37 @@ class ImageController extends GxController {
     } else
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
     
+  }
+  
+  private function _batchAddImageSet($action) {
+    if (isset($_POST['image-ids']) && isset($_GET['isid']) && (int)$_GET['isid'] > 0) {
+      $images = Image::model()->findAllByPk($_POST['image-ids']);
+      $image_set = ImageSet::model()->findByPk($_GET['isid']);
+      if ($images && $image_set) {
+        foreach ($images as $image) {
+          $imageImageSet = array();
+          foreach ($image->imageSets as $is) {
+            $imageImageSet[] = $is->id;
+          }
+          
+          switch ($action) {
+            case "add":
+              $imageImageSet = array_merge($imageImageSet, array((int)$_GET['isid'] ));
+              break;
+              
+            case "remove":
+              $imageImageSet = array_diff($imageImageSet, array((int)$_GET['isid'] ));
+              break;
+          }
+          
+          $relatedData = array(
+            'imageSets' => $imageImageSet
+          );
+          $image->saveWithRelated($relatedData); 
+        }
+      }
+      MGHelper::log('batch-addimage-set', 'Batch assigned Images with IDs(' . implode(',', $_POST['image-ids']) . ') to image set with the ID(' . $_GET['isid'] . ')');
+    } 
   }
   
   public function actionSearchUser() {

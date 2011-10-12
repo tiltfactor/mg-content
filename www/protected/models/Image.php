@@ -186,4 +186,14 @@ class Image extends BaseImage
     }
   }
 
+  public function listImageSets() {
+    $out = array();
+    if (count($this->imageSets) > 0) {
+      foreach ($this->imageSets as $imageSet) {
+        $out[] = GxHtml::link(GxHtml::encode($imageSet->name), array('imageSet/view', 'id' => $imageSet->id));
+      }
+    }
+    return implode(", ", $out);
+  }
+
 }
