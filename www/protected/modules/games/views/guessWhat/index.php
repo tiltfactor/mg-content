@@ -60,7 +60,7 @@
 <script id="template-final-scoring" type="text/x-jquery-tmpl">
   <h2>Congratulations <b>${user_name}</b></h2>
   <h3>You played against <b>${game_partner_name}</b> and scored <b>${current_score}</b> points in this game.</h3>
-  <p><a href="${game_base_url}/guesswhat" id="newGame">start new game</a></p>
+  <p><a href="${game_base_url}/guessWhat" id="newGame">start new game</a></p>
 </script>
 
 <script id="template-final-screen-turn-image" type="text/x-jquery-tmpl">
@@ -100,7 +100,7 @@
 </script>
 
 <script id="template-info-modal-time-out" type="text/x-jquery-tmpl">
-  No game partner found. <a href="${game_base_url}/guesswhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
+  No game partner found. <a href="${game_base_url}/guessWhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 <script id="template-info-modal-wait-for-partner" type="text/x-jquery-tmpl">
   Waiting for partner; timeout in <b>'${seconds}'</b> seconds. xxx give info about computer player.
@@ -115,7 +115,7 @@
   Waiting for <b>${game_partner_name}</b> to make a guess. <a href="${arcade_url}">Abort</a> game.
 </script>
 <script id="template-info-modal-partner-aborted" type="text/x-jquery-tmpl">
-  <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/guesswhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
+  <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/guessWhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 <script id="template-info-modal-wait-for-partner-to-submit" type="text/x-jquery-tmpl">
   Waiting for ${game_partner_name} to submit turn. <a href="${arcade_url}">Abort</a> game.
