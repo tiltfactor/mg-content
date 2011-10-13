@@ -54,8 +54,6 @@ class MGGame extends CComponent {
     
     $used_images = $this->getUsedImages($game, $game_model);
     
-    Yii::log(json_encode($imageSets) . "\n" . json_encode($used_images), 'error');
-    
     // xxx here should interest come into play. 
     $images = Yii::app()->db->createCommand()
                 ->selectDistinct('i.id, i.name, is.licence_id')
@@ -185,7 +183,7 @@ class MGGame extends CComponent {
   }
   
   /** 
-   * loads a turn from the played_game_turn_info table and parses and returns the stored turn info
+   * Loads a turn from the played_game_turn_info table and parses and returns the stored turn info
    * 
    * @param int $played_game_id the played game id
    * @param int $turn the turn number

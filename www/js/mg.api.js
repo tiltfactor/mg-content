@@ -26,13 +26,19 @@ MG_API = function ($) {
         MG_API.curtain.appendTo($("body")).css({
           opacity:0.7, 
           height: $(document).height(),
-          backgroundPosition : '50% ' + ($(window).height()/2) + 'px'
+          width: $(document).width(),
+          backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'
         }); 
+        
+        $(window).resize(function () {
+          MG_API.curtain.css({height: $(document).height(), width: $(document).width(),backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'}); 
+        });
         
         MG_API.fancyboxLink = $('<a id="mg_fancybox_link" href="#" class="ir"></a>');
         
         MG_API.modals = $('<div id="mg_modals"/>').appendTo($("body"));
         $('<div id="mg_error"/>').appendTo(MG_API.modals);
+        $('<div id="mg_popup"/>').appendTo(MG_API.modals);
         
         MG_API.curtain.appendTo($("body"));
         
@@ -88,6 +94,12 @@ MG_API = function ($) {
       MG_API.curtain.hide();
       $("#mg_error").html(msg);
       MG_API.showModal($("#mg_error"), function () {MG_API.busy = false;});
+    },
+    
+    popup : function (content, options) {
+      MG_API.curtain.hide();
+      $("#mg_popup").html(content);
+      MG_API.showModal($("#mg_popup"), function () {MG_API.busy = false;}, options);
     },
     
     checkResponse : function (response) {
@@ -160,14 +172,14 @@ MG_API = function ($) {
       }
     },
     
-    showModal : function(modalContent, onclosed) {
+    showModal : function(modalContent, onclosed, options) {
       if ($(modalContent).length > 0) {
         MG_API.fancyboxLink.attr("href", "#" + modalContent.attr("id"));
-        MG_API.fancyboxLink.fancybox({
+        MG_API.fancyboxLink.fancybox($.extend({
           onClosed: onclosed,
           hideOnOverlayClick:false,
           overlayColor: '#000'
-        });
+        }, options));
         MG_API.fancyboxLink.trigger("click");
       } 
     },

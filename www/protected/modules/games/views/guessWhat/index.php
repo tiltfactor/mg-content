@@ -34,6 +34,7 @@
       <div class="images" class="clearfix"></div>
     </div>
   </div>
+  <div id="finalScreen"></div>
   <div id="licences"></div>
   
 </div>
@@ -56,6 +57,19 @@
  <div><span><img src="${url}" alt="game image" /></span><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
 </script>
 
+<script id="template-final-scoring" type="text/x-jquery-tmpl">
+  <h2>Congratulations <b>${user_name}</b></h2>
+  <h3>You played against <b>${game_partner_name}</b> and scored <b>${current_score}</b> points in this game.</h3>
+  <p><a href="${game_base_url}/guesswhat" id="newGame">start new game</a></p>
+</script>
+
+<script id="template-final-screen-turn-image" type="text/x-jquery-tmpl">
+  <div class="finalImage clearfix">
+  <div><img src="${url}" alt="game image" /><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
+  <p><b>${num_guesses}</b> Guess(es), <b>${num_hints}</b> Hint(s) [${hints}], <b>${num_points}</b> Point(s)</p>
+  </div>
+</script>
+
 <script id="template-scores" type="text/x-jquery-tmpl">
   <div class="left">
     <h2>Welcome ${user_name}</h2>
@@ -65,7 +79,7 @@
     <div class="total_score">You played <span>${user_num_played}</span> times and scored <span>${user_score}</span> Points</div>
     <div class="current_score">This game's score <span>${current_score}</span> Points</div>
     <div class="total_turns">Turn <span>${current_turn}</span>/<span>${turns}</span></div>
-    <div class="guesses"><span>${num_guesses_left}</span> guesses left</div>
+    <div class="guesses"><span>${num_guesses_left}</span> guess(es) left</div>
   </div>
 </script>
 
@@ -103,6 +117,9 @@
 <script id="template-info-modal-partner-aborted" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/guesswhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
+<script id="template-info-modal-wait-for-partner-to-submit" type="text/x-jquery-tmpl">
+  Waiting for ${game_partner_name} to submit turn. <a href="${arcade_url}">Abort</a> game.
+</script>
 <script id="template-wating-for-hint" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> waits for you to give a hint.
 </script>
@@ -119,5 +136,20 @@
   <h1>Ooops</h1><p>Your hint is one of the words to avoid. Please give another hint.</p>
 </script>
 <script id="template-error-hint-given-twice" type="text/x-jquery-tmpl">
-  <h1>Ooops</h1><p>You have already given this hint.</p>
+  <h1>Ooops</h1><p>You've already given this hint.</p>
+</script>
+<script id="template-failed-to-guess" type="text/x-jquery-tmpl">
+  <div id="failedToGuess">
+    <h2>No Guess left</h2>
+    <p>The correct image would have been</p>
+    <div class="image"><img src="${url}" alt="game image" /></div>
+    <a href="#" id="loadNextTurn">Load next turn</a>
+  </div>
+</script>
+<script id="template-partner-failed-to-guess" type="text/x-jquery-tmpl">
+  <div id="partnerFailedToGuess">
+    <h2>All Guesses Used</h2>
+    <p><b>${game_partner_name}</b> did not find the image!</p>
+    <a href="#" id="loadNextTurn">Load next turn</a>
+  </div>
 </script>

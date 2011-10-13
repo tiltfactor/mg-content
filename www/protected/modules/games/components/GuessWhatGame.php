@@ -10,8 +10,11 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
     
     if (isset($_POST["submissions"]) && is_array($_POST["submissions"]) && count($_POST["submissions"]) > 0) {
       foreach ($_POST["submissions"] as $submission) {
-        if ($submission["image_id"] && (int)$submission["image_id"] != 0
-          && $submission["tags"] && (string)$submission["tags"] != "") {
+        if (  isset($submission["mode"]) &&
+              isset($submission["hints"]) &&
+              isset($submission["guesses"]) &&
+              isset($submission["image_id"]) &&
+              isset($submission["tags"])) {
           $game->request->submissions[] = $submission;
         } 
       }
@@ -74,7 +77,9 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
   private function _createTurn(&$game, &$game_model, $tags=array()) {
     $data = array();
     $data["mode"] = "guess";
-    
+    if (!$game->played_against_computer) {
+      $data["mode"] = "guess";
+    }
     if ($game->turn < $game->turns) {
       $imageSets = $this->getImageSets($game, $game_model);
     
@@ -157,12 +162,13 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
               break;
             }
           }
+          shuffle($image_tags[$describe_image_id]);
           $data["images"]["describe"]["hints"] = $image_tags[$describe_image_id];
           $describe_image_id = array($describe_image_id); // wrap it in array for words to avoid plugin(s) call
         } else {
           // select out of the twelve one that will be shown to the describing user
           $data["images"]["describe"] = $data["images"]["guess"][array_rand($turn_images, 1)];
-          $describe_image_id = array((int)$data["images"]["describe"]["image_id"]);
+          $describe_image_id = array((int)$data["images"]["describe"]["image_id"]); // wrap it in array for words to avoid plugin(s) call
         }
         
         $data["licences"] = $this->getLicenceInfo($image_licences);
@@ -217,13 +223,6 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
   }
   
   public function getScore(&$game, &$game_model, &$tags) {
-    
-    /*
-     * new tag = +1 point
-[08/10/2011 17:41:39] punkybuddha: guess on first try = +5 point
-[08/10/2011 17:41:50] punkybuddha: guess on second try = +3 point
-[08/10/2011 17:41:56] punkybuddha: guess on third try = +1 point
-     */
     $score = 0;
     $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
     if (count($plugins) > 0) {
@@ -240,65 +239,32 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
     $data = array();
     $image_ids = array();
     foreach ($game->request->submissions as $submission) {
-      $image_ids[] = $submission["image_id"];
-      $image_tags = array();
-      foreach (MGTags::parseTags($submission["tags"]) as $tag) {
-        $image_tags[strtolower($tag)] = array(
-          'tag' => $tag,
-          'weight' => 1,
-          'type' => 'new',
-          'tag_id' => 0
-        );
-      }
-      $data[$submission["image_id"]] = $image_tags;
-    }
-    
-    if (!$game->played_against_computer && $this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission)) {
-      // it is really a two player game and we have to parse the oppenents_submission to make the tags info available for later use
-      
-      $game->opponents_submission["parsed"] = array();
-      
-      foreach ($game->opponents_submission as $image) {
-        if (is_object($image)) {
-          $image_ids[] = $image->image_id;
-        
-          $image_tags = array();
-          foreach (MGTags::parseTags($image->tags) as $tag) {
+      if ($submission['mode'] == 'describe') { // GuessWhat generates tags only on the describing mode
+        $image_ids[] = $submission["image_id"];
+        $image_tags = array();
+        if (is_array($submission["tags"])) {
+          foreach (MGTags::parseTags($submission["tags"]) as $tag) {
             $image_tags[strtolower($tag)] = array(
               'tag' => $tag,
               'weight' => 1,
               'type' => 'new',
               'tag_id' => 0
             );
-          }
-          $game->opponents_submission["parsed"][$image->image_id] = $image_tags;
+          }  
         }
+        $data[$submission["image_id"]] = $image_tags;
       }
     }
     
-    $image_tags = MGTags::getTags($image_ids);
-    foreach ($data as $submitted_image_id => $submitted_image_tags) {
-      foreach ($submitted_image_tags as $submitted_tag => $sval) {
-        if (isset($image_tags[$submitted_image_id])) {
-          foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
-            if ($submitted_tag == strtolower($ival["tag"])) {
-              $data[$submitted_image_id][$submitted_tag]['type'] = 'match';
-              $data[$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
-              break;
-            }
-          }          
-        }
-      }
-    }
-    
-    if (!$game->played_against_computer && $this->two_player_game && isset($game->opponents_submission) && is_array($game->opponents_submission["parsed"])) {
-      foreach ($game->opponents_submission["parsed"] as $submitted_image_id => $submitted_image_tags) {
+    if (count($image_ids)) {
+      $image_tags = MGTags::getTags($image_ids);
+      foreach ($data as $submitted_image_id => $submitted_image_tags) {
         foreach ($submitted_image_tags as $submitted_tag => $sval) {
           if (isset($image_tags[$submitted_image_id])) {
             foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
               if ($submitted_tag == strtolower($ival["tag"])) {
-                $game->opponents_submission["parsed"][$submitted_image_id][$submitted_tag]['type'] = 'match';
-                $game->opponents_submission["parsed"][$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
+                $data[$submitted_image_id][$submitted_tag]['type'] = 'match';
+                $data[$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
                 break;
               }
             }          

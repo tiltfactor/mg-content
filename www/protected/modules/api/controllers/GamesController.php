@@ -937,7 +937,6 @@ class GamesController extends ApiController {
           $this->_saveUserToGame($game, $data['turn']['score']);
         }
         Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
-      
       } else { // other player has not submitted this turn
         $this->_leaveMessage($opponent_session_id, $game->played_game_id, 'waiting');
         Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = true;
