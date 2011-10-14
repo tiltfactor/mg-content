@@ -16,7 +16,7 @@ class GuessWhatScoringPlugin extends MGWeightingPlugin  {
     $model = new GuessWhatScoring;
     $model->fbvLoad();
     
-    if (!$game->played_against_computer) {
+    if (!$game->played_against_computer && (float)$model->additional_weight_first_guess > 0) {
       // if an image has been guessed with one guess the tag should get an higher weight as it apparently describes 
       // the image very accurately
       foreach ($game->request->submissions as $submission) {

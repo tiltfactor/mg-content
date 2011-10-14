@@ -303,7 +303,9 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
               }
             }
           }
-        }
+        } else {
+          $return_valid = $arr_tags[0];
+        } 
       }
     }
     return $return_valid;

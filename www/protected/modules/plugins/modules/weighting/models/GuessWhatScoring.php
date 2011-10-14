@@ -23,7 +23,7 @@ class GuessWhatScoring extends MGPluginModel implements MGPluginModelInterface
   
   public function attributeLabels() {
     return array(
-      'score_new' => Yii::t('app', 'Bonus desribing player submitted new tag for the image'),
+      'score_new' => Yii::t('app', 'Bonus describing player submitted new tag for the image'),
       'score_match' => Yii::t('app', 'Bonus describing player submitted a matching tag for the image'),
       'score_first_guess' => Yii::t('app', 'Score for both player if image has been found on first guess'),
       'score_second_guess' => Yii::t('app', 'Score for both player if image has been found on second guess'),
@@ -40,7 +40,7 @@ class GuessWhatScoring extends MGPluginModel implements MGPluginModelInterface
       $this->score_first_guess = (int)$plugin_data["score_first_guess"];
       $this->score_second_guess = (int)$plugin_data["score_second_guess"];
       $this->score_third_guess = (int)$plugin_data["score_third_guess"];
-      $this->additional_weight_first_guess = (int)$plugin_data["additional_weight_first_guess"];
+      $this->additional_weight_first_guess = (float)$plugin_data["additional_weight_first_guess"];
     }
   }
   

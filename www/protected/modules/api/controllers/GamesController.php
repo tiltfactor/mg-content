@@ -150,6 +150,7 @@ class GamesController extends ApiController {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
     
+    Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE")->execute(); 
     $game_partner = Yii::app()->db->createCommand()
                   ->select('gp.session_id_1, gp.session_id_2, gp.played_game_id')
                   ->from('{{game_partner}} gp')
@@ -159,11 +160,16 @@ class GamesController extends ApiController {
     if ($game_partner) {
       Yii::app()->db->createCommand()
                   ->update('{{game_partner}}', array('created' => date('Y-m-d H:i:s', 1)), 'id=:gpID',  array(':gpID' => $game_partner_id));
+      
+      Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
+      
       if (!is_null($game_partner["played_game_id"]) && !is_null($game_partner["session_id_1"]) && !is_null($game_partner["session_id_2"])) {
         $opponent_session_id = ($game_partner["session_id_1"] == $user_session_id)? $game_partner["session_id_2"] : $game_partner["session_id_1"];
         $this->_leaveMessage($opponent_session_id, $game_partner["played_game_id"], 'aborted');
       }
+      
     } else {
+      Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
       throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
     }
     $this->sendResponse($data);
@@ -361,10 +367,16 @@ class GamesController extends ApiController {
           if (isset($_POST["turn"])) {
             $game->turn = (int)$_POST["turn"]; 
           }
-          if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $game_engine->parseSubmission($game, $game_model)) {
+          
+          $submission_valid = $game_engine->parseSubmission($game, $game_model);
+          if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $submission_valid) {
             $this->_playTwoPlayerPost($game, $game_model, $game_engine);  
           } else {
-            throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+            if (!$submission_valid) {
+              throw new CHttpException(400, Yii::t('app', 'Your request\'s submission is invalid.'));
+            } else {
+              throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
+            }
           }
         } else {
           // a GET request mean's that the user is about to start a new game
@@ -465,7 +477,7 @@ class GamesController extends ApiController {
       // this is needed to avoid freak conditions where two users read at the same time the game_partner table and
       // register themselves as second player for the same game partner request
       Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE, {{played_game}} WRITE, {{game_partner}} gp WRITE, {{session}} s READ, {{game}} WRITE")->execute(); 
-      
+
       // does someone wait to play?
       $partner_session = Yii::app()->db->createCommand()
                     ->select('gp.id, gp.session_id_1, s.username')

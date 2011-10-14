@@ -5,8 +5,8 @@
     <div id="guesswhat"> 
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/guesswhat/images/guesswhatlogo.png" alt="Zen Pond" width="200" height="90" /> 
     </div> 
-    <div id="game_description" class="guess"><h2>How To Play</h2>Lorem ipsum sid amed. XXX. Describe here the 'guess' role of the game <br/>Click on the image(s) to see a full-screen version.</div>
-    <div id="game_description" class="describe"><h2>How To Play</h2>Lorem ipsum sid amed. XXX.  Describe here the 'describe' role of the game <br/>Click on the image to see a full-screen version.</div>
+    <div class="game_description guess"><h2>How To Play</h2>Lorem ipsum sid amed. XXX. Describe here the 'guess' role of the game <br/>Click on the image(s) to see a full-screen version.</div>
+    <div class="game_description describe"><h2>How To Play</h2>Lorem ipsum sid amed. XXX.  Describe here the 'describe' role of the game <br/>Click on the image to see a full-screen version.</div>
     <div id="partner-waiting"></div>
     <div id="more_info"></div>
     <div id="words_to_avoid"></div>
@@ -64,7 +64,7 @@
 </script>
 
 <script id="template-final-screen-turn-image" type="text/x-jquery-tmpl">
-  <div class="finalImage clearfix">
+  <div class="finalImage clearfix{{if num_points == 0}} failedToGuess{{/if}}">
   <div><img src="${url}" alt="game image" /><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
   <p><b>${num_guesses}</b> Guess(es), <b>${num_hints}</b> Hint(s) [${hints}], <b>${num_points}</b> Point(s)</p>
   </div>

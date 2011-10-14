@@ -184,6 +184,7 @@ MG_GAME_GUESSWHAT = function ($) {
       }
       
       $("#game .guess").hide();
+      $('#wrong-guesses > div').remove();
       $("#game .describe").show();
       $("#game .describe .image").html("");
       $("#game .describe .hints span").remove();
@@ -211,10 +212,10 @@ MG_GAME_GUESSWHAT = function ($) {
     renderFinal : function (response, score_info, turn_info, licence_info, more_info) {
       $("#stage").hide();
       
-      $('#game_description').remove();
+      $('.game_description').hide();
       $('#partner-waiting').remove();
-      $("#messages").remove(); 
-      $('#game').remove();
+      $("#messages").hide(); 
+      $('#game').hide();
       
       $("#scores").addClass("final").html(""); 
       $("#template-final-scoring").tmpl(score_info).appendTo($("#scores"));
@@ -399,7 +400,7 @@ MG_GAME_GUESSWHAT = function ($) {
           }
           
           if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == "describe") {
-            $('#game_description.describe').show();
+            $('.game_description.describe').show();
             
             if (response.turn.wordstoavoid) {
               for (image in response.turn.wordstoavoid) {
@@ -439,7 +440,7 @@ MG_GAME_GUESSWHAT = function ($) {
               }
             }
             
-            $('#game_description.guess').show();
+            $('.game_description.guess').show();
             MG_GAME_GUESSWHAT.renderGuessTurn(response, score_info, turn_info, licence_info, more_info);
             MG_GAME_GUESSWHAT.sendHintRequest();
           }
@@ -464,6 +465,7 @@ MG_GAME_GUESSWHAT = function ($) {
           MG_GAME_GUESSWHAT.error("<h1>Ooops</h1><p>Please enter a word</p>");
         } else {
           MG_GAME_GUESSWHAT.busy = true;
+          MG_GAME_API.curtain.show();
           MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
             if (MG_API.checkResponse(response)) { 
               if (response.response == "") { // the api call returns an empty string if the first tag was a stop word
@@ -537,7 +539,7 @@ MG_GAME_GUESSWHAT = function ($) {
           var tags = "";
           
           if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == 'describe')
-            tags = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.join(',');
+            tags = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints;
           
           MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
             if (MG_API.checkResponse(response)) {
