@@ -5,8 +5,9 @@ class ZenTagController extends GxController
   
 	public function filters() {
     return array(
-        'accessControl', 
-        );
+      'IPBlock',
+      'accessControl - index', 
+      );
   }
   
   public function accessRules() {

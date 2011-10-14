@@ -1,4 +1,4 @@
-<?php
+  <?php
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
@@ -31,8 +31,79 @@ class Controller extends CController
    */
   public function filterIPBlock($filterChain)
   {
-    $filterChain->run();
-    // xxx implement 
+    $user_ip = MGHelper::getUserHostAddress();
+    if ($user_ip) {    
+      $ips = Yii::app()->db->createCommand()
+        ->select('b.ip, b.type')
+        ->from('{{blocked_ip}} b')
+        ->queryAll();  
+      if ($ips) {
+        $arr_allow = array();
+        $arr_deny = array();
+      
+        $c = count($ips);
+        for ($i=0; $i<$c; $i++) {
+          if ($ips[$i]['type'] == 'deny') 
+            $arr_deny[] = '/^' . str_replace("*", ".*", str_replace(".", "\\.", $ips[$i]['ip'])) . '$/';
+          
+          if ($ips[$i]['type'] == 'allow') 
+            $arr_allow[] = '/^' . str_replace("*", ".*", str_replace(".", "\\.", $ips[$i]['ip'])) . '$/';
+        }
+        
+        $c_denied = count($arr_deny);;
+        $c_allowed = count($arr_allow); 
+        
+        $blocked = false;
+        $allowed = false;
+        
+        if ($c_denied > 0) {
+          $blocked = in_array($user_ip, $arr_deny);
+
+          if ($c_allowed > 0) {
+            $allowed = in_array($user_ip, $arr_allow);
+            if (!$allowed) {
+              for ($i=0; $i<$c_allowed; $i++) {
+                if(preg_match($arr_allow[$i], $user_ip)) {
+                  $allowed = true;
+                  break;
+                }
+              }  
+            }
+            if (!$allowed && !$blocked) {
+              for ($i=0; $i<$c_denied; $i++) {
+                if(preg_match($arr_deny[$i], $user_ip)) {
+                  $blocked = true;
+                  break;
+                }
+              }  
+            }
+          } else {
+            if (!$blocked) {
+              for ($i=0; $i<$c_denied; $i++) {
+                if(preg_match($arr_deny[$i], $user_ip)) {
+                  $blocked = true;
+                  break;
+                }
+              }  
+            }
+          }
+        }
+        
+        if ($blocked && !$allowed) {
+          if (!Yii::app()->user->isGuest) {
+            Yii::app()->session->destroy(); //remove all of the session variables.
+            Yii::app()->user->logout();
+          }
+          throw new CHttpException(403, Yii::t('app', "You're IP address has been blocked by an administrator."));
+        } else {
+          $filterChain->run();
+        }
+      } else {
+        $filterChain->run();
+      }
+    } else {
+      $filterChain->run();
+    } 
   }
   
   /**

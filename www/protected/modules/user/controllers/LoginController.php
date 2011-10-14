@@ -3,7 +3,13 @@
 class LoginController extends Controller
 {
 	public $defaultAction = 'login';
-
+  
+  public function filters() {
+    return array( // add blocked IP filter here
+        'IPBlock',
+    );
+  }
+  
 	/**
 	 * Displays the login page
 	 */

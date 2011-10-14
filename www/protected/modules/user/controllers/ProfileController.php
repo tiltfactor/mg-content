@@ -3,7 +3,13 @@
 class ProfileController extends Controller
 {
 	public $defaultAction = 'profile';
-
+  
+  public function filters() {
+    return array( // add blocked IP filter here
+        'IPBlock',
+    );
+  }
+  
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */

@@ -6,13 +6,14 @@ class UserController extends Controller
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
 	private $_model;
-
+  
 	/**
 	 * @return array action filters
 	 */
 	public function filters()
 	{
 		return CMap::mergeArray(parent::filters(),array(
+		  'IPBlock',
 			'accessControl', // perform access control for CRUD operations
 		));
 	}

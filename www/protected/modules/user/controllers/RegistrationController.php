@@ -4,7 +4,11 @@ class RegistrationController extends Controller
 {
 	public $defaultAction = 'registration';
 	
-
+  public function filters() {
+    return array( // add blocked IP filter here
+        'IPBlock',
+    );
+  }
 
 	/**
 	 * Declares class-based actions.

@@ -4,8 +4,9 @@ class DefaultController extends Controller
 {
 	public function filters() {
     return array(
-        'accessControl', 
-        );
+      'IPBlock',
+      'accessControl', 
+      );
   }
   
   public function accessRules() {

@@ -5,8 +5,9 @@ class ZenPondController extends GxController
   
 	public function filters() {
     return array(
-        'accessControl', 
-        );
+      'IPBlock',
+      'accessControl - index', 
+      );
   }
   
   public function accessRules() {

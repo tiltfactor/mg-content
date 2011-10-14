@@ -12,9 +12,11 @@ class SettingsController extends GxController
 	public function filters()
 	{
 		return CMap::mergeArray(parent::filters(),array(
+		  'IPBlock',
 			'accessControl', // perform access control for CRUD operations
 		));
 	}
+  
 	/**
 	 * Specifies the access control rules.
 	 * This method is used by the 'accessControl' filter.

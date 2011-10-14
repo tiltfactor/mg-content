@@ -133,7 +133,7 @@ class MGHelper {
     if (!isset(Yii::app()->session[$api_id .'_SESSION_ID']) || $refresh) {
       $session = new Session;
       $session->username = $user_name;
-      $session->ip_address = ip2long(Yii::app()->request->userHostAddress);
+      $session->ip_address = ip2long(self::getUserHostAddress());
       
       // Some local dev machines aren't returning a proper IP address
       // here (e.g. Sukie running mg under MAMP), so as a quick
@@ -141,6 +141,7 @@ class MGHelper {
       // development.
       //
       // TODO: Determine if there is a better fix.
+      // TODO: Check if the new function self::getUserHostAddress() provides enough information and remove the next lines
       if(empty($session->ip_address)) {
         // The code expects the IP address to be stored as a 'long'
         // (not a set of dotted octets) in the session array (see
@@ -188,5 +189,30 @@ class MGHelper {
     $command->bindValue(':created', date('Y-m-d H:i:s'));
     $command->bindValue(':userID', $user_id);
     $command->execute();
+  }
+  
+  /**
+   * Get the users IP address.
+   * 
+   * Thanks: Gustavo @ http://www.yiiframework.com/forum/index.php?/topic/13331-improved-request-getuserhost-getuserhostaddress/
+   * 
+   * @return string the IP addess of the user
+   */
+  public static function getUserHostAddress() {
+    switch(true){
+      case isset($_SERVER["HTTP_X_FORWARDED_FOR"]):
+        $ip=$_SERVER["HTTP_X_FORWARDED_FOR"];
+        break;
+      case isset($_SERVER["HTTP_CLIENT_IP"]):
+        $ip=$_SERVER["HTTP_CLIENT_IP"];
+        break;
+      default:
+        $ip=$_SERVER["REMOTE_ADDR"]?$_SERVER["REMOTE_ADDR"]:'127.0.0.1'; 
+    }
+    if (strpos($ip, ', ')>0) {
+      $ips = explode(', ', $ip);
+      $ip = $ips[0];
+    }
+    return $ip;
   }
 }

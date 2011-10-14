@@ -3,9 +3,10 @@
 class ImageController extends GxController {
 
   public function filters() {
-  	return array(
-  			'accessControl', 
-  			);
+    return array(
+  	  'IPBlock',
+			'accessControl', 
+			);
   }
   
   public function accessRules() {

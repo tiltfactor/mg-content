@@ -4,6 +4,12 @@ class LogoutController extends Controller
 {
 	public $defaultAction = 'logout';
 	
+  public function filters() {
+    return array( // add blocked IP filter here
+        'IPBlock',
+    );
+  }
+  
 	/**
 	 * Logout the current user and redirect to returnLogoutUrl.
 	 */

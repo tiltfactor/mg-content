@@ -6,8 +6,9 @@ class WordsToAvoidController extends GxController
     
 	public function filters() {
     return array(
-        'accessControl', 
-        );
+      'IPBlock',
+      'accessControl', 
+     );
   }
   
   public function accessRules() {

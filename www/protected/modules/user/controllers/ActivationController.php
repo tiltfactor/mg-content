@@ -3,8 +3,13 @@
 class ActivationController extends Controller
 {
 	public $defaultAction = 'activation';
-
-	
+  
+	public function filters() {
+    return array( // add blocked IP filter here
+        'IPBlock',
+    );
+  }
+  
 	/**
 	 * Activation user account
 	 */
