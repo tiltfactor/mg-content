@@ -1,7 +1,6 @@
 MG_GAME_GUESSWHAT = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
-    submitButton : null,
     doQueryMessages : false,
     
     init : function (options) {
@@ -40,9 +39,32 @@ MG_GAME_GUESSWHAT = function ($) {
       
       MG_GAME_API.game_init(settings);
       
-      /*
-      MG_GAME_API.registerSoundEffect("fail", { m4a: "/audio/fail.oga", mp3: "/audio/fail.mp3", wav: "/audio/fail.wav"}, {supplied : 'oga, mp3, wav'})
-      */
+      log(MG_GAME_GUESSWHAT.settings.base_url, MG_GAME_GUESSWHAT.settings.asset_url);
+      
+      MG_AUDIO.init({
+        swfPath: MG_GAME_GUESSWHAT.settings.base_url + "/js/jQuery.jPlayer"
+      });
+      
+      MG_AUDIO.add("fail", { 
+          m4a: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/fail.oga", 
+          mp3: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/fail.mp3", 
+          wav: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/fail.wav"}, 
+          {supplied : 'oga, mp3, wav'});
+      MG_AUDIO.add("success", { 
+          m4a: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/success.oga", 
+          mp3: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/success.mp3", 
+          wav: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/success.wav"}, 
+          {supplied : 'oga, mp3, wav'});
+      MG_AUDIO.add("select", { 
+          m4a: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/select.oga", 
+          mp3: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/select.mp3", 
+          wav: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/select.wav"}, 
+          {supplied : 'oga, mp3, wav'});
+      MG_AUDIO.add("hint", { 
+          m4a: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/hint.oga", 
+          mp3: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/hint.mp3", 
+          wav: MG_GAME_GUESSWHAT.settings.asset_url + "/audio/hint.wav"}, 
+          {supplied : 'oga, mp3, wav'});
     },
     
     queryMessages : function () {
@@ -109,11 +131,11 @@ MG_GAME_GUESSWHAT = function ($) {
                     case "guess":
                       $("#info-modal:visible").fadeOut(500);
                       MG_GAME_GUESSWHAT.busy = false;
+                      MG_AUDIO.play("select");
                       MG_GAME_GUESSWHAT.evaluateGuess(message.guessedImageId); 
                       break;
                     
                     case "hint":
-                      // play sound hint
                       MG_GAME_GUESSWHAT.processHint(message.hint);
                       break;
                   }
@@ -124,24 +146,6 @@ MG_GAME_GUESSWHAT = function ($) {
         }, {}, true);
         setTimeout(MG_GAME_GUESSWHAT.queryMessages, MG_GAME_API.settings.message_queue_interval);  
       }
-    },
-    
-    processHint : function (hint) {
-      $("#info-modal:visible").fadeOut(500);
-      MG_GAME_API.curtain.hide();
-      MG_GAME_GUESSWHAT.busy = false;
-      $('<span>').text(hint).appendTo($("#game .guess .hints"));
-      MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.push(hint);
-      $("#game .guess .hints:hidden").toggle();
-    },
-    
-    submit : function () {
-      MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
-        if (MG_API.checkResponse(response)) { // we have to check whether the API returned a HTTP Status 200 but still json.status == "error" response
-          MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
-          MG_GAME_API.settings.ongameinit(response);
-        }
-      });
     },
     
     renderGuessTurn : function (response, score_info, turn_info, licence_info, more_info) {
@@ -499,6 +503,8 @@ MG_GAME_GUESSWHAT = function ($) {
                 }
                 
                 if (hint_ok) {
+                  MG_AUDIO.play("hint");
+                  
                   $('<span>').text(response.response).appendTo($("#game .describe .hints"));
                   $("#game .describe .hints:hidden").toggle();
                   MG_GAME_API.postMessage( {code:'hint','hint': response.response});
@@ -526,6 +532,15 @@ MG_GAME_GUESSWHAT = function ($) {
         }
       }
       return false;
+    },
+    
+    processHint : function (hint) {
+      $("#info-modal:visible").fadeOut(500);
+      MG_GAME_API.curtain.hide();
+      MG_GAME_GUESSWHAT.busy = false;
+      $("#game .guess .hints").show();
+      $('<span>').text(hint).appendTo($("#game .guess .hints").fadeIn(2500, function () {MG_AUDIO.play("hint");}));
+      MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.push(hint);
     },
     
     onsubmitTurn : function () {
@@ -576,7 +591,7 @@ MG_GAME_GUESSWHAT = function ($) {
         if (!MG_GAME_GUESSWHAT.game.played_against_computer) {
           MG_GAME_API.postMessage( {code:'guess','guessedImageId': guessedImageId});
         }
-        // xxx play select
+        MG_AUDIO.play("select");
         MG_GAME_API.curtain.show();
         $("#partner-waiting").hide();
         setTimeout(function () {
@@ -617,11 +632,11 @@ MG_GAME_GUESSWHAT = function ($) {
       MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.image_id
       if (current_turn.guesses.length >= MG_GAME_GUESSWHAT.game.number_guesses) {
         if (secret_image.image_id == guessedImageID) { // correct guess at last guess
-          // play sound xxx success
+          MG_AUDIO.play("success");
           MG_GAME_GUESSWHAT.onsubmitTurn();
           
         } else { // failed to guess within the allowed number of guesses show correct solution in popup 
-          // play sound xxx fail
+          MG_AUDIO.play("fail");
           if (current_turn.mode == "describe") {
             licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, secret_image);
             var image_info = {
@@ -677,11 +692,11 @@ MG_GAME_GUESSWHAT = function ($) {
         
         if (current_turn.mode == "describe") {
           if (secret_image.image_id == guessedImageID) { // the partner has found the right image
-            // play sound xxx success
+            MG_AUDIO.play("success");
             MG_GAME_GUESSWHAT.onsubmitTurn();
              
           } else {
-             // play sound xxx fail
+            MG_AUDIO.play("fail");
             if (current_turn.images && current_turn.images['guess'] && current_turn.images['guess'].length) {
               for (i_image in current_turn.images['guess']) {
                 var image = current_turn.images['guess'][i_image];
@@ -707,10 +722,10 @@ MG_GAME_GUESSWHAT = function ($) {
           $("#partner-waiting").fadeIn(500);
         } else {
           if (secret_image.image_id == guessedImageID) { // the player has found the right image
-            // play sound xxx success
+            MG_AUDIO.play("success");
             MG_GAME_GUESSWHAT.onsubmitTurn();
           } else { // the player has clicked the wrong image
-            // play sound fail xxx
+            MG_AUDIO.play("fail");
             $('#guess-me-' + guessedImageID).unbind('click').click(function () {return false;}).parent().addClass("wrong");
             
             if (MG_GAME_GUESSWHAT.game.played_against_computer) {

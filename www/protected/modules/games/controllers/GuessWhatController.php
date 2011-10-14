@@ -30,6 +30,8 @@ class GuessWhatController extends GxController
     
     $game = GamesModule::loadGame("GuessWhat");
     if ($game) {
+      $asset_url = GamesModule::getAssetsUrl() . '/guesswhat';
+      
       $cs = Yii::app()->clientScript;
       $cs->registerCoreScript('jquery');
       $cs->registerCssFile(Yii::app()->baseUrl . '/css/jquery.fancybox-1.3.4.css');
@@ -39,18 +41,19 @@ class GuessWhatController extends GxController
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jQuery.jPlayer/jquery.jplayer.min.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);
-      $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/guesswhat/js/mg.game.guesswhat.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.audio.js', CClientScript::POS_END);
+      $cs->registerScriptFile($asset_url . '/js/mg.game.guesswhat.js', CClientScript::POS_END);
       
       $throttleInterval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500); 
       $message_queue_interval = (int)Yii::app()->fbvStorage->get("settings.message_queue_interval", 500); 
-      $asset_url = Yii::app()->baseUrl;
+      
       $base_url = Yii::app()->getRequest()->getHostInfo();
       
       $js = <<<EOD
     MG_GAME_GUESSWHAT.init({
         gid : 'GuessWhat',
         app_id : 'MG_API',
-        asset_url : '$asset_url',
+        asset_url : '$base_url$asset_url',
         base_url : '$base_url',
         game_base_url : '{$game->game_base_url}',
         api_url : '{$game->api_base_url}',
