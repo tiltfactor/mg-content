@@ -2,3 +2,4 @@ www/TODO.txt
 www/protected/controllers/VVUTestController.php
 documentation/*.bak
 *~
+.DS_Store
