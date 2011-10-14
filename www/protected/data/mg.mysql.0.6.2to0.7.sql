@@ -22,16 +22,16 @@ ALTER TABLE `message`
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
     
-ALTER TABLE `mg`.`message` DROP FOREIGN KEY `fk_message_played_game1` ;
-ALTER TABLE `mg`.`message` CHANGE COLUMN `played_game_id` `played_game_id` INT(11) NOT NULL  , 
+ALTER TABLE `message` DROP FOREIGN KEY `fk_message_played_game1` ;
+ALTER TABLE `message` CHANGE COLUMN `played_game_id` `played_game_id` INT(11) NOT NULL  , 
   ADD CONSTRAINT `fk_message_played_game1`
   FOREIGN KEY (`played_game_id` )
-  REFERENCES `mg`.`played_game` (`id` )
+  REFERENCES `played_game` (`id` )
   ON DELETE NO ACTION
   ON UPDATE NO ACTION
 , DROP PRIMARY KEY ;
 
-ALTER TABLE `mg`.`game_submission` ADD COLUMN `turn` INT(11) NOT NULL DEFAULT 1  AFTER `submission`;
+ALTER TABLE `game_submission` ADD COLUMN `turn` INT(11) NOT NULL DEFAULT 1  AFTER `submission`;
 
 CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
   `game_id` INT(11) NOT NULL ,
@@ -41,12 +41,12 @@ CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
   INDEX `fk_game_to_plugin_game1` (`game_id` ASC) ,
   CONSTRAINT `fk_game_to_plugin_game1`
     FOREIGN KEY (`game_id` )
-    REFERENCES `mg`.`game` (`id` )
+    REFERENCES `game` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_game_to_plugin_plugin1`
     FOREIGN KEY (`plugin_id` )
-    REFERENCES `mg`.`plugin` (`id` )
+    REFERENCES `plugin` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -60,12 +60,12 @@ CREATE  TABLE IF NOT EXISTS `played_game_turn_info` (
   INDEX `fk_played_game_turn_info_session1` (`created_by_session_id` ASC) ,
   CONSTRAINT `fk_table1_played_game1`
     FOREIGN KEY (`played_game_id` )
-    REFERENCES `mg`.`played_game` (`id` )
+    REFERENCES `played_game` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_played_game_turn_info_session1`
     FOREIGN KEY (`created_by_session_id` )
-    REFERENCES `mg`.`session` (`id` )
+    REFERENCES `session` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

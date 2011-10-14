@@ -134,6 +134,20 @@ class MGHelper {
       $session = new Session;
       $session->username = $user_name;
       $session->ip_address = ip2long(Yii::app()->request->userHostAddress);
+      
+      // Some local dev machines aren't returning a proper IP address
+      // here (e.g. Sukie running mg under MAMP), so as a quick
+      // workaround we'll just provide a placeholder to allow
+      // development.
+      //
+      // TODO: Determine if there is a better fix.
+      if(empty($session->ip_address)) {
+        // The code expects the IP address to be stored as a 'long'
+        // (not a set of dotted octets) in the session array (see
+        // above).
+        $session->ip_address = "123123123123";
+      }
+      
       $session->php_sid = Yii::app()->session->sessionID;
       $session->shared_secret = Yii::app()->session[$api_id .'_SHARED_SECRET'];
       if ($user_id) {
