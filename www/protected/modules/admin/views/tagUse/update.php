@@ -2,6 +2,7 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
+  Yii::t('app', 'Tags')=>array('/admin/tag'),
 	$model->label(2) => array('admin'),
 	GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
 	Yii::t('app', 'Update'),
@@ -10,11 +11,6 @@ $this->breadcrumbs = array(
 $this->menu = array(
 	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
 	array('label' => Yii::t('app', 'View') . ' ' . $model->label(), 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
-	array('label'=>Yii::t('app', 'View Tag Uses for ') . ' "' . $model->name. '"', 'url'=>array('/admin/tagUse', 'TagUse[image_id]' => $model->id)),
-  /*
-	array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 
-	'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?'),
-  'visible' => !($model->hasAttribute("locked") && $model->locked)), */
 );
 ?>
 

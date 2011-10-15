@@ -312,13 +312,15 @@ ul#arcade-games a.image {
   line-height: 16px;
 }
 
-.grid-view td.tags a {
+.grid-view td.tags a,
+.grid-view td.top-users a {
   font-size:10px;
   color:#000000;
   text-decoration: none;
 }
 
-.grid-view td.tags a:hover {
+.grid-view td.tags a:hover,
+.grid-view td.top-users a:hover {
   color:#666;
 }
 
@@ -436,3 +438,24 @@ a.listview-tag span {} /* here you could style the counter */
 .list-view .pager {
   clear: both;
 }
+
+/* tags tool */
+td.top-images a {
+  line-height: 30px;
+  float: left;
+  text-decoration: none;
+  vertical-align: top;
+}
+td.top-images span {
+  display: inline-block;
+  line-height: 30px;
+  margin:0 5px 0 2px;
+}
+td.top-images img {
+  float: left;
+  max-width: 43px;
+  max-height: 30px;
+}
+td.tag-info {color: #555;}
+td.tag-info h5 {color: #555;margin-bottom: 2px;}
+td.tag-info b {color: #000;font-size:14px;}

@@ -11,6 +11,7 @@
  *
  * @property integer $id
  * @property string $word
+ * @property string $source
  * @property string $created
  * @property string $modified
  *
@@ -26,7 +27,7 @@ abstract class BaseStopWord extends GxActiveRecord {
 	}
 
 	public static function label($n = 1) {
-		return Yii::t('app', 'StopWord|StopWords', $n);
+		return Yii::t('app', 'Stop Word|Stop Words', $n);
 	}
 
 	public static function representingColumn() {
@@ -35,12 +36,10 @@ abstract class BaseStopWord extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('word, created, modified', 'required'),
-			array('active', 'numerical', 'integerOnly'=>true),
+			array('word, source, created, modified', 'required'),
 			array('word', 'length', 'max'=>64),
-			array('counter', 'length', 'max'=>10),
-			array('counter, active', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, word, counter, active, created, modified', 'safe', 'on'=>'search'),
+			array('source', 'length', 'max'=>12),
+			array('id, word, source, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +57,7 @@ abstract class BaseStopWord extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'word' => Yii::t('app', 'Word'),
-			'counter' => Yii::t('app', 'Counter'),
-			'active' => Yii::t('app', 'Active'),
+			'source' => Yii::t('app', 'Source'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
 		);
@@ -70,8 +68,7 @@ abstract class BaseStopWord extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('word', $this->word, true);
-		$criteria->compare('counter', $this->counter, true);
-		$criteria->compare('active', $this->active);
+		$criteria->compare('source', $this->source, true);
 		$criteria->compare('created', $this->created, true);
 		$criteria->compare('modified', $this->modified, true);
 

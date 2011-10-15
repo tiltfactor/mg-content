@@ -20,6 +20,10 @@
     <?php echo $form->error($model,'word'); ?>
     </div><!-- row -->
     <div class="row">
+    <?php echo $form->labelEx($model,'source'); ?>
+    <?php echo$model->source; ?>
+    </div><!-- row -->
+    <div class="row">
     <?php if($model->created != 0) : ?>
     <?php echo $form->labelEx($model,'created'); ?>
     <?php echo $model->created; ?>

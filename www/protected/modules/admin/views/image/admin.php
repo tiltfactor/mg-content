@@ -5,10 +5,6 @@ $this->breadcrumbs = array(
 	$model->label(2),
 );
 
-$this->menu = array(
-		array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-	);
-
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();

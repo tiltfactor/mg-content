@@ -208,3 +208,8 @@ div.wide.form div.inline-radio label {
   display: inline;
   width: auto;
 }
+
+div.row .description {
+  margin: 0px 10px 10px 110px;
+  font-size: 11px;
+}

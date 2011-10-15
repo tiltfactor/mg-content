@@ -81,6 +81,7 @@ $this->menu=array(
 
 <div class="span-7 clearfix">
   <h2><?php echo Yii::t('app', 'Used Tags'); ?></h2>  
+  <p><b><?php echo Yii::t('app', 'TAG (COUNTED/AVG WEIGHT)'); ?></b></p>
 
 <?php 
 $this->widget('zii.widgets.CListView', array(
@@ -90,14 +91,15 @@ $this->widget('zii.widgets.CListView', array(
     'itemView'=>'_viewTagListItem',
     'sortableAttributes'=>array(
         'tag' => Yii::t('app', 'Tag name'),
-        'counted' => Yii::t('app', 'Counted'),
+        'counted' => Yii::t('app', 'Use Count'),
     ),
 ));  ?>
 
 </div>
 
 <div class="span-16 last clearfix">
-  <h2><?php echo Yii::t('app', 'Tagged Images'); ?></h2>  
+  <h2><?php echo Yii::t('app', 'Tagged Images'); ?></h2>
+  <p><b><?php echo Yii::t('app', 'IMAGE NAME (TIMES TAGGED BY USER/WITH NUMBER OF DIFFERENT TAGS)'); ?></b></p>  
 <?php 
 $this->widget('zii.widgets.CListView', array(
     'id' => 'user-images-listview',
@@ -106,6 +108,7 @@ $this->widget('zii.widgets.CListView', array(
     'itemView'=>'_viewImageListItem',
     'sortableAttributes'=>array(
         'name' => Yii::t('app', 'Image name'),
+        'counted' => Yii::t('app', 'Tagged Count'),
     ),
 ));  ?>
 </div>

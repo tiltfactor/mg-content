@@ -26,6 +26,7 @@ $this->menu=array(
   'attributes' => array(
     'id',
     'word',
+    'source',
     'created',
     'modified',
    ),

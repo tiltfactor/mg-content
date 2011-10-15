@@ -5,10 +5,6 @@ $this->breadcrumbs = array(
 	$model->label(2),
 );
 
-$this->menu = array(
-		array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-	);
-
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -51,14 +47,37 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'id'=>'tag-ids',
     ),
 		'tag',
-		'created',
-		'modified',
+    array(
+      'cssClassExpression' => "'tag-info'",
+      'header' => Yii::t('app', 'Tag Info'),
+      'type' => 'html',
+      'value'=>'$data->getTagUseInfo()',
+    ),
+		array(
+      'cssClassExpression' => "'top-images'",
+      'header' => Yii::t('app', 'Top Images'),
+      'type' => 'html',
+      'value'=>'$data->getTopImages(5)',
+    ),
+    array(
+      'cssClassExpression' => "'top-users'",
+      'header' => Yii::t('app', 'Top Users'),
+      'type' => 'html',
+      'value'=>'$data->getTopUsers(10)',
+    ),
+    'created',
+    'modified',
     array (
-  'class' => 'CButtonColumn',
-  'buttons' => 
-  array (
-  ),
-)  ),
+      'class' => 'CButtonColumn',
+      'buttons' => 
+      array (
+        'delete' => 
+        array (
+          'visible' => 'false',
+        ),
+      ),
+    )  
+ ),
 )); 
 echo CHtml::endForm();
 
@@ -67,7 +86,6 @@ $this->widget('ext.gridbatchaction.GridBatchAction', array(
       'checkBoxId'=>'tag-ids',
       'ajaxGridId'=>'tag-grid', 
       'items'=>array(
-          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
       ),
       'htmlOptions'=>array('class'=>'batchActions'),
   ));

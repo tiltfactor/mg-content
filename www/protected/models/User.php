@@ -64,7 +64,7 @@ class User extends BaseUser
                   ->join('{{tag}} t', 'tu.tag_id = t.id')
                   ->leftJoin('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
                   ->leftJoin('{{session}} s', 's.id=gs.session_id')
-                  ->where(array('and', 'tu.weight >= 1', 's.user_id IS NOT NULL', array('in', 't.tag', array_values($parsed_tags))))
+                  ->where(array('and', 'tu.weight > 0', 's.user_id IS NOT NULL', array('in', 't.tag', array_values($parsed_tags))))
                   ->queryAll();
         } else {
           $tags = $cmd->select('s.user_id, COUNT(DISTINCT tu.tag_id) as counted')
@@ -72,7 +72,7 @@ class User extends BaseUser
                   ->join('{{tag}} t', 'tu.tag_id = t.id')
                   ->join('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
                   ->join('{{session}} s', 's.id=gs.session_id')
-                  ->where(array('and', 'tu.weight >= 1', 's.user_id IS NOT NULL', array('in', 't.tag', array_values($parsed_tags))))
+                  ->where(array('and', 'tu.weight > 0', 's.user_id IS NOT NULL', array('in', 't.tag', array_values($parsed_tags))))
                   ->group('s.user_id')
                   ->having('counted = :counted', array(':counted' => count($parsed_tags)))
                   ->queryAll();
@@ -175,7 +175,7 @@ class User extends BaseUser
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')
                   ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
                   ->join('{{tag}} t', 'tu.tag_id = t.id')
-                  ->where(array('and', 'tu.weight >= 1', 's.user_id=:userID'), array(":userID" => $this->id))
+                  ->where(array('and', 'tu.weight > 0', 's.user_id=:userID'), array(":userID" => $this->id))
                   ->group('t.id, t.tag')
                   ->order('counted DESC')
                   ->limit($num_tags)
@@ -250,12 +250,13 @@ class User extends BaseUser
   
   public function searchImageUsers($image_id) {
     $command = Yii::app()->db->createCommand()
-                  ->select('u.id, u.username')
+                  ->select('count(u.id) as counted, count(DISTINCT tu.tag_id) as tag_counted, u.id, u.username')
                   ->from('{{user}} u')
                   ->join('{{session}} s', 's.user_id=u.id')
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')
                   ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
-                  ->where(array('and', 'tu.weight >= 1', 'tu.image_id=:imageID'), array(":imageID" => $image_id))
+                  ->where(array('and', 'tu.weight > 0', 'tu.image_id=:imageID'), array(":imageID" => $image_id))
+                  ->group('u.id, u.username')
                   ->order('gs.created DESC');
     $command->distinct = true;          
     $tags = $command->queryAll();
@@ -263,7 +264,32 @@ class User extends BaseUser
       'id'=>'id',
       'sort'=>array(
           'attributes'=>array(
-               'id', 'username',
+               'id', 'username', 'counted'
+          ),
+      ),
+      'pagination'=>array(
+          'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size")
+      ),
+    ));
+  }
+
+  public function searchTagUsers($tag_id) {
+    $command = Yii::app()->db->createCommand()
+                  ->select('count(u.id) as counted, count(DISTINCT tu.image_id) as image_counted, u.id, u.username')
+                  ->from('{{user}} u')
+                  ->join('{{session}} s', 's.user_id=u.id')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  ->where(array('and', 'tu.weight > 0', 'tu.tag_id=:tagID'), array(":tagID" => $tag_id))
+                  ->group('u.id, u.username')
+                  ->order('gs.created DESC');
+    $command->distinct = true;          
+    $tags = $command->queryAll();
+    return  new CArrayDataProvider($tags, array(
+      'id'=>'id',
+      'sort'=>array(
+          'attributes'=>array(
+               'id', 'username', 'counted'
           ),
       ),
       'pagination'=>array(

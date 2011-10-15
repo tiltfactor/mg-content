@@ -14,7 +14,8 @@
     <?php echo CHtml::radioButtonList("Custom[tags_search_option]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags_search_option"]))? $_GET["Custom"]["tags_search_option"] : 'OR'), array("OR"=>"OR", "AND" => "AND"), array(
         'template' => '<div class="inline-radio">{input} {label}</div>',
         'separator' => '',
-        )) ?><?php echo Yii::t('app', "(show images that have at least one (OR) or all (AND) of the given tags)"); ?>
+        )) ?>
+    <?php echo Yii::t('app', "(show images that have at least one (OR) or all (AND) of the given tags)"); ?>
   </div><!-- row -->
   
   <div class="row">
@@ -37,7 +38,8 @@
                 'showAnim'=>'fold',
         ),
     ));
-    ?><?php echo Yii::t('app', "(you can enter a full user name or parts of it 'a' will find all users whom's names contain 'a')"); ?>
+    ?>
+    <div class="description"><?php echo Yii::t('app', "(you can enter a full user name or parts of it 'a' will find all users whom's names contain 'a')"); ?></div>
   </div>
   
 	<div class="row">

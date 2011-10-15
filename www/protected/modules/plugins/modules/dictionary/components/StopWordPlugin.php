@@ -91,8 +91,7 @@ class StopWordPlugin extends MGDictionaryPlugin  {
       $model = new StopWord;
       $model->created = date('Y-m-d H:i:s');
       $model->modified = date('Y-m-d H:i:s');
-      $model->active = 1;
-      $model->counter = 0;
+      $model->source = 'import';
       $model->word = $stopword;
       $model->save();
     }

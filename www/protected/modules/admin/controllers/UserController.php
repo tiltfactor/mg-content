@@ -39,6 +39,8 @@ class UserController extends Controller
 	 */
 	public function actionAdmin()
 	{
+		$this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Players');
+        
 		$model = new User('search');
     $model->unsetAttributes();
 
@@ -55,6 +57,7 @@ class UserController extends Controller
 	 */
 	public function actionView()
 	{
+		$this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', ' View Player');
 		$model = $this->loadModel();
 		$this->render('view',array(
 			'model'=>$model,
@@ -67,6 +70,8 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', ' Create Player');
+    
 		$model=new User;
 		$profile=new Profile;
     
@@ -117,6 +122,8 @@ class UserController extends Controller
 	 */
 	public function actionUpdate()
 	{
+		$this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', ' Update Player');
+    
 		$model=$this->loadModel();
 		$profile=$model->profile;
 		if(isset($_POST['User']))

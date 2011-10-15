@@ -14,9 +14,9 @@
  * @property integer $tag_id
  * @property integer $weight
  * @property string $type
- * @property string $game_submission_id
  * @property string $created
- * 
+ * @property string $game_submission_id
+ *
  * @property TagOriginalVersion[] $tagOriginalVersions
  * @property GameSubmission $gameSubmission
  * @property Image $image
@@ -44,10 +44,10 @@ abstract class BaseTagUse extends GxActiveRecord {
 		return array(
 			array('image_id, tag_id, created, game_submission_id', 'required'),
 			array('image_id, tag_id, weight', 'numerical', 'integerOnly'=>true),
+			array('type', 'length', 'max'=>64),
 			array('game_submission_id', 'length', 'max'=>10),
-			array('type', 'length', 'max'=>45),
 			array('weight, type', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, image_id, tag_id, weight, created, game_submission_id, type', 'safe', 'on'=>'search'),
+			array('id, image_id, tag_id, weight, type, created, game_submission_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,9 +71,9 @@ abstract class BaseTagUse extends GxActiveRecord {
 			'image_id' => null,
 			'tag_id' => null,
 			'weight' => Yii::t('app', 'Weight'),
+			'type' => Yii::t('app', 'Type'),
 			'created' => Yii::t('app', 'Created'),
 			'game_submission_id' => null,
-			'type' => Yii::t('app', 'Type'),
 			'tagOriginalVersions' => null,
 			'gameSubmission' => null,
 			'image' => null,
@@ -88,9 +88,9 @@ abstract class BaseTagUse extends GxActiveRecord {
 		$criteria->compare('image_id', $this->image_id);
 		$criteria->compare('tag_id', $this->tag_id);
 		$criteria->compare('weight', $this->weight);
+		$criteria->compare('type', $this->type, true);
 		$criteria->compare('created', $this->created, true);
 		$criteria->compare('game_submission_id', $this->game_submission_id);
-		$criteria->compare('type', $this->type, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

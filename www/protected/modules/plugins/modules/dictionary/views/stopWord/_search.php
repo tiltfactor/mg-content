@@ -11,14 +11,10 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'counter'); ?>
-		<?php echo $form->textField($model, 'counter', array('maxlength' => 10)); ?>
+		<?php echo $form->label($model, 'source'); ?>
+		<?php echo $form->textField($model, 'source', array('maxlength' => 12)); ?>
 	</div>
 
-  <div class="row">
-    <?php echo $form->label($model, 'active'); ?>
-    <?php echo $form->dropDownList($model,'active', array_merge(array(''=>Yii::t('app','All')), MGHelper::itemAlias('active'))); ?>
-  </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>

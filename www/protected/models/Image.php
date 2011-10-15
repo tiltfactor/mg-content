@@ -37,13 +37,13 @@ class Image extends BaseImage
             $tags = $cmd->select('tu.image_id')
                     ->from('{{tag_use}} tu')
                     ->join('{{tag}} tag', 'tu.tag_id = tag.id')
-                    ->where(array('and', 'tu.weight >= 1',array('in', 'tag.tag', array_values($parsed_tags))))
+                    ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
                     ->queryAll();
           } else {
             $tags = $cmd->select('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
                     ->from('{{tag_use}} tu')
                     ->join('{{tag}} tag', 'tu.tag_id = tag.id')
-                    ->where(array('and', 'tu.weight >= 1',array('in', 'tag.tag', array_values($parsed_tags))))
+                    ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
                     ->group('tu.image_id')
                     ->having('counted = :counted', array(':counted' => count($parsed_tags)))
                     ->queryAll();
@@ -142,12 +142,13 @@ class Image extends BaseImage
   
   public function searchUserImages($user_id) {
     $command = Yii::app()->db->createCommand()
-                  ->select('i.id, i.name')
+                  ->select('COUNT(i.id) as counted, COUNT(DISTINCT tu.tag_id) as tag_counted, i.id, i.name')
                   ->from('{{session}} s')
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')
                   ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
                   ->join('{{image}} i', 'i.id = tu.image_id')
-                  ->where(array('and', 'tu.weight >= 1', 's.user_id=:userID'), array(":userID" => $user_id))
+                  ->where(array('and', 'tu.weight > 0', 's.user_id=:userID'), array(":userID" => $user_id))
+                  ->group('i.id, i.name')
                   ->order('gs.created DESC');
     $command->distinct = true;          
     $tags = $command->queryAll();
@@ -155,7 +156,32 @@ class Image extends BaseImage
       'id'=>'id',
       'sort'=>array(
           'attributes'=>array(
-               'id', 'name',
+               'id', 'name', 'counted'
+          ),
+      ),
+      'pagination'=>array(
+          'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size")
+      ),
+    ));
+  }
+  
+  public function searchTagImages($tag_id) {
+    $command = Yii::app()->db->createCommand()
+                  ->select('COUNT(i.id) as counted, COUNT(DISTINCT s.user_id) as user_counted, i.id, i.name')
+                  ->from('{{session}} s')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  ->join('{{image}} i', 'i.id = tu.image_id')
+                  ->where(array('and', 'tu.weight > 0', 'tu.tag_id=:tagID'), array(":tagID" => $tag_id))
+                  ->group('i.id, i.name')
+                  ->order('gs.created DESC');
+    $command->distinct = true;          
+    $tags = $command->queryAll();
+    return  new CArrayDataProvider($tags, array(
+      'id'=>'id',
+      'sort'=>array(
+          'attributes'=>array(
+               'id', 'name', 'counted'
           ),
       ),
       'pagination'=>array(
@@ -169,7 +195,7 @@ class Image extends BaseImage
                   ->select('count(t.id) as counted, t.id, t.tag')
                   ->from('{{tag_use}} tu')
                   ->join('{{tag}} t', 'tu.tag_id = t.id')
-                  ->where(array('and', 'tu.weight >= 1', 'tu.image_id=:imageID'), array(":imageID" => $this->id))
+                  ->where(array('and', 'tu.weight > 0', 'tu.image_id=:imageID'), array(":imageID" => $this->id))
                   ->group('t.id, t.tag')
                   ->order('counted DESC')
                   ->limit($num_tags)

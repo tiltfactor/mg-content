@@ -1,7 +1,8 @@
 <?php
 
 class ImageController extends GxController {
-
+  public $defaultAction = 'admin';
+  
   public function filters() {
     return array(
   	  'IPBlock',
@@ -16,7 +17,7 @@ class ImageController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete', 'searchUser'),
+  				'actions'=>array('view', 'batch', 'create','update', 'admin', 'delete', 'searchUser'),
   				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
@@ -98,19 +99,9 @@ class ImageController extends GxController {
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}
 
-	public function actionIndex() {
-		$model = new Image('search');
-    $model->unsetAttributes();
-
-    if (isset($_GET['Image']))
-      $model->setAttributes($_GET['Image']);
-
-    $this->render('admin', array(
-      'model' => $model,
-    ));
-	}
-
 	public function actionAdmin() {
+	  $this->layout = '//layouts/column1';
+    
 		$model = new Image('search');
 		$model->unsetAttributes();
 

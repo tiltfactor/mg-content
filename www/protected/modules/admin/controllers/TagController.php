@@ -1,7 +1,8 @@
 <?php
 
 class TagController extends GxController {
-
+  public $defaultAction = 'admin';
+  
   public function filters() {
   	return array(
       'IPBlock',
@@ -16,7 +17,7 @@ class TagController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'actions'=>array('view', 'batch', 'admin', 'update', 'delete'),
   				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
@@ -29,29 +30,6 @@ class TagController extends GxController {
 		$this->render('view', array(
 			'model' => $this->loadModel($id, 'Tag'),
 		));
-	}
-
-	public function actionCreate() {
-		$model = new Tag;
-		$model->created = date('Y-m-d H:i:s'); 
-    $model->modified = date('Y-m-d H:i:s'); 
-    
-		$this->performAjaxValidation($model, 'tag-form');
-
-		if (isset($_POST['Tag'])) {
-			$model->setAttributes($_POST['Tag']);
-
-			if ($model->save()) {
-        MGHelper::log('create', 'Created Tag with ID(' . $model->id . ')');
-				Flash::add('success', Yii::t('app', "Tag created"));
-        if (Yii::app()->getRequest()->getIsAjaxRequest())
-					Yii::app()->end();
-				else 
-				  $this->redirect(array('view', 'id' => $model->id));
-			}
-		}
-
-		$this->render('create', array( 'model' => $model));
 	}
 
 	public function actionUpdate($id) {
@@ -92,19 +70,9 @@ class TagController extends GxController {
 			throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 	}
 
-	public function actionIndex() {
-		$model = new Tag('search');
-    $model->unsetAttributes();
-
-    if (isset($_GET['Tag']))
-      $model->setAttributes($_GET['Tag']);
-
-    $this->render('admin', array(
-      'model' => $model,
-    ));
-	}
-
 	public function actionAdmin() {
+	  $this->layout = '//layouts/column1';
+     
 		$model = new Tag('search');
 		$model->unsetAttributes();
 

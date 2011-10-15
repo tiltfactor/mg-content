@@ -42,7 +42,7 @@ class MGTags {
                     ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
                     ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
                     ->leftJoin('{{session}} s', 's.id = gs.session_id')
-                    ->where(array('and', 's.user_id=:userID', 'tu.weight >= 1', array(  'in', 'tu.image_id', array_values($image_ids))), 
+                    ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array(  'in', 'tu.image_id', array_values($image_ids))), 
                                                                       array(':userID' => $user_id)) 
                     ->queryAll();
                     
@@ -52,7 +52,7 @@ class MGTags {
                     ->select('tu.image_id, t.id as tag_id, t.tag')
                     ->from('{{tag_use}} tu')
                     ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                    ->where(array('and', 'tu.weight >= 1', array('in', 'tu.image_id', array_values($image_ids)))) 
+                    ->where(array('and', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids)))) 
                     ->queryAll();
                     
     }
@@ -98,7 +98,7 @@ class MGTags {
    * SELECT tu.image_id, tu.tag_id, t.tag, SUM(tu.weight) as total
    * FROM tag_use tu
    * LEFT JOIN tag t ON t.id=tu.tag_id
-   * WHERE tu.weight >= 1 AND tu.image_id IN ($image_ids)
+   * WHERE tu.weight > 0 AND tu.image_id IN ($image_ids)
    * GROUP BY tu.image_id, tu.tag_id, t.tag
    * HAVING total >= $weight
    * ORDER BY tu.image_id, total
@@ -134,7 +134,7 @@ class MGTags {
                     ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
                     ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
                     ->leftJoin('{{session}} s', 's.id = gs.session_id')
-                    ->where(array('and', 's.user_id=:userID', 'tu.weight >= 1', array('in', 'tu.image_id', array_values($image_ids))),
+                    ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))),
                                                                                       array(':userID' => $user_id)) 
                     ->group('tu.image_id, tu.tag_id, t.tag')
                     ->having('total >= :weight', array(":weight" => $weight))
@@ -146,7 +146,7 @@ class MGTags {
                     ->select('tu.image_id, tu.tag_id, t.tag, SUM(tu.weight) as total')
                     ->from('{{tag_use}} tu')
                     ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                    ->where(array('and', 'tu.weight >= 1', array('in', 'tu.image_id', array_values($image_ids)))) 
+                    ->where(array('and', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids)))) 
                     ->group('tu.image_id, tu.tag_id, t.tag')
                     ->having('total >= :weight', array(":weight" => $weight))
                     ->order('tu.image_id, total DESC')
