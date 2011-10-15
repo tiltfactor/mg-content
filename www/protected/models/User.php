@@ -271,4 +271,22 @@ class User extends BaseUser
       ),
     ));
   }
+
+  public function canDelete() {
+    if ($this->id == Yii::app()->user->id) {
+      return false;
+    }
+    
+    $has_contributed_content = Yii::app()->db->createCommand()
+                  ->select('count(gs.id)')
+                  ->from('{{session}} s')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->where('s.user_id=:userID', array(':userID' => $this->id))
+                  ->queryScalar();
+    if ($has_contributed_content > 0) {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -8,6 +8,10 @@ class Log extends BaseLog
 		return parent::model($className);
 	}
   
+  public static function label($n = 1) {
+    return Yii::t('app', 'Log Entry|Logs', $n);
+  }
+  
   public function search() {
     $criteria = new CDbCriteria;
 
@@ -29,4 +33,8 @@ class Log extends BaseLog
       ),
     ));
   }
-}
+  
+  public function canDelete() {
+    return Yii::app()->user->checkAccess("admin");
+  }
+} 

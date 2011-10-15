@@ -10,6 +10,9 @@ $this->menu=array(
   array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profileField')),
   array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
   array('label'=>Yii::t('app', 'Update') . ' ' . $model->username, 'url'=>array('update', 'id' => $model->id)),
+  array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 
+    'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this player?'),
+    'visible' => $model->canDelete()),
   array('label'=>Yii::t('app', 'View Log for ') . ' ' . $model->username, 'url'=>array('/admin/log', 'Log[user_id]' => $model->id), 'visible' => ($model->role !== "player")),
 );
 ?>

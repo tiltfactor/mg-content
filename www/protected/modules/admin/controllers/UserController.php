@@ -173,20 +173,23 @@ class UserController extends Controller
 	 */
 	public function actionDelete()
 	{
-		throw new CHttpException(400,'Invalid request. Players cannot be deleted.');  
-      
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
 			$model = $this->loadModel();
-			$profile = Profile::model()->findByPk($model->id);
-			$profile->delete();
-			$model->delete();
-      MGHelper::log('delete', 'Deleted User with ID(' . $model->id . ')');
-      Flash::add('success', Yii::t('app', "User deleted"));
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_POST['ajax']))
-				$this->redirect(array('/admin/user'));
+
+      if ($model->canDelete()) { // a user can only be deleted if it is not the current session's user and if the user has not submitted any tags
+        $profile = Profile::model()->findByPk($model->id);
+        $profile->delete();
+        $model->delete();
+        MGHelper::log('delete', 'Deleted User with ID(' . $model->id . ')');
+        Flash::add('success', Yii::t('app', "User deleted"));
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if(!isset($_POST['ajax']))
+          $this->redirect(array('/admin/user'));  
+      } else {
+        throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+      }
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -235,6 +238,10 @@ class UserController extends Controller
         case "ban":
           $this->_batchBan();
           break;
+        
+        case "delete":
+          $this->_batchDelete();
+          break;
       }
       if (!Yii::app()->getRequest()->getIsAjaxRequest())
         $this->redirect(array('admin'));
@@ -259,6 +266,21 @@ class UserController extends Controller
           $user->save();
         }
       }
+    } 
+  }
+
+  private function _batchDelete() {
+    if (isset($_POST['users-ids'])) {
+      $users = User::model()->findAllByPk($_POST['users-ids']);
+      
+      if ($users) {  
+        foreach ($users as $user) {
+          if ($user->canDelete()) {
+            $user->delete();
+          }
+        }
+      }
+      MGHelper::log('batch-delete', 'Batch deleted Images with IDs(' . implode(',', $_POST['users-ids']) . ')');
     } 
   }
 

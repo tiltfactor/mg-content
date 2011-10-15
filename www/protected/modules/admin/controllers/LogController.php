@@ -16,7 +16,7 @@ class LogController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
+  				'actions'=>array('index','view', 'batch','update', 'admin', 'delete'),
   				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
@@ -29,29 +29,6 @@ class LogController extends GxController {
 		$this->render('view', array(
 			'model' => $this->loadModel($id, 'Log'),
 		));
-	}
-
-	public function actionCreate() {
-		$model = new Log;
-		$model->created = date('Y-m-d H:i:s'); 
-     
-    
-		$this->performAjaxValidation($model, 'log-form');
-
-		if (isset($_POST['Log'])) {
-			$model->setAttributes($_POST['Log']);
-
-			if ($model->save()) {
-        MGHelper::log('create', 'Created Log with ID(' . $model->id . ')');
-				Flash::add('success', Yii::t('app', "Log created"));
-        if (Yii::app()->getRequest()->getIsAjaxRequest())
-					Yii::app()->end();
-				else 
-				  $this->redirect(array('view', 'id' => $model->id));
-			}
-		}
-
-		$this->render('create', array( 'model' => $model));
 	}
 
 	public function actionUpdate($id) {
@@ -76,7 +53,7 @@ class LogController extends GxController {
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$model = $this->loadModel($id, 'Log');
-			if ($model->hasAttribute("locked") && $model->locked) {
+			if (!$model->canDelete()) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
 			  $model->delete();

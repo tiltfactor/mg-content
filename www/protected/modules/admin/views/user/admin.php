@@ -82,8 +82,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'type' => 'raw',
       'value' => "((\$data->lastvisit)?\$data->lastvisit:UserModule::t('Not visited'))" 
     ),
-    array(
+    array (
       'class' => 'CButtonColumn',
+      'buttons' => 
+      array (
+        'delete' => 
+        array (
+          'visible' => '$data->canDelete()',
+        ),
+      ),
     ),
   ),
 )); 
@@ -94,7 +101,8 @@ $this->widget('ext.gridbatchaction.GridBatchAction', array(
       'checkBoxId'=>'users-ids',
       'ajaxGridId'=>'users-grid', 
       'items'=>array(
-          array('label'=>Yii::t('ui','Ban selected players'),'url'=>array('batch', 'op' => 'ban'))
+          array('label'=>Yii::t('ui','Ban selected players'),'url'=>array('batch', 'op' => 'ban')),
+          array('label'=>Yii::t('ui','Delete selected players'),'url'=>array('batch', 'op' => 'delete'))
       ),
       'htmlOptions'=>array('class'=>'batchActions'),
   ));
