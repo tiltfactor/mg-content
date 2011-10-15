@@ -53,13 +53,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'id'=>'stop-word-ids',
     ),
 		'word',
-		'counter',
-		 array(
-        'name' => 'active',
-        'type' => 'raw',
-        'value' => 'MGHelper::itemAlias(\'active\',$data->active)',
-        'filter'=> MGHelper::itemAlias('active'),
-      ),
 		'created',
 		'modified',
     array (

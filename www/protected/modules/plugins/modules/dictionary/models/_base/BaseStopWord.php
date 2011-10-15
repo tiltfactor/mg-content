@@ -11,8 +11,6 @@
  *
  * @property integer $id
  * @property string $word
- * @property string $counter
- * @property integer $active
  * @property string $created
  * @property string $modified
  *

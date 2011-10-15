@@ -24,16 +24,10 @@ $this->menu=array(
 	'data' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
   'attributes' => array(
-'id',
-'word',
-'counter',
-		 array(
-          'name' => 'active',
-          'type' => 'raw',
-          'value' => MGHelper::itemAlias('active',$model->active),
-        ),
-'created',
-'modified',
-	),
+    'id',
+    'word',
+    'created',
+    'modified',
+   ),
 )); ?>
 

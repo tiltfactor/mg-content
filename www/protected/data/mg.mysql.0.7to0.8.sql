@@ -1,0 +1,1 @@
+ALTER TABLE `stop_word` DROP COLUMN `active`, DROP COLUMN `counter`;

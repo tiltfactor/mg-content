@@ -20,16 +20,6 @@
     <?php echo $form->error($model,'word'); ?>
     </div><!-- row -->
     <div class="row">
-    <?php echo $form->labelEx($model,'counter'); ?>
-    <?php echo $form->textField($model, 'counter', array('maxlength' => 10)); ?>
-    <?php echo $form->error($model,'counter'); ?>
-    </div><!-- row -->
-    <div class="row">
-    <?php echo $form->labelEx($model,'active'); ?>
-    <?php echo $form->dropDownList($model,'active', MGHelper::itemAlias('active')); ?>
-    <?php echo $form->error($model,'active'); ?>
-    </div><!-- row -->
-    <div class="row">
     <?php if($model->created != 0) : ?>
     <?php echo $form->labelEx($model,'created'); ?>
     <?php echo $model->created; ?>
