@@ -49,8 +49,6 @@ class ProfileController extends Controller
 		
 		if(isset($_POST['User']))
 		{
-			print_r($model->password);  
-        
 			$model->attributes=$_POST['User'];
       
       $current_user_data = User::model()->notsafe()->findByPk($model->id);

@@ -35,6 +35,7 @@ body {
 
 .container {
   width: 1000px;
+  min-height: 600px;
 }
 
 #content {

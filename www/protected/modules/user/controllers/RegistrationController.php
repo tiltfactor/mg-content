@@ -6,7 +6,7 @@ class RegistrationController extends Controller
 	
   public function filters() {
     return array( // add blocked IP filter here
-        'IPBlock',
+       'IPBlock',
     );
   }
 

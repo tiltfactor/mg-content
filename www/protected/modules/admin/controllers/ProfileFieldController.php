@@ -78,7 +78,6 @@ class ProfileFieldController extends Controller
 				}
 			}
 		}
-		//echo '<pre>'; print_r($widgets[1]); die();
 		$js = "
 
 	var name = $('#name'),
