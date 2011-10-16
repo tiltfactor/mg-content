@@ -15,7 +15,6 @@ class StopWord extends BaseStopWord
       $stop_words = Yii::app()->db->createCommand()
                     ->select('s.id, s.word')
                     ->from('{{stop_word}} s')
-                    ->where('s.active=1') 
                     ->queryAll();
     }
     return $stop_words;
