@@ -146,11 +146,11 @@ class GamesController extends ApiController {
   public function actionAbortPartnerSearch($game_partner_id) {
     $data = array();
     $data['status'] = "ok";
-    //xxx make use of lock table 
+
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
     
-    Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE")->execute(); 
+    Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} gp WRITE")->execute(); 
     $game_partner = Yii::app()->db->createCommand()
                   ->select('gp.session_id_1, gp.session_id_2, gp.played_game_id')
                   ->from('{{game_partner}} gp')
