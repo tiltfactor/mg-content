@@ -17,8 +17,8 @@ $this->menu=array(
 
 <?php 
 if ($model->image) {
-  $image_html = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->image));
-  $image = GxHtml::link($image_html, array('image/view', 'id' => GxActiveRecord::extractPkValue($model->image, true)));
+  $image_html = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->image))  . ' <span>' . GxHtml::valueEx($model->image) . '</span>';
+  $image = GxHtml::link($image_html, array('image/view', 'id' => GxActiveRecord::extractPkValue($model->image, true)), array('class' => 'image'));
 } else {
   $image = null;
 }
@@ -39,6 +39,11 @@ array(
 			'type' => 'raw',
 			'value' => $model->tag !== null ? GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->tag)), array('tag/view', 'id' => GxActiveRecord::extractPkValue($model->tag, true))) : null,
 			),
+array(
+      'name' => Yii::t('app', 'Player Name'),
+      'type' => 'raw',
+      'value' => $model->getUserName(),
+      ),
 'weight',
 'type',
 'created',
@@ -50,7 +55,7 @@ array(
 	),
 )); ?>
 
-<h2><?php echo GxHtml::encode($model->getRelationLabel('tagOriginalVersions')); ?></h2>
+<h2><?php echo GxHtml::encode($model->getRelationLabel('tagOriginalVersions')); ?> xxx</h2>
 <?php
 	echo GxHtml::openTag('ul');
 	

@@ -33,7 +33,11 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php echo CHtml::beginForm('','post',array('id'=>'tag-use-form'));
+<?php 
+
+$tagDialog = $this->widget('MGTagJuiDialog');
+
+echo CHtml::beginForm('','post',array('id'=>'tag-use-form'));
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'tag-use-grid',
 	'dataProvider' => $model->search(),
@@ -42,28 +46,35 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
 	'baseScriptUrl' => "/css/yii/gridview",
 	'selectableRows'=>2,
+	'afterAjaxUpdate' => $tagDialog->gridViewUpdate(),
 	'columns' => array(
 	  array(
       'class'=>'CCheckBoxColumn',
       'id'=>'tag-use-ids',
     ),
     array(
-        'header' => Yii::t('app', 'Image ID'),
+        'header' => Yii::t('app', 'Image (Filter with ID)'),
         'name' => 'image_id',
         'cssClassExpression' => '"image"',
         'type'=>'html',
         'value'=>'GxHtml::link(CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. GxHtml::valueEx($data->image), GxHtml::valueEx($data->image)) . " <span>" . GxHtml::valueEx($data->image) . "</span>", array(\'image/view\', \'id\' => GxActiveRecord::extractPkValue($data->image, true)))',
       ),
 		array(
-		    'header' => Yii::t('app', 'Tag ID'),
+		    'header' => Yii::t('app', 'Tag (Filter with ID)'),
 				'name'=>'tag_id',
 				'type'=>'html',
-				'value'=>'GxHtml::link(GxHtml::valueEx($data->tag), array(\'tag/view\', \'id\' => GxActiveRecord::extractPkValue($data->tag, true)))',
+				'value'=>'GxHtml::link(GxHtml::valueEx($data->tag), array(\'tag/view\', \'id\' => GxActiveRecord::extractPkValue($data->tag, true)), array("class" => "tagDialog"))',
 				),
 		'weight',
 		array(
       'name' => 'type',
       'filter' => TagUse::getUsedTypes()
+    ),
+    array(
+      'header' => Yii::t('app', 'Player Name'),
+      'name' => 'username',
+      'type'=>'html',
+      'value'=>'$data->getUserName(true)',
     ),
 		'created',
     array (

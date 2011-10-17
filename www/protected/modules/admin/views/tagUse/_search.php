@@ -12,11 +12,27 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'tag_id'); ?>
+		<?php echo CHtml::label(Yii::t('app', 'Tag ID'), 'tag_id'); ?>
 		<?php echo $form->textField($model, 'tag_id'); ?>
 		<div class="description"><?php echo Yii::t('app', " (you can find the ID of an image on its view page's URL. E.g. /admin/tag/view/id/321 > ID = 321 )"); ?></div>
 	</div>
-
+  
+  <div class="row">
+    <?php echo CHtml::label(Yii::t('app', "Submitted By (Player Name)"), "TagUse_username") ?>
+    <?php
+    //http://jqueryui.com/demos/autocomplete/#multiple xxx for multiple values
+    $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'name'=>'TagUse[username]',
+        'value'=> ((isset($_GET["TagUse"]) && isset($_GET["TagUse"]["username"]))? $_GET["TagUse"]["username"] : ''),
+        'source'=>$this->createUrl('/admin/image/searchUser'),
+        'options'=>array(
+                'showAnim'=>'fold',
+        ),
+    ));
+    ?>
+    <div class="description"><?php echo Yii::t('app', "(you can enter a full user name or parts of it 'a' will find all users whom's names contain 'a')"); ?></div>
+  </div>
+  
 	<div class="row">
 		<?php echo $form->label($model, 'weight'); ?>
 		<?php echo $form->textField($model, 'weight'); ?>

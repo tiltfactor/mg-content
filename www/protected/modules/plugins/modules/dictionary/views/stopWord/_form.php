@@ -21,7 +21,8 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'source'); ?>
-    <?php echo$model->source; ?>
+    <?php echo $form->hiddenField($model, 'source', array('maxlength' => 12)); ?>
+    <?php echo $model->source; ?>
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>

@@ -35,6 +35,7 @@ class StopWordController extends GxController {
 		$model = new StopWord;
 		$model->created = date('Y-m-d H:i:s'); 
     $model->modified = date('Y-m-d H:i:s'); 
+    $model->source = 'manual';
     
 		$this->performAjaxValidation($model, 'stop-word-form');
 
@@ -50,7 +51,7 @@ class StopWordController extends GxController {
 				  $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
-
+    
 		$this->render('create', array( 'model' => $model));
 	}
 

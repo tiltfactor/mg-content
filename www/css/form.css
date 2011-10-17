@@ -213,3 +213,12 @@ div.row .description {
   margin: 0px 10px 10px 110px;
   font-size: 11px;
 }
+
+div.row pre {
+  font-size: 10px;
+}
+
+div.row.image a {
+  line-height: 60px;
+  text-decoration: none;
+}

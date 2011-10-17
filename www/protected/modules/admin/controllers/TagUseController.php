@@ -51,6 +51,8 @@ class TagUseController extends GxController {
 	}
 
 	public function actionAdmin() {
+	  $this->layout = '//layouts/column1';
+    
 		$model = new TagUse('search');
 		$model->unsetAttributes();
 

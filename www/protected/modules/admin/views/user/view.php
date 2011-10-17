@@ -13,6 +13,7 @@ $this->menu=array(
   array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 
     'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this player?'),
     'visible' => $model->canDelete()),
+  array('label'=>Yii::t('app', 'View Tag Uses of ') . ' ' . $model->username, 'url'=>array('/admin/tagUse', 'TagUse[username]' => $model->username)),
   array('label'=>Yii::t('app', 'View Log for ') . ' ' . $model->username, 'url'=>array('/admin/log', 'Log[user_id]' => $model->id), 'visible' => ($model->role !== "player")),
 );
 ?>

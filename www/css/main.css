@@ -459,3 +459,7 @@ td.top-images img {
 td.tag-info {color: #555;}
 td.tag-info h5 {color: #555;margin-bottom: 2px;}
 td.tag-info b {color: #000;font-size:14px;}
+
+a.image {
+  text-decoration: none;
+}
