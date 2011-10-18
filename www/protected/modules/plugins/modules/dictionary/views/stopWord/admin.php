@@ -45,7 +45,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
 	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-	'baseScriptUrl' => "/css/yii/gridview",
+	'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
 	'selectableRows'=>2,
 	'columns' => array(
 	  array(

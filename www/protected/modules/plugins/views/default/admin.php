@@ -44,7 +44,7 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 	'dataProvider' => $model->search(),
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
   'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-  'baseScriptUrl' => "/css/yii/gridview",
+  'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
   'filter' => $model,
 	'columns' => array(
 		array(
