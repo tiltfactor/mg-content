@@ -53,7 +53,7 @@ abstract class BaseTagUse extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'tagOriginalVersions' => array(self::HAS_MANY, 'TagOriginalVersion', 'tag_uses_id'),
+			'tagOriginalVersions' => array(self::HAS_MANY, 'TagOriginalVersion', 'tag_use_id'),
 			'gameSubmission' => array(self::BELONGS_TO, 'GameSubmission', 'game_submission_id'),
 			'image' => array(self::BELONGS_TO, 'Image', 'image_id'),
 			'tag' => array(self::BELONGS_TO, 'Tag', 'tag_id'),

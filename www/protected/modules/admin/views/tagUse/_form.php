@@ -47,12 +47,6 @@
     <?php echo $form->labelEx($model,'game_submission_id'); ?>
     <?php echo $model->gameSubmission !== null ? '<pre>' . print_r(json_decode(GxHtml::valueEx($model->gameSubmission)), true) . '</pre>': ''; ?>
     </div><!-- row -->
-
-		<h2><?php echo GxHtml::encode($model->getRelationLabel('tagOriginalVersions')); ?></h2>
-		<div class="row clearfix"> xxx
-		<?php echo $form->checkBoxList($model, 'tagOriginalVersions', GxHtml::encodeEx(GxHtml::listDataEx(TagOriginalVersion::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
-		</div><!-- row -->
-
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

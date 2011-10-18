@@ -55,18 +55,26 @@ array(
 	),
 )); ?>
 
-<h2><?php echo GxHtml::encode($model->getRelationLabel('tagOriginalVersions')); ?> xxx</h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->tagOriginalVersions) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->tagOriginalVersions as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('tagOriginalVersion/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
-?>
+<?php if (count($model->tagOriginalVersions) > 0) : ?>
+  <h1>This Tag Use has beed modified (Tag Use Orginal Versions are)</h1>
+<?php 
+$this->widget('zii.widgets.grid.CGridView', array(
+  'id' => 'tag-use-grid',
+  'dataProvider' => TagOriginalVersion::listTagUseOriginalVersions($model->id),
+  'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
+  'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+  'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
+  'columns' => array(
+    'original_tag',
+    'comments',
+    array(
+      'header' => Yii::t('app', 'By Player Name'),
+      'name' => 'username',
+      'type'=>'html',
+      'value'=>'$data->getUserName()',
+    ),
+    'created',
+ ),
+)); 
+
+endif; ?>

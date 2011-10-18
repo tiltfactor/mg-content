@@ -11,11 +11,13 @@
  *
  * @property integer $id
  * @property string $original_tag
- * @property integer $tag_uses_id
- * @property integer $by_editor
+ * @property integer $tag_use_id
  * @property string $comments
+ * @property integer $user_id
+ * @property string $created
  *
- * @property TagUse $tagUses
+ * @property TagUse $tagUse
+ * @property User $user
  */
 abstract class BaseTagOriginalVersion extends GxActiveRecord {
 
@@ -37,18 +39,19 @@ abstract class BaseTagOriginalVersion extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('id, tag_uses_id', 'required'),
-			array('id, tag_uses_id, by_editor', 'numerical', 'integerOnly'=>true),
+			array('tag_use_id', 'required'),
+			array('tag_use_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('original_tag', 'length', 'max'=>64),
-			array('comments', 'safe'),
-			array('original_tag, by_editor, comments', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, original_tag, tag_uses_id, by_editor, comments', 'safe', 'on'=>'search'),
+			array('comments, created', 'safe'),
+			array('original_tag, comments, user_id, created', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, original_tag, tag_use_id, comments, user_id, created', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
-			'tagUses' => array(self::BELONGS_TO, 'TagUse', 'tag_uses_id'),
+			'tagUse' => array(self::BELONGS_TO, 'TagUse', 'tag_use_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -61,10 +64,12 @@ abstract class BaseTagOriginalVersion extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'original_tag' => Yii::t('app', 'Original Tag'),
-			'tag_uses_id' => null,
-			'by_editor' => Yii::t('app', 'By Editor'),
+			'tag_use_id' => null,
 			'comments' => Yii::t('app', 'Comments'),
-			'tagUses' => null,
+			'user_id' => null,
+			'created' => Yii::t('app', 'Created'),
+			'tagUse' => null,
+			'user' => null,
 		);
 	}
 
@@ -73,9 +78,10 @@ abstract class BaseTagOriginalVersion extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('original_tag', $this->original_tag, true);
-		$criteria->compare('tag_uses_id', $this->tag_uses_id);
-		$criteria->compare('by_editor', $this->by_editor);
+		$criteria->compare('tag_use_id', $this->tag_use_id);
 		$criteria->compare('comments', $this->comments, true);
+		$criteria->compare('user_id', $this->user_id);
+		$criteria->compare('created', $this->created, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

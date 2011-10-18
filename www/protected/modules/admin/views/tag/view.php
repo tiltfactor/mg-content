@@ -90,3 +90,24 @@ $this->widget('zii.widgets.CListView', array(
 ));
 ?>
 </div>
+
+<h2>Tag Use Orginal Versions</h2>
+<?php 
+$this->widget('zii.widgets.grid.CGridView', array(
+  'id' => 'tag-use-grid',
+  'dataProvider' => TagOriginalVersion::listTagOriginalVersions($model->id),
+  'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
+  'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+  'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
+  'columns' => array(
+    'original_tag',
+    'comments',
+    array(
+      'header' => Yii::t('app', 'By Player Name'),
+      'name' => 'username',
+      'type'=>'html',
+      'value'=>'$data->getUserName()',
+    ),
+    'created',
+ ),
+)); ?>
