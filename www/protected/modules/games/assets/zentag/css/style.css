@@ -252,7 +252,7 @@ h4 {
 }
 
 #licences {
-	bottom: 64px;
+	bottom: 0px;
 	color: #666666;
 	font-size: 10px;
 	height: 200px;
@@ -322,8 +322,6 @@ h4 {
 	top: 100px;
 	width: 180px;
 }
-
-
 
 #game_description ul li {
   margin: 8px 0;
