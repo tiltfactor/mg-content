@@ -2,7 +2,16 @@
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
-    <div id="game_description"><h2>How To Play</h2>Describe the image as accurately as you can. Use commas to separate phrases or individual words. Hit enter of click Ohm when you are done. <br/>Click on the image to see a full-screen version.</div>
+    <div id="game_description">
+    	<h2>How To Play</h2>
+    	<ul>
+    		<li>Describe the image as accurately as you can.</li> 
+    		<li>Use commas to separate phrases or individual words.</li>
+    		<li>Hit enter or click Ohm when done.</li>
+    		<li>Match your partner's tags for bonus points!</li>
+    	</ul>
+    	<p>Click on the image to see a full-screen version.</p>
+    </div>
     <div id="zenpond"> 
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/zenpond/images/zenpond.gif" alt="Zen Pond" width="222" height="46" /> 
     </div> 
@@ -37,7 +46,8 @@
     ?><span></span></h3>
 <script id="template-scores" type="text/x-jquery-tmpl">
   <h2>Welcome ${user_name}</h2>
-  <div class="game_partner">You're playing with <span>${game_partner_name}!</span></div>
+  <div class="game_partner">You're playing with 
+  	<br /><span>${game_partner_name}!</span></div>
   <div class="total_score">You played <span>${user_num_played}</span> times and scored <span>${user_score}</span> Points</div>
   <div class="current_score">This game's score <span>${current_score}</span> Points</div>
   <div class="total_turns">Turn <span>${current_turn}</span>/<span>${turns}</span></div>
@@ -101,7 +111,7 @@
   No game partner found. <a href="${game_base_url}/ZenPond">Retry</a>. You could also play a round of <a href="${game_base_url}/ZenTag">Zen Tag</a>, or go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 <script id="template-partner-waiting-for-submit" type="text/x-jquery-tmpl">
-  <b>${game_partner_name}</b> waits for your submission!
+  <b>${game_partner_name}</b> <br />waits for your submission!
 </script>
 <script id="template-partner-aborted" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/ZenPond">Retry</a>. You could also play a round  of <a href="${game_base_url}/ZenTag">Zen Tag</a>, or go to back to the <a href="${arcade_url}">arcade</a> instead.
