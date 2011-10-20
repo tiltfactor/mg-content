@@ -68,8 +68,8 @@ class MGTagJuiDialog extends CJuiWidget
   <ul>
     <li><a href="\${admin_base_url}/tag/view/id/\${id}" class="view">$view_tag</a></li>
     <li><a href="\${admin_base_url}/tag/update/id/\${id}" class="change">$rename_tag</a></li>
-    <li><a href="\${admin_base_url}/tag/view/\${id}" class="weight">$weight_tag</a></li>
-    <li><a href="\${admin_base_url}/tag/view/\${id}" class="ban">$ban_tag</a></li>
+    <li><a href="\${admin_base_url}/tag/weight/id/\${id}" class="weight">$weight_tag</a></li>
+    <li><a href="\${admin_base_url}/tag/ban/id/\${id}" class="ban">$ban_tag</a></li>
   </ul>
  </div>
 </script>		

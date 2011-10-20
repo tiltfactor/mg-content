@@ -25,7 +25,7 @@
   </div><!-- row -->
   
   <div class="row">
-    <?php echo CHtml::label(Yii::t('app', "Username"), "Custom_username") ?>
+    <?php echo CHtml::label(Yii::t('app', "Player Name"), "Custom_username") ?>
     <?php
     //http://jqueryui.com/demos/autocomplete/#multiple xxx for multiple values
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(

@@ -214,6 +214,10 @@ div.row .description {
   font-size: 11px;
 }
 
+div.row .description.noIndent {
+  margin: 0px 10px 10px 0px;
+}
+
 div.row pre {
   font-size: 10px;
 }
@@ -221,4 +225,17 @@ div.row pre {
 div.row.image a {
   line-height: 60px;
   text-decoration: none;
+}
+
+div.radio {
+  margin-top:5px;
+  height:20px;
+}
+
+div.radio input,
+div.radio label {
+  margin-right: 8px;
+  margin-left: 2px;
+  float: left;
+  font-weight: normal;
 }

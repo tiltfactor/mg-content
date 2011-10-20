@@ -42,7 +42,12 @@ class MGDictionaryPlugin extends MGPlugin {
   }
   
   /**
-   * comment xxx
+   * With help of this method you can influence the weight of tag submitted by the players. The weightened 
+   * tags will be used for scoring and saved as tag uses into the database
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param array $tags the tags to be looked up as a single dimension array array('tag1', 'tag2', ...)
    */
   function setWeights(&$game, &$game_model, $tags) {
     return $tags;
@@ -71,6 +76,16 @@ class MGDictionaryPlugin extends MGPlugin {
    * @param array $tags the previous turn's submitted tags
    */
   function wordsToAvoid(&$wordsToAvoid, &$used_images, &$game, &$game_model, &$tags) {}
+  
+  /**
+   * This function allows to add a tag to the dictionary. The $info provided can help a plugin to 
+   * filter add requests.
+   * 
+   * @param string $tag the tag to be stored
+   * @param string $info a short info about the tag.
+   * return boolean true if the tag has been successfully stored
+   */
+  function add($tag, $info) {}
   
   /**
    * Placeholder for future functionality

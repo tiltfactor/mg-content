@@ -54,6 +54,18 @@ class StopWordPlugin extends MGDictionaryPlugin  {
     return $tags_return;
   }
   
+  function add($tag, $info) {
+    $model = new StopWord;
+    $model->word = $tag;
+    $model->created = date('Y-m-d H:i:s'); 
+    $model->modified = date('Y-m-d H:i:s'); 
+    $model->source = $info;
+    
+    if (!$model->save()) {
+      print_r($model->getErrors());
+    } 
+  }
+  
   function setWeights(&$game, &$game_model, $tags) {
     $stop_words = StopWord::getStopWordList();
     
