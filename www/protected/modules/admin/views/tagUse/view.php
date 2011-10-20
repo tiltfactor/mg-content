@@ -10,6 +10,7 @@ $this->breadcrumbs = array(
 $this->menu=array(
 	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
 	array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id)),
+	array('label'=>Yii::t('app', 'Re-Weight') . ' ' . $model->label(), 'url'=>array('weight', 'id' => $model->id)),
 );
 ?>
 

@@ -33,6 +33,7 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 </div><!-- search-form -->
 
 <?php echo CHtml::beginForm('','post',array('id'=>'image-form'));
+$tagDialog = $this->widget('MGTagJuiDialog');
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'image-grid',
 	'dataProvider' => $model->search(),
@@ -40,6 +41,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
 	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
 	'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
+	'afterAjaxUpdate' => $tagDialog->gridViewUpdate(),
 	'selectableRows'=>2,
   'columns' => array(
     array(

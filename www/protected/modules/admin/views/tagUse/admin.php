@@ -61,9 +61,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
       ),
 		array(
 		    'header' => Yii::t('app', 'Tag (Filter with ID)'),
-				'name'=>'tag_id',
-				'type'=>'html',
-				'value'=>'GxHtml::link(GxHtml::valueEx($data->tag), array(\'tag/view\', \'id\' => GxActiveRecord::extractPkValue($data->tag, true)), array("class" => "tagDialog"))',
+				'name' => 'tag_id',
+				'type' => 'html',
+				'value' => '$data->getTagToolLink()',
 				),
 		'weight',
 		array(
@@ -79,12 +79,20 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'created',
     array (
   'class' => 'CButtonColumn',
+  'template' => '{view} {update} {reweight}',
   'buttons' => 
+    
     array (
     'delete' => 
     array (
       'visible' => 'false',
     ),
+    'update' => array(),
+    'reweight' => array (
+      'label'=>'re-weight', 
+      'url'=> "Yii::app()->createUrl('admin/tagUse/weight', array('id' => \$data->id))",    
+      'imageUrl'=> Yii::app()->request->baseUrl . "/css/yii/gridview/scale.png", 
+    )
   ),
 )  ),
 )); 

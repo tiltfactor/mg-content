@@ -178,4 +178,10 @@ class TagUse extends BaseTagUse
     $command->bindValue(':weight', $weight);
     $command->execute();
   }
+  
+  public function getTagToolLink() {
+    $linkEdit = CHtml::link($this->tag, array("/admin/tag/view", "id" => $this->id), array('class' => 'edit ir'));
+    $linkView = CHtml::link($this->tag, array("/admin/tag/view", "id" => $this->id), array('class' => 'tag'));
+    return '<div class="tag-dialog">' . $linkEdit . $linkView . '</div>';
+  }
 }

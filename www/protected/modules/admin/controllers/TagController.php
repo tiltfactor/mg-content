@@ -129,8 +129,8 @@ class TagController extends GxController {
     }
     
     $choices = array();
-    $choices[2] = Yii::t('app', 'To all the tag uses of tag') . ' "<b>' . $tagModel->tag . '</b>" ' .  Yii::t('app', 'that have been submitted by guest(s) or player specified above'); 
-    $choices[3] = Yii::t('app', 'To all the tag uses of tag') . ' "<b>' . $tagModel->tag . '</b>" ' . Yii::t('app', 'submitted by all players and guests');
+    $choices[2] = Yii::t('app', 'all the tag uses of tag') . ' "<b>' . $tagModel->tag . '</b>" ' .  Yii::t('app', 'that have been submitted by guest(s) or player specified above'); 
+    $choices[3] = Yii::t('app', 'all the tag uses of tag') . ' "<b>' . $tagModel->tag . '</b>" ' . Yii::t('app', 'submitted by all players and guests');
     
     $users = array();
     $users[-1] = Yii::t('app', 'Guest(s)');

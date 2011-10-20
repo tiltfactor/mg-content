@@ -204,9 +204,11 @@ class Image extends BaseImage
     if ($tags) {
       $out = array();
       foreach ($tags as $tag) {
-        $out[] = CHtml::link($tag["tag"] . '(' .$tag["counted"] . ')', array("/admin/tag/view", "id" =>$tag["id"]));  
+        $linkEdit = CHtml::link($tag["tag"] . '(' .$tag["counted"] . ')', array("/admin/tag/view", "id" =>$tag["id"]), array('class' => 'edit ir'));
+        $linkView = CHtml::link($tag["tag"] . '(' .$tag["counted"] . ')', array("/admin/tag/view", "id" =>$tag["id"]), array('class' => 'tag'));
+        $out[] =  '<div class="tag-dialog">' . $linkEdit . $linkView . '</div>';
       }
-      return implode(", ", $out);
+      return implode("", $out);
     } else {
       return ""; 
     }

@@ -7,11 +7,12 @@ MG_TAGDIALOG = function ($) {
       if (options) {
         MG_TAGDIALOG.settings = $.extend(MG_TAGDIALOG.settings, options); //Pull from both defaults and supplied options
       } 
-      $('a.tagDialog').unbind('click').click(MG_TAGDIALOG.onclick);
+      $('.tag-dialog .edit').unbind('click').click(MG_TAGDIALOG.onclick);
     },
     
     refresh : function () {
-      $('a.tagDialog').unbind('click').click(MG_TAGDIALOG.onclick);
+      $("#modalTagDialog").remove(); 
+      $('.tag-dialog .edit').unbind('click').click(MG_TAGDIALOG.onclick);
     },
     
     onclick : function () {

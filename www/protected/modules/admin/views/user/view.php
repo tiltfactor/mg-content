@@ -85,11 +85,13 @@ $this->menu=array(
   <p><b><?php echo Yii::t('app', 'TAG (COUNTED/AVG WEIGHT)'); ?></b></p>
 
 <?php 
+$tagDialog = $this->widget('MGTagJuiDialog');
 $this->widget('zii.widgets.CListView', array(
     'id' => 'user-tags-listview',
     'dataProvider'=> Tag::model()->searchUserTags($model->id),
     'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
     'itemView'=>'_viewTagListItem',
+    'afterAjaxUpdate' => $tagDialog->gridViewUpdate(),
     'sortableAttributes'=>array(
         'tag' => Yii::t('app', 'Tag name'),
         'counted' => Yii::t('app', 'Use Count'),

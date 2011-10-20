@@ -415,6 +415,8 @@ a.listview-image:hover {
   vertical-align: bottom;
 }
 
+
+
 a.listview-tag {
   border: 1px solid #bbb;
   background-color: #eee;
@@ -434,6 +436,40 @@ a.listview-tag:hover {
 }
 
 a.listview-tag span {} /* here you could style the counter */
+
+div.tag-dialog {
+  border: 1px solid #bbb;
+  background-color: #eee;
+  display: block;
+  float: left;
+  margin: 0px 5px 5px 0px;
+  padding:2px;
+  
+  color:#333;
+  font-weight: bold;
+  line-height: 16px;
+}
+
+div.tag-dialog a {
+  text-decoration: none;
+  color:#333;
+}
+
+div.tag-dialog a:hover {
+  color:#000;
+}
+
+
+div.tag-dialog a span {} /* here you could style the counter */
+
+div.tag-dialog a.edit {
+  height:16px;
+  width:16px;
+  float: right;
+  margin-left:5px;
+  background: url(../images/edit-small.png) 0px 0px no-repeat transparent;
+  text-decoration: none;
+}
 
 .list-view .pager {
   clear: both;
@@ -462,4 +498,17 @@ td.tag-info b {color: #000;font-size:14px;}
 
 a.image {
   text-decoration: none;
+}
+
+#modalTagDialog ul {
+  margin:10px 0 0 0;
+}
+
+#modalTagDialog a {
+  text-decoration: none;
+  color: #333;
+}
+
+#modalTagDialog a:hover {
+  color: #000;
 }
