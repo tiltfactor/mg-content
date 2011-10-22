@@ -68,7 +68,6 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-    // xxx rest api http://stackoverflow.com/questions/6656219/routing-requests-to-module-in-yii-framework
     
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=mg', //xxx set via installer

@@ -11,14 +11,13 @@ class UserIdentity extends CUserIdentity
 	CONST ERROR_EMAIL_INVALID=3;
 	CONST ERROR_STATUS_NOTACTIVE=4;
 	CONST ERROR_STATUS_BAN=5;
-  CONST ERROR_STATUS_BLOCKED=6; // xxx enable blocked via ip address here ...
+  CONST ERROR_STATUS_BLOCKED=6;
 	/**
 	 * Authenticates a user.
 	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate()
 	{
-		// xxx add blocked IP check.  
 		if (strpos($this->username,"@")) {
 			$user=User::model()->notsafe()->findByAttributes(array('email'=>$this->username));
 		} else {

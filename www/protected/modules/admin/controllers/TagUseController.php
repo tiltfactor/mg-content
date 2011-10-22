@@ -123,34 +123,4 @@ class TagUseController extends GxController {
 			'model' => $model,
 		));
 	}
-  
-  
-  public function actionBatch($op) {
-    if (Yii::app()->getRequest()->getIsPostRequest()) {
-      switch ($op) {
-        case "xxx":
-          break;
-      }
-      if (!Yii::app()->getRequest()->getIsAjaxRequest())
-        $this->redirect(array('admin'));
-    } else
-      throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
-    
-  }
-  
-  /** 
-   * remove if not needed
-   */
-  private function _batchDelete() {
-    if (isset($_POST['tag-use-ids'])) {
-      $criteria=new CDbCriteria;
-      $criteria->addInCondition("id", $_POST['tag-use-ids']);
-            
-      MGHelper::log('batch-delete', 'Batch deleted TagUse with IDs(' . implode(',', $_POST['tag-use-ids']) . ')');
-        
-      $model = new TagUse;
-      $model->deleteAll($criteria);
-        
-    } 
-  }
 }

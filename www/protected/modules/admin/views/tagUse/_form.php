@@ -19,9 +19,8 @@
     <?php echo GxHtml::link(CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->image), GxHtml::valueEx($model->image)) . " <span>" . GxHtml::valueEx($model->image) . "</span>", array('image/view', 'id' => GxActiveRecord::extractPkValue($model->image, true))); ?>
     </div><!-- row -->
     <div class="row">
-    <?php echo $form->labelEx($model,'tag_id'); ?> xxx make merge tool here
-    <?php echo $form->dropDownList($model, 'tag_id', GxHtml::listDataEx(Tag::model()->findAllAttributes(null, true))); ?>
-    <?php echo $form->error($model,'tag_id'); ?>
+    <?php echo $form->labelEx($model,'tag_id'); ?> 
+    <?php echo $model->tag; ?>
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'weight'); ?>

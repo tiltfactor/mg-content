@@ -45,13 +45,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
 	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
 	'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
-	'selectableRows'=>2,
 	'afterAjaxUpdate' => $tagDialog->gridViewUpdate(),
 	'columns' => array(
-	  array(
-      'class'=>'CCheckBoxColumn',
-      'id'=>'tag-use-ids',
-    ),
     array(
         'header' => Yii::t('app', 'Image (Filter with ID)'),
         'name' => 'image_id',
@@ -97,15 +92,5 @@ $this->widget('zii.widgets.grid.CGridView', array(
 )  ),
 )); 
 echo CHtml::endForm();
-
-$this->widget('ext.gridbatchaction.GridBatchAction', array(
-      'formId'=>'tag-use-form',
-      'checkBoxId'=>'tag-use-ids',
-      'ajaxGridId'=>'tag-use-grid', 
-      'items'=>array(
-          array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
-      ),
-      'htmlOptions'=>array('class'=>'batchActions'),
-  ));
 
 ?>

@@ -31,7 +31,7 @@ class MGGame extends CComponent {
     $imageSets = array();
     
     foreach ($game_model->imageSets as $imageSet) {
-      //xxx here comes the image set access filter magic
+      //TODO: here comes the image set access filter magic
       $imageSets[] = $imageSet->id;
     }
     
@@ -121,7 +121,7 @@ class MGGame extends CComponent {
       }
     }
           
-    // xxx we could add a data base driven version xxx (a.k.a) retrieve the images the user has tagged and add them to the list
+    // TODO: we could add a data base driven version (a.k.a) retrieve the images the user has tagged and add them to the list
     return $used_images;    
   }
   

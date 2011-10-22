@@ -84,7 +84,7 @@ MG_API = function ($) {
       
       if (timePastSinceLastResponse < interval) {
         var timeout = interval - timePastSinceLastResponse;
-        setTimeout(callback, timeout + 100); // xxx investigate this further there are some discripancies between JavaScript and the server site time logging the added mills are even this out
+        setTimeout(callback, timeout + 100); // there are some discripancies between JavaScript and the server site time logging the added mills are even this out
       } else {
         callback();
       }

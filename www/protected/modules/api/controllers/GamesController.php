@@ -178,8 +178,6 @@ class GamesController extends ApiController {
                   ->queryAll();
     if ($messages) {
       $data['messages'] = $messages;
-      if (YII_DEBUG) 
-        Yii::log(json_encode($messages), 'error'); //xxx remove after development
       Yii::app()->db->createCommand()
           ->delete('{{message}}', 'session_id=:sessionID AND played_game_id=:pGameID', array(':sessionID' => $user_session_id, ':pGameID' => $played_game_id));
     }

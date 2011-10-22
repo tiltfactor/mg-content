@@ -47,7 +47,7 @@ return array (
     'tool-import' => 
     array (
       'name' => 'Import',
-      'description' => 'Tools to import images or tags (? xxx) into the system',
+      'description' => 'Tools to import images into the system',
       'url' => '/admin/import',
       'role' => 'editor',
       'group' => 'Images & Tags',
