@@ -24,9 +24,9 @@ $this->breadcrumbs = array(
   <?php echo CHtml::tag("small", array(), Yii::t('app', 'The batch id will help you to distinguish images on the import process page'), TRUE); ?>
   <?php echo $form->error($model,'batch_id'); ?>
   
-  <br/><?php echo $form->textField($model, 'import_per_request', array('maxlength' => 45)); ?> xxx make hidden field
-  <br/><?php echo $form->textField($model, 'import_processed', array('maxlength' => 45)); ?> xxx make hidden field
-  <br/><?php echo $form->textField($model, 'import_skipped', array('maxlength' => 45)); ?> xxx make hidden field
+  <br/><?php echo $form->hiddenField($model, 'import_per_request', array('maxlength' => 45)); ?>
+  <br/><?php echo $form->hiddenField($model, 'import_processed', array('maxlength' => 45)); ?>
+  <br/><?php echo $form->hiddenField($model, 'import_skipped', array('maxlength' => 45)); ?>
   </div><!-- row -->
 <?php
 echo GxHtml::submitButton(Yii::t('app', 'Import Images'));
