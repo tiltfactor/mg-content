@@ -513,3 +513,7 @@ a.image {
 #modalTagDialog a:hover {
   color: #000;
 }
+
+.detail-view .zoom {
+  text-decoration: none;
+}

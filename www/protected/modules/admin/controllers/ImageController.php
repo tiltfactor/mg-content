@@ -27,6 +27,16 @@ class ImageController extends GxController {
   }
 
 	public function actionView($id) {
+    $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery');
+    $cs->registerCssFile(Yii::app()->baseUrl . '/css/jquery.fancybox-1.3.4.css');
+    $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
+    
+    $js = <<<EOD
+    \$("a.zoom").fancybox({overlayColor: '#000'});
+EOD;
+      Yii::app()->clientScript->registerScript(__CLASS__.'#game', $js, CClientScript::POS_READY);
+    
 		$this->render('view', array(
 			'model' => $this->loadModel($id, 'Image'),
 		));

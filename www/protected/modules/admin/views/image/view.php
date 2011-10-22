@@ -29,6 +29,11 @@ $this->menu=array(
     $image_sets[] = GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
   }
 
+$image = CHtml::link(
+  CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name) . ' [' . Yii::t('app', 'zoom') . ']',
+  Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/images/'. $model->name,
+  array('rel'=>'zoom', 'class'=>'zoom'));
+
 $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
@@ -36,8 +41,8 @@ $this->widget('zii.widgets.CDetailView', array(
   'id',
 		 array(
           'name' => 'Image',
-          'type' => 'image',
-          'value' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name,
+          'type' => 'html',
+          'value' => $image
         ),
   'size',
   'mime_type',
