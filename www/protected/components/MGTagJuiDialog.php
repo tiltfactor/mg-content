@@ -59,6 +59,7 @@ class MGTagJuiDialog extends CJuiWidget
 	{
 	  
     $view_tag = Yii::t('app', 'view tag');
+    $view_tag_uses = Yii::t('app', "view tag's tag uses");
     $rename_tag = Yii::t('app', 'rename tag');
     $weight_tag = Yii::t('app', 'change tag weight');
     $ban_tag = Yii::t('app', 'ban tag');
@@ -67,6 +68,7 @@ class MGTagJuiDialog extends CJuiWidget
  <div id="modalTagDialog" title="Tag: \${tag}">
   <ul>
     <li><a href="\${admin_base_url}/tag/view/id/\${id}" class="view">$view_tag</a></li>
+    <li><a href="\${admin_base_url}/tagUse?TagUse[tag_id]=\${id}" class="view">$view_tag_uses</a></li>
     <li><a href="\${admin_base_url}/tag/update/id/\${id}" class="change">$rename_tag</a></li>
     <li><a href="\${admin_base_url}/tag/weight/id/\${id}" class="weight">$weight_tag</a></li>
     <li><a href="\${admin_base_url}/tag/ban/id/\${id}" class="ban">$ban_tag</a></li>
