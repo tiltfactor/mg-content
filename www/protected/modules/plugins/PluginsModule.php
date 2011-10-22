@@ -55,7 +55,7 @@ class PluginsModule extends CWebModule
           $controller = str_replace("Plugin", "", $class);
           $url = array("/plugins/$type/$controller");  
         }
-        return CHtml::link(Yii::t('app','Manage') . ' '  . (($label != "")? $label : $controller . " Plugin"), $url);          
+        return CHtml::link(Yii::t('app','Manage') . ' '  . (($label != "")? $label : $controller . " Plugin (Settings)"), $url);          
       }
     } catch (Exception $e) {}
     return "";

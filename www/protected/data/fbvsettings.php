@@ -89,7 +89,7 @@ return array (
       'name' => 'Plugins',
       'description' => 'Some short description',
       'url' => '/plugins',
-      'role' => 'dbmanager',
+      'role' => 'editor',
       'group' => 'Games & Plugins',
     ),
     'tool-games' => 

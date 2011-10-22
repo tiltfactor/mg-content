@@ -2,6 +2,8 @@
 
 class DefaultController extends GxController
 {
+	public $defaultAction = 'admin';
+  
 	public function filters() {
     return array(
       'IPBlock',
@@ -12,12 +14,12 @@ class DefaultController extends GxController
   public function accessRules() {
     return array(
         array('allow',
-          'actions'=>array('view', 'index'),
+          'actions'=>array('view', 'admin'),
           'roles'=>array('editor', 'dbmanager', 'admin'),
           ),
         array('allow', 
-          'actions'=>array('view', 'create', 'update', 'admin','delete'),
-          'roles'=>array('admin', 'xxx'),
+          'actions'=>array('create', 'update','delete'),
+          'roles'=>array('admin'),
           ),
         array('deny', 
           'users'=>array('*'),
@@ -68,10 +70,43 @@ class DefaultController extends GxController
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
   }
 
-  public function actionIndex() {
+  public function actionAdmin() {
+    $this->layout = '//layouts/column1';
+    
     $model = new Plugin();
     
-    $dataProvider=new CArrayDataProvider(PluginsModule::getAccessiblePlugins(), array(
+    if (Yii::app()->user->checkAccess('admin')) {
+      $types = array();
+      $type_filter = array();
+      $path = Yii::getPathOfAlias('application.modules.plugins.modules') . DIRECTORY_SEPARATOR;
+      if (is_dir($path)) {
+        foreach (glob($path . "*") as $dir) {
+          if (array_key_exists(basename($dir), Yii::app()->controller->module->getModules())) {
+            if (is_dir($dir)) {
+              $types[] = $dir;    
+            }  
+          }
+        }  
+        if (count($types) > 0) {
+          $this->refreshPlugins($types, $path);
+          foreach ($types as $dir) {
+            $type_filter[basename($dir)] = basename($dir);
+          }
+        }
+      }
+      
+      $model = new Plugin('search');
+      $model->unsetAttributes();
+  
+      if (isset($_GET['Plugin']))
+        $model->setAttributes($_GET['Plugin']);
+  
+      $this->render('admin-admin', array(
+        'model' => $model,
+        'type_filter' => $type_filter,
+      ));
+    } else {
+      $dataProvider=new CArrayDataProvider(PluginsModule::getAccessiblePlugins(), array(
         'id'=>'user',
         'sort'=>array(
             'attributes'=>array(
@@ -81,46 +116,13 @@ class DefaultController extends GxController
         'pagination'=>array(
             'pageSize'=>10,
         ),
-    ));
-    
-    $this->render('index', array(
-      'model' => $model,
-      'dataProvider' => $dataProvider,
-    ));
-  }
-
-  public function actionAdmin() {
-    $this->layout = '//layouts/column1';
-    
-    $types = array();
-    $type_filter = array();
-    $path = Yii::getPathOfAlias('application.modules.plugins.modules') . DIRECTORY_SEPARATOR;
-    if (is_dir($path)) {
-      foreach (glob($path . "*") as $dir) {
-        if (array_key_exists(basename($dir), Yii::app()->controller->module->getModules())) {
-          if (is_dir($dir)) {
-            $types[] = $dir;    
-          }  
-        }
-      }  
-      if (count($types) > 0) {
-        $this->refreshPlugins($types, $path);
-        foreach ($types as $dir) {
-          $type_filter[basename($dir)] = basename($dir);
-        }
-      }
+      ));
+      
+      $this->render('admin-editor', array(
+        'model' => $model,
+        'dataProvider' => $dataProvider,
+      ));
     }
-    
-    $model = new Plugin('search');
-    $model->unsetAttributes();
-
-    if (isset($_GET['Plugin']))
-      $model->setAttributes($_GET['Plugin']);
-
-    $this->render('admin', array(
-      'model' => $model,
-      'type_filter' => $type_filter,
-    ));
   }
   
   /**
