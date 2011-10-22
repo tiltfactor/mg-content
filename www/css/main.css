@@ -502,11 +502,12 @@ a.image {
 
 #modalTagDialog ul {
   margin:10px 0 0 0;
+  color: #666;
 }
 
 #modalTagDialog a {
   text-decoration: none;
-  color: #333;
+  color: #666;
 }
 
 #modalTagDialog a:hover {
