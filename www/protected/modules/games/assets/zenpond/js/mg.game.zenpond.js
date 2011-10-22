@@ -214,7 +214,7 @@ MG_GAME_ZENPOND = function ($) {
         MG_GAME_ZENPOND.turns.push(response.turn);
         
         var more_info = {}; 
-        if (MG_GAME_ZENPOND.game.more_info_url.trim() != "")
+        if ($.trim(MG_GAME_ZENPOND.game.more_info_url) != "")
           var more_info = {url: MG_GAME_ZENPOND.game.more_info_url, name: MG_GAME_ZENPOND.game.name};
         
         if (MG_GAME_ZENPOND.turn > MG_GAME_ZENPOND.game.turns) { // render final result
@@ -382,7 +382,7 @@ MG_GAME_ZENPOND = function ($) {
     onsubmit : function () {
       if (!MG_GAME_ZENPOND.busy) {
         
-        var tags = MG_GAME_ZENPOND.wordField.val().replace(/^\s+|\s+$/g,"");
+        var tags = $.trim(MG_GAME_ZENPOND.wordField.val());
         if (tags == "") {
           // val filtered for all white spaces (trim)
           MG_GAME_ZENPOND.error("<h1>Ooops</h1><p>Please enter at least one word</p>");

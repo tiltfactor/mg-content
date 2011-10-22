@@ -299,7 +299,7 @@ MG_GAME_GUESSWHAT = function ($) {
         MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses = [];
 
         var more_info = {}; 
-        if (MG_GAME_GUESSWHAT.game.more_info_url.trim() != "")
+        if ($.trim(MG_GAME_GUESSWHAT.game.more_info_url) != "")
           var more_info = {url: MG_GAME_GUESSWHAT.game.more_info_url, name: MG_GAME_GUESSWHAT.game.name};
         
         if (MG_GAME_GUESSWHAT.turn > MG_GAME_GUESSWHAT.game.turns) { // render final result
@@ -462,7 +462,7 @@ MG_GAME_GUESSWHAT = function ($) {
     
     onSendHint : function () {
       if (!MG_GAME_GUESSWHAT.busy) {
-        var tags = MG_GAME_GUESSWHAT.wordField.val().replace(/^\s+|\s+$/g,"");
+        var tags = $.trim(MG_GAME_GUESSWHAT.wordField.val());
         MG_GAME_GUESSWHAT.wordField.val("");
         if (tags == "") {
           // val filtered for all white spaces (trim)

@@ -112,7 +112,7 @@ MG_GAME_ZENTAG = function ($) {
       MG_GAME_ZENTAG.turns.push(response.turn);
       
       var more_info = {}; 
-      if (MG_GAME_ZENTAG.game.more_info_url.trim() != "")
+      if ($.trim(MG_GAME_ZENTAG.game.more_info_url) != "")
         var more_info = {url: MG_GAME_ZENTAG.game.more_info_url, name: MG_GAME_ZENTAG.game.name};
       
       if (MG_GAME_ZENTAG.turn > MG_GAME_ZENTAG.game.turns) { // render final result
@@ -169,7 +169,7 @@ MG_GAME_ZENTAG = function ($) {
                     tmp2.push(tag);  
                   }
                 }
-                taginfo[scope].scoreinfo = tmp2.join(", ").trim();
+                taginfo[scope].scoreinfo = $.trim(tmp2.join(", "));
               }
             }
             
@@ -275,7 +275,7 @@ MG_GAME_ZENTAG = function ($) {
     
     onsubmit : function () {
       if (!MG_GAME_ZENTAG.busy) {
-        var tags = MG_GAME_ZENTAG.wordField.val().replace(/^\s+|\s+$/g,"");
+        var tags = $.trim(MG_GAME_ZENTAG.wordField.val());
         if (tags == "") {
           // val filtered for all white spaces (trim)
           MG_GAME_ZENTAG.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
