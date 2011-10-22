@@ -40,8 +40,6 @@ MG_GAME_GUESSWHAT = function ($) {
       
       MG_GAME_API.game_init(settings);
       
-      log(MG_GAME_GUESSWHAT.settings.base_url, MG_GAME_GUESSWHAT.settings.asset_url);
-      
       MG_AUDIO.init({
         swfPath: MG_GAME_GUESSWHAT.settings.base_url + "/js/jQuery.jPlayer"
       });
@@ -80,7 +78,7 @@ MG_GAME_GUESSWHAT = function ($) {
                   code = message;
                   
                   try {
-                    var message = $.parseJSON(message); // jquery seems not to like to parse all strings xxx without ' throws an error
+                    var message = $.parseJSON(message); // jquery seems not to like to parse all strings xyz without ' throws an error
                     if (message.code != undefined)
                       code = message.code;
                   } catch (err) {}
@@ -194,8 +192,6 @@ MG_GAME_GUESSWHAT = function ($) {
       $("#game .describe .image").html("");
       $("#game .describe .hints span").remove();
       $("#template-describe-image").tmpl(turn_info).appendTo($("#game .describe .image"));
-      
-      // xxx set here the form empty if needed
       
       $("#licences").html("");
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
@@ -739,7 +735,6 @@ MG_GAME_GUESSWHAT = function ($) {
               }
             }
           }
-          // xxx this shouldn't be here like that
           MG_GAME_API.curtain.hide();
           $("#partner-waiting").html("");
           $("#template-wrong-guess-wating-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
@@ -800,9 +795,8 @@ MG_GAME_GUESSWHAT = function ($) {
         if (next_hint != "") {
           MG_GAME_GUESSWHAT.processHint(next_hint);
         } else {
-          alert('xxx oops out of hints submit turn to load a new one');
+          MG_GAME_GUESSWHAT.onsubmitTurn();
         }
-        
       } else {
         $("#info-modal").html("").hide();
         $("#template-info-modal-waiting-for-hint").tmpl({
