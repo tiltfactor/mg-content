@@ -159,7 +159,7 @@ class GamesController extends ApiController {
                   
     if ($game_partner) {
       Yii::app()->db->createCommand()
-                  ->update('{{game_partner}}', array('created' => date('Y-m-d H:i:s', 1)), 'id=:gpID',  array(':gpID' => $game_partner_id));
+                  ->update('{{game_partner}} gp', array('created' => date('Y-m-d H:i:s', 1)), 'gp.id=:gpID',  array(':gpID' => $game_partner_id));
       
       Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
       
