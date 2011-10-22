@@ -147,31 +147,8 @@ class GamesController extends ApiController {
     $data = array();
     $data['status'] = "ok";
 
-    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-    $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+    $this->_doAbortPartnerSearch($game_partner_id, true);
     
-    Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE")->execute(); 
-    $game_partner = Yii::app()->db->createCommand()
-                  ->select('session_id_1, session_id_2, played_game_id')
-                  ->from('{{game_partner}}')
-                  ->where('id=:gpID', array(':gpID' => $game_partner_id)) 
-                  ->queryRow();
-                  
-    if ($game_partner) {
-      Yii::app()->db->createCommand()
-                  ->update('{{game_partner}}', array('created' => date('Y-m-d H:i:s', 1)), 'id=:gpID',  array(':gpID' => $game_partner_id));
-      
-      Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
-      
-      if (!is_null($game_partner["played_game_id"]) && !is_null($game_partner["session_id_1"]) && !is_null($game_partner["session_id_2"])) {
-        $opponent_session_id = ($game_partner["session_id_1"] == $user_session_id)? $game_partner["session_id_2"] : $game_partner["session_id_1"];
-        $this->_leaveMessage($opponent_session_id, $game_partner["played_game_id"], 'aborted');
-      }
-      
-    } else {
-      Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
-      throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
-    }
     $this->sendResponse($data);
   }
   
@@ -386,6 +363,10 @@ class GamesController extends ApiController {
           if (isset($_GET["a"]))  // "a" == "attempt" attemp counts dowm
             $attempt -= (int)$_GET["a"];
           
+          $game_partner_id = 0;
+          if (isset($_GET["gp"]))  // "gp" == game_partner_id
+            $game_partner_id = (int)$_GET["gp"];
+          
           $game->turn = 0;
           
           $game->game_partner_name = Yii::t('app', "Anonymous");
@@ -396,6 +377,11 @@ class GamesController extends ApiController {
           } else {
             if ($attempt == 0 && $game->play_against_computer) {
               $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+              
+              // make sure other player who accidentally assigned to this 
+              // game_partner session are informed that the user is playing against the computer
+              if ($game_partner_id > 0)
+                $this->_doAbortPartnerSearch($game_partner_id); 
               
               Yii::app()->db->createCommand()
                   ->update('{{game_partner}}', array(
@@ -1007,4 +993,40 @@ class GamesController extends ApiController {
                               ));
   }
   
+  
+  /**
+   * The method makes sure that an potential other partner becomes informed about the abort of a partner search
+   * by the other. 
+   * 
+   * @param boolean $invalidate_date it true game_partner.create will be set to 1970/1/1 00:00.01 to make sure to invalidate the game_partner search 
+   */
+  private function _doAbortPartnerSearch($game_partner_id, $invalidate_date=false) {
+    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+    $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
+    
+    Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE")->execute(); 
+    $game_partner = Yii::app()->db->createCommand()
+                  ->select('session_id_1, session_id_2, played_game_id')
+                  ->from('{{game_partner}}')
+                  ->where('id=:gpID', array(':gpID' => $game_partner_id)) 
+                  ->queryRow();
+                  
+    if ($game_partner) {
+      if ($invalidate_date) {
+        Yii::app()->db->createCommand()
+                  ->update('{{game_partner}}', array('created' => date('Y-m-d H:i:s', 1)), 'id=:gpID',  array(':gpID' => $game_partner_id));
+      }
+      
+      Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
+      
+      if (!is_null($game_partner["played_game_id"]) && !is_null($game_partner["session_id_1"]) && !is_null($game_partner["session_id_2"])) {
+        $opponent_session_id = ($game_partner["session_id_1"] == $user_session_id)? $game_partner["session_id_2"] : $game_partner["session_id_1"];
+        $this->_leaveMessage($opponent_session_id, $game_partner["played_game_id"], 'aborted');
+      }
+      
+    } else {
+      Yii::app()->db->createCommand("UNLOCK TABLES")->execute();
+      throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
+    }
+  }
 }

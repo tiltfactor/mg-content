@@ -103,7 +103,7 @@
   No game partner found. <a href="${game_base_url}/guessWhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 <script id="template-info-modal-wait-for-partner" type="text/x-jquery-tmpl">
-  Waiting for partner; timeout in <b>'${seconds}'</b> seconds. xxx give info about computer player.
+  <p>Waiting for partner; timeout in <b>'${seconds}'</b> seconds.</p>{{if play_against_computer == 1}}<p>If no partner is available you will be able to play against the computer.<br/><a href="#" id="playAgainstComputerNow">Play against the computer right now</a></p>{{/if}}<a href="${arcade_url}">Abort</a> game.
 </script>
 <script id="template-info-modal-waiting-for-hint" type="text/x-jquery-tmpl">
   Waiting for <b>${game_partner_name}</b> to submit a hint. <a href="${arcade_url}">Abort</a> game.
