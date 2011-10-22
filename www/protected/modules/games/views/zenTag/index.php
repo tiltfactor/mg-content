@@ -89,5 +89,5 @@
   <p class="tag-info">Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b> point(s).</p>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
-  You'll be redirected in 10 seconds. <a href="${play_once_and_move_on_url}">Click here proceed right away.</a></p>
+  You'll be redirected in <span id="remainingTime">${remainingTime}</span> seconds. <a href="${play_once_and_move_on_url}">Click here proceed right away.</a></p>
 </script>

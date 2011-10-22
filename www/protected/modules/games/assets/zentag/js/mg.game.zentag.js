@@ -1,7 +1,7 @@
 MG_GAME_ZENTAG = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
-    
+    playOnceMoveOnFinalScreenWaitingTime : 15000, // milliseconds
     submitButton : null,
     
     init : function (options) {
@@ -68,7 +68,6 @@ MG_GAME_ZENTAG = function ($) {
       $('#game_description').hide();
       
       $("#scores").html(""); 
-      log(score_info);
       
       $("#fieldholder").html("");
       $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
@@ -93,7 +92,17 @@ MG_GAME_ZENTAG = function ($) {
         $("#template-final-info-play-once").tmpl(score_info ).appendTo($("#fieldholder"));
         $("#template-final-summary-play-once").tmpl(turn_info).appendTo($("#image_container"));
         $("#box1").hide();
-          window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, 10000);
+        window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime);
+        
+        var updateRemainingTime = function () {
+          MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime -= 1000;
+          if (MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime >= 1) {
+            $('#remainingTime').text(MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime/1000);
+            window.setTimeout(updateRemainingTime, 1000);  
+          }
+        }
+        window.setTimeout(updateRemainingTime, 1000);
+        
       } else {
         $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
       }
@@ -208,6 +217,7 @@ MG_GAME_ZENTAG = function ($) {
           if (MG_GAME_ZENTAG.game.play_once_and_move_on_url == "")
             MG_GAME_ZENTAG.game.play_once_and_move_on_url = "/";
           
+          score_info.remainingTime = (MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime / 1000);
           score_info.play_once_and_move_on_url = MG_GAME_ZENTAG.game.play_once_and_move_on_url;
           
           // turn info == image 
@@ -216,6 +226,8 @@ MG_GAME_ZENTAG = function ($) {
             url_full_size : MG_GAME_ZENTAG.turns[0].images[0].full_size,
             licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
           };
+          
+          log(turn_info);
         } else {
           // turn info == image 
           var turn_info = {
