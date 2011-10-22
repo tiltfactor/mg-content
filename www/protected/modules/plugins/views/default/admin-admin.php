@@ -70,6 +70,7 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
       'value' => 'PluginsModule::pluginAdminLink($data->unique_id)',
     ),
 		array(
+		  'header' => Yii::t('app', 'Enable/Disable Plugin'),
 			'class' => 'CButtonColumn',
 		),
 	),

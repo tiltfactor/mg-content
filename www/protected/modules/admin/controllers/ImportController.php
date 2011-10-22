@@ -28,7 +28,7 @@ class ImportController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('index', 'uploadfromlocal', 'uploadzip', 'uploadftp', 'uploadprocess', 'xuploadimage', 'batch', 'delete'),
+  				'actions'=>array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'uploadprocess', 'xuploadimage', 'batch', 'delete'),
   				'roles'=>array('editor', 'xxx'),
   				),
   			array('deny', 
@@ -158,8 +158,12 @@ class ImportController extends GxController {
       'model' => $model,
     ));
   }
-  
+
   public function actionUploadFtp() {
+    Yii::app()->clientScript->registerCoreScript('jquery');
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
+    Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/jquery.fancybox-1.3.4.css');
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
     
     // add page resubmit if script time out is close. 
     $this->layout='//layouts/column1';  
@@ -171,52 +175,119 @@ class ImportController extends GxController {
     }
     
     $model = new ImportFtpForm;
+    $count_files = 0;
     
-    if (isset($_POST['ImportFtpForm'])) {
-      $model->setAttributes($_POST['ImportFtpForm']);
+    $ftp_path = $this->path . "/ftp/";
+    if (is_dir($ftp_path)) {
+      $list = CFileHelper::findFiles($ftp_path);
       
-      if ($model->validate()) {
-        $cnt_added = 0;
-        $cnt_skipped = 0;
-        
-        $ftp_path = $this->path . "/ftp/";
-        if (is_dir($ftp_path)) {
-          
-          $list = CFileHelper::findFiles($ftp_path);
-          if (count($list)) {
-            foreach ($list as $file) {
-              $file_info = pathinfo($file);
-              print $file;
-              $mime_type = CFileHelper::getMimeType($file);
-              if ($mime_type == "image/jpeg") {
-                $cnt_added++;
-                
-                $file_name = $this->checkFileName($path, $file_info["basename"]);
-                rename($file, $path . $file_name);
-                $this->createImage($file_name, filesize($path . $file_name), $_POST['ImportFtpForm']["batch_id"], $mime_type);
-              
-              } else {
-                $cnt_skipped++;
-              }
-            }
-          }
-        }          
-        
-        Flash::add("success", Yii::t('app', '{total} files found in \'/uploads/ftp\' folder, {num} images imported, {num_skipped} other files skipped', array("{total}" => $cnt_added + $cnt_skipped, "{num}" => $cnt_added, "{num_skipped}" => $cnt_skipped)));
-        
-        if ($cnt_skipped > 0)
-          Flash::add("warning", Yii::t('app', 'The {num_skipped} files that are still in the \'/uploads/ftp\' folder cannot be imported and should therfore be manually removed!', array("{total}" => $cnt_added + $cnt_skipped, "{num}" => $cnt_added, "{num_skipped}" => $cnt_skipped)), true);
-        
-        $this->redirect("uploadprocess");
+      foreach ($list as $file) {
+        $file_info = pathinfo($file);
+        if ($file_info['basename'] != '.gitignore') {
+          $count_files++;
+        }
       }
-    }
-    
+      
+    } 
     if (!Yii::app()->getRequest()->getIsPostRequest()) 
       $model->batch_id = "B-" . date('Y-m-d-H:i:s');
     
     $this->render('uploadftp', array(
       'model' => $model,
+      'count_files' => $count_files,
     ));
+  }
+  
+  private function _processFTPQueue() {
+    $data = array();
+    $data['status'] = 'ok';
+    
+    $this->checkUploadFolder();
+    
+    $path = $this->path . "/" . $this->subfolder."/";
+    if(!is_dir($path)){
+      mkdir($path);
+    }
+    
+    $model = new ImportFtpForm;
+    $count_files = 0;
+    
+    $ftp_path = $this->path . "/ftp/";
+    if (is_dir($ftp_path)) {
+      if (isset($_POST['ImportFtpForm'])) {
+        $model->setAttributes($_POST['ImportFtpForm']);
+        
+        if ($model->validate()) {
+          $cnt_added = 0;
+          $cnt_skipped = 0;
+          
+          $list = CFileHelper::findFiles($ftp_path);
+          foreach ($list as $file) {
+            $file_info = pathinfo($file);
+            if ($file_info['basename'] != '.gitignore') {
+              $count_files++;
+            }
+          }
+          
+          if ($count_files > 0) {
+            $import_per_request = $model->import_per_request;
+            $model->import_skipped = 0;
+            
+            foreach ($list as $file) {
+              if ($import_per_request > 0) {
+                $file_info = pathinfo($file);
+                $mime_type = CFileHelper::getMimeType($file);
+                
+                if ($file_info['basename'] != '.gitignore') {
+                  if ($mime_type == "image/jpeg") {
+                    $model->import_processed++;
+                    
+                    $file_name = $this->checkFileName($path, $file_info["basename"]);
+                    rename(str_replace('//', '/', $file), $path . $file_name);
+                    $this->createImage($file_name, filesize($path . $file_name), $_POST['ImportFtpForm']["batch_id"], $mime_type);
+                    $import_per_request--;
+                    
+                  } else {
+                    $model->import_skipped++;
+                  }
+                  $count_files--;
+                }
+              }
+            }
+            
+            if ($count_files == 0) {
+              $this->_finishFTPQueue($model->import_processed, $model->import_skipped);
+            } else {
+              $data['status'] = 'retry';
+              $data['files_left'] = $count_files;
+              $data['ImportFtpForm'] = $model;
+            }
+          } else {
+            $this->_finishFTPQueue($model->import_processed, $model->import_skipped);
+          }
+        } 
+      }
+    } 
+    $this->jsonResponse($data);
+  }
+  
+  private function _finishFTPQueue($added, $skipped) {
+    $data['status'] = 'done';
+    $data['redirect'] = Yii::app()->createUrl('admin/import/uploadprocess');
+    
+    Flash::add("success", Yii::t('app', '{total} files found in \'/uploads/ftp\' folder, {num} images imported, {num_skipped} other files skipped', array("{total}" => $added + $skipped, "{num}" => $added , "{num_skipped}" => $skipped)));
+    if ($skipped > 0)
+      Flash::add("warning", Yii::t('app', 'The {num_skipped} files that are still in the \'/uploads/ftp\' folder cannot be imported and should therfore be manually removed!', array("{total}" => $added + $skipped, "{num}" => $added , "{num_skipped}" => $skipped)), true);
+    
+    $this->jsonResponse($data);
+  }
+  
+  public function actionQueueProcess($action) {
+    switch ($action) {
+      case 'ftp':
+        $this->_processFTPQueue();
+        break; 
+    }
   }
   
   public function actionUploadProcess() {
