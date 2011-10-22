@@ -20,7 +20,9 @@ class ImageSetAtImportPlugin extends MGImportPlugin {
         GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true))), 
         array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => ""));
     $error = $form->error($model,'Image[imageSets]');
-    return CHtml::tag("fieldset", array(), '<div class="row">' . $legend . $listing . $error . '</div>');
+    $link = CHtml::link(Yii::t('app', 'Add new image set'), array('imageSet/create'));
+    
+    return CHtml::tag("fieldset", array(), '<div class="row">' . $legend . $listing . $error . $link . '</div>');
   }
   
   function validate(&$image, &$errors) {
