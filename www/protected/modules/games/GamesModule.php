@@ -279,11 +279,9 @@ class GamesModule extends CWebModule
   }
   
   /**
-   * Returns the highest scoring user on the platform
+   * Returns all available badges in the system
    * 
-   * @param int $limit The number of players to return in the list
-   * @param boolean $return_as_object If true all rows will be converted to objects
-   * @return mixed Null if no player found or array of arrays or objects
+   * @return mixed Null if no badges available array of objects {id, title, points}
    */
   public static function getBadges() {
     static $badges; // we only want to load the badges once per request
@@ -299,8 +297,43 @@ class GamesModule extends CWebModule
                     ->queryAll();
           
       if ($badges) {
-        foreach ($badges as $key => $row) {
-          $badges[$key] = (object)$row;  
+        foreach ($badges as $key => $badge) {
+          $badges[$key] = (object)$badge;  
+        }
+        return $badges;
+      } else {
+        $badges = -1;
+        return null; 
+      } 
+    }
+  }
+  
+  /**
+   * Returns all available badges and a numberic value how many times they have been awarded in the system
+   * 
+   * @return mixed Null if no badges available array of objects {id, title, points, counted}
+   */
+  public static function getAwardedBadges() {
+    static $badges; // we only want to load the badges once per request
+    
+    if ($badges || $badges == -1) {
+      return ($badges == -1)? null : $badges;
+    } else {
+      
+      $badges = Yii::app()->db->createCommand()
+                    ->select('b.id, b.title, b.points')
+                    ->from('{{badge}} b')
+                    ->order('b.points')
+                    ->queryAll();
+          
+      if ($badges) {
+        foreach ($badges as $key => $badge) {
+          $counted = Yii::app()->db->createCommand("  SELECT COUNT(*) FROM (SELECT DISTINCT ug.user_id
+                                                      FROM user_to_game ug 
+                                                      GROUP BY ug.user_id
+                                                      having Sum(ug.score) > :points) as temp")->bindParam(":points", $badge['points'])->queryScalar();
+          $badges[$key] = (object)$badge;
+          $badges[$key]->counted = $counted;
         }
         return $badges;
       } else {
