@@ -80,7 +80,7 @@ class CSVExportPlugin extends MGExportPlugin {
       $rows .= $row . "\n";
     }
     
-    if ($row != "") {
+    if ($rows != "") {
       file_put_contents ($tmp_folder . $model->filename . '.csv' , $rows, FILE_APPEND ); 
     }
     
