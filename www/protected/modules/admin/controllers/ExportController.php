@@ -348,7 +348,7 @@ class ExportController extends GxController {
   
   private function _getAffectedImages(&$command) {
     $ids = array();  
-    $image_ids = $command->selectDistinct('tu.image_id as id')->queryAll();
+    $image_ids = $command->selectDistinct('tu.image_id as id')->group('tu.tag_id, tu.image_id')->queryAll();
     if ($image_ids) {
       $c= count($image_ids);
       for($i=0;$i<$c;$i++) {
