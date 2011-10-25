@@ -102,7 +102,7 @@
   <p class="tag-info">Same as ${game_partner_name}: <b>'${tags_same_as}'</b>.</p>
 </script>
 <script id="template-partner-waiting-modal" type="text/x-jquery-tmpl">
-  Waiting for partner; timeout in <b>'${seconds}'</b> seconds.
+  <p>Waiting for partner; timeout in <b>'${seconds}'</b> seconds.</p>{{if play_against_computer == 1}}<p><a href="#" id="playAgainstComputerNow">Play against the computer right now</a></p>{{/if}}<a href="${arcade_url}">Abort</a> game.
 </script>
 <script id="template-partner-waiting-modal-turn" type="text/x-jquery-tmpl">
   Waiting for partner to submit turn.

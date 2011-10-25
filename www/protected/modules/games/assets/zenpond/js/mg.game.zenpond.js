@@ -3,6 +3,7 @@ MG_GAME_ZENPOND = function ($) {
     wordField : null,
     submitButton : null,
     doQueryMessages : false,
+    doPartnerSearch : true,
     
     init : function (options) {
       var settings = $.extend(options, {
@@ -176,30 +177,53 @@ MG_GAME_ZENPOND = function ($) {
       } else if (response.status == "retry") {
         // no partner available
         $("#partner-waiting-modal").html("");
-        $("#template-partner-waiting-modal").tmpl({seconds: Math.round(MG_GAME_API.settings.partner_wait_threshold - MG_GAME_API.settings.partner_waiting_time)}).appendTo($("#partner-waiting-modal"));
+        $("#template-partner-waiting-modal").tmpl({
+          seconds: Math.round(MG_GAME_API.settings.partner_wait_threshold - MG_GAME_API.settings.partner_waiting_time),
+          play_against_computer: MG_GAME_ZENPOND.game.play_against_computer,
+          arcade_url: MG_GAME_API.game.arcade_url
+          }).appendTo($("#partner-waiting-modal"));
         $("#partner-waiting-modal:hidden").fadeIn(500);
         
-        // wait for throttle interval to pass and check if a partner came online
-        MG_API.waitForThrottleIntervalToPass(function () {
-          var interval = MG_GAME_API.settings.throttleInterval;
-          if (interval < 1000)
-            interval = 1000;
-            
-          MG_GAME_API.settings.partner_waiting_time += (interval/1000);
-          if (MG_GAME_API.settings.partner_waiting_time <= MG_GAME_API.settings.partner_wait_threshold) {
-            MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid + '/a/' + MG_GAME_API.settings.partner_waiting_time + '/gp/' + MG_GAME_ZENPOND.game.game_partner_id , function(response) {
+        $('#playAgainstComputerNow').click(function () { 
+          // hide the waiting window and make a final game partner search call with attempt == MG_GAME_API.settings.partner_wait_threshold
+          // this will trigger the play against the computer mode 
+          $("#partner-waiting-modal").fadeOut(250);
+          MG_GAME_ZENPOND.doPartnerSearch = false;
+          
+          MG_API.waitForThrottleIntervalToPass(function () {
+            MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid + '/a/' + MG_GAME_API.settings.partner_wait_threshold + '/gp/' + MG_GAME_ZENPOND.game.game_partner_id , function(response) {
               if (MG_API.checkResponse(response)) {
                 MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
                 MG_GAME_API.settings.ongameinit(response);
               }
             }); 
-          } else {
-            MG_GAME_API.releaseOnBeforeUnload(); // make sure the user can navigate away without seeing the leaving confirmation
-            $("#partner-waiting-modal").html("");
-            $("#template-partner-waiting-time-out").tmpl({
-              game_base_url: MG_GAME_API.game.game_base_url,
-              arcade_url: MG_GAME_API.game.arcade_url
-            }).appendTo($("#partner-waiting-modal"));
+          }, 1000);
+          return false;
+        });
+        
+        // wait for throttle interval to pass and check if a partner came online
+        MG_API.waitForThrottleIntervalToPass(function () {
+          if (MG_GAME_ZENPOND.doPartnerSearch) {
+            var interval = MG_GAME_API.settings.throttleInterval;
+            if (interval < 1000)
+              interval = 1000;
+              
+            MG_GAME_API.settings.partner_waiting_time += (interval/1000);
+            if (MG_GAME_API.settings.partner_waiting_time <= MG_GAME_API.settings.partner_wait_threshold) {
+              MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid + '/a/' + MG_GAME_API.settings.partner_waiting_time + '/gp/' + MG_GAME_ZENPOND.game.game_partner_id , function(response) {
+                if (MG_API.checkResponse(response)) {
+                  MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
+                  MG_GAME_API.settings.ongameinit(response);
+                }
+              }); 
+            } else {
+              MG_GAME_API.releaseOnBeforeUnload(); // make sure the user can navigate away without seeing the leaving confirmation
+              $("#partner-waiting-modal").html("");
+              $("#template-partner-waiting-time-out").tmpl({
+                game_base_url: MG_GAME_API.game.game_base_url,
+                arcade_url: MG_GAME_API.game.arcade_url
+              }).appendTo($("#partner-waiting-modal"));
+            }
           }
         }, 1000);
       } else if (response.status = 'ok'){

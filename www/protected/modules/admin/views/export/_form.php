@@ -6,6 +6,14 @@
 	'method' => 'post',
 )); 
 ?>
+  <?php echo $form->errorSummary($model); ?>
+  <?php if ($count_affected_images > 0) : ?>
+  <div class="row">
+      <h4><span><b><?php print $count_affected_images; ?></b> images found for export</span>
+      <?php echo CHtml::button(Yii::t('app', 'Export Images'), array('id' => 'buttonExport')); ?></h4>
+  </div>
+  <?php endif; ?>
+  
   <div class="row">
     <?php echo $form->label($model, 'filename'); ?>
     <?php echo $form->textField($model, 'filename', array('maxlength' => 128)); ?>
@@ -140,8 +148,6 @@
   <?php echo CHtml::hiddenField('ExportForm[active_image]', ''); ?>
   <div class="row buttons">
     <?php echo GxHtml::submitButton(Yii::t('app', 'Check')); ?>
-    <?php if ($count_affected_images) : ?><span><b><?php print $count_affected_images; ?></b> images found for export</span><?php endif; ?>
-    <?php echo CHtml::button(Yii::t('app', 'Export'), array('id' => 'buttonExport')); ?>
   </div>
 <?php
 

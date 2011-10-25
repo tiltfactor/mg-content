@@ -191,6 +191,7 @@ return array (
       'image_grid_width' => '150',
       'image_grid_height' => '150',
       'number_guesses' => '3',
+      'number_hints' => '3',
       'partner_wait_threshold' => '30',
       'play_against_computer' => '1',
     ),

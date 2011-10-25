@@ -46,7 +46,7 @@ class ExportController extends GxController {
    
 	  $this->_checkExportFolder();
     $this->_checkFilesInExportFolder();
-    $count_affected_images = 0;
+    $count_affected_images = -1;
     
     $model = new ExportForm;
     
@@ -73,6 +73,10 @@ class ExportController extends GxController {
           $count_affected_images = count($model->affected_images);
         }
       }
+    }
+    
+    if ($count_affected_images == 0) {
+      $model->addError('all', Yii::t('app', 'No images found. Please change the form settings and try again.'));
     }
     
 	  $this->render('admin', array(
@@ -172,7 +176,7 @@ class ExportController extends GxController {
               if (is_dir($tmp_folder)) {
                 rmdir($tmp_folder);
               }
-              $this->_finishExportQueue(count($model->affected_images), $model->filename . '.zip');
+              $this->_finishExportQueue($model->filename . '.zip');
             } else {
               $data['status'] = 'error';
               $data['message'] = Yii::t('app', 'The zip file could not be created. You can find all exported files on the server under /uploads/tmp/' . $model->filename . '/');
@@ -191,11 +195,11 @@ class ExportController extends GxController {
     $this->jsonResponse($data);
   }
   
-  private function _finishExportQueue($processed, $filename) {
+  private function _finishExportQueue($filename) {
     $data['status'] = 'done';
     $data['redirect'] = Yii::app()->createUrl('admin/export/exported');
     
-    Flash::add("success", Yii::t('app', '{total} image exported. The export is ready to download as in this {file}', array("{total}" => $processed, "{file}" => $filename)));
+    Flash::add("success", Yii::t('app', 'Image successfully exported. The export is ready to download as in this {file}', array("{file}" => $filename)));
     $this->jsonResponse($data);
   }
 
