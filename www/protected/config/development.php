@@ -127,6 +127,9 @@ return array(
       'logging' => true,
       'dryRun' => false
     ),
+    'zip'=>array(
+      'class'=>'application.extensions.zip.EZip', 
+    ),
 	),
   
   'behaviors'=>array(

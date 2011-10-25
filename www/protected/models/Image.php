@@ -14,6 +14,8 @@ class Image extends BaseImage
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
     $criteria->join = "";
+    $criteria->distinct = true;
+    
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
     $criteria->compare('size', $this->size);
@@ -30,19 +32,17 @@ class Image extends BaseImage
         $parsed_tags = MGTags::parseTags($_GET["Custom"]["tags"]);
         if (count($parsed_tags) > 0) {
           $cmd =  Yii::app()->db->createCommand();
-          $cmd->distinct = true; 
           
           $tags = null;
           if ($_GET["Custom"]["tags_search_option"] == "OR") {
-            $tags = $cmd->select('tu.image_id')
+            $tags = $cmd->selectDistinct('tu.image_id')
                     ->from('{{tag_use}} tu')
                     ->join('{{tag}} tag', 'tu.tag_id = tag.id')
                     ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
                     ->queryAll();
           } else {
-            $tags = $cmd->select('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
+            $tags = $cmd->selectDistinct('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
                     ->from('{{tag_use}} tu')
-                    ->join('{{tag}} tag', 'tu.tag_id = tag.id')
                     ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
                     ->group('tu.image_id')
                     ->having('counted = :counted', array(':counted' => count($parsed_tags)))

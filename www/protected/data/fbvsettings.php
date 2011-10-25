@@ -68,6 +68,14 @@ return array (
       'role' => 'editor',
       'group' => 'Images & Tags',
     ),
+    'tool-export' => 
+    array (
+      'name' => 'Export',
+      'description' => 'Tools to export tags, tags uses, and tagged images',
+      'url' => '/admin/export',
+      'role' => 'editor',
+      'group' => 'Images & Tags',
+    ),
     'tool-user' => 
     array (
       'name' => 'Players',

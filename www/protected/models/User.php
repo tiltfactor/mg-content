@@ -234,7 +234,7 @@ class User extends BaseUser
   }
   
   /**
-   * lists user names that start with the passed parameter. It is mainly used for autocomplete
+   * lists user names that contain the passed parameter. It is mainly used for autocomplete
    * widgets
    * 
    * @param string $name the begin of the user name that should be found

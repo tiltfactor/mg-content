@@ -176,6 +176,11 @@ div.search-form
 	display:none;
 }
 
+div.search-form.show
+{
+  display:block;
+}
+
 .portlet
 {
 

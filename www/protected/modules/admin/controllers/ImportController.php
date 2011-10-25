@@ -109,6 +109,7 @@ class ImportController extends GxController {
           $tmp_path = sys_get_temp_dir() . "/MG" . date('YmdHis');
           if (!is_dir($tmp_path)) {
             mkdir($tmp_path);
+            chmod($tmp_path, 0777);
           }
           
           if (is_dir($tmp_path)) {
@@ -120,6 +121,7 @@ class ImportController extends GxController {
               $path = $this->path . "/" . $this->subfolder."/";
               if(!is_dir($path)){
                 mkdir($path);
+                chmod($path, 0777);
               }
               
               foreach ($list as $file) {
@@ -172,6 +174,7 @@ class ImportController extends GxController {
     $path = $this->path . "/" . $this->subfolder."/";
     if(!is_dir($path)){
       mkdir($path);
+      chmod($path, 0777);
     }
     
     $model = new ImportFtpForm;
@@ -207,6 +210,7 @@ class ImportController extends GxController {
     $path = $this->path . "/" . $this->subfolder."/";
     if(!is_dir($path)){
       mkdir($path);
+      chmod($path, 0777);
     }
     
     $model = new ImportFtpForm;
@@ -436,6 +440,7 @@ class ImportController extends GxController {
         $path = $this->path . "/" . $this->subfolder."/";
         if(!is_dir($path)){
           mkdir($path);
+          chmod($path, 0777);
         }
         
         $model->name = $this->checkFileName($path, $model->name);

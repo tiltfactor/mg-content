@@ -188,4 +188,22 @@ class Tag extends BaseTag
       return "";
     }
   }
+  
+  /**
+   * lists tags that contain the passed parameter. It is mainly used for autocomplete
+   * widgets
+   * 
+   * @param string $tag the begin of the tag that should be found
+   * @return mixed array containing the tag column or null
+   */
+  function searchForTags($tag) {
+    return Yii::app()->db->createCommand()
+                  ->selectDistinct('t.tag')
+                  ->from('{{tag}} t')
+                  ->join('{{tag_use}} tu', 'tu.tag_id = t.id')
+                  ->where(array('and', array('like', 't.tag', '%' . $tag . '%'), 'tu.weight > 0'))
+                  ->order('t.tag')
+                  ->limit(50)
+                  ->queryColumn();
+  }
 }

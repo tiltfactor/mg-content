@@ -54,7 +54,7 @@ if ($count_files > 0) : ?>
               $('#skipped').text(data.ImportFtpForm.import_skipped);
               
               if (active) {
-                //$.post("<?php echo Yii::app()->createUrl('/admin/import/queueProcess'); ?>/action/ftp", $("#import-form").serialize(), onresponse);  
+                $.post("<?php echo Yii::app()->createUrl('/admin/import/queueProcess'); ?>/action/ftp", $("#import-form").serialize(), onresponse);  
               }
             }
             break;
@@ -72,7 +72,7 @@ if ($count_files > 0) : ?>
         MG_API.popup('<h1>Processing Images</h1><p><span id="found"><?php echo $count_files ?></span> found, <span id="processed">0</span> processed, <span id="skipped">0</span> skipped, <span id="left">0</span> left</p>', {
           onClosed : function () {active = false;$(window).unbind('beforeunload');}
         })
-        //$.post("<?php echo Yii::app()->createUrl('/admin/import/queueProcess'); ?>/action/ftp", $("#import-form").serialize(), onresponse);
+        $.post("<?php echo Yii::app()->createUrl('/admin/import/queueProcess'); ?>/action/ftp", $("#import-form").serialize(), onresponse);
       }
       return false;
     }

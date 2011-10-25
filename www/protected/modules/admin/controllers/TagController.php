@@ -17,7 +17,7 @@ class TagController extends GxController {
   				'roles'=>array('*'),
   				),
   			array('allow', 
-  				'actions'=>array('view', 'batch', 'admin', 'merge', 'ban', 'weight', 'update', 'delete'),
+  				'actions'=>array('view', 'batch', 'admin', 'merge', 'ban', 'weight', 'update', 'delete', 'searchtags'),
   				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
   				),
   			array('deny', 
@@ -262,5 +262,13 @@ class TagController extends GxController {
         }
       }
     }
+  }
+  
+  public function actionSearchTags() {
+    $res = array();
+    if (isset($_GET["term"])) {
+      $res = Tag::model()->searchForTags((string)$_GET["term"]);
+    }
+    $this->jsonResponse($res);
   }
 }

@@ -19,6 +19,10 @@ class MGHelper {
         0 => Yii::t('app', 'No'),
         1 => Yii::t('app', 'Yes'),
       ),
+      'or-and' => array(
+        'OR' => Yii::t('app', 'OR'),
+        'AND' => Yii::t('app', 'AND'),
+      ),
     );
     if (isset($code))
       return isset($_items[$type][$code]) ? $_items[$type][$code] : array();
@@ -215,4 +219,24 @@ class MGHelper {
     }
     return $ip;
   }
+  
+  /**
+   * removes a folder and its content recurseivly
+   * 
+   * thanks holger1 at NOSPAMzentralplan dot de http://www.php.net/manual/en/function.rmdir.php#98622
+   * 
+   * @param string $dir the folder that should be removed 
+   */
+  public static function rrmdir($dir) {
+   if (is_dir($dir)) {
+     $objects = scandir($dir);
+     foreach ($objects as $object) {
+       if ($object != "." && $object != "..") {
+         if (filetype($dir."/".$object) == "dir") self::rrmdir($dir."/".$object); else unlink($dir."/".$object);
+       }
+     }
+     reset($objects);
+     rmdir($dir);
+   }
+ } 
 }

@@ -27,7 +27,6 @@
   <div class="row">
     <?php echo CHtml::label(Yii::t('app', "Player Name"), "Custom_username") ?>
     <?php
-    //http://jqueryui.com/demos/autocomplete/#multiple xxx for multiple values
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'name'=>'Custom[username]',
         'value'=> ((isset($_GET["Custom"]) && isset($_GET["Custom"]["username"]))? $_GET["Custom"]["username"] : ''),

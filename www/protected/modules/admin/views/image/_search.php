@@ -4,11 +4,21 @@
 	'action' => Yii::app()->createUrl($this->route),
 	'method' => 'get',
 )); ?>
+
   <div class="row">
     <?php echo CHtml::label(Yii::t('app', "Tag(s)"), "Custom_tags") ?>
-    <?php echo CHtml::textField("Custom[tags]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags"]))? $_GET["Custom"]["tags"] : '')); ?>
-    <?php echo Yii::t('app', "(separate tags or phrases with a ',')"); ?>
+    <?php
+    $this->widget('MGJuiAutoCompleteMultiple', array(
+        'name'=>'Custom[tags]',
+        'value'=> ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags"]))? $_GET["Custom"]["tags"] : ''),
+        'source'=>$this->createUrl('/admin/tag/searchTags'),
+        'options'=>array(
+                'showAnim'=>'fold',
+        ),
+    ));
+    ?>
   </div>
+  
   <div class="row small">
     <?php echo CHtml::label(Yii::t('app', "&nbsp;"), "") ?>
     <?php echo CHtml::radioButtonList("Custom[tags_search_option]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags_search_option"]))? $_GET["Custom"]["tags_search_option"] : 'OR'), array("OR"=>"OR", "AND" => "AND"), array(
@@ -29,7 +39,6 @@
   <div class="row">
     <?php echo CHtml::label(Yii::t('app', "Player Name"), "Custom_username") ?>
     <?php
-    //http://jqueryui.com/demos/autocomplete/#multiple xxx for multiple values
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'name'=>'Custom[username]',
         'value'=> ((isset($_GET["Custom"]) && isset($_GET["Custom"]["username"]))? $_GET["Custom"]["username"] : ''),
