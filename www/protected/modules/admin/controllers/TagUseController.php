@@ -36,8 +36,36 @@ class TagUseController extends GxController {
     		$this->performAjaxValidation($model, 'tag-use-form');
 
 		if (isset($_POST['TagUse'])) {
-			$model->setAttributes($_POST['TagUse']);
-
+		  $model->setAttributes($_POST['TagUse']);
+      
+      if (isset($_POST['TagUse']['tag']) && trim($_POST['TagUse']['tag']) != "" && trim($_POST['TagUse']['tag']) != $model->tag) {
+        $tag = Tag::model()->findByAttributes(array('tag' => trim($_POST['TagUse']['tag'])));
+        if ($tag) {
+          $model->tag_id = $tag->id;
+          
+        } else {
+          $tag = new Tag;
+          $tag->tag = trim($_POST['TagUse']['tag']);
+          $tag->created = date('Y-m-d H:i:s');
+          $tag->modified = date('Y-m-d H:i:s');
+          
+          if (!$tag->save())
+            throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+          
+          $model->tag_id = $tag->id;
+        }
+        
+        $tag_ov = new TagOriginalVersion;
+        $tag_ov->original_tag = $model->tag;
+        $tag_ov->tag_use_id = $model->id;
+        $tag_ov->comments = "update tag use's tag from '{$model->tag}' to '{$_POST['TagUse']['tag']}'";
+        $tag_ov->user_id = Yii::app()->user->id;
+        $tag_ov->created = date('Y-m-d H:i:s');
+        
+        if (!$tag_ov->save())
+          throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      }
+      
 			if ($model->save()) {
         MGHelper::log('update', 'Updated TagUse with ID(' . $id . ')');
         Flash::add('success', Yii::t('app', "TagUse updated"));

@@ -6,6 +6,7 @@ class TagUse extends BaseTagUse
 {
   public $username;
   public $user_id;
+  public $ip_address;
   
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
@@ -19,7 +20,24 @@ class TagUse extends BaseTagUse
       array('type', 'length', 'max'=>64),
       array('game_submission_id', 'length', 'max'=>10),
       array('weight, type', 'default', 'setOnEmpty' => true, 'value' => null),
-      array('id, image_id, tag_id, weight, type, created, game_submission_id, username, user_id', 'safe', 'on'=>'search'),
+      array('id, image_id, tag_id, weight, type, created, game_submission_id, username, user_id, ip_address', 'safe', 'on'=>'search'),
+    );
+  }
+  
+  public function attributeLabels() {
+    return array(
+      'id' => Yii::t('app', 'ID'),
+      'image_id' => null,
+      'tag_id' => null,
+      'weight' => Yii::t('app', 'Weight'),
+      'type' => Yii::t('app', 'Type'),
+      'created' => Yii::t('app', 'Created'),
+      'game_submission_id' => null,
+      'tagOriginalVersions' => null,
+      'gameSubmission' => null,
+      'image' => null,
+      'tag' => null,
+      'ip_address' => Yii::t('app', 'Submitters IP address')
     );
   }
   
@@ -48,7 +66,7 @@ class TagUse extends BaseTagUse
   public function search() {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
-    $criteria->select = 't.*, u.username, u.id as user_id';
+    $criteria->select = 't.*, u.username, u.id as user_id, s.ip_address';
     $criteria->distinct = true;
     $criteria->join .= "  LEFT JOIN {{game_submission}} gs ON gs.id=t.game_submission_id
                           LEFT JOIN {{session}} s ON s.id=gs.session_id
@@ -61,6 +79,7 @@ class TagUse extends BaseTagUse
     $criteria->compare('t.created', $this->created, true);
     $criteria->compare('t.game_submission_id', $this->game_submission_id);
     $criteria->compare('t.type', $this->type, true);
+    $criteria->compare('s.ip_address', ip2long($this->ip_address));
     
     if (isset($_GET["TagUse"])) {
       if (isset($_GET["TagUse"]["username"]) && trim($_GET["TagUse"]["username"]) != "") {
@@ -90,10 +109,21 @@ class TagUse extends BaseTagUse
       
       if ($tag_use_types) {
         foreach ($tag_use_types as $tu_type) {
-          $types[$tu_type['type']] = $tu_type['type'];
+          if ($tu_type['type'] != "") {
+            if (strpos($tu_type['type'], "|") !== false) {
+              $a = explode("|", $tu_type['type']);
+              foreach ($a as $t) {
+                if (trim($t) != "")
+                  $types[$t] = $t; 
+              }
+            } else {
+              $types[$tu_type['type']] = $tu_type['type'];  
+            }
+          }
         }
       }
     }
+    ksort($types);
     return $types;
   }
 
@@ -129,6 +159,26 @@ class TagUse extends BaseTagUse
                       ->join('{{user}} u', 'u.id=s.user_id')
                       ->where('tu.id=:tuID', array("tuID" => $this->id))
                       ->queryRow();
+  }
+  
+  /**
+   * Returns the ip address of the submitting session.
+   * 
+   * @return string the ip address
+   */
+  public function getIpAddress() {
+     $ip_address = Yii::app()->db->createCommand()
+                      ->select('s.ip_address')
+                      ->from('{{tag_use}} tu')
+                      ->join('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
+                      ->join('{{session}} s', 's.id=gs.session_id')
+                      ->where('tu.id=:tuID', array("tuID" => $this->id))
+                      ->queryScalar();
+    if ($ip_address) {
+      return long2ip($ip_address);
+    } else {
+      return "-";
+    }
   }
   
   /**

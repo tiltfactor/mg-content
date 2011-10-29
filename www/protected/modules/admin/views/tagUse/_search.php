@@ -43,6 +43,12 @@
     <?php echo $form->dropDownList($model,'type', TagUse::getUsedTypes(), array('prompt' => Yii::t('app', 'Please Choose'))); ?>
   </div>
   
+  <div class="row">
+    <?php echo $form->label($model, 'ip_address'); ?>
+    <?php echo $form->textField($model, 'ip_address'); ?>
+    <div class="description"><?php echo Yii::t('app', "Please enter a full ip address (e.g 89.56.34.1)"); ?></div>
+  </div>
+  
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>

@@ -365,7 +365,7 @@ class GamesModule extends CWebModule
    */
   public static function getStatistics($game_id = null) {
     $cmd = Yii::app()->db->createCommand()
-                    ->select('g.id, g.unique_id, COUNT(DISTINCT ug.user_id) cnt_users, SUM(ug.number_played) as , SUM(ug.score) as sum_scored')
+                    ->select('g.id, g.unique_id, COUNT(DISTINCT ug.user_id) cnt_users, SUM(ug.number_played) as sum_played, SUM(ug.score) as sum_scored')
                     ->from('{{user_to_game}} ug')
                     ->join('{{game}} g', 'g.id = ug.game_id')
                     ->group('ug.game_id')

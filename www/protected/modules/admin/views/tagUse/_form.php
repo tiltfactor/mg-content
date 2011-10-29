@@ -20,8 +20,19 @@
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'tag_id'); ?> 
-    <?php echo $model->tag; ?>
-    </div><!-- row -->
+    <?php
+      $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+          'name'=>'TagUse[tag]',
+          'value'=> ((isset($_POST["TagUse"]) && isset($_POST["TagUse"]["tag"]))? $_POST["TagUse"]["tag"] : $model->tag),
+          'source'=>$this->createUrl('/admin/tag/searchTags'),
+          'options'=>array(
+                  'showAnim'=>'fold',
+          ),
+      ));
+    ?>
+    <div><?php echo Yii::t('app', "You can update the tag use's tag by making use of the autocomplete functionality to find an existing tag or by entering a new tag"); ?></div>
+  </div><!-- row -->
+    
     <div class="row">
     <?php echo $form->labelEx($model,'weight'); ?>
     <?php echo $form->textField($model, 'weight'); ?>

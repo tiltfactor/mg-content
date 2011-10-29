@@ -47,6 +47,11 @@ array(
       ),
 'weight',
 'type',
+array(
+      'name' => Yii::t('app', 'IP Address'),
+      'type' => 'raw',
+      'value' => $model->getIpAddress(),
+      ),
 'created',
 array(
 			'name' => Yii::t('app', 'Game Submission (This tag use is based on the following game submission [Raw Data])'),

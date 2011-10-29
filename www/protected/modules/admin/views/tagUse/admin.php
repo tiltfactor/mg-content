@@ -71,6 +71,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'type'=>'html',
       'value'=>'$data->getUserName(true)',
     ),
+    array(
+      'header' => Yii::t('app', 'IP Address'),
+      'name' => 'ip_address',
+      'type'=>'raw',
+      'value'=>'long2ip($data->ip_address)',
+    ),
 		'created',
     array (
   'class' => 'CButtonColumn',
