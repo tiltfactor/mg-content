@@ -77,6 +77,7 @@ EOD;
     
     $this->render('/zenTag/view', array(
       'model' => $model,
+      'statistics' => GamesModule::getStatistics($model->id)
     ));
   }
   

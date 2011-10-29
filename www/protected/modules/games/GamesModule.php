@@ -342,4 +342,67 @@ class GamesModule extends CWebModule
       } 
     }
   }
+  
+  /**
+   * Returns usage statistics for one or more games.
+   * If a game_id is given an object with the available information will be retrieved otherwise
+   * an array of objects will be returned. 
+   *  
+   * returned object {
+   *  id, //the game id in the database
+   *  unique_id, // the unique game id
+   *  cnt_users, // number unique users/players playing the game
+   *  sum_played, // number of times a game has been played
+   *  sum_scored, // total score of all games.
+   *  cnt_played_games, // number of times a game has been played (first turn shown)
+   *  cnt_played_games_finished, // number of times a played game has been finished by guests/players
+   *  cnt_played_games_by_users, // number of games finished by registered players
+   *  cnt_played_games_by_guests, // number of games finished by guests
+   * }
+   * 
+   * @param int $game_id optional id of the game for which the data shall be retrieved
+   * @return mixed null/object/array or objects
+   */
+  public static function getStatistics($game_id = null) {
+    $cmd = Yii::app()->db->createCommand()
+                    ->select('g.id, g.unique_id, COUNT(DISTINCT ug.user_id) cnt_users, SUM(ug.number_played) as , SUM(ug.score) as sum_scored')
+                    ->from('{{user_to_game}} ug')
+                    ->join('{{game}} g', 'g.id = ug.game_id')
+                    ->group('ug.game_id')
+                    ->order('g.unique_id');
+    if ($game_id) {
+      $cmd->where('ug.game_id = :gameID', array(':gameID' => $game_id));
+    }
+    
+    $games = $cmd->queryAll();
+    
+    if ($games) {
+      $games_processed = array();
+      foreach($games as $game) {
+        
+        $game['cnt_played_games'] = Yii::app()->db->createCommand()
+                ->select('COUNT(id)')
+                ->from('{{played_game}} pg')
+                ->where('game_id=:gameID', array(':gameID' => $game["id"]))
+                ->queryScalar();
+        
+        $game['cnt_played_games_finished'] = Yii::app()->db->createCommand()
+                ->select('COUNT(id)')
+                ->from('{{played_game}} pg')
+                ->where('game_id=:gameID AND finished is not null', array(':gameID' => $game["id"]))
+                ->queryScalar();
+        
+        $game['cnt_played_games_by_users'] = $game['sum_played'];
+        $game['cnt_played_games_by_guests'] = $game['cnt_played_games_finished'] - $game['sum_played'];
+        
+        if ($game_id && $game_id == $game['id']) {
+          return (object)$game;
+        } else {
+          $games_processed[] = (object)$game;
+        }
+      }
+      return $games_processed;
+    }
+    return null;      
+  } 
 }

@@ -32,6 +32,30 @@ $this->menu = array(
     'turns',
     'image_width',
     'image_height',
+    array(
+      'name' => Yii::t('app', 'Played Games (started)'),
+      'value' => $statistics->cnt_played_games
+    ),
+    array(
+      'name' => Yii::t('app', 'Played Games (finished)'),
+      'value' => $statistics->cnt_played_games_finished
+    ),
+    array(
+      'name' => Yii::t('app', 'Finished Games by Guests'),
+      'value' => $statistics->cnt_played_games_by_guests
+    ),
+    array(
+      'name' => Yii::t('app', 'Finished Games by Registered Players'),
+      'value' => $statistics->cnt_played_games_by_users
+    ),
+    array(
+      'name' => Yii::t('app', 'Number of Registered Users Playing the Game'),
+      'value' => $statistics->cnt_users
+    ),
+    array(
+      'name' => Yii::t('app', 'Registered Players Total Score'),
+      'value' => $statistics->sum_scored
+    )
 	),
 )); ?>
 

@@ -75,6 +75,7 @@ EOD;
     
     $this->render('view', array(
       'model' => $model,
+      'statistics' => GamesModule::getStatistics($model->id)
     ));
   }
   

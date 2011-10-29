@@ -258,7 +258,7 @@ class ExportController extends GxController {
           }
           $where[] = array('in', 'tu.image_id', array_values($ids));
         } else {
-          $where[] = array('in', 'tu.image_id', array_values(0));
+          $where[] = array('in', 'tu.image_id', array(0));
         }
       }
     }
