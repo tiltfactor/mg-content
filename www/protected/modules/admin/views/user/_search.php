@@ -48,6 +48,7 @@
 	<div class="row">
 		<?php echo $form->label($model, 'edited_count'); ?>
 		<?php echo $form->textField($model, 'edited_count'); ?>
+		<div class="description">(you can make use of < or > comparators. E.g > 5 will find all users that have more than 5 banned tags)</div>
 	</div>
 	
 	<div class="row">

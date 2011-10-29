@@ -40,7 +40,7 @@ $this->menu=array(
     ),
     array(
       'name' => 'edited_count',
-      'value' => $model->edited_count . " (xxx this functionality is not yet active)",
+      'value' => $model->edited_count,
     ),
 		array(
       'label' => Yii::t('app', 'Number Sessions'),

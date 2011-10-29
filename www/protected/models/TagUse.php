@@ -54,10 +54,28 @@ class TagUse extends BaseTagUse
   }
   
   public function banTag($tag_id) {
+    $users = Yii::app()->db->createCommand()
+                  ->select('u.id')
+                  ->from('{{user}} u')
+                  ->join('{{session}} s', 's.user_id = u.id')
+                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  ->where('tu.tag_id=:tagID', array(":tagID" => $tag_id))
+                  ->queryColumn();
+    
+    if ($users && count($users) > 0) {
+      $sql = "  UPDATE user
+                SET edited_count=edited_count+1
+                WHERE id IN (" . implode(",", $users) . ")";
+      
+      $command=Yii::app()->db->createCommand($sql);        
+      $command->execute();
+    }
+    
     $sql = "  UPDATE tag_use tu
               SET weight=0, type = CONCAT(type, '|tag-banned')
               WHERE tu.tag_id=:tagID";
-              
+    
     $command=Yii::app()->db->createCommand($sql);        
     $command->bindValue(':tagID', $tag_id);
     $command->execute();
