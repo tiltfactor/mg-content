@@ -65,7 +65,7 @@ class MGGame extends CComponent {
                   ->join('{{image}} i', 'i.id=is2i.image_id')
                   ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
                   ->where(array('and', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images))) 
-                  ->order('i.last_acccess ASC')
+                  ->order('i.last_access ASC')
                   ->limit($limit)
                   ->queryAll();  
     } else {

@@ -130,7 +130,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
           }  
           
           if ($attempts == 0)
-            throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough tagges images available to play in computer mode'));
+            throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough tagged images available to play in computer mode'));
           
           $describe_image_id = $available_images[array_rand($available_images, 1)];
         }   
