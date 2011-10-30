@@ -98,16 +98,28 @@ class UserToSubjectMatter extends BaseUserToSubjectMatter
    * List the subject matters for the user
    * 
    * @param int $user_id The id of the user for whom the list should be generated
+   * @param boolean $hide_all hide all subject matter
    * @return mixed null if no values or array of objects [{id, name, interest, expertise, trust}, ... ]
    */
-  public static function listForUser($user_id) {
-    $subjectMatters = Yii::app()->db->createCommand()
+  public static function listForUser($user_id, $hide_all=true) {
+    if ($hide_all) {
+      $subjectMatters = Yii::app()->db->createCommand()
+                      ->select('sm.id, sm.name, usm.interest, usm.expertise, usm.trust')
+                      ->from('{{user_to_subject_matter}} usm')
+                      ->rightJoin('{{subject_matter}} sm', 'sm.id=usm.subject_matter_id')
+                      ->where(array('and', 'sm.id<> 1', 'usm.user_id=:userID'), array('userID' => $user_id))
+                      ->order('sm.name')
+                      ->queryAll();
+    } else {
+      $subjectMatters = Yii::app()->db->createCommand()
                       ->select('sm.id, sm.name, usm.interest, usm.expertise, usm.trust')
                       ->from('{{user_to_subject_matter}} usm')
                       ->rightJoin('{{subject_matter}} sm', 'sm.id=usm.subject_matter_id')
                       ->where('usm.user_id=:userID', array('userID' => $user_id))
                       ->order('sm.name')
                       ->queryAll();
+    }
+    
                       
     if ($subjectMatters) {
       $sm = array();

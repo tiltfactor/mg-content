@@ -44,7 +44,7 @@ class PlayerSubjectMatter extends CPortlet
     if ($this->user_id) {
       UserToSubjectMatter::ensureRelationShips($this->user_id);
       
-      $subject_matters = UserToSubjectMatter::listForUser($this->user_id);
+      $subject_matters = UserToSubjectMatter::listForUser($this->user_id, !$this->admin);
       
       if ($this->update) {
         $this->render('playerSubjectMatterForm', array(

@@ -54,14 +54,34 @@ class MGGame extends CComponent {
     
     $used_images = $this->getUsedImages($game, $game_model);
     
-    // xxx here should interest come into play. 
-    $images = Yii::app()->db->createCommand()
-                ->selectDistinct('i.id, i.name, is.licence_id')
-                ->from('{{image_set_to_image}} is2i')
-                ->join('{{image}} i', 'i.id=is2i.image_id')
-                ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
-                ->where(array('and', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images))) 
-                ->queryAll();
+    $limit = $num_images * 5;
+    $limit = ($limit < 50)? 50 : $limit;
+    
+    // if a player is logged in the images should be weight by 
+    if (Yii::app()->user->isGuest) {
+      $images = Yii::app()->db->createCommand()
+                  ->selectDistinct('i.id, i.name, is.licence_id')
+                  ->from('{{image_set_to_image}} is2i')
+                  ->join('{{image}} i', 'i.id=is2i.image_id')
+                  ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
+                  ->where(array('and', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images))) 
+                  ->order('i.last_acccess ASC')
+                  ->limit($limit)
+                  ->queryAll();  
+    } else {
+      $images = Yii::app()->db->createCommand()
+                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest')
+                  ->from('{{image_set_to_image}} is2i')
+                  ->join('{{image}} i', 'i.id=is2i.image_id')
+                  ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
+                  ->rightJoin('{{image_set_to_subject_matter}} is2sm', 'is2sm.image_set_id=is2i.image_set_id')
+                  ->rightJoin('{{user_to_subject_matter}} usm', 'usm.subject_matter_id=is2sm.subject_matter_id')
+                  ->where(array('and', 'usm.user_id=:userID', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images)), array(':userID' => Yii::app()->user->id))
+                  ->group('i.id, i.name, is.licence_id')
+                  ->order('max_interest DESC, i.last_access ASC')
+                  ->limit($limit)
+                  ->queryAll();  
+    }
     
     if ($images && count($images) >= $num_images) {
       $arr_image = array();
