@@ -67,9 +67,31 @@ class EZip extends CApplicationComponent {
       $zip = new ZipArchive;
       $res = $zip->open($src);
       if ($res === TRUE) {
-          $zip->extractTo($dest);
-          $zip->close();
-          $flag = true;
+        $zip->extractTo($dest);
+        $zip->close();
+        $list = CFileHelper::findFiles($dest);
+        
+        if ($list && is_array($list) && count($list) > 0) {
+          $file_list = array();
+          
+          // ZipArchive and PCLZip return differn list 
+          // The following loop makes sure both methods return similar lists
+          foreach ($list as $file) {
+            
+            $tmp_dest = strpos($dest, -1) == '/'? $dest : $dest . '/';
+            
+            $file_list[] = array(
+              "filename" => $file,
+              "stored_filename" => str_replace($tmp_dest, '', $file),
+              "size" => filesize($file),
+              "mtime" => filectime($file),
+              "folder" => is_dir($file),
+            );
+          }
+          
+          return $file_list;
+        } 
+        return false;
       } 
     } else {
       include_once('pclzip/pclzip.lib.php');

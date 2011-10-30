@@ -104,7 +104,7 @@ class ImportController extends GxController {
         $file_image = CUploadedFile::getInstance($model,'zipfile');
       
         if ( (is_object($file_image) && get_class($file_image)==='CUploadedFile')) {
-          $pclzip = $this->module->pclzip;  
+          $pclzip = $this->module->zip;  
           
           $tmp_path = sys_get_temp_dir() . "/MG" . date('YmdHis');
           if (!is_dir($tmp_path)) {
@@ -123,14 +123,14 @@ class ImportController extends GxController {
                 mkdir($path);
                 chmod($path, 0777);
               }
-              
+
               foreach ($list as $file) {
-                  
                 $file_info = pathinfo($file['stored_filename']);
                 
                 if (!$file["folder"] && strpos($file['stored_filename'], "__MACOSX") === false) { // we don't want to process folder and MACOSX meta data file mirrors as the mirrored files also return the image/jpg mime type
                   $mime_type = CFileHelper::getMimeType($file['filename']);
-                  if ($mime_type == "image/jpeg") {
+                  $file_ok = $this->_checkImage($file['filename']);
+                  if ($mime_type == "image/jpeg" && $file_ok) {
                     $cnt_added++;
                     
                     $file['stored_filename'] = $this->checkFileName($path, $file_info["basename"]);
@@ -138,6 +138,8 @@ class ImportController extends GxController {
                     $this->createImage($file['stored_filename'], $file['size'], $_POST['ImportZipForm']["batch_id"], $mime_type);
                   
                   } else {
+                    if (!$file_ok)
+                      Flash::add('error', Yii::t('app', 'The file {file} is corrupt and could therefore not be imported.', array('{file}' => $file['filename'])), true);
                     $cnt_skipped++;
                   }
                 }
@@ -241,17 +243,18 @@ class ImportController extends GxController {
               if ($import_per_request > 0) {
                 $file_info = pathinfo($file);
                 $mime_type = CFileHelper::getMimeType($file);
+                $file_ok = $this->_checkImage($file);
                 
                 if ($file_info['basename'] != '.gitignore') {
-                  if ($mime_type == "image/jpeg") {
+                  if ($mime_type == "image/jpeg" && $file_ok) {
                     $model->import_processed++;
-                    
                     $file_name = $this->checkFileName($path, $file_info["basename"]);
                     rename(str_replace('//', '/', $file), $path . $file_name);
                     $this->createImage($file_name, filesize($path . $file_name), $_POST['ImportFtpForm']["batch_id"], $mime_type);
                     $import_per_request--;
-                    
                   } else {
+                    if (!$file_ok)
+                      Flash::add('error', Yii::t('app', 'The file {file} is corrupt and could therefore not be imported.', array('{file}' => $file)), true);
                     $model->import_skipped++;
                   }
                   $count_files--;
@@ -447,16 +450,27 @@ class ImportController extends GxController {
         
         $model->file->saveAs($path . $model->name);
         
-        $this->createImage($model->name, $model->size, $_POST["batch_id"], $model->mime_type);
+        if ($this->_checkImage($path . $model->name)) {
         
-        $info[] = array(
-          'tmp_name' => $model->file->getName(),
-          'name' => $model->name,
-          'size' => $model->size,
-          'type' => $model->mime_type,
-          'thumbnail_url' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . "/thumbs/". $model->name,  
-          'error' => null
-        );
+          $this->createImage($model->name, $model->size, $_POST["batch_id"], $model->mime_type);
+          
+          $info[] = array(
+            'tmp_name' => $model->file->getName(),
+            'name' => $model->name,
+            'size' => $model->size,
+            'type' => $model->mime_type,
+            'thumbnail_url' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . "/thumbs/". $model->name,  
+            'error' => null
+          );
+        } else {
+          $info[] = array(
+            'tmp_name' => $model->file->getName(),
+            'name' => $model->name,
+            'size' => $model->size,
+            'type' => $model->mime_type,
+            'error' => Yii::t('app', 'I/O erroro. Uploaded image file corrupted.')
+          );
+        }
       } else {
         $info[] = array(
           'tmp_name' => $model->file->getName(),
@@ -481,6 +495,30 @@ class ImportController extends GxController {
       );
     }  
     $this->jsonResponse($info);
+  }
+  
+  /**
+   * The method implements a basic functionality to verify if the uploaded image is an image file 
+   * and not corrupted
+   * 
+   * @param string $path the full path to the image
+   * @return boolean true if the file is a valid image file
+   */
+  private function _checkImage($path) {
+    // Disable error reporting, to prevent PHP warnings
+    $ER = error_reporting(0);
+
+    // Fetch the image size and mime type
+    $image_info = getimagesize($path);
+
+    // Turn on error reporting again
+    error_reporting($ER);
+
+    // Make sure that the image is readable and valid
+    if ( ! is_array($image_info) OR count($image_info) < 3)
+      return false;
+    else 
+      return true;
   }
   
   private function checkFileName($path, $file_name) {

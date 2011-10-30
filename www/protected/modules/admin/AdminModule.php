@@ -13,8 +13,8 @@ class AdminModule extends CWebModule
 			'admin.components.*',
 		));
     
-    $this->setComponents(array('pclzip'=>array(
-        'class'=>'application.extensions.pclzip.EPCLZip',
+    $this->setComponents(array('zip'=>array(
+        'class'=>'application.extensions.zip.EZip',
       )
     ));
 	}
