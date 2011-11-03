@@ -60,7 +60,7 @@ class MGGame extends CComponent {
     
     if (Yii::app()->user->isGuest) {
       $images = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, (i.last_access <= now()-is.last_access_interval) as last_access_ok')
+                  ->selectDistinct('i.id, i.name, is.licence_id, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
                   ->from('{{image_set_to_image}} is2i')
                   ->join('{{image}} i', 'i.id=is2i.image_id')
                   ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
@@ -71,7 +71,7 @@ class MGGame extends CComponent {
     } else {
       // if a player is logged in the images should be weight by interest
       $images = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access <= now()-is.last_access_interval) as last_access_ok')
+                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
                   ->from('{{image_set_to_image}} is2i')
                   ->join('{{image}} i', 'i.id=is2i.image_id')
                   ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
