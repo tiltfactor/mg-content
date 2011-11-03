@@ -37,6 +37,7 @@ $this->menu=array(
 			),
   'created',
   'modified',
+  'last_access_interval',
   array (
     'name' => Yii::t('app', 'Images'),
     'type' => 'html',

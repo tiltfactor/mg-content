@@ -72,6 +72,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		/*
 		'modified',
 		*/
+		'last_access_interval',
     array (
   'class' => 'CButtonColumn',
   'buttons' => 

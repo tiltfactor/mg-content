@@ -4,12 +4,15 @@ Yii::import('application.models._base.BaseImage');
 
 class Image extends BaseImage
 {
-  // xxx make use of last_access
-  
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
   
+  /**
+   * Provides a CActiveDataProvider for the image tool search functionality
+   * 
+   * @return object CActiveDataProvider the dataprovider
+   */
   public function search() {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
@@ -89,6 +92,11 @@ class Image extends BaseImage
     ));
   }
   
+  /**
+   * Provides a CActiveDataProvider. Lists all images that are not processed via the import tool
+   * 
+   * @return object CActiveDataProvider the dataprovider for the import process screen
+   */
   public function unprocessed() {
     $criteria = new CDbCriteria;
 
@@ -114,8 +122,10 @@ class Image extends BaseImage
   }
   
   /**
-   * as images have got files we have to make sure that all files are removed from the file system once an image
+   * As images have got files we have to make sure that all files are removed from the file system once an image
    * has been deleted.
+   * 
+   * This method is automatically called as Yii behaviour
    */
   public function afterDelete() {
     $path = realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
@@ -140,6 +150,12 @@ class Image extends BaseImage
     parent::afterDelete(); 
   }
   
+  /**
+   * Created the CArrayDataProvider for the image listing on a user/player detail view.
+   * 
+   * @param int $user_id the user_id of the user for which the images should be listed
+   * @return object CArrayDataProvider the configured dataprovider that can list all images that are tag by the given user
+   */
   public function searchUserImages($user_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('COUNT(i.id) as counted, COUNT(DISTINCT tu.tag_id) as tag_counted, i.id, i.name')
@@ -165,6 +181,12 @@ class Image extends BaseImage
     ));
   }
   
+  /**
+   * Created the CArrayDataProvider for the image listing on a tag detail view.
+   * 
+   * @param int $tag_id the tag_id of the tag for which the images should be listed
+   * @return object CArrayDataProvider the configured dataprovider that can list all images that are tag with the identified tag
+   */
   public function searchTagImages($tag_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('COUNT(i.id) as counted, COUNT(DISTINCT s.user_id) as user_counted, i.id, i.name')
@@ -190,6 +212,12 @@ class Image extends BaseImage
     ));
   }
   
+  /**
+   * returns a comma separated list of the tag that are used most for the image. each of the listed tags
+   * will be linked to its view page. in addition the use count will be given.  
+   * 
+   * @param int $num_tags the number of top tags to be listed
+   */
   public function getTopTags($num_tags=10) {
     $tags = Yii::app()->db->createCommand()
                   ->select('count(t.id) as counted, t.id, t.tag')
@@ -213,7 +241,10 @@ class Image extends BaseImage
       return ""; 
     }
   }
-
+  
+  /**
+   * lists all image set of the image as comma separated list of html links (linking to the imageSet/view page)
+   */
   public function listImageSets() {
     $out = array();
     if (count($this->imageSets) > 0) {
@@ -223,5 +254,21 @@ class Image extends BaseImage
     }
     return implode(", ", $out);
   }
-
+  
+  /**
+   * updates the last_access time of each image identified by the ids in the passed array.
+   * 
+   * @param array $image_ids array of integer - the ids of the images which last_access should be set to now
+   */
+  public function setLastAccess($image_ids) {
+    if (is_array($image_ids) && count($image_ids)) {
+      $sql = "  UPDATE image
+                SET last_access=now()
+                WHERE id IN (" . implode(",", $image_ids) . ")";
+        
+      $command=Yii::app()->db->createCommand($sql);        
+      $command->execute();
+    }
+  }
+  
 }

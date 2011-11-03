@@ -23,7 +23,10 @@
 		<?php echo $form->label($model, 'licence_id'); ?>
 		<?php echo $form->dropDownList($model, 'licence_id', GxHtml::listDataEx(Licence::model()->findAllAttributes(null, true)), array('prompt' => Yii::t('app', 'All'))); ?>
 	</div>
-
+  <div class="row">
+    <?php echo $form->label($model, 'last_access_interval'); ?>
+    <?php echo $form->textArea($model, 'last_access_interval'); ?>
+  </div>
 	<div class="row">
 		<?php echo $form->label($model, 'created'); ?>
 		<?php echo $form->textField($model, 'created'); ?>

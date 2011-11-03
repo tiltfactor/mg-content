@@ -68,19 +68,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 		//'size',
 		'batch_id',
-		//'last_access', //xxx implement last access
+		'last_access', 
 		//'created',
-		    // xxx show image sets and allow for dropdown filter
-		/*
-		 array(
-        'name' => 'locked',
-        'type' => 'raw',
-        'value' => 'MGHelper::itemAlias(\'locked\',$data->locked)',
-        'filter'=> MGHelper::itemAlias('locked'),
-      ),
-		
-		'modified',
-		*/
+    //'modified',
     array (
   'class' => 'CButtonColumn',
   'buttons' => 

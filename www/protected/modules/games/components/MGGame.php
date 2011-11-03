@@ -57,10 +57,10 @@ class MGGame extends CComponent {
     $limit = $num_images * 5;
     $limit = ($limit < 50)? 50 : $limit;
     
-    // if a player is logged in the images should be weight by 
+    
     if (Yii::app()->user->isGuest) {
       $images = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id')
+                  ->selectDistinct('i.id, i.name, is.licence_id, (i.last_access <= now()-is.last_access_interval) as last_access_ok')
                   ->from('{{image_set_to_image}} is2i')
                   ->join('{{image}} i', 'i.id=is2i.image_id')
                   ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
@@ -69,8 +69,9 @@ class MGGame extends CComponent {
                   ->limit($limit)
                   ->queryAll();  
     } else {
+      // if a player is logged in the images should be weight by interest
       $images = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest')
+                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access <= now()-is.last_access_interval) as last_access_ok')
                   ->from('{{image_set_to_image}} is2i')
                   ->join('{{image}} i', 'i.id=is2i.image_id')
                   ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
@@ -85,26 +86,33 @@ class MGGame extends CComponent {
     
     if ($images && count($images) >= $num_images) {
       $arr_image = array();
-
-      foreach ($images as $image) {
-        if (!array_key_exists($image["id"], $arr_image)) {
-          $arr_image[$image["id"]] = array(
-            "id" => $image["id"],
-            "name" => $image["name"],
-            "licences" => array((int)$image["licence_id"])
-          );
-        } else {
-          $arr_image[$image["id"]]["licences"][] = (int)$image["licence_id"];
-        }
-      }
+      $blocked_by_last_access = array();
       
-      foreach ($arr_image as $key => $image) { // we want to hide the default licence if the image has got another licence
-        if (count($arr_image[$key]["licences"]) > 1) {
-          $arr_image[$key]["licences"] = array_diff($arr_image[$key]["licences"], array(1));
+      foreach ($images as $image) {
+        if (!array_key_exists($image["id"], $blocked_by_last_access)) {
+          if (!array_key_exists($image["id"], $arr_image)) {
+            $arr_image[$image["id"]] = array(
+              "id" => $image["id"],
+              "name" => $image["name"],
+              "licences" => array((int)$image["licence_id"])
+            );
+          } else {
+            $arr_image[$image["id"]]["licences"][] = (int)$image["licence_id"];
+          }
+          
+          if (!$image["last_access_ok"]) {
+            unset($arr_image[$image["id"]]);
+            $blocked_by_last_access[$image["id"]] = true;
+          }
         }
       }
       
       if (count($arr_image) >= $num_images) {
+        foreach ($arr_image as $key => $image) { // we want to hide the default licence if the image has got another licence
+          if (count($arr_image[$key]["licences"]) > 1) {
+            $arr_image[$key]["licences"] = array_diff($arr_image[$key]["licences"], array(1));
+          }
+        }
         return array_values($arr_image);
       } else if ($second_attempt) {
         return null;
@@ -161,6 +169,8 @@ class MGGame extends CComponent {
       }
     }
     $arr_img[$game->gid] = array_unique(array_merge($arr_img[$game->gid], $usedImages));
+    
+    Image::model()->setLastAccess($usedImages);
     
     Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'] = $arr_img;
   }

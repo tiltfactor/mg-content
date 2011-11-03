@@ -14,6 +14,7 @@
  * @property integer $locked
  * @property string $more_information
  * @property integer $licence_id
+ * @property integer $last_access_interval
  * @property string $created
  * @property string $modified
  *
@@ -43,11 +44,11 @@ abstract class BaseImageSet extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('name, created, modified', 'required'),
-			array('locked, licence_id', 'numerical', 'integerOnly'=>true),
+			array('locked, licence_id, last_access_interval', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>64),
 			array('more_information', 'safe'),
-			array('locked, more_information, licence_id', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, name, locked, more_information, licence_id, created, modified', 'safe', 'on'=>'search'),
+			array('locked, more_information, licence_id, last_access_interval', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, locked, more_information, licence_id, last_access_interval, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +76,7 @@ abstract class BaseImageSet extends GxActiveRecord {
 			'locked' => Yii::t('app', 'Locked'),
 			'more_information' => Yii::t('app', 'More Information'),
 			'licence_id' => null,
+			'last_access_interval' => Yii::t('app', 'Last Access Interval'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
 			'games' => null,
@@ -92,6 +94,7 @@ abstract class BaseImageSet extends GxActiveRecord {
 		$criteria->compare('locked', $this->locked);
 		$criteria->compare('more_information', $this->more_information, true);
 		$criteria->compare('licence_id', $this->licence_id);
+		$criteria->compare('last_access_interval', $this->last_access_interval);
 		$criteria->compare('created', $this->created, true);
 		$criteria->compare('modified', $this->modified, true);
 

@@ -33,6 +33,12 @@
     <?php echo $form->labelEx($model,'licence_id'); ?>
     <?php echo $form->dropDownList($model, 'licence_id', GxHtml::listDataEx(Licence::model()->findAllAttributes(null, true))); ?>
     <?php echo $form->error($model,'licence_id'); ?>
+    
+    </div><!-- row -->
+    <div class="row">
+    <?php echo $form->labelEx($model,'last_access_interval'); ?>
+    <?php echo $form->textField ($model, 'last_access_interval'); ?>
+    <?php echo $form->error($model,'last_access_interval'); ?>Time in seconds to pass before an image can be used again. Set to 0 to deactivate
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>
