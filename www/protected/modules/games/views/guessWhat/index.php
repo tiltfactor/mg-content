@@ -153,3 +153,6 @@
     <a href="#" id="loadNextTurn">Load next turn</a>
   </div>
 </script>
+<script id="template-info-modal-critical-error" type="text/x-jquery-tmpl">
+  ${error} <p>Return to the <a href="${arcade_url}">arcade</a>.</p>
+</script>

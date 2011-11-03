@@ -130,7 +130,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
           }  
           
           if ($attempts == 0)
-            throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough tagged images available to play in computer mode'));
+            throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough tagged images available to play in computer mode'));
           
           $describe_image_id = $available_images[array_rand($available_images, 1)];
         }   
@@ -190,14 +190,13 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         }
         
       } else 
-        throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough images available'));
+        throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough images available'));
       
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
       $data["licences"] = array();
     } 
-    
     return $data;
   }
   

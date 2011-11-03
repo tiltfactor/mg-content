@@ -3,6 +3,7 @@ MG_API = function ($) {
     curtain : null,
     fancyboxLink : null, // fancybox needs to be triggered via a link so we have to generate this invisible link
     modals : null,
+    game : null,
     busy : false, // flag to give you a handle to avoid double submits
     
     timeLastCall : 0, //some requests might want to make sure to wait for the throttle interval to pass before makeing a call
@@ -119,13 +120,29 @@ MG_API = function ($) {
       return true;
     },
     
+    exitGame : function (response) {
+      MG_GAME_API.curtain.hide();
+      $("#mg_popup").html("");
+      
+      if ($("#template-info-modal-critical-error").length > 0) {
+        $("#mg_popup").html(response.responseText);
+        $("#template-info-modal-critical-error").tmpl({
+          arcade_url: MG_API.settings.arcade_url
+        }).appendTo($("#mg_popup"));  
+      } else {
+        $("#mg_popup").html("Error");
+      }
+      MG_API.showModal($("#mg_popup"), function () {}, {modal:true});
+    },
+    
     ajaxCall : function (path, callback, options, doNotSaveLastCallTime) {
       var defaults = {
         url : MG_API.settings.api_url + path,
         headers : $.parseJSON('{"X_' + MG_API.settings.app_id + '_SHARED_SECRET" : "' + MG_API.settings.shared_secret + '"}'),
         success : callback,
         statusCode : {
-          420 : MG_API.enhanceYourCalm
+          420 : MG_API.enhanceYourCalm,
+          600 : MG_API.exitGame,
         },
         complete : function(response, status_code) {
           switch(status_code) {

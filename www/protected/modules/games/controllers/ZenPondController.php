@@ -44,12 +44,14 @@ class ZenPondController extends GxController
       $throttleInterval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500); 
       $message_queue_interval = (int)Yii::app()->fbvStorage->get("settings.message_queue_interval", 500);
       $asset_url = Yii::app()->baseUrl;
+      $arcade_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/');
       
       $js = <<<EOD
     MG_GAME_ZENPOND.init({
         gid : 'ZenPond',
         app_id : 'MG_API',
         asset_url : '$asset_url',
+        arcade_url : '$arcade_url',
         game_base_url : '{$game->game_base_url}',
         api_url : '{$game->api_base_url}',
         throttleInterval : $throttleInterval,

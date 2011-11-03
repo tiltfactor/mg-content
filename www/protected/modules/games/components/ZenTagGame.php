@@ -81,14 +81,13 @@ class ZenTagGame extends MGGame implements MGGameInterface {
         }
         
       } else 
-        throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough images available'));
+        throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough images available'));
       
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
       $data["licences"] = array(); // no need to show licences on the last screen as the previous turns are cached by javascript and therefore all licence info is available
     } 
-    
     return $data;
   }
   

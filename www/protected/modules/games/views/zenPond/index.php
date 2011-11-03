@@ -116,4 +116,6 @@
 <script id="template-partner-aborted" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/ZenPond">Retry</a>. You could also play a round  of <a href="${game_base_url}/ZenTag">Zen Tag</a>, or go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
-
+<script id="template-info-modal-critical-error" type="text/x-jquery-tmpl">
+  ${error} <p>Return to the <a href="${arcade_url}">arcade</a>.</p>
+</script>

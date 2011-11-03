@@ -62,7 +62,6 @@ class ZenPondGame extends MGGame implements MGGameInterface {
     if (is_null($turn)) {
       throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
     }
-    
     return $turn;
   }  
     
@@ -109,14 +108,14 @@ class ZenPondGame extends MGGame implements MGGameInterface {
         }
         
       } else 
-        throw new CHttpException(500, $game->name . Yii::t('app', ': Not enough images available'));
+        throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough images available'));
       
     } else {
       $data["tags"] = array();
       $data["tags"]["user"] = $tags;
       $data["licences"] = array();
     } 
-    
+    throw new CHttpException(600, $game->name . Yii::t('app', ': xxx'));
     return $data;
   }
   
