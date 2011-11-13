@@ -48,14 +48,13 @@ CREATE  TABLE IF NOT EXISTS `image_set` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_image_sets_licences1` (`licence_id` ASC) ,
   CONSTRAINT `fk_image_sets_licences1`
     FOREIGN KEY (`licence_id` )
     REFERENCES `licence` (`id` )
     ON DELETE SET NULL
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_image_sets_licences1` ON `image_set` (`licence_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -90,14 +89,11 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `edited_count` INT(1) NOT NULL DEFAULT 0 ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `username` (`username` ASC) ,
+  UNIQUE INDEX `email` (`email` ASC) ,
+  INDEX `status` (`status` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `username` ON `user` (`username` ASC) ;
-
-CREATE UNIQUE INDEX `email` ON `user` (`email` ASC) ;
-
-CREATE INDEX `status` ON `user` (`status` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -111,7 +107,9 @@ CREATE  TABLE IF NOT EXISTS `user_to_subject_matter` (
   `trust` INT(11) NOT NULL DEFAULT 0 ,
   `expertise` INT(11) NOT NULL DEFAULT 0 ,
   `interest` INT(11) NOT NULL DEFAULT 0 ,
+  INDEX `fk_users2subject_matters_subject_matters1` (`subject_matter_id` ASC) ,
   PRIMARY KEY (`user_id`, `subject_matter_id`) ,
+  INDEX `fk_users_has_subject_matters_users1` (`user_id` ASC) ,
   CONSTRAINT `fk_users2subject_matters_subject_matters1`
     FOREIGN KEY (`subject_matter_id` )
     REFERENCES `subject_matter` (`id` )
@@ -123,10 +121,6 @@ CREATE  TABLE IF NOT EXISTS `user_to_subject_matter` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_users2subject_matters_subject_matters1` ON `user_to_subject_matter` (`subject_matter_id` ASC) ;
-
-CREATE INDEX `fk_users_has_subject_matters_users1` ON `user_to_subject_matter` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -141,10 +135,9 @@ CREATE  TABLE IF NOT EXISTS `game` (
   `unique_id` VARCHAR(45) NOT NULL ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `unique_id_UNIQUE` (`unique_id` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `unique_id_UNIQUE` ON `game` (`unique_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -157,7 +150,9 @@ CREATE  TABLE IF NOT EXISTS `user_to_game` (
   `game_id` INT NOT NULL ,
   `score` INT(11) NOT NULL DEFAULT 0 ,
   `number_played` INT(11) NOT NULL DEFAULT 0 ,
+  INDEX `fk_users2games_games1` (`game_id` ASC) ,
   PRIMARY KEY (`user_id`, `game_id`) ,
+  INDEX `fk_user_has_games_users1` (`user_id` ASC) ,
   CONSTRAINT `fk_users2games_games1`
     FOREIGN KEY (`game_id` )
     REFERENCES `game` (`id` )
@@ -169,10 +164,6 @@ CREATE  TABLE IF NOT EXISTS `user_to_game` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_users2games_games1` ON `user_to_game` (`game_id` ASC) ;
-
-CREATE INDEX `fk_user_has_games_users1` ON `user_to_game` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -219,14 +210,13 @@ CREATE  TABLE IF NOT EXISTS `log` (
   `user_id` INT(11) NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_log_users1` (`user_id` ASC) ,
   CONSTRAINT `fk_log_users1`
     FOREIGN KEY (`user_id` )
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_log_users1` ON `log` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -244,14 +234,13 @@ CREATE  TABLE IF NOT EXISTS `session` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_sessions_users1` (`user_id` ASC) ,
   CONSTRAINT `fk_sessions_users1`
     FOREIGN KEY (`user_id` )
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_sessions_users1` ON `session` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -263,6 +252,8 @@ CREATE  TABLE IF NOT EXISTS `image_set_to_image` (
   `image_set_id` INT NOT NULL ,
   `image_id` INT(11) NOT NULL ,
   PRIMARY KEY (`image_set_id`, `image_id`) ,
+  INDEX `fk_image_sets_has_images_images1` (`image_id` ASC) ,
+  INDEX `fk_image_sets_has_images_image_sets1` (`image_set_id` ASC) ,
   CONSTRAINT `fk_image_sets_has_images_image_sets1`
     FOREIGN KEY (`image_set_id` )
     REFERENCES `image_set` (`id` )
@@ -275,10 +266,6 @@ CREATE  TABLE IF NOT EXISTS `image_set_to_image` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_image_sets_has_images_images1` ON `image_set_to_image` (`image_id` ASC) ;
-
-CREATE INDEX `fk_image_sets_has_images_image_sets1` ON `image_set_to_image` (`image_set_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `image_set_to_subject_matter`
@@ -289,6 +276,8 @@ CREATE  TABLE IF NOT EXISTS `image_set_to_subject_matter` (
   `image_set_id` INT NOT NULL ,
   `subject_matter_id` INT(11) NOT NULL ,
   PRIMARY KEY (`image_set_id`, `subject_matter_id`) ,
+  INDEX `fk_image_sets_has_subject_matters_subject_matters1` (`subject_matter_id` ASC) ,
+  INDEX `fk_image_sets_has_subject_matters_image_sets1` (`image_set_id` ASC) ,
   CONSTRAINT `fk_image_sets_has_subject_matters_image_sets1`
     FOREIGN KEY (`image_set_id` )
     REFERENCES `image_set` (`id` )
@@ -300,10 +289,6 @@ CREATE  TABLE IF NOT EXISTS `image_set_to_subject_matter` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_image_sets_has_subject_matters_subject_matters1` ON `image_set_to_subject_matter` (`subject_matter_id` ASC) ;
-
-CREATE INDEX `fk_image_sets_has_subject_matters_image_sets1` ON `image_set_to_subject_matter` (`image_set_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -318,10 +303,9 @@ CREATE  TABLE IF NOT EXISTS `plugin` (
   `unique_id` VARCHAR(254) NOT NULL ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `unique_id_UNIQUE` (`unique_id` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `unique_id_UNIQUE` ON `plugin` (`unique_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -371,6 +355,8 @@ CREATE  TABLE IF NOT EXISTS `menu_item` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_menu_item_menu1` (`menu_id` ASC) ,
+  INDEX `fk_menu_items_pages1` (`pages_id` ASC) ,
   CONSTRAINT `fk_menu_item_menu1`
     FOREIGN KEY (`menu_id` )
     REFERENCES `menu` (`id` )
@@ -383,10 +369,6 @@ CREATE  TABLE IF NOT EXISTS `menu_item` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_menu_item_menu1` ON `menu_item` (`menu_id` ASC) ;
-
-CREATE INDEX `fk_menu_items_pages1` ON `menu_item` (`pages_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `tag`
@@ -398,10 +380,9 @@ CREATE  TABLE IF NOT EXISTS `tag` (
   `tag` VARCHAR(64) NOT NULL ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `tag_UNIQUE` (`tag` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `tag_UNIQUE` ON `tag` (`tag` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -420,6 +401,9 @@ CREATE  TABLE IF NOT EXISTS `played_game` (
   `modified` DATETIME NOT NULL ,
   `finished` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_played_games_sessions1` (`session_id_1` ASC) ,
+  INDEX `fk_played_games_games1` (`game_id` ASC) ,
+  INDEX `fk_played_game_session1` (`session_id_2` ASC) ,
   CONSTRAINT `fk_played_games_sessions1`
     FOREIGN KEY (`session_id_1` )
     REFERENCES `session` (`id` )
@@ -437,12 +421,6 @@ CREATE  TABLE IF NOT EXISTS `played_game` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_played_games_sessions1` ON `played_game` (`session_id_1` ASC) ;
-
-CREATE INDEX `fk_played_games_games1` ON `played_game` (`game_id` ASC) ;
-
-CREATE INDEX `fk_played_game_session1` ON `played_game` (`session_id_2` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `game_submission`
@@ -455,8 +433,10 @@ CREATE  TABLE IF NOT EXISTS `game_submission` (
   `turn` INT(11) NOT NULL DEFAULT 0 ,
   `session_id` INT(11) NOT NULL ,
   `played_game_id` INT(11) NOT NULL ,
-  `turn` DATETIME NULL ,
+  `created` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_game_submissions_sessions1` (`session_id` ASC) ,
+  INDEX `fk_game_submissions_played_games1` (`played_game_id` ASC) ,
   CONSTRAINT `fk_game_submissions_sessions1`
     FOREIGN KEY (`session_id` )
     REFERENCES `session` (`id` )
@@ -469,10 +449,6 @@ CREATE  TABLE IF NOT EXISTS `game_submission` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_game_submissions_sessions1` ON `game_submission` (`session_id` ASC) ;
-
-CREATE INDEX `fk_game_submissions_played_games1` ON `game_submission` (`played_game_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `tag_use`
@@ -484,10 +460,13 @@ CREATE  TABLE IF NOT EXISTS `tag_use` (
   `image_id` INT(11) NOT NULL ,
   `tag_id` INT(11) NOT NULL ,
   `weight` INT(3) NOT NULL DEFAULT 0 ,
-  `type` TEXT NOT NULL DEFAULT '' ,
+  `type` TEXT NOT NULL ,
   `game_submission_id` INT UNSIGNED NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_tag_uses_images1` (`image_id` ASC) ,
+  INDEX `fk_tag_uses_tags1` (`tag_id` ASC) ,
+  INDEX `fk_tag_uses_game_submissions1` (`game_submission_id` ASC) ,
   CONSTRAINT `fk_tag_uses_images1`
     FOREIGN KEY (`image_id` )
     REFERENCES `image` (`id` )
@@ -505,12 +484,6 @@ CREATE  TABLE IF NOT EXISTS `tag_use` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_tag_uses_images1` ON `tag_use` (`image_id` ASC) ;
-
-CREATE INDEX `fk_tag_uses_tags1` ON `tag_use` (`tag_id` ASC) ;
-
-CREATE INDEX `fk_tag_uses_game_submissions1` ON `tag_use` (`game_submission_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `message`
@@ -521,6 +494,8 @@ CREATE  TABLE IF NOT EXISTS `message` (
   `session_id` INT(11) NOT NULL ,
   `played_game_id` INT(11) NOT NULL ,
   `message` VARCHAR(1000) NULL ,
+  INDEX `fk_messages_sessions1` (`session_id` ASC) ,
+  INDEX `fk_message_played_game1` (`played_game_id` ASC) ,
   CONSTRAINT `fk_messages_sessions1`
     FOREIGN KEY (`session_id` )
     REFERENCES `session` (`id` )
@@ -532,10 +507,6 @@ CREATE  TABLE IF NOT EXISTS `message` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_messages_sessions1` ON `message` (`session_id` ASC) ;
-
-CREATE INDEX `fk_message_played_game1` ON `message` (`played_game_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -562,6 +533,8 @@ CREATE  TABLE IF NOT EXISTS `game_to_image_set` (
   `game_id` INT(11) NOT NULL ,
   `image_set_id` INT(11) NOT NULL ,
   PRIMARY KEY (`game_id`, `image_set_id`) ,
+  INDEX `fk_games_has_image_sets_image_sets1` (`image_set_id` ASC) ,
+  INDEX `fk_games_has_image_sets_games1` (`game_id` ASC) ,
   CONSTRAINT `fk_games_has_image_sets_games1`
     FOREIGN KEY (`game_id` )
     REFERENCES `game` (`id` )
@@ -573,10 +546,6 @@ CREATE  TABLE IF NOT EXISTS `game_to_image_set` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_games_has_image_sets_image_sets1` ON `game_to_image_set` (`image_set_id` ASC) ;
-
-CREATE INDEX `fk_games_has_image_sets_games1` ON `game_to_image_set` (`game_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -592,6 +561,8 @@ CREATE  TABLE IF NOT EXISTS `tag_original_version` (
   `user_id` INT(11) NULL ,
   `created` DATETIME NULL ,
   PRIMARY KEY (`id`, `tag_use_id`) ,
+  INDEX `fk_tag_original_version_tag_uses1` (`tag_use_id` ASC) ,
+  INDEX `fk_tag_original_version_user1` (`user_id` ASC) ,
   CONSTRAINT `fk_tag_original_version_tag_uses1`
     FOREIGN KEY (`tag_use_id` )
     REFERENCES `tag_use` (`id` )
@@ -603,10 +574,6 @@ CREATE  TABLE IF NOT EXISTS `tag_original_version` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_tag_original_version_tag_uses1` ON `tag_original_version` (`tag_use_id` ASC) ;
-
-CREATE INDEX `fk_tag_original_version_user1` ON `tag_original_version` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -631,12 +598,11 @@ CREATE  TABLE IF NOT EXISTS `profile_field` (
   `widgetparams` VARCHAR(5000) NOT NULL DEFAULT '' ,
   `position` INT(3) NOT NULL DEFAULT '0' ,
   `visible` INT(1) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  INDEX `varname` (`varname` ASC, `widget` ASC, `visible` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
-
-CREATE INDEX `varname` ON `profile_field` (`varname` ASC, `widget` ASC, `visible` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -646,6 +612,7 @@ DROP TABLE IF EXISTS `profile` ;
 
 CREATE  TABLE IF NOT EXISTS `profile` (
   `user_id` INT(11) NOT NULL ,
+  INDEX `fk_profile_users1` (`user_id` ASC) ,
   PRIMARY KEY (`user_id`) ,
   CONSTRAINT `fk_profile_users1`
     FOREIGN KEY (`user_id` )
@@ -653,8 +620,6 @@ CREATE  TABLE IF NOT EXISTS `profile` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_profile_users1` ON `profile` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -670,6 +635,10 @@ CREATE  TABLE IF NOT EXISTS `game_partner` (
   `played_game_id` INT(11) NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_game_partner_session1` (`session_id_1` ASC) ,
+  INDEX `fk_game_partner_game1` (`game_id` ASC) ,
+  INDEX `fk_game_partner_session2` (`session_id_2` ASC) ,
+  INDEX `fk_game_partner_played_game1` (`played_game_id` ASC) ,
   CONSTRAINT `fk_game_partner_session1`
     FOREIGN KEY (`session_id_1` )
     REFERENCES `session` (`id` )
@@ -691,14 +660,6 @@ CREATE  TABLE IF NOT EXISTS `game_partner` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_game_partner_session1` ON `game_partner` (`session_id_1` ASC) ;
-
-CREATE INDEX `fk_game_partner_game1` ON `game_partner` (`game_id` ASC) ;
-
-CREATE INDEX `fk_game_partner_session2` ON `game_partner` (`session_id_2` ASC) ;
-
-CREATE INDEX `fk_game_partner_played_game1` ON `game_partner` (`played_game_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -725,6 +686,7 @@ CREATE  TABLE IF NOT EXISTS `AuthItemChild` (
   `parent` VARCHAR(64) NOT NULL ,
   `child` VARCHAR(64) NOT NULL ,
   PRIMARY KEY (`parent`, `child`) ,
+  INDEX `fk_{818C790C-3BBE-4C8D-A383-37DED516A298}` (`child` ASC) ,
   CONSTRAINT `fk_{D3C449C2-B9CC-46EA-80A5-1FBCB86CD3A2}`
     FOREIGN KEY (`parent` )
     REFERENCES `AuthItem` (`name` )
@@ -736,8 +698,6 @@ CREATE  TABLE IF NOT EXISTS `AuthItemChild` (
     ON DELETE cascade
     ON UPDATE cascade)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_{818C790C-3BBE-4C8D-A383-37DED516A298}` ON `AuthItemChild` (`child` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -768,6 +728,8 @@ CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
   `game_id` INT(11) NOT NULL ,
   `plugin_id` INT(11) NOT NULL ,
   PRIMARY KEY (`game_id`, `plugin_id`) ,
+  INDEX `fk_game_has_plugin_plugin1` (`plugin_id` ASC) ,
+  INDEX `fk_game_has_plugin_game1` (`game_id` ASC) ,
   CONSTRAINT `fk_game_has_plugin_game1`
     FOREIGN KEY (`game_id` )
     REFERENCES `game` (`id` )
@@ -779,10 +741,6 @@ CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_game_has_plugin_plugin1` ON `game_to_plugin` (`plugin_id` ASC) ;
-
-CREATE INDEX `fk_game_has_plugin_game1` ON `game_to_plugin` (`game_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -796,6 +754,7 @@ CREATE  TABLE IF NOT EXISTS `played_game_turn_info` (
   `data` TEXT NOT NULL ,
   `created_by_session_id` INT(11) NOT NULL ,
   PRIMARY KEY (`played_game_id`, `turn`) ,
+  INDEX `fk_played_game_turn_info_session1` (`created_by_session_id` ASC) ,
   CONSTRAINT `fk_table1_played_game1`
     FOREIGN KEY (`played_game_id` )
     REFERENCES `played_game` (`id` )
@@ -808,8 +767,6 @@ CREATE  TABLE IF NOT EXISTS `played_game_turn_info` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 COMMENT = 'used in multiplayer games' ;
-
-CREATE INDEX `fk_played_game_turn_info_session1` ON `played_game_turn_info` (`created_by_session_id` ASC) ;
 
 
 
@@ -829,7 +786,7 @@ COMMIT;
 -- Data for table `image_set`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `image_set` (`id`, `name`, `locked`, `more_information`, `licence_id`, `last_access_interval`, `created`, `modified`) VALUES (1, 'All', 1, 'This is the default image set. All images will be automatically assigned to it. It cannot be deleted.', 1, NULL, '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `image_set` (`id`, `name`, `locked`, `more_information`, `licence_id`, `last_access_interval`, `created`, `modified`) VALUES (1, 'All', 1, 'This is the default image set. All images will be automatically assigned to it. It cannot be deleted.', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
 
 COMMIT;
 
