@@ -386,11 +386,14 @@ class GamesModule extends CWebModule
                 ->where('game_id=:gameID', array(':gameID' => $game["id"]))
                 ->queryScalar();
         
+        $game['cnt_played_games'] = (int)$game['cnt_played_games'];
+        
         $game['cnt_played_games_finished'] = Yii::app()->db->createCommand()
                 ->select('COUNT(id)')
                 ->from('{{played_game}} pg')
                 ->where('game_id=:gameID AND finished is not null', array(':gameID' => $game["id"]))
                 ->queryScalar();
+        $game['cnt_played_games_finished'] = (int)$game['cnt_played_games_finished'];
         
         $game['cnt_played_games_by_users'] = $game['sum_played'];
         $game['cnt_played_games_by_guests'] = $game['cnt_played_games_finished'] - $game['sum_played'];

@@ -630,9 +630,9 @@ DROP TABLE IF EXISTS `game_partner` ;
 CREATE  TABLE IF NOT EXISTS `game_partner` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `session_id_1` INT(11) NOT NULL ,
-  `session_id_2` INT(11) NOT NULL ,
+  `session_id_2` INT(11) NULL ,
   `game_id` INT(11) NOT NULL ,
-  `played_game_id` INT(11) NOT NULL ,
+  `played_game_id` INT(11) NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_game_partner_session1` (`session_id_1` ASC) ,

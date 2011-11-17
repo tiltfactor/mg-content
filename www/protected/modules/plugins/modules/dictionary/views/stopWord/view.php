@@ -27,7 +27,7 @@ $this->menu=array(
     'id',
     'word',
     'source',
-    'created',
+    'counter',
     'modified',
    ),
 )); ?>

@@ -54,7 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 		'word',
 		'source',
-		'created',
+		'counter',
 		'modified',
     array (
   'class' => 'CButtonColumn',

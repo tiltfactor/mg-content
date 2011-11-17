@@ -16,8 +16,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'created'); ?>
-		<?php echo $form->textField($model, 'created'); ?>
+		<?php echo $form->label($model, 'counter'); ?>
+		<?php echo $form->textField($model, 'counter'); ?>
 	</div>
 
 	<div class="row">

@@ -25,10 +25,8 @@
     <?php echo $model->source; ?>
     </div><!-- row -->
     <div class="row">
-    <?php if($model->created != 0) : ?>
-    <?php echo $form->labelEx($model,'created'); ?>
-    <?php echo $model->created; ?>
-    <?php endif; ?>
+    <?php echo $form->labelEx($model,'counter'); ?>
+    <?php echo $model->counter; ?>
     </div><!-- row -->
     <div class="row">
     <?php if($model->modified != 0) : ?>

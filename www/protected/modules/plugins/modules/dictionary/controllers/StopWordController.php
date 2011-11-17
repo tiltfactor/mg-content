@@ -33,7 +33,7 @@ class StopWordController extends GxController {
 
 	public function actionCreate() {
 		$model = new StopWord;
-		$model->created = date('Y-m-d H:i:s'); 
+		$model->counter = 0; 
     $model->modified = date('Y-m-d H:i:s'); 
     $model->source = 'manual';
     

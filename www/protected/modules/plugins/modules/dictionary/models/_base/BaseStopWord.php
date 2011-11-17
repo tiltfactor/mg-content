@@ -12,71 +12,71 @@
  * @property integer $id
  * @property string $word
  * @property string $source
- * @property string $created
+ * @property string $counter
  * @property string $modified
  *
  */
 abstract class BaseStopWord extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+  public static function model($className=__CLASS__) {
+    return parent::model($className);
+  }
 
-	public function tableName() {
-		return 'stop_word';
-	}
+  public function tableName() {
+    return 'stop_word';
+  }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Stop Word|Stop Words', $n);
-	}
+  public static function label($n = 1) {
+    return Yii::t('app', 'Stop Word|Stop Words', $n);
+  }
 
-	public static function representingColumn() {
-		return 'word';
-	}
+  public static function representingColumn() {
+    return 'word';
+  }
 
-	public function rules() {
-		return array(
-			array('word, source, created, modified', 'required'),
-			array('word', 'length', 'max'=>64),
-			array('source', 'length', 'max'=>12),
-			array('id, word, source, created, modified', 'safe', 'on'=>'search'),
-		);
-	}
+  public function rules() {
+    return array(
+      array('word, source, counter, modified', 'required'),
+      array('word', 'length', 'max'=>64),
+      array('source', 'length', 'max'=>12),
+      array('id, word, source, counter, modified', 'safe', 'on'=>'search'),
+    );
+  }
 
-	public function relations() {
-		return array(
-		);
-	}
+  public function relations() {
+    return array(
+    );
+  }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+  public function pivotModels() {
+    return array(
+    );
+  }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'word' => Yii::t('app', 'Word'),
-			'source' => Yii::t('app', 'Source'),
-			'created' => Yii::t('app', 'Created'),
-			'modified' => Yii::t('app', 'Modified'),
-		);
-	}
+  public function attributeLabels() {
+    return array(
+      'id' => Yii::t('app', 'ID'),
+      'word' => Yii::t('app', 'Word'),
+      'source' => Yii::t('app', 'Source'),
+      'counter' => Yii::t('app', 'Use Count'),
+      'modified' => Yii::t('app', 'Modified'),
+    );
+  }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+  public function search() {
+    $criteria = new CDbCriteria;
 
-		$criteria->compare('id', $this->id);
-		$criteria->compare('word', $this->word, true);
-		$criteria->compare('source', $this->source, true);
-		$criteria->compare('created', $this->created, true);
-		$criteria->compare('modified', $this->modified, true);
+    $criteria->compare('id', $this->id);
+    $criteria->compare('word', $this->word, true);
+    $criteria->compare('source', $this->source, true);
+    $criteria->compare('counter', $this->counter, true);
+    $criteria->compare('modified', $this->modified, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-			'pagination'=>array(
+    return new CActiveDataProvider($this, array(
+      'criteria' => $criteria,
+      'pagination'=>array(
         'pageSize'=>Yii::app()->fbvStorage->get("settings.pagination_size"),
       ),
-		));
-	}
+    ));
+  }
 }
