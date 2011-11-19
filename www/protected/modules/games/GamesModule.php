@@ -411,6 +411,7 @@ class GamesModule extends CWebModule
     $game['cnt_played_games_finished']  = 0;
     $game['cnt_played_games_by_users'] = 0; 
     $game['sum_played'] = 0;
+    $game['sum_scored'] = 0;
     $game['cnt_played_games_by_guests'] = 0; 
     $game['cnt_users'] = 0;
     return (object)$game;      
