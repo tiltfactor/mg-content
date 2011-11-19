@@ -389,6 +389,7 @@ class GamesController extends ApiController {
               
               $game->game_partner_name = Yii::t('app', "Computer");
               $game->played_against_computer = true;
+              
               if (!$game->played_game_id && isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {
                 $this->_createPlayedGame($game, $game_model, $game_engine);
               }
@@ -462,8 +463,6 @@ class GamesController extends ApiController {
       // register themselves as second player for the same game partner request
       Yii::app()->db->createCommand("LOCK TABLES {{game_partner}} WRITE, {{played_game}} WRITE, {{game_partner}} gp WRITE, {{session}} s READ, {{game}} WRITE")->execute(); 
       
-      Yii::log('created: ' . date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1), 'error');
-      
       // does someone wait to play?
       $partner_session = Yii::app()->db->createCommand()
                     ->select('gp.id, gp.session_id_1, s.username')
@@ -474,9 +473,6 @@ class GamesController extends ApiController {
                     ->limit(1)
                     ->queryRow();
       
-      
-      Yii::log('created: ' . date( 'Y-m-d H:i:s', time() - $game->partner_wait_threshold - 1) . "\n" . json_encode($partner_session), 'error');
-     
       if ($partner_session) { // someone is waiting to play we can add the user's session id and return the partner's session_id
         $this->_createPlayedGame($game, $game_model, $game_engine, (int)$partner_session["session_id_1"], $user_session_id); 
         

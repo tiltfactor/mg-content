@@ -115,7 +115,6 @@ class ZenPondGame extends MGGame implements MGGameInterface {
       $data["tags"]["user"] = $tags;
       $data["licences"] = array();
     } 
-    throw new CHttpException(600, $game->name . Yii::t('app', ': xxx'));
     return $data;
   }
   
