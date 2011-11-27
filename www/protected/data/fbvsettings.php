@@ -1,6 +1,7 @@
 <?php
 return array (
   'api_id' => 'MG_API',
+  'installed' => false,
   'frontend_theme' => 'metadatagames',
   'arcade' => 
   array (
@@ -39,7 +40,7 @@ return array (
     'tool-tag' => 
     array (
       'name' => 'Tags',
-      'description' => 'Some short description',
+      'description' => 'All tags created by players can be administered via this tool.',
       'url' => '/admin/tag',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -55,7 +56,7 @@ return array (
     'tool-image-set' => 
     array (
       'name' => 'Image Sets',
-      'description' => 'Some short description',
+      'description' => 'Image Sets allow you to group images that can be licenced under different licenses.',
       'url' => '/admin/imageSet',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -63,7 +64,7 @@ return array (
     'tool-licence' => 
     array (
       'name' => 'Licences',
-      'description' => 'Some short description',
+      'description' => 'Create licenses under which images can be published in the system',
       'url' => '/admin/licence',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -79,7 +80,7 @@ return array (
     'tool-user' => 
     array (
       'name' => 'Players',
-      'description' => 'Some short description',
+      'description' => 'Registered players and their tags can be administered via these tools',
       'url' => '/admin/user',
       'role' => 'dbmanager',
       'group' => 'Players',
@@ -87,7 +88,7 @@ return array (
     'tool-subject-matter' => 
     array (
       'name' => 'Subject Matters',
-      'description' => 'Some short description',
+      'description' => 'Each image set can have subject matter to which a player can express interest or an administrator can assign trust and expertise. These values are used to influence image selection and tag weights',
       'url' => '/admin/subjectMatter',
       'role' => 'editor',
       'group' => 'Players',
@@ -95,7 +96,7 @@ return array (
     'tool-plugins' => 
     array (
       'name' => 'Plugins',
-      'description' => 'Some short description',
+      'description' => 'MetaData Games is modular. Plugins allow the flexible extension of functionality and can be administered here.',
       'url' => '/plugins',
       'role' => 'editor',
       'group' => 'Games & Plugins',
@@ -103,7 +104,7 @@ return array (
     'tool-games' => 
     array (
       'name' => 'Games',
-      'description' => 'Some short description',
+      'description' => 'Activate and administer games here',
       'url' => '/games',
       'role' => 'dbmanager',
       'group' => 'Games & Plugins',
@@ -111,7 +112,7 @@ return array (
     'tool-bages' => 
     array (
       'name' => 'Badges',
-      'description' => 'Some short description',
+      'description' => 'Create or remove badges that can be achieved by the player',
       'url' => '/admin/badge',
       'role' => 'editor',
       'group' => 'Games & Plugins',
@@ -119,7 +120,7 @@ return array (
     'tool-ip' => 
     array (
       'name' => 'IP Blacklist',
-      'description' => 'Some short description',
+      'description' => 'White list or black list IP addresses here',
       'url' => '/admin/blockedIp',
       'role' => 'editor',
       'group' => 'Other',
@@ -127,7 +128,7 @@ return array (
     'tool-settings' => 
     array (
       'name' => 'Global Settings',
-      'description' => 'Some short description',
+      'description' => 'Configure settings that are used globally in the system',
       'url' => '/admin/settings',
       'role' => 'dbmanager',
       'group' => 'Other',
@@ -135,7 +136,7 @@ return array (
     'tool-logs' => 
     array (
       'name' => 'Admin Log',
-      'description' => 'Some short description',
+      'description' => 'Each acting by users in the admin tools is logged. The logs can be accessed here.',
       'url' => '/admin/log',
       'role' => 'dbmanager',
       'group' => 'Other',
@@ -198,10 +199,10 @@ return array (
   ),
   'settings' => 
   array (
-    'app_name' => 'Meta Data Games Test',
+    'app_name' => 'MetaData Games',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
-    'app_email' => 'tiltfactoradmin@dartmouth.edu',
+    'app_email' => 'admin@admin.com',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
@@ -212,19 +213,19 @@ return array (
     array (
       'WordsToAvoid' => 
       array (
-        'words_to_avoid_threshold' => '1',
+        'words_to_avoid_threshold' => 10,
       ),
     ),
     'weighting' => 
     array (
       'ScoreBySubjectMatter' => 
       array (
-        'score_new' => '2',
-        'score_match' => '1',
-        'score_new_expert' => '5',
-        'score_new_trusted' => '5',
-        'score_match_expert' => '4',
-        'score_match_trusted' => '4',
+        'score_new' => 2,
+        'score_match' => 1,
+        'score_new_expert' => 4,
+        'score_new_trusted' => 4,
+        'score_match_expert' => 3,
+        'score_match_trusted' => 3,
       ),
       'ScoreNewMatch' => 
       array (
@@ -238,12 +239,12 @@ return array (
       ),
       'GuessWhatScoring' => 
       array (
-        'score_new' => '2',
-        'score_match' => '1',
-        'score_first_guess' => '5',
-        'score_second_guess' => '3',
-        'score_third_guess' => '2',
-        'additional_weight_first_guess' => '0.5',
+        'score_new' => 2,
+        'score_match' => 1,
+        'score_first_guess' => 5,
+        'score_second_guess' => 3,
+        'score_third_guess' => 2,
+        'additional_weight_first_guess' => 0.5,
       ),
     ),
   ),

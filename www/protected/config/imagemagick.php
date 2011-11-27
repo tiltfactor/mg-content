@@ -110,8 +110,6 @@ return array(
     
     'clientScript' => array(
       'class' => 'ext.components.NLSClientScript',
-      'hashMode' => 'PATH', //PATH|CONTENT
-      'bInlineJs' => false
     ),
     
     'image'=>array(
@@ -131,9 +129,6 @@ return array(
     ),
 	),
   
-  'behaviors'=>array(
-    'onbeginRequest'=>array('class'=>'ext.components.NLSClientScriptBehaviour'),
-  ),
   
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']

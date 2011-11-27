@@ -31,6 +31,16 @@ class FBVStorage extends CApplicationComponent {
   protected static $data = array();
   
   /**
+   * @var boolean create new settings file if it does not exist
+   */
+  public $createFile = false; 
+  
+  /**
+   * @var boolean create new settings file if it does not exist
+   */
+  public $checkFile = true; 
+  
+  /**
    * Initializes the component.
    * This method overrides the parent implementation by making sure {@link stateFile}
    * contains valid value.
@@ -41,11 +51,19 @@ class FBVStorage extends CApplicationComponent {
       
     if($this->settingsFile===null) 
       $this->settingsFile=Yii::getPathOfAlias('application.data.fbvsettings') . '.php';
+    
+    if ($this->createFile) {
+      $dir=dirname($this->settingsFile);
+      if(!is_dir($dir) || !is_writable($dir) || !is_writable($this->settingsFile))
+        throw new CException(Yii::t('yii','Unable to create/write FBVStorage settings file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
+          array('{file}'=>$this->settingsFile)));
+    } else {
+      if($this->checkFile && !is_writable($this->settingsFile))
+        throw new CException(Yii::t('yii','Unable to write FBVStorage settings file "{file}". Make sure the file exists and is writable by the Web server process.',
+          array('{file}'=>$this->settingsFile)));
+    }
       
-    $dir=dirname($this->settingsFile);
-    if(!is_dir($dir) || !is_writable($dir) || !is_writable($this->settingsFile))
-      throw new CException(Yii::t('yii','Unable to create/write FBVStorage settings file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
-        array('{file}'=>$this->settingsFile)));
+      
     
     $this->load();    
   }

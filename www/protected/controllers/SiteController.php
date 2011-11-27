@@ -4,7 +4,8 @@ class SiteController extends Controller
 {
 	public function filters() {
     return array( // add blocked IP filter here
-        'IPBlock',
+      'Installed',
+      'IPBlock',
     );
   }
 	

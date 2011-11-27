@@ -137,6 +137,21 @@ class Controller extends CController
   }
   
   /**
+   * The filter method for 'Installed' filter.
+   * Checks whether the system is installed. Redirects to install script if not.    
+   * 
+   * @param CFilterChain $filterChain the filter chain that the filter is on.
+   */
+  public function filterInstalled($filterChain)
+  {
+    if (Yii::app()->fbvStorage->get("installed", "false")) {
+      $filterChain->run();  
+    } else {
+      $this->redirect(Yii::app()->baseUrl . '/install.php');
+    }
+  }
+  
+  /**
    * Returns a JSON encoded response. Sets needed header and ends the Yii app gracefully
    * 
    * @param mixed $var the response that will be json_encoded before it will be returned 
