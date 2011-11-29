@@ -3,8 +3,7 @@
 
 <?php $form = $this->beginWidget('GxActiveForm', array(
 	'id' => 'badge-form',
-	'enableAjaxValidation' => true,
-    'clientOptions'=>array('validateOnSubmit'=>true),
+    'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 ));
 ?>
 
@@ -24,6 +23,19 @@
   <?php echo $form->textField($model, 'points'); ?>
   <?php echo $form->error($model,'points'); ?>
   </div><!-- row -->
+  
+  <div class="row">
+  <?php echo $form->labelEx($model,'image_inactive'); ?>
+  <?php echo $form->fileField($model, 'image_inactive'); ?>
+  <?php echo $form->error($model,'image_inactive'); ?>
+  </div><!-- row -->
+  
+  <div class="row">
+  <?php echo $form->labelEx($model,'image_active'); ?>
+  <?php echo $form->fileField($model, 'image_active'); ?>
+  <?php echo $form->error($model,'image_active'); ?>
+  </div><!-- row -->
+  
 
 <?php
 echo GxHtml::submitButton($buttons);

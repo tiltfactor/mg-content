@@ -18,13 +18,24 @@ $this->menu=array(
 
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
   'attributes' => array(
 'id',
 'title',
 'points',
+  array(
+    'name' => Yii::t('app', 'Badge Image (inactive)'),
+    'type' => 'html',
+    'value' => CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/badges/'. $model->id . '_d.png'),
+  ),
+  array(
+    'name' => Yii::t('app', 'Badge Image (active)'),
+    'type' => 'html',
+    'value' => CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/badges/'. $model->id . '_a.png'),
+  ),
 	),
 )); ?>
 

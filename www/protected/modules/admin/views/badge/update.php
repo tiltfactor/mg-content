@@ -24,3 +24,8 @@ $this->renderPartial('_form', array(
 		'model' => $model, 
 		'buttons' => Yii::t('app', 'Save')));
 ?>
+
+<h2>Current Images</h2>
+
+<p><b><?php echo Yii::t('app', 'Badge Image (inactive)'); ?></b><br/><?php echo CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/badges/'. $model->id . '_d.png'); ?></p>
+<p><b><?php echo Yii::t('app', 'Badge Image (active)'); ?></b><br/><?php echo CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/badges/'. $model->id . '_a.png'); ?></p>
