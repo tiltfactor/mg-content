@@ -10,7 +10,7 @@
 <ol>
   <li><a href="<?php echo Yii::app()->baseUrl; ?>/index.php/user/login" target="_blank">Login</a> gain access to the <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin" target="_blank">admin tool</a>. </li>
   <li>Visit the <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/plugins" target="_blank">plugin tool</a></li>
-  <li><a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/imageSet" target="_blank">Create image sets</a> and a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/import" target="_blank">import images</a></li>
+  <li><a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/imageSet" target="_blank">Create image sets</a> and <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/import" target="_blank">import images</a></li>
   <li>Visit the <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/games" target="_blank">games tool</a> and activate the ones you want to make use of</li>
   <li>Goto the <a href="<?php echo Yii::app()->baseUrl; ?>" target="_blank">Arcade</a> and play!</li>
 </ol>
