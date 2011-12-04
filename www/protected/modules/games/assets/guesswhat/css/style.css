@@ -29,13 +29,15 @@ body {
   padding: 0;
   text-align: center;
   list-style: none;
-  background: url(../images/bg.png) 0px 0px repeat-x #7a8ea4;
+  background-color: #fff;
   min-height: 100%;
 }
 
 .container {
   width: 1000px;
   min-height: 600px;
+  background: url(../images/guesswhat_bg.png);
+  border-radius: 20px;
 }
 
 #content {
@@ -53,7 +55,7 @@ a:hover {
 }
 
 h2 {
-  color: #000;
+  color: #f7a31e;
   font-size: 18px;
   margin-bottom: 10px;
 }
@@ -65,9 +67,7 @@ h4 {
   margin-bottom: 5px;
 }
 
-
 /* game related styles */
-
 
 #stage {
   display:none;
@@ -81,7 +81,7 @@ h4 {
 
 div.left-column {
   float: left;
-  width: 250px;
+  width: 200px;
   margin-right: 10px;
   margin-left: 20px;
   text-align: center;
@@ -106,34 +106,62 @@ div.left-column {
 
 #game {
   float:left;
-  width: 700px;
+  width: 680px;
   margin-bottom: 20px;
+  background:url(../images/gray_bg.png);
+  border-radius: 20px;
+  padding: 10px;
 }
 
-#game .describe,
-#game .guess {
+#game .describe, #game .guess {
   display: none;
+}
+
+.form form {
+  text-align: center;
+  clear: both;
+}
+
+.guess h3 {
+  font-size: 18px;
+  color: #F1DA31;  
+}
+
+.guess h3 a, .guess h3 a:link, .form h3 a:visited {
+  color: #fff;
+  background-color: #f7a31e;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.guess h3 a:hover {
+  background-color: #666;
+  color: #f7a31e;
 }
 
 #wrong-guesses {
   float: right;
-  width: 200px;
+  width: 180px;
+  background:url(../images/gray_bg.png);
+  border-radius: 20px;
+  margin: 20px 15px 10px 0;
 }
 
 #wrong-guesses h3 {
   font-size: 14px;
-  margin-bottom: 15px;
+  margin: 5px 0 10px 8px;
+  color: #f1da31;
 }
 
 #wrong-guesses div {
   float: left;
   height: 160px;
-  margin: 0 10px 10px 0;
+  margin: 0 0px 25px 10px;
   width: 160px;
 }
 
 #wrong-guesses span {
-  background-color: #eb32d3;
+  background-color: #f7a31e;
   border: 2px solid #000000;
   display: block;
   float: left;
@@ -147,11 +175,10 @@ div.left-column {
 }
 
 .describe .image {
-  border:4px solid #000;
   background-color: #fff;
   width: 450px;
   padding: 15px;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto;
   overflow-x: auto;
 }
 
@@ -193,7 +220,7 @@ div.left-column {
 }
 
 .guess .images a.guessthis:hover {
-  background-color: #eb32d3;
+  background-color: #f7a31e;
   -moz-box-shadow: 2px 2px 1px #666;
   -webkit-box-shadow:  2px 2px 1px #666;
   box-shadow: 2px 2px 1px #666;
@@ -238,36 +265,47 @@ div.left-column {
 .hints {
   display: none;
   font-size: 18px;
-  font-weight: bold;
-  text-transform: uppercase;
   line-height: 18px;
   margin-bottom: 20px;
 }
 
 .hints h3 {
-  float: left;
-  margin-right: 10px;
+  padding: 0 0 5px 0;
   line-height: 18px;
   font-size: 18px;
   margin-bottom: 0px;
+  color: #f1da31;
 }
 
 .hints span {
   display:block;
   float: left;
-  margin-right: 10px;
-  margin-bottom: 5px;
+  margin: -2px 8px 10px 0;
   font-size: 16px;
   line-height: 16px;
-  padding: 2px;
-  background-color:#eb32d3;
-  color:#000000;
+  padding: 5px;
+  background-color:#333;
+  border-radius: 10px;
+  color: #f7a31e;
 }
 
 .guess .hints {
   float: left;
 }
 
+a#sendHint:link, a#sendHint:visited {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  background-color: #f7a31e;
+  border-radius: 10px; 
+  padding: 5px;
+}
+
+a#sendHint:hover {
+  color: #f7a31e;
+  background-color: #333;
+}
 
 #failedToGuess {
   width: 450px;
@@ -296,30 +334,39 @@ div.left-column {
 /* auxilary descriptions */
 .game_description {
   display: none;
-  margin-bottom: 30px;
-  font-size: 12px;
+  margin: 10px 0 15px 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+.game_description p {
+  margin-top: 10px;
 }
 
 .game_description.guess {}
-.game_description.describe {}
-
+.game_description.describe {
+	color: #f7a31e;
+}
 
 #scores {
-  float:left;
-  width: 719px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  width: 220px;
   font-size: 14px;
   font-weight: bold;
+  color: #f7a31e;
+  text-align: left;
 }
 
 #scores .left {
   margin-right: 30px;
 }
 
+#scores .left h2 {
+  margin-bottom: 2px;
+}
+
 #scores span {
-  font-size: 16px;
-  color: #d40082;
+  font-size: 18px;
+  color: #ffff00;
 }
 
 #scores div div {
@@ -327,22 +374,44 @@ div.left-column {
 }
 
 #scores .game_partner {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 #scores .guesses {
   text-transform: uppercase;
+  background-color: #FF1F57;
+  border-radius: 20px;
+  padding: 5px;
+  text-align: center;
+  margin: 10px 0 0 0;
+  color: #fff;
 } 
 
 #scores.final h2 {margin-bottom:10px;}
-#scores.final h3 {font-size: 16px;margin-bottom:10px;}
 
-#scores.final a#newGame {
-  display: inline-block;
-  height: 20px;
-  line-height: 20px;
-  background-color: #333;
-  padding: 0px 5px 0px 5px;
+#scores.final h3 {
+  font-size: 16px;
+  margin-bottom:10px;
+  color: #f7a31e;
+}
+
+#scores.final h3 b {
+  color: #ffff00;
+  font-size: 20px;
+}
+
+#scores.final a#newGame, #scores.final a#newGame:visited {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  background-color: #f7a31e;
+  border-radius: 10px; 
+  padding: 5px;
+}
+
+#scores.final a#newGame:hover {
+  color: #f7a31e;
+  background:url(../images/gray_bg.png);
 }
 
 #licences {
@@ -357,24 +426,45 @@ div.left-column {
 }
 
 #partner-waiting {
-  width:250px;
   line-height: 16px;
   font-size: 16px;
   font-weight: bold;
-  color: #f00;
+  color: #fff;
+  background-color: #ff1f57;
+  border-radius: 10px;
+  padding: 4px;
+  margin: 0px 0 10px 220px;
+  text-align: center;
+  display: inline-block;
 }
 
+#words_to_avoid {
+  float: right;
+  display: block;
+  width: 200px; 
+  padding-right:5px; 
+}
+
+#words_to_avoid h3 {
+  color: #f1da31;
+  font-size: 18px;
+  margin: 0 0 4px -2px;
+}
 
 #words_to_avoid span {
-  display: block;
-  float: left;
-  padding-right:5px;
+  padding: 5px;
+  background-color:#333;
+  border-radius: 10px;
+  margin: 0 8px 4px 0;
+  color: #f7a31e;
+  display: inline-block;
 }
 
 #finalScreen {
   float: left;
   width: 700px;
-  margin: 0px 0px 20px 280px;
+  margin: 0px auto;
+  padding: 10px;
 }
 
 #finalScreen .finalImage {
@@ -453,4 +543,9 @@ div.left-column {
   z-index: 1000;
   border:2px solid #fff;
   background-color:#529EC6;
+}
+
+#debug {
+/*  display: none; */ /* hide debug info for production */
+    clear: both;
 }

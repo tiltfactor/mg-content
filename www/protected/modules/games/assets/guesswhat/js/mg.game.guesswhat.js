@@ -158,6 +158,8 @@ MG_GAME_GUESSWHAT = function ($) {
       }
       
       $("#game .describe").hide();
+      $('#wrong-guesses').hide();
+      $('#wrong-guesses > div').remove();
       $("#game .guess").show();
       $("#game .guess .images").html("");
       $("#game .guess .hints span").remove();
@@ -187,6 +189,7 @@ MG_GAME_GUESSWHAT = function ($) {
       }
       
       $("#game .guess").hide();
+      $('#wrong-guesses').show();
       $('#wrong-guesses > div').remove();
       $("#game .describe").show();
       $("#game .describe .image").html("");

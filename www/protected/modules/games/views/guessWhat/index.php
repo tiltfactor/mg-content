@@ -3,47 +3,49 @@
 <div id="stage">
   <div class="left-column">
     <div id="guesswhat"> 
-      <img src="<?php echo GamesModule::getAssetsUrl(); ?>/guesswhat/images/guesswhatlogo.png" alt="Zen Pond" width="200" height="90" /> 
+      <img src="<?php echo GamesModule::getAssetsUrl(); ?>/guesswhat/images/guesswhatlogo.png" alt="Zen Pond" width="131" height="97" /> 
     </div> 
-    <div class="game_description guess"><h2>How To Play</h2>Lorem ipsum sid amed. XXX. Describe here the 'guess' role of the game <br/>Click on the image(s) to see a full-screen version.</div>
-    <div class="game_description describe"><h2>How To Play</h2>Lorem ipsum sid amed. XXX.  Describe here the 'describe' role of the game <br/>Click on the image to see a full-screen version.</div>
-    <div id="partner-waiting"></div>
-    <div id="more_info"></div>
-    <div id="words_to_avoid"></div>
+    <div id="scores" class="clearfix"></div>
+    <div class="game_description describe guess"><h2>How To Play</h2>Help your partner guess the following image from the others. Then you try and guess what your partner's image is!<p>Click on the image to see a full-screen version.</p></div>
+    <div id="wrong-guesses"><h3>Guessed Image(s)</h3></div>
+    <div id="more_info"></div>  
   </div>
-  <div id="scores" class="clearfix"></div>
+  
   <div id="messages"></div>
+  <div id="partner-waiting"></div>
+
   <div id="game">
-    <div class="describe">
-      <div id="wrong-guesses"><h3>Guessed Image(s)</h3></div>
+    <div class="describe">      
       <div class="image"></div>
       <div class="form">
-        <div class="hints clearfix"><h3>Hints given</h3></div>
+      	<div id="words_to_avoid"></div>
+        <div class="hints clearfix"><h3>Hints Given</h3></div>
         <form action="#">
           <input type="text" name="tag" width="60" id="tag"/>
-          <a href="#" id="sendHint">SEND A HINT</a>
+          <a href="#" id="sendHint">SEND HINT</a>
         </form>
       </div>
       <div id="guesses"></div>
     </div>
     <div class="guess">
-      <div class="form clearfix">
-        <div class="hints"><h3>Hints received</h3></div>
-        <a href="#" id="requestHint">REQUEST A HINT</a>
-      </div>
       <div class="images" class="clearfix"></div>
+    	<div class="form clearfix">
+        <div class="hints"><h3>Hints Received</h3></div> 
+      </div>
+      <h3>
+				Select an image or ask for another <a href="#" id="requestHint">HINT</a>        	
+      </h3>
     </div>
   </div>
   <div id="finalScreen"></div>
-  <div id="licences"></div>
+  
+  <!-- Currently don't know value of having license info here -->
+	<!-- when it's shown when player clicks on image anyways    -->
+	<!-- so I'm commenting it out for now. SP 20111201          -->
+  <!-- <div id="licences"></div> -->
   
 </div>
 <div id="info-modal"></div>
-
-<h3 id="debug">SESSION ID: <?php 
-  $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-  echo (int)Yii::app()->session[$api_id .'_SESSION_ID'];
-  ?><span></span></h3>
 
 <script id="template-describe-image" type="text/x-jquery-tmpl">
   <img src="${url}" alt="game image" /><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a>
@@ -60,7 +62,7 @@
 <script id="template-final-scoring" type="text/x-jquery-tmpl">
   <h2>Congratulations <b>${user_name}</b></h2>
   <h3>You played against <b>${game_partner_name}</b> and scored <b>${current_score}</b> points in this game.</h3>
-  <p><a href="${game_base_url}/guessWhat" id="newGame">start new game</a></p>
+  <p><a href="${game_base_url}/guessWhat" id="newGame">PLAY AGAIN</a></p>
 </script>
 
 <script id="template-final-screen-turn-image" type="text/x-jquery-tmpl">
@@ -78,7 +80,7 @@
   <div class="left">
     <div class="total_score">You played <span>${user_num_played}</span> times and scored <span>${user_score}</span> Points</div>
     <div class="current_score">This game's score <span>${current_score}</span> Points</div>
-    <div class="total_turns">Turn <span>${current_turn}</span>/<span>${turns}</span></div>
+    <div class="total_turns">Turn <span>${current_turn}</span>&nbsp;/&nbsp;<span>${turns}</span></div>
     <div class="guesses"><span>${num_guesses_left}</span> guess(es) left</div>
   </div>
 </script>
@@ -88,7 +90,7 @@
 </script>
 
 <script id="template-words-to-avoid-heading" type="text/x-jquery-tmpl">
-  <h2>Words To Avoid</h2>
+  <h3>Words To Avoid</h3>
 </script>
 
 <script id="template-words-to-avoid" type="text/x-jquery-tmpl">
@@ -140,7 +142,7 @@
 </script>
 <script id="template-failed-to-guess" type="text/x-jquery-tmpl">
   <div id="failedToGuess">
-    <h2>No Guess left</h2>
+    <h2>No Guesses Left</h2>
     <p>The correct image would have been</p>
     <div class="image"><img src="${url}" alt="game image" /></div>
     <a href="#" id="loadNextTurn">Load next turn</a>

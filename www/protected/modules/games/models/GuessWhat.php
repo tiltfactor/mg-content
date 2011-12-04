@@ -7,7 +7,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
   public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Game database entry
   public $name = "Guess What?";
   public $arcade_image = "guesswhat_arcade.png";
-  public $description = "Lorem ipsum sit amed. xxx change the description";
+  public $description = "Can you guess what the other player's image is?";
   public $more_info_url = "";
   public $turns = 4;
   public $image_width = 450;
