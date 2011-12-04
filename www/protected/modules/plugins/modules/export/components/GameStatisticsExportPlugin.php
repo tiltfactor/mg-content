@@ -54,3 +54,5 @@ class GameStatisticsExportPlugin extends MGExportPlugin {
     // this plugin does not need to process each image
   }  
 }
+
+?>
