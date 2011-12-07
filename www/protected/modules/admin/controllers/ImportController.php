@@ -15,30 +15,30 @@ class ImportController extends GxController {
   public $subfolder="images";
   
   public function filters() {
-  	return array(
+    return array(
       'IPBlock',
       'accessControl', 
       );
   }
   
   public function accessRules() {
-  	return array(
-  			array('allow',
-  				'actions'=>array('view'),
-  				'roles'=>array('*'),
-  				),
-  			array('allow', 
-  				'actions'=>array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'uploadprocess', 'xuploadimage', 'batch', 'delete'),
-  				'roles'=>array('editor', 'xxx'),
-  				),
-  			array('deny', 
-  				'users'=>array('*'),
-  				),
-  			);
+    return array(
+        array('allow',
+          'actions'=>array('view'),
+          'roles'=>array('*'),
+          ),
+        array('allow', 
+          'actions'=>array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'uploadprocess', 'xuploadimage', 'batch', 'delete'),
+          'roles'=>array('editor', 'xxx'),
+          ),
+        array('deny', 
+          'users'=>array('*'),
+          ),
+        );
   }
 
-	public function actionIndex() {
-	  $this->layout='//layouts/column1';
+  public function actionIndex() {
+    $this->layout='//layouts/column1';
     
     if (Yii::app()->user->checkAccess('editor')) {
       $tools = array();
@@ -75,7 +75,7 @@ class ImportController extends GxController {
     } else {
       throw new CHttpException(403, Yii::t('app', 'Access Denied.'));
     }
-	}
+  }
   
   public function actionImportSettings() {
     $this->layout='//layouts/column1';
@@ -363,9 +363,17 @@ class ImportController extends GxController {
   
   private function _batchProcess() {
     $errors = array();
+    $processedIDs = array();
     
-    if (isset($_POST['image-ids'])) {
-      $images = Image::model()->findAllByPk($_POST['image-ids']);
+    if (isset($_POST['image-ids']) || isset($_POST['massProcess'])) {
+      if (isset($_POST['image-ids'])) {
+        $images = Image::model()->findAllByPk($_POST['image-ids']);
+      } else {
+        $condition = new CDbCriteria;
+        $condition->limit = (int)$_POST['massProcess'];
+        $condition->order = 'created DESC';
+        $images = Image::model()->findAllByAttributes(array('locked' => 0), $condition);
+      }
       
       if ($images) {
         $firstModel = $images[0];
@@ -390,11 +398,11 @@ class ImportController extends GxController {
           
           foreach ($images as $image) {
             $image->locked = 1;
-            $image->save(); 
+            $image->save();
+            $processedIDs[] = $image->id;
           }
-          
-          MGHelper::log('batch-import-process', 'Batch processed Image with IDs(' . implode(',', $_POST['image-ids']) . ')');  
-          Flash::add('success', Yii::t('app', 'Processed {count} images with the IDs({ids})', array("{count}" => count($_POST['image-ids']), "{ids}" => implode(',', $_POST['image-ids']))));
+          MGHelper::log('batch-import-process', 'Batch processed Image with IDs(' . implode(',', $processedIDs) . ')');  
+          Flash::add('success', Yii::t('app', 'Processed {count} images with the IDs({ids})', array("{count}" => count($processedIDs), "{ids}" => implode(',', $processedIDs))));
         }
       }
     } else {

@@ -35,26 +35,26 @@ if (count($plugins) > 0) {
 }
 
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'image-grid',
-	'dataProvider' => $model->unprocessed(),
-	'filter' => $model,
-	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
-	'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-	'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
-	'selectableRows'=>2,
-	'columns' => array(
-	  array(
+  'id' => 'image-grid',
+  'dataProvider' => $model->unprocessed(),
+  'filter' => $model,
+  'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
+  'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
+  'baseScriptUrl' => Yii::app()->request->baseUrl . "/css/yii/gridview",
+  'selectableRows'=>2,
+  'columns' => array(
+    array(
       'class'=>'CCheckBoxColumn',
       'id'=>'image-ids',
     ),
-	  array(
+    array(
         'name' => 'name',
         'cssClassExpression' => '"image"',
         'type'=>'html',
         'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
       ),
-		'size',
-		'batch_id',
+    'size',
+    'batch_id',
     array (
   'class' => 'CButtonColumn',
   'buttons' => 
@@ -65,18 +65,27 @@ $this->widget('zii.widgets.grid.CGridView', array(
   ),
 )  ),
 )); 
-$this->endWidget();
-  
-  echo CHtml::tag('button', array('id' => "import-process"), Yii::t('app', 'Process selected images'));
-  
+
+  echo CHtml::tag('button', array('id' => "import-process"), Yii::t('app', 'Process images')); ?>
+  <div style="float: right; margin-right: 15px"?>
+    
+  <?php 
+    echo Yii::t('app','Selected images:');
+    echo " ";
+    echo CHtml::dropDownList('massProcess', 0, array(0=>Yii::t('app', "manually (with the checkboxes in the table above)"),  50=> Yii::t('app', "first ")  . 50, 100=> Yii::t('app', "first ")  . 100, 150=> Yii::t('app', "first ")  . 150, 175=> Yii::t('app', "first ")  . 175, 200=> Yii::t('app', "first ")  . 200, 225=> Yii::t('app', "first ")  . 225, 250=> Yii::t('app', "first ")  . 250, 275=> Yii::t('app', "first ")  . 275, 300=> Yii::t('app', "first ")  . 300));
+    ?>
+  </div>
+
+<?php
+  $this->endWidget();
 
   $url = CHtml::normalizeUrl(array('batch', 'op' => 'process'));
-  $select_info = Yii::t('ui','Please check at least one image you would like to process!');
-  $process_info = Yii::t('ui','Are you sure to process the selected image(s)?');
+  $select_info = Yii::t('app','Please check at least one image you would like to process!');
+  $process_info = Yii::t('app','Are you sure to process the selected image(s)?');
   
   $javascript = <<<EOD
    jQuery('#import-process').click(function() {
-    if(\$("input[name='image-ids\[\]']:checked").length==0) {
+    if(\$("input[name='image-ids\[\]']:checked").length==0 && \$("select#massProcess").val() == 0) {
       alert('{$select_info}');
       return false;
     }
@@ -101,6 +110,8 @@ EOD;
         array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
     ),
     'htmlOptions'=>array('class'=>'batchActions'),
-  ));
-?>
+  ));?>
+  
+
+  
 </div>
