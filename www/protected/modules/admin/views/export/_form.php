@@ -129,7 +129,7 @@
         'separator' => '',
         )) ?>
     <?php echo $form->error($model,'option_list_user'); ?>
-    <?php echo Yii::t('app', "Add submitting player names to the listings (this will increase the of data provided)"); ?>
+    <?php echo Yii::t('app', "Add submitting player names to the listings (this will increase the size of the data provided)"); ?>
   </div><!-- row -->
 <?php   
   $plugins = PluginsModule::getAccessiblePlugins("export");
