@@ -13,7 +13,7 @@ class Badge extends BaseBadge
   
   public function rules() {
     return array(
-      array('title, points', 'required'),
+      array('title, points, image_inactive, image_active', 'required'),
       array('points', 'numerical', 'integerOnly'=>true),
       array('title', 'length', 'max'=>45),
       
