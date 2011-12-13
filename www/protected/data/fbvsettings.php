@@ -32,7 +32,7 @@ return array (
     'tool-image' => 
     array (
       'name' => 'Images',
-      'description' => 'Tools to administer images the system',
+      'description' => 'Manage images that have been imported and processed.',
       'url' => '/admin/image',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -40,7 +40,7 @@ return array (
     'tool-tag' => 
     array (
       'name' => 'Tags',
-      'description' => 'All tags created by players can be administered via this tool.',
+      'description' => 'Manage tags that have been created by players.',
       'url' => '/admin/tag',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -48,7 +48,7 @@ return array (
     'tool-import' => 
     array (
       'name' => 'Import',
-      'description' => 'Tools to import images into the system',
+      'description' => 'Import and process images into the system.',
       'url' => '/admin/import',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -56,7 +56,7 @@ return array (
     'tool-image-set' => 
     array (
       'name' => 'Image Sets',
-      'description' => 'Image Sets allow you to group images that can be licenced under different licenses.',
+      'description' => 'Group images and apply applicable licences.',
       'url' => '/admin/imageSet',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -64,7 +64,7 @@ return array (
     'tool-licence' => 
     array (
       'name' => 'Licences',
-      'description' => 'Create licenses under which images can be published in the system',
+      'description' => 'Create licences under which images can be published in the system.',
       'url' => '/admin/licence',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -72,7 +72,7 @@ return array (
     'tool-export' => 
     array (
       'name' => 'Export',
-      'description' => 'Tools to export tags, tags uses, and tagged images',
+      'description' => 'Export tags, tag uses, and tagged images.',
       'url' => '/admin/export',
       'role' => 'editor',
       'group' => 'Images & Tags',
@@ -80,7 +80,7 @@ return array (
     'tool-user' => 
     array (
       'name' => 'Players',
-      'description' => 'Registered players and their tags can be administered via these tools',
+      'description' => 'Manage registered players and the tags they have created.',
       'url' => '/admin/user',
       'role' => 'dbmanager',
       'group' => 'Players',
@@ -88,7 +88,7 @@ return array (
     'tool-subject-matter' => 
     array (
       'name' => 'Subject Matters',
-      'description' => 'Each image set can have subject matter to which a player can express interest or an administrator can assign trust and expertise. These values are used to influence image selection and tag weights',
+      'description' => 'Manage subject matter categories in which players can express interest. These values are used to influence image selection and tag weights.',
       'url' => '/admin/subjectMatter',
       'role' => 'editor',
       'group' => 'Players',
@@ -96,7 +96,7 @@ return array (
     'tool-plugins' => 
     array (
       'name' => 'Plugins',
-      'description' => 'MetaData Games is modular. Plugins allow the flexible extension of functionality and can be administered here.',
+      'description' => 'Plugins allow the flexible extension of functionality and can be managed here.',
       'url' => '/plugins',
       'role' => 'editor',
       'group' => 'Games & Plugins',
@@ -104,7 +104,7 @@ return array (
     'tool-games' => 
     array (
       'name' => 'Games',
-      'description' => 'Activate and administer games here',
+      'description' => 'Manage games.',
       'url' => '/games',
       'role' => 'dbmanager',
       'group' => 'Games & Plugins',
@@ -112,7 +112,7 @@ return array (
     'tool-bages' => 
     array (
       'name' => 'Badges',
-      'description' => 'Create or remove badges that can be achieved by the player',
+      'description' => 'Manage badges that can be achieved by players.',
       'url' => '/admin/badge',
       'role' => 'editor',
       'group' => 'Games & Plugins',
@@ -120,7 +120,7 @@ return array (
     'tool-ip' => 
     array (
       'name' => 'IP Blacklist',
-      'description' => 'White list or black list IP addresses here',
+      'description' => 'Restrict access to Metadata Games by whitelisting or blacklisting IP addresses.',
       'url' => '/admin/blockedIp',
       'role' => 'editor',
       'group' => 'Other',
@@ -128,7 +128,7 @@ return array (
     'tool-settings' => 
     array (
       'name' => 'Global Settings',
-      'description' => 'Configure settings that are used globally in the system',
+      'description' => 'Configure settings that are used globally in the system.',
       'url' => '/admin/settings',
       'role' => 'dbmanager',
       'group' => 'Other',
@@ -136,7 +136,7 @@ return array (
     'tool-logs' => 
     array (
       'name' => 'Admin Log',
-      'description' => 'Each acting by users in the admin tools is logged. The logs can be accessed here.',
+      'description' => 'Access records of changes made using admin tools.',
       'url' => '/admin/log',
       'role' => 'dbmanager',
       'group' => 'Other',
@@ -202,7 +202,7 @@ return array (
     'app_name' => 'MetaData Games',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
-    'app_email' => 'admin@admin.com',
+    'app_email' => 'junk8@dartmouth.edu',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
