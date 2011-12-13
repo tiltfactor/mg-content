@@ -27,7 +27,7 @@ abstract class BaseBlockedIp extends GxActiveRecord {
 	}
 
 	public static function label($n = 1) {
-		return Yii::t('app', 'BlockedIp|BlockedIps', $n);
+		return Yii::t('app', 'IP Blacklist|IP Blacklists', $n);
 	}
 
 	public static function representingColumn() {
@@ -57,7 +57,7 @@ abstract class BaseBlockedIp extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'id' => Yii::t('app', 'ID'),
-			'ip' => Yii::t('app', 'Ip'),
+			'ip' => Yii::t('app', 'IP'),
 			'type' => Yii::t('app', 'Type'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),

@@ -9,7 +9,7 @@ class Log extends BaseLog
 	}
   
   public static function label($n = 1) {
-    return Yii::t('app', 'Log Entry|Logs', $n);
+    return Yii::t('app', 'Admin Log Entry|Admin Logs', $n);
   }
   
   public function search() {

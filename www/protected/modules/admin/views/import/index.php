@@ -12,7 +12,7 @@ $this->menu = array(
 
 <h1><?php echo Yii::t('app', 'Import'); ?></h1>
 
-<p>This is the Admin Overview. It lists all tools you have got access to.</p>
+<p>This is the Admin Overview. It lists all tools you have access to.</p>
 
 <?php foreach ($tools as $id => $tool) : ?>
 <div class="tool" id="<?php echo $id; ?>">

@@ -28,12 +28,12 @@ class SettingsForm extends Game
   public function attributeLabels() {
     return array(
       'app_name' => Yii::t('app', 'Application Name'), 
-      'throttle_interval' => Yii::t('app', 'Throttle Interval (how many millisecond have to be between two api requests)'), 
-      'message_queue_interval' => Yii::t('app', 'Message Queue Interval (how many millisecond have to be between two message queue requests)<br/>Message queue requests are not throttled.'), 
-      'app_email' => Yii::t('app', 'E-Mail address (e-mails are send from and contact form messages are send to)'),
-      'pagination_size' => Yii::t('app', 'Listings pagination size'), 
-      'app_upload_path' => Yii::t('app', 'Upload folder (relative path to application folder)'), 
-      'app_upload_url' => Yii::t('app', 'Upload folder URL'), 
+      'throttle_interval' => Yii::t('app', 'Throttle Interval <br />(how many milliseconds have to be between two API requests)'), 
+      'message_queue_interval' => Yii::t('app', 'Message Queue Interval <br />(how many milliseconds have to be between two message queue requests)<br />Message queue requests are not throttled.'), 
+      'app_email' => Yii::t('app', 'E-Mail Address <br />(e-mails are sent from and contact form messages are sent to)'),
+      'pagination_size' => Yii::t('app', 'Listings Pagination Size'), 
+      'app_upload_path' => Yii::t('app', 'Upload Folder <br />(relative path to application folder)'), 
+      'app_upload_url' => Yii::t('app', 'Upload Folder URL'), 
     );
   }
   

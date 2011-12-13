@@ -9,7 +9,7 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<p>This is the Admin Overview. It lists all tools you have got access to.</p>
+<p>This is the Admin Overview. It lists all tools you have access to.</p>
 
 <?php foreach ($tool_groups as $group => $tools) : ?>
 <fieldset class="admin-tools">
