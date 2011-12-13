@@ -109,5 +109,9 @@ return array(
   
   // application-level parameters that can be accessed
   // using Yii::app()->params['paramName']
-  'params'=>array(),
+  'params'=>array(
+    'version' => "0.1",
+    'tags_csv_format' => "1.0",
+    'embedded_metadata_format' => "1.0",
+  ),
 );

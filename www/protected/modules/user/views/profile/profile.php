@@ -21,7 +21,6 @@ $this->menu = array(
 </tr>
 <?php
   $profileFields=ProfileField::model()->forOwner()->sort()->findAll();
-  $profileFields = FALSE;
   if ($profileFields) {
     foreach($profileFields as $field) { ?>
 <tr>
