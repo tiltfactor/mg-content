@@ -2,7 +2,7 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
-	Yii::t('app', 'Global Settings') => array('admin'),
+  Yii::t('app', 'Global Settings') => array('view'),
 	Yii::t('app', 'Update'),
 );
 
