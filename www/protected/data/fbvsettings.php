@@ -143,7 +143,7 @@ return array (
     ),
     'update-code' => 
     array (
-      'name' => 'Update MG',
+      'name' => 'Update DB',
       'description' => 'Please visit this tool after an update of the code base to make sure the database structure is up-to date.',
       'url' => '/admin/update',
       'role' => 'admin',
