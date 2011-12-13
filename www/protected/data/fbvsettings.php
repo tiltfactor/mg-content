@@ -141,6 +141,14 @@ return array (
       'role' => 'dbmanager',
       'group' => 'Other',
     ),
+    'update-code' => 
+    array (
+      'name' => 'Update MG',
+      'description' => 'Please visit this tool after an update of the code base to make sure the database structure is up-to date.',
+      'url' => '/admin/update',
+      'role' => 'admin',
+      'group' => 'Other',
+    ),
   ),
   'games' => 
   array (
