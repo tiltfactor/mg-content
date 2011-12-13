@@ -34,7 +34,7 @@ abstract class BaseImageSet extends GxActiveRecord {
 	}
 
 	public static function label($n = 1) {
-		return Yii::t('app', 'ImageSet|ImageSets', $n);
+		return Yii::t('app', 'Image Set|Image Sets', $n);
 	}
 
 	public static function representingColumn() {

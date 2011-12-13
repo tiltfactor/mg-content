@@ -29,7 +29,7 @@ abstract class BaseSubjectMatter extends GxActiveRecord {
 	}
 
 	public static function label($n = 1) {
-		return Yii::t('app', 'SubjectMatter|SubjectMatters', $n);
+		return Yii::t('app', 'Subject Matter|Subject Matters', $n);
 	}
 
 	public static function representingColumn() {
