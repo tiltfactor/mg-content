@@ -2,7 +2,7 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
-	$model->label(2) => array('index'),
+	$model->label(2) => array('admin'),
 	GxHtml::valueEx($model, "unique_id"),
 );
 
