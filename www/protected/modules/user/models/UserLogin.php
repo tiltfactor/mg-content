@@ -63,10 +63,10 @@ class UserLogin extends CFormModel
 					$this->addError("username",UserModule::t("Username is incorrect."));
 					break;
 				case UserIdentity::ERROR_STATUS_NOTACTIVE:
-					$this->addError("status",UserModule::t("You account is not activated."));
+					$this->addError("status",UserModule::t("Your account is not activated."));
 					break;
 				case UserIdentity::ERROR_STATUS_BAN:
-					$this->addError("status",UserModule::t("You account is blocked."));
+					$this->addError("status",UserModule::t("Your account is blocked."));
 					break;
 				case UserIdentity::ERROR_PASSWORD_INVALID:
 					$this->addError("password",UserModule::t("Password is incorrect."));
