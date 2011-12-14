@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
   'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-  'name'=>'Meta Data Games', // no need to change as this is just the default the app is using a value retrieved from fbvStorage
+  'name'=>'Metadata Games', // no need to change as this is just the default the app is using a value retrieved from fbvStorage
 
   // preloading 'log' component
   'preload'=>array('log', 'fbvStorage'),
