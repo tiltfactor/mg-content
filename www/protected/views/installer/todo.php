@@ -2,7 +2,7 @@
 
 <h1><?php echo CHtml::encode(Yii::app()->name); ?> - Further Steps</h1>
 
-<p><b>Success! The database has been set up and MetaData Games has been configured.</b></p>
+<p><b>Success! The database has been set up and Metadata Games has been configured.</b></p>
 
 <p>Some things are however left to to do:</p>
 

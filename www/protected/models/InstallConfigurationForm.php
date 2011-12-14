@@ -7,7 +7,7 @@
  */
 class InstallConfigurationForm extends User
 {
-  public $app_name = "MetaData Games";  
+  public $app_name = "Metadata Games";  
   public $email = "";
   public $verifyPassword;
   

@@ -7,7 +7,7 @@
  */
 class SettingsForm extends Game
 {
-  public $app_name = "Meta Data Games";  
+  public $app_name = "Metadata Games";  
   public $throttle_interval = 500; //interval in miliseconds
   public $message_queue_interval = 500; // interval in miliseconds can be smaller than throttle_interval
   public $app_email = "sukie@tiltfaktor.org";

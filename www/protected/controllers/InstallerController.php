@@ -22,7 +22,7 @@ class InstallerController extends Controller
     if (!Yii::app()->fbvStorage->get("installed", false)) {
       $filterChain->run(); 
     } else {
-      throw new CHttpException(403, Yii::t('app', 'MetaData Games is already installed.'));   
+      throw new CHttpException(403, Yii::t('app', 'Metadata Games is already installed.'));   
     }
   }
   

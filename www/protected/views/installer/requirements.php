@@ -19,11 +19,11 @@ Congratulations! Your server configuration satisfies all requirements by Yii.
 <br/><h3><a href="<?php echo Yii::app()->createUrl('installer/database'); ?>">Proceed with database installation</a></h3>
 
 <?php elseif($result<0): ?>
-Your server configuration satisfies the minimum requirements by Yii. Please pay attention to the warnings listed below as you could rectify them to improve the performance of Meta Data Games.
+Your server configuration satisfies the minimum requirements by Yii. Please pay attention to the warnings listed below as you could rectify them to improve the performance of Metadata Games.
 <br/><h3><a href="<?php echo Yii::app()->createUrl('installer/database'); ?>">Proceed with database installation</a></h3>
 
 <?php else: ?>
-<b style="color:red;">Unfortunately your server configuration needs changes in order to allow to run Meta Data Games. Please correct all failed items inidcated in the listing below.</b>
+<b style="color:red;">Unfortunately your server configuration needs changes in order to allow to run Metadata Games. Please correct all failed items inidcated in the listing below.</b>
 <?php endif; ?>
 </p>
 <br/>

@@ -207,7 +207,7 @@ return array (
   ),
   'settings' => 
   array (
-    'app_name' => 'MetaData Games',
+    'app_name' => 'Metadata Games',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
     'app_email' => 'junk8@dartmouth.edu',
