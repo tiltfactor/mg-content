@@ -92,7 +92,7 @@ EOT;
   }
   
   function process(&$model, &$command, $tmp_folder, $image_id) {
-    $sql = <<<EOT
+    $sql = "
 tu.image_id,
 COUNT(tu.id) tu_count,
 MIN(tu.weight) w_min,
@@ -101,8 +101,8 @@ AVG(tu.weight) w_avg,
 SUM(tu.weight) as w_sum,
 t.tag,
 i.name
-EOT;
-
+";
+    
     $command->selectDistinct($sql);
 
     $command->where(array('and', $command->where, 'tu.image_id = :imageID'),
