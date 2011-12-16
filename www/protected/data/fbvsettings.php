@@ -191,7 +191,7 @@ return array (
     'GuessWhat' => 
     array (
       'name' => 'Guess What?',
-      'description' => 'Lorem ipsum sit amed dolor cum laude. xxx change the description',
+      'description' => "Can you guess what the other player's image is?",
       'arcade_image' => 'guesswhat_arcade.png',
       'more_info_url' => 'http://thisismoreinfo.com',
       'turns' => '4',
