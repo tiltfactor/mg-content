@@ -31,7 +31,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
   public function attributeLabels() {
     return array(
       'name' => Yii::t('app', 'Name'),
-      'arcade_image' => Yii::t('app', 'Name'),
+      'arcade_image' => Yii::t('app', 'Game Image Location'),
       'description' => Yii::t('app', 'Description'),
       'image_width' => Yii::t('app', 'Stage Image max. Width'),
       'image_height' => Yii::t('app', 'Stage Image max. Height'),
