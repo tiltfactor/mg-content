@@ -19,8 +19,8 @@ class ScoreNewMatch extends MGPluginModel implements MGPluginModelInterface
   
   public function attributeLabels() {
     return array(
-      'score_new' => Yii::t('app', 'Score (new)'),
-      'score_match' => Yii::t('app', 'Score (match)'),
+      'score_new' => Yii::t('app', 'Score (new tag)'),
+      'score_match' => Yii::t('app', 'Score (matched tag)'),
     );
   }
   

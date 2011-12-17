@@ -12,7 +12,7 @@ class GuessWhatScoring extends MGPluginModel implements MGPluginModelInterface
   public $score_first_guess = 5;
   public $score_second_guess = 3;
   public $score_third_guess = 2;
-  public $additional_weight_first_guess = 0.5;
+  public $additional_weight_first_guess = 1;
   
   public function rules() {
     return array(
@@ -23,12 +23,12 @@ class GuessWhatScoring extends MGPluginModel implements MGPluginModelInterface
   
   public function attributeLabels() {
     return array(
-      'score_new' => Yii::t('app', 'Bonus describing player submitted new tag for the image'),
-      'score_match' => Yii::t('app', 'Bonus describing player submitted a matching tag for the image'),
-      'score_first_guess' => Yii::t('app', 'Score for both player if image has been found on first guess'),
-      'score_second_guess' => Yii::t('app', 'Score for both player if image has been found on second guess'),
-      'score_third_guess' => Yii::t('app', 'Score for both player if image has been found on all other attempts'),
-      'additional_weight_first_guess' => Yii::t('app', 'Additional weight for tag leading to hit on first guess.'),
+      'score_new' => Yii::t('app', 'Score for Tagger (new tag)'),
+      'score_match' => Yii::t('app', 'Score for Tagger (matched tag)'),
+      'score_first_guess' => Yii::t('app', 'Score for Both Players (on first guess)'),
+      'score_second_guess' => Yii::t('app', 'Score for Both Players (on second guess)'),
+      'score_third_guess' => Yii::t('app', 'Score for Both Players (on any other guess)'),
+      'additional_weight_first_guess' => Yii::t('app', 'Tag Weight Bonus (on first guess)'),
     );
   }
   

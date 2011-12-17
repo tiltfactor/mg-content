@@ -23,12 +23,12 @@ class ScoreBySubjectMatter extends MGPluginModel implements MGPluginModelInterfa
   
   public function attributeLabels() {
     return array(
-      'score_new' => Yii::t('app', 'Score (new)'),
-      'score_match' => Yii::t('app', 'Score (match)'),
-      'score_new_expert' => Yii::t('app', 'Score (new, expert)'),
-      'score_new_trusted' => Yii::t('app', 'Score (new, trusted)'),
-      'score_match_expert' => Yii::t('app', 'Score (matched, expert)'),
-      'score_match_trusted' => Yii::t('app', 'Score (matched, trusted)'),
+      'score_new' => Yii::t('app', 'Score (new tag)'),
+      'score_match' => Yii::t('app', 'Score (matched tag)'),
+      'score_new_expert' => Yii::t('app', 'Score (new tag, expert)'),
+      'score_new_trusted' => Yii::t('app', 'Score (new tag, trusted)'),
+      'score_match_expert' => Yii::t('app', 'Score (matched tag, expert)'),
+      'score_match_trusted' => Yii::t('app', 'Score (matched tag, trusted)'),
     );
   }
   
