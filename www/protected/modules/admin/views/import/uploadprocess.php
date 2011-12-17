@@ -81,7 +81,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
   $url = CHtml::normalizeUrl(array('batch', 'op' => 'process'));
   $select_info = Yii::t('app','Please check at least one image you would like to process!');
-  $process_info = Yii::t('app','Are you sure to process the selected image(s)?');
+  $process_info = Yii::t('app','Process the selected image(s)?');
   
   $javascript = <<<EOD
    jQuery('#import-process').click(function() {
