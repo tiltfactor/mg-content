@@ -62,7 +62,7 @@ array(
 )); ?>
 
 <?php if (count($model->tagOriginalVersions) > 0) : ?>
-  <h1>This Tag Use has beed modified (Tag Use Orginal Versions are)</h1>
+  <h1>This Tag Use has been modified (Tag Use Original Versions are)</h1>
 <?php 
 $this->widget('zii.widgets.grid.CGridView', array(
   'id' => 'tag-use-grid',

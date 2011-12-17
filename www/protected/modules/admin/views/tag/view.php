@@ -90,7 +90,7 @@ $this->widget('zii.widgets.CListView', array(
 ?>
 </div>
 
-<h2>Tag Use Orginal Versions</h2>
+<h2>Tag Use Original Versions</h2>
 <?php 
 $this->widget('zii.widgets.grid.CGridView', array(
   'id' => 'tag-use-grid',
