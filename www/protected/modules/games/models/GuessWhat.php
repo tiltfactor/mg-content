@@ -23,7 +23,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
     return array(
         array('name, description, arcade_image, active, turns, image_width, image_height, image_grid_width, image_grid_height, partner_wait_threshold, play_against_computer, number_guesses, number_hints', 'required'),
         array('name', 'length', 'min'=>1, 'max'=>100),
-        array('description', 'length', 'min'=>50, 'max'=>500),
+        array('description', 'length', 'min'=>25, 'max'=>500),
         array('more_info_url','url'),
         array('image_width, image_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('image_grid_width, image_grid_height', 'numerical', 'min'=>50, 'max'=>1000),

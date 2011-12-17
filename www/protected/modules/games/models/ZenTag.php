@@ -19,7 +19,7 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
     return array(
         array('name, description, arcade_image, active, play_once_and_move_on, turns', 'required'),
         array('name', 'length', 'min'=>1, 'max'=>100),
-        array('description', 'length', 'min'=>50, 'max'=>500),
+        array('description', 'length', 'min'=>25, 'max'=>500),
         array('more_info_url, play_once_and_move_on_url','url'),
         array('image_width, image_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('active, play_once_and_move_on', 'numerical', 'min'=>0, 'max'=>1),
