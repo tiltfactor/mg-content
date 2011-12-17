@@ -30,6 +30,8 @@
  */
 
 include 'Toolkit_Version.php';          // Change: added as of version 1.11
+include 'JPEG.php';
+include 'XMP.php';
 
 /************************************************************************
  * Global Variable:      Software Name
@@ -49,6 +51,16 @@ $GLOBALS[ "Software Name" ] =
  ************************************************************************/
 
 class XMPAppend {
+
+  // Some methods that we can call from inside Yii.
+  public function get_jpeg_header_data( $filepath ) {
+    return get_jpeg_header_data( $filepath );
+  }
+
+  public function put_jpeg_header_data($a, $b, $header) {
+    return put_jpeg_header_data($a, $b, $header);
+  }
+
   
   /************************************************************************
    *
@@ -99,7 +111,7 @@ class XMPAppend {
                                   $Item['children'][0]['children'][0] ) ) ) {
           $outputarray =
             self::add_to_field( $outputarray, 'description' ,
-                                HTML_UTF8_Escape( $Item['children'][0]['children'][0]['value'] ),
+                                HTML_UTF8_Escape($Item['children'][0]['children'][0]['value']),
                                 $Item['children'][0]['children'][0]['value'],
                                 "\n" );
         }
@@ -224,24 +236,23 @@ class XMPAppend {
     
     //  Create a translation table to remove carriage return characters
     $trans = array( "\x0d" => "" );
-    
-    // Cycle through each of the File Info elements
-    foreach( $new_ps_file_info_array as $valkey => $val ) {
-      // If the element is 'Keywords' or 'Supplemental Categories', then
-      // it is an array, and needs to be treated as one
+
+    // Cycle the fields of the passed-in data.
+    foreach( $dc as $valkey => $val ) {
+      // If the element is 'Keywords' or 'Supplemental Categories',
+      // then it is an array, and needs to be treated as one
       if ( ( $valkey != 'supplementalcategories' ) &&
            ( $valkey != 'keywords' ) ) {
         // Not Keywords or Supplemental Categories
         // Convert escaped HTML characters to UTF8 and remove carriage returns
-        $new_ps_file_info_array[ $valkey ] =
-          strtr( HTML_UTF8_UnEscape( $val ), $trans );
+        $dc[ $valkey ] = strtr( HTML_UTF8_UnEscape( $val ), $trans );
       } else {
         // Either Keywords or Supplemental Categories
         // Cycle through the array,
         foreach( $val as $subvalkey => $subval ) {
           // Convert escaped HTML characters to UTF8 and remove
           // carriage returns.
-          $new_ps_file_info_array[ $valkey ][ $subvalkey ] =
+          $dc[ $valkey ][ $subvalkey ] =
             strtr( HTML_UTF8_UnEscape( $subval ), $trans );
         }
       }
