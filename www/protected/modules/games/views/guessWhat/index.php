@@ -6,7 +6,7 @@
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/guesswhat/images/guesswhatlogo.png" alt="Zen Pond" width="131" height="97" /> 
     </div> 
     <div id="scores" class="clearfix"></div>
-    <div class="game_description describe guess"><h2>How To Play</h2>Help your partner guess the following image from the others. Then you try and guess what your partner's image is!<p>Click on the image to see a full-screen version.</p></div>
+    <div class="game_description describe guess"><h2>How To Play</h2>Help your partner guess the following image from the others. Then you try and guess what your partner's image is!<p>Click on the zoom icon to see a full-screen version.</p></div>
     <div id="wrong-guesses"><h3>Guessed Image(s)</h3></div>
     <div id="more_info"></div>  
   </div>
@@ -61,7 +61,7 @@
 
 <script id="template-final-scoring" type="text/x-jquery-tmpl">
   <h2>Congratulations <b>${user_name}</b></h2>
-  <h3>You played against <b>${game_partner_name}</b> and scored <b>${current_score}</b> points in this game.</h3>
+  <h3>You played with <b>${game_partner_name}</b> and scored <b>${current_score}</b> points in this game.</h3>
   <p><a href="${game_base_url}/guessWhat" id="newGame">PLAY AGAIN</a></p>
 </script>
 
@@ -105,7 +105,7 @@
   No game partner found. <a href="${game_base_url}/guessWhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
 <script id="template-info-modal-wait-for-partner" type="text/x-jquery-tmpl">
-  <p>Waiting for partner; timeout in <b>'${seconds}'</b> seconds.</p>{{if play_against_computer == 1}}<p><a href="#" id="playAgainstComputerNow">Play against the computer right now</a></p>{{/if}}<a href="${arcade_url}">Abort</a> game.
+  <p>Waiting for partner; timeout in <b>'${seconds}'</b> seconds.</p>{{if play_against_computer == 1}}<p><a href="#" id="playAgainstComputerNow">Play with the computer right now</a></p>{{/if}}<a href="${arcade_url}">Abort</a> game.
 </script>
 <script id="template-info-modal-waiting-for-hint" type="text/x-jquery-tmpl">
   Waiting for <b>${game_partner_name}</b> to submit a hint. <a href="${arcade_url}">Abort</a> game.

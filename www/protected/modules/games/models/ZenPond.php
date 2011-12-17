@@ -37,7 +37,7 @@ class ZenPond extends MGGameModel implements MGGameModelInterface
       'image_height' => Yii::t('app', 'Stage Image max. Height'),
       'turns' => Yii::t('app', 'Turns'),
       'partner_wait_threshold' => Yii::t('app', 'Partner Search Time Frame (seconds)'),
-      'play_against_computer' => Yii::t('app', 'Enable play against computer mode'),
+      'play_against_computer' => Yii::t('app', 'Enable play with computer mode'),
     );
   }
   

@@ -44,7 +44,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
       'image_grid_height' => Yii::t('app', 'Guess Image max. Height'),
       'turns' => Yii::t('app', 'Turns'),
       'partner_wait_threshold' => Yii::t('app', 'Partner Search Time Frame (seconds)'),
-      'play_against_computer' => Yii::t('app', 'Enable play against computer mode'),
+      'play_against_computer' => Yii::t('app', 'Enable play with computer mode'),
       'number_guesses' => Yii::t('app', 'The number of guesses for the guessing user per turn'),
       'number_hints' => Yii::t('app', 'The number of hints that can be maximal given per turn'),
     );
