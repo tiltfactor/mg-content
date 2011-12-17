@@ -190,10 +190,10 @@ return array (
     ),
     'GuessWhat' => 
     array (
-      'name' => 'Guess What?',
+      'name' => 'Guess What!',
       'description' => 'Can you guess what the other player\'s image is?',
       'arcade_image' => 'guesswhat_arcade.png',
-      'more_info_url' => 'http://thisismoreinfo.com',
+      'more_info_url' => '',
       'turns' => '4',
       'image_width' => '450',
       'image_height' => '450',
