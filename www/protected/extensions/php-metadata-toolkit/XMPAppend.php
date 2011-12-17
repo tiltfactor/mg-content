@@ -95,6 +95,8 @@ class XMPAppend {
     // Extract the Dublin Core section from the XMP
     $dublincore_block = self::find_XMP_block( $XMP_array, "dc" );
     
+    error_log("block extracted");
+
     // Check that the Dublin Core section exists
     if ( $dublincore_block != FALSE ) {
       
@@ -111,7 +113,11 @@ class XMPAppend {
                                   $Item['children'][0]['children'][0] ) ) ) {
           $outputarray =
             self::add_to_field( $outputarray, 'description' ,
-                                HTML_UTF8_Escape($Item['children'][0]['children'][0]['value']),
+				// DEBUG: Try not escaping UTF8 chars
+				// so that they appear properly in the
+				// output.
+				//
+                                //HTML_UTF8_Escape( $Item['children'][0]['children'][0]['value'] ),
                                 $Item['children'][0]['children'][0]['value'],
                                 "\n" );
         }
@@ -236,7 +242,10 @@ class XMPAppend {
     
     //  Create a translation table to remove carriage return characters
     $trans = array( "\x0d" => "" );
-
+    
+    // Q: Should this HTML->UTF conversion apply to the passed-in data
+    // or the extracted data?
+    
     // Cycle the fields of the passed-in data.
     foreach( $dc as $valkey => $val ) {
       // If the element is 'Keywords' or 'Supplemental Categories',
@@ -280,19 +289,23 @@ class XMPAppend {
       
       // Ensure that the existing XMP has all required fields, and add
       // any that are missing.
+
+      // Make sure that the right fields are present in the output.
+      $new_XMP_array =
+        self::XMP_Check( self::new_empty_xmp_array(), $XMP_array );
     }
-    
-    
+        
     // -- Process the XMP Dublin Core block.
     
     // Find the Dublin Core Information within the XMP block
-    $DC_block = self::find_XMP_block( $new_XMP_array, "dc" );
-    
-    
+    $DC_block = & self::find_XMP_block( $new_XMP_array, "dc" );
+        
     // The Dublin Core description tag - Find it and
     // Update the value.
     $new_value = $existing_xmp_dc["description"] . "\n" . $dc["description"];
+
     $Item = & self::find_XMP_item( $DC_block, "dc:description" );
+
     $Item[ 'children' ][ 0 ][ 'children' ] =
       array( array(  'tag'   => "rdf:li",
                      'value' => $new_value,
@@ -611,7 +624,7 @@ class XMPAppend {
    *
    ************************************************************************/
   
-  public function find_XMP_block( & $XMP_array, $block_name ) {
+  public function & find_XMP_block( & $XMP_array, $block_name ) {
     // Check that the rdf:RDF section can be found (which contains
     // the rdf:Description tags.
     if ( ( $XMP_array !== FALSE ) &&
@@ -741,6 +754,14 @@ class XMPAppend {
                 ),
               ),
             ),
+
+            /* 
+
+               // NOTE: 2011-12-17 - qubit - Removing this section for
+               // now as it might be causing the XMP data export to be
+               // unrecognized by various image processing programs.
+               */
+            /*
             5 =>
             array (
               'tag' => 'rdf:Description',
@@ -768,6 +789,8 @@ class XMPAppend {
                 ),
               ),
             ),
+            */
+            /**/
             6 =>
             array (
               'tag' => 'rdf:Description',
