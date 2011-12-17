@@ -39,7 +39,7 @@ class GridBatchAction extends CWidget {
       $this->textNoSelection = Yii::t('ui','Please check at least one item you would like to perform this action on!');
     
     if (is_null($this->textConfirm))
-      $this->textConfirm = Yii::t('ui','Are you sure to perform this action on checked item(s)?');
+      $this->textConfirm = Yii::t('ui','Perform this action on checked item(s)?');
     
     if (is_null($this->textNoAction))
       $this->textNoAction = Yii::t('ui','Please select an action you want to execute!');
