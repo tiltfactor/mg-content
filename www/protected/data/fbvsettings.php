@@ -179,7 +179,7 @@ return array (
     'ZenPond' => 
     array (
       'name' => 'Zen Pond',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'description' => 'Clear your mind with a partner and you will hear the voices of the serene taggers within you. Ohm.',
       'arcade_image' => 'zenpond_arcade.png',
       'more_info_url' => '',
       'turns' => '4',
@@ -191,7 +191,7 @@ return array (
     'GuessWhat' => 
     array (
       'name' => 'Guess What?',
-      'description' => "Can you guess what the other player's image is?",
+      'description' => 'Can you guess what the other player\'s image is?',
       'arcade_image' => 'guesswhat_arcade.png',
       'more_info_url' => 'http://thisismoreinfo.com',
       'turns' => '4',
@@ -210,7 +210,7 @@ return array (
     'app_name' => 'Metadata Games',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
-    'app_email' => 'junk8@dartmouth.edu',
+    'app_email' => 'Change me',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
