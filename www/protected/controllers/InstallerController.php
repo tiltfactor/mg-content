@@ -121,7 +121,7 @@ class InstallerController extends Controller
         '<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
         $message),
       array(
-        Yii::t('yii','ImageMagic'),
+        Yii::t('yii','ImageMagick'),
         false,
         MGRequirementsHelper::checkImageMagick(),
         'Metadata Games recommend to use Image Magick for image resizing.',
