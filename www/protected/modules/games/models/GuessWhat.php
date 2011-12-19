@@ -38,15 +38,15 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
       'name' => Yii::t('app', 'Name'),
       'arcade_image' => Yii::t('app', 'Game Image Location'),
       'description' => Yii::t('app', 'Description'),
-      'image_width' => Yii::t('app', 'Describe Image max. Width'),
-      'image_height' => Yii::t('app', 'Describe Image max. Height'),
-      'image_grid_width' => Yii::t('app', 'Guess Image max. Width'),
-      'image_grid_height' => Yii::t('app', 'Guess Image max. Height'),
+      'image_width' => Yii::t('app', 'Tagger\'s Maximum Image Width'),
+      'image_height' => Yii::t('app', 'Tagger\'s Maximum Image Height'),
+      'image_grid_width' => Yii::t('app', 'Guesser\'s Maximum Image Width'),
+      'image_grid_height' => Yii::t('app', 'Guesser\'s Maximum Image Height'),
       'turns' => Yii::t('app', 'Turns'),
       'partner_wait_threshold' => Yii::t('app', 'Partner Search Time Frame (seconds)'),
-      'play_against_computer' => Yii::t('app', 'Enable play with computer mode'),
-      'number_guesses' => Yii::t('app', 'The number of guesses for the guessing user per turn'),
-      'number_hints' => Yii::t('app', 'The number of hints that can be maximal given per turn'),
+      'play_against_computer' => Yii::t('app', 'Enable Play with Computer Mode'),
+      'number_guesses' => Yii::t('app', 'Allowed Number of Guesses Per Turn'),
+      'number_hints' => Yii::t('app', 'Allowed Number of Hints Per Turn'),
     );
   }
   

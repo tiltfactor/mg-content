@@ -32,10 +32,10 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
       'name' => Yii::t('app', 'Name'),
       'arcade_image' => Yii::t('app', 'Game Image Location'),
       'description' => Yii::t('app', 'Description'),
-      'play_once_and_move_on' => Yii::t('app', 'Play once and move on'),
-      'play_once_and_move_on_url' => Yii::t('app', 'Play once/move on forward to URL'),
-      'image_width' => Yii::t('app', 'Stage Image max. Width'),
-      'image_height' => Yii::t('app', 'Stage Image max. Height'),
+      'play_once_and_move_on' => Yii::t('app', 'Play Once and Move On'),
+      'play_once_and_move_on_url' => Yii::t('app', 'Play Once/Move On Forward to URL'),
+      'image_width' => Yii::t('app', 'Maximum Image Width'),
+      'image_height' => Yii::t('app', 'Maximum Image Height'),
       'turns' => Yii::t('app', 'Turns'),
     );
   }
