@@ -1,0 +1,102 @@
+Metadata Games - Plugin Default Settings
+========================================
+
+Last modified: 12/18/2011
+
+
+Introduction
+------------
+
+This page contains information about the plugins included with Metadata Games, and their default settings following installation of the software. Note that changes to plugins are not retroactive, and all numerical settings should be restricted to integer values.
+
+
+import-ImageSetAtImportPlugin
+-----------------------------
+
+This plugin is used to import and process images. It does not have any adjustable settings.
+
+
+dictionary-StopWordPlugin
+-------------------------
+
+This dictionary plugin contains words that are typically not useful in a tag description. Words that appear in this dictionary do not score any points. You may add a word to the dictionary by clicking "Create StopWord" in the sidebar on the right side of the "Manage StopWord" page. You may also delete a word from the dictionary by clicking the "Delete" button in the last column of the table corresponding to the desired word.
+
+
+dictionary-WordsToAvoidPlugin
+-----------------------------
+
+This dictionary plugin keeps track of words that have been used as tags for images in the system. After the number of times a word is used to tag a particular image reaches a certain threshold, it appears in the "Words To Avoid" list for that image during gameplay, and submitting it as a tag does not score any points.
+
+You may change the value of the threshold by clicking "Update WordsToAvoid" in the sidebar on the right side of the "Manage WordsToAvoid" page. For example, to force players to quickly provide new tags, you may set a low threshold. Note that this may reduce the total number of tags collected. The threshold's default value is 10.
+
+
+weighting-GuessWhatScoringPlugin
+--------------------------------
+
+This weighting plugin should only be used for the game _Guess What!_. You may change the following values by clicking "Update GuessWhatScoring" in the sidebar on the right side of the "Manage GuessWhatScoring" page:
+
+  * __Score for Tagger (new tag)__ - Default value: 2.
+  
+  * __Score for Tagger (matched tag)__ - Default value: 1.
+  
+  * __Score for Both Players (on first guess)__ - Default value: 5.
+  
+  * __Score for Both Players (on second guess)__ - Default value: 3.
+  
+  * __Score for Both Players (on any other guess)__ - Default value: 2.
+  
+  * __Tag Weight Bonus (on first guess)__ - Default value: 1.
+
+
+weighting-ScoreBySubjectMatterPlugin
+------------------------------------
+
+This weighting plugin gives extra points to tags submitted by players labeled as expert and/or trusted in a particular subject matter. This is accomplished when an administrator sets their Expertise and/or Trust values in that particular subject matter above 50. You may change the following values by clicking "Update ScoreBySubjectMatter" in the sidebar on the right side of the "Manage ScoreBySubjectMatter" page:
+
+  * __Score (new tag)__ - Default value: 2.
+  
+  * __Score (matched tag)__ - Default value: 1.
+  
+  * __Score (new tag, expert)__ - Default value: 4.
+  
+  * __Score (new tag, trusted)__ - Default value: 4.
+  
+  * __Score (matched tag, expert)__ - Default value: 3.
+  
+  * __Score (matched tag, trusted)__ - Default value: 3.
+
+
+weighting-ScoreNewMatchPlugin
+-----------------------------
+
+This weighting plugin gives points to tags that are either new to the database or match currently existing tags. You may change the following values by clicking "Update ScoreNewMatch" in the sidebar on the right side of the "Manage ScoreNewMatch" page:
+
+  * __Score (new)__ - Default value: 2.
+  
+  * __Score (match)__ - Default value: 1.
+
+
+weighting-TwoPlayerBonusPlugin
+------------------------------
+
+This weighting plugin gives bonus points to players who submit the same tag during a round of multiplayer gameplay. This plugin should only be used for the game Zen Pond. You may change the following values by clicking "Update TwoPlayerBonus" in the sidebar on the right side of the "Manage TwoPlayerBonus" page:
+
+  * __Bonus for Both Players (same new tag)__ - Default value: 2.
+  
+  * __Bonus for Both Players (same matched tag)__ - Default value: 1.
+
+
+export-CSVExportPlugin
+----------------------
+
+This plugin is used globally by the system to [description]. It does not have any adjustable settings.
+
+**TO DO**: Get description.
+
+
+export-GameStatisticsExportPlugin
+---------------------------------
+
+This plugin is used globally by the system to [description]. It does not have any adjustable settings.
+
+**TO DO**: Get description.

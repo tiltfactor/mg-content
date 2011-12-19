@@ -1,0 +1,99 @@
+Metadata Games - Installing Metadata Games
+==========================================
+
+Last modified: 12/18/2011
+
+
+Download options and requirements
+---------------------------------
+
+There are two options for getting a copy of Metadata Games:
+
+  1. Download a .zip file of the build from [insert link here]. Extract all files following download.
+
+  2. Download a Git clone of the metadatagames repository at [gitorious.org][1] (account required).
+
+[1]: http://gitorious.org
+
+
+### Check PHP Memory Limit ###
+
+Before installation, have a system administrator configure your server's php.ini file to make sure its PHP memory limit is at least 128 MB. [check with Robinson]
+
+
+### Client Requirements ###
+
+Metadata Games is accessible using the latest web browsers (as of this writing):
+
+  * Mozilla Firefox 8+ (recommended)
+  * Internet Explorer 9+
+  * Google Chrome 16+
+  * Safari 5+
+  * Opera (?)
+
+
+Once you have downloaded the Metadata Games software, open a web browser, navigate to its folder location, and open the www/ subfolder. Click "Proceed with system requirement test" to run a test of server capabilities. This will ensure that your server can support the required Yii framework. 
+
+**(NOTE: We highly recommend that ImageMagick be installed and configured on your server.)**
+
+
+Installation
+------------
+
+If there are any errors found during the system requirement test, please check the Memo column for details. After resolving any incompatibilities, reload the page and look for any further errors. 
+
+If your server passes the system requirement test, you may then click "Proceed with database installation". You will need to fill out the Database Name, Database User Name, and Database Host Name fields for the database you wish to use. If the database has a password, enter this in the Database Password field as well. If you do not have this information, please contact your system administrator. If you have not already created a database for use with Metadata Games, please do so now. After entering the required information, click "Submit".
+
+
+### Admin Account Setup ###
+
+At the "Admin Account Setup" page, fill out the following fields:
+
+  * __Application Name__ - The name for your install of Metadata Games. You may change this field to reflect how you will use Metadata Games (e.g., by institution: "Metadata Games - Dartmouth College"; by role: "Home Movies Project", "Jones Family History"; etc.)
+
+  * __Administrator/Player Name__ - The name of the administrator's account.
+
+  * __Password__ - A password for the administrator's account.
+
+  * __Verify Password__ - Enter the same password, for confirmation.
+  
+  * __Email__ - A valid email address for the administrator.
+
+Then click "Save". Congratulations! You have successfully installed Metadata Games! Now onto configuring your system.
+
+
+Configuration
+-------------
+
+Gain access to all admin tools by signing in with your newly-created account at [yoursite.com]/www/index.php/user/login.
+
+You can access the "Admin Overview" page by clicking on "Admin" in the Metadata Games navigation bar at the top of the page. This page contains links to all of the available tools. These links also appear in the Admin navigation bar, underneath the Metadata Games navigation bar.
+
+**(NOTE: For detailed information about all admin tools, view the "Site Admin" help guide in the Metadata Games documentation/ folder.)**
+
+
+### Visit the Plugin Tool ###
+
+You can adjust the settings for plugins with the "Plugins" tool. For information about specific plugins and their default settings, view the "Plugin Default Settings" help guide in the Metadata Games docuementation/ folder. 
+
+
+### Set Contact Email ###
+
+You need to set a contact email. This will be the address used to send registration info to players and receive feedback.
+
+  * From the "Admin Overview page", click "Global Settings".
+  * Click "Update Local Settings".
+  * Enter contact email address in the "Email Address" field. 
+
+
+### Create Image Sets & Import Images ###
+
+Next, create image sets and import images from your server or local machine by using the "Image Sets" and "Images" tools.
+
+
+### Activate & Configure Games ###
+
+Finally, use the "Games" tool to activate and customize the games you want to use. For information about specific games and their default settings, view the "Game Default Settings" help guide in the Metadata Games docuementation/ folder. 
+
+Your system setup is complete. Go to the Arcade and play!
+

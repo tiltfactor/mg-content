@@ -1,0 +1,77 @@
+<h1>Metadata Games - Plugin Default Settings</h1>
+
+<p>Last modified: 12/18/2011</p>
+
+<h2>Introduction</h2>
+
+<p>This page contains information about the plugins included with Metadata Games, and their default settings following installation of the software. Note that changes to plugins are not retroactive, and all numerical settings should be restricted to integer values.</p>
+
+<h2>import-ImageSetAtImportPlugin</h2>
+
+<p>This plugin is used to import and process images. It does not have any adjustable settings.</p>
+
+<h2>dictionary-StopWordPlugin</h2>
+
+<p>This dictionary plugin contains words that are typically not useful in a tag description. Words that appear in this dictionary do not score any points. You may add a word to the dictionary by clicking "Create StopWord" in the sidebar on the right side of the "Manage StopWord" page. You may also delete a word from the dictionary by clicking the "Delete" button in the last column of the table corresponding to the desired word.</p>
+
+<h2>dictionary-WordsToAvoidPlugin</h2>
+
+<p>This dictionary plugin keeps track of words that have been used as tags for images in the system. After the number of times a word is used to tag a particular image reaches a certain threshold, it appears in the "Words To Avoid" list for that image during gameplay, and submitting it as a tag does not score any points.</p>
+
+<p>You may change the value of the threshold by clicking "Update WordsToAvoid" in the sidebar on the right side of the "Manage WordsToAvoid" page. For example, to force players to quickly provide new tags, you may set a low threshold. Note that this may reduce the total number of tags collected. The threshold's default value is 10.</p>
+
+<h2>weighting-GuessWhatScoringPlugin</h2>
+
+<p>This weighting plugin should only be used for the game <em>Guess What!</em>. You may change the following values by clicking "Update GuessWhatScoring" in the sidebar on the right side of the "Manage GuessWhatScoring" page:</p>
+
+<ul>
+<li><p><strong>Score for Tagger (new tag)</strong> - Default value: 2.</p></li>
+<li><p><strong>Score for Tagger (matched tag)</strong> - Default value: 1.</p></li>
+<li><p><strong>Score for Both Players (on first guess)</strong> - Default value: 5.</p></li>
+<li><p><strong>Score for Both Players (on second guess)</strong> - Default value: 3.</p></li>
+<li><p><strong>Score for Both Players (on any other guess)</strong> - Default value: 2.</p></li>
+<li><p><strong>Tag Weight Bonus (on first guess)</strong> - Default value: 1.</p></li>
+</ul>
+
+<h2>weighting-ScoreBySubjectMatterPlugin</h2>
+
+<p>This weighting plugin gives extra points to tags submitted by players labeled as expert and/or trusted in a particular subject matter. This is accomplished when an administrator sets their Expertise and/or Trust values in that particular subject matter above 50. You may change the following values by clicking "Update ScoreBySubjectMatter" in the sidebar on the right side of the "Manage ScoreBySubjectMatter" page:</p>
+
+<ul>
+<li><p><strong>Score (new tag)</strong> - Default value: 2.</p></li>
+<li><p><strong>Score (matched tag)</strong> - Default value: 1.</p></li>
+<li><p><strong>Score (new tag, expert)</strong> - Default value: 4.</p></li>
+<li><p><strong>Score (new tag, trusted)</strong> - Default value: 4.</p></li>
+<li><p><strong>Score (matched tag, expert)</strong> - Default value: 3.</p></li>
+<li><p><strong>Score (matched tag, trusted)</strong> - Default value: 3.</p></li>
+</ul>
+
+<h2>weighting-ScoreNewMatchPlugin</h2>
+
+<p>This weighting plugin gives points to tags that are either new to the database or match currently existing tags. You may change the following values by clicking "Update ScoreNewMatch" in the sidebar on the right side of the "Manage ScoreNewMatch" page:</p>
+
+<ul>
+<li><p><strong>Score (new)</strong> - Default value: 2.</p></li>
+<li><p><strong>Score (match)</strong> - Default value: 1.</p></li>
+</ul>
+
+<h2>weighting-TwoPlayerBonusPlugin</h2>
+
+<p>This weighting plugin gives bonus points to players who submit the same tag during a round of multiplayer gameplay. This plugin should only be used for the game Zen Pond. You may change the following values by clicking "Update TwoPlayerBonus" in the sidebar on the right side of the "Manage TwoPlayerBonus" page:</p>
+
+<ul>
+<li><p><strong>Bonus for Both Players (same new tag)</strong> - Default value: 2.</p></li>
+<li><p><strong>Bonus for Both Players (same matched tag)</strong> - Default value: 1.</p></li>
+</ul>
+
+<h2>export-CSVExportPlugin</h2>
+
+<p>This plugin is used globally by the system to [description]. It does not have any adjustable settings.</p>
+
+<p><strong>TO DO</strong>: Get description.</p>
+
+<h2>export-GameStatisticsExportPlugin</h2>
+
+<p>This plugin is used globally by the system to [description]. It does not have any adjustable settings.</p>
+
+<p><strong>TO DO</strong>: Get description.</p>

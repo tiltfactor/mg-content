@@ -1,0 +1,395 @@
+Metadata Games - Site Admin
+===========================
+
+Last modified: 12/18/2011
+
+
+Admin Overview page
+-------------------
+
+Once you have logged in, you can access the "Admin Overview" page by clicking on "Admin" in the Metadata Games navigation bar at the top of the page. This page contains links to all of the available tools. These links also appear in the Admin navigation bar, underneath the Metadata Games navigation bar.
+
+Admin tools are divided into four categories. The description for each tool is given next to its name below.
+
+
+### Images & Tags ###
+
+  * __Images__ - Manage images that have been imported and processed.
+
+  * __Tags__ - Manage tags that have been created by players.
+
+  * __Import__ - Import and process images into the system.
+
+  * __Image Sets__ - Group images and apply applicable licences.
+
+  * __Licences__ - Create licences under which images can be published in the system.
+
+  * __Export__ - Export tags, tag uses, and tagged images.
+
+
+### Players ###
+
+  * __Players__ - Manage registered players and the tags they have created.
+
+  * __Subject Matters__ - Manage subject matter categories in which players can express interest. These values are used to influence image selection and tag weights.
+
+
+### Games & Plugins ###
+
+  * __Plugins__ - Plugins allow the flexible extension of functionality and can be managed here.
+
+  * __Games__ - Manage games.
+
+  * __Badges__ - Manage badges that can be achieved by players.
+
+
+### Other ###
+
+  * __IP Blacklist__ - Restrict access to Metadata Games by whitelisting or blacklisting IP addresses.
+
+  * __Global Settings__ - Configure settings that are used globally in the system.
+
+  * __Admin Log__ - Access records of changes made using admin tools.
+
+
+Tags tool
+---------
+
+The **Tags** tool allows you to view and adjust weights for tags that have been submitted to the system.
+
+Weighting currently affected by two factors: trusted/expert status, and the Guess What! plugin weighting for correct first guesses
+
+Removing tags from WordsToAvoid status - reweight directly
+
+**NOT FINISHED**
+
+
+Import tool
+-----------
+
+The **Import** tool allows you to import images and process them so they may be used by the system.
+
+Image file size limit: 1.5 MB?
+Minimum of 100 images suggested
+
+**NOT FINISHED**
+
+
+Image Sets tool
+---------------
+
+The **Image Sets** tool allows you to group images that have shared sources or topics. These image sets may then be selected for use within certain games, and may have licences applied to all images within them. By default, clicking "Image Sets" will bring you to the "Manage Image Sets" page. This page contains a table listing all current image sets. The final column of the table allows you to view, update, or delete the corresponding image set.
+
+To add an image set, click "Create Image Set" in the sidebar on the right side of the page. The following options exist for image sets:
+
+  * __Name__ - The name of the image set.
+
+  * __More Information__ - A description of the image set.
+
+  * __Licence__ - The licence applied to the image set.
+
+  * __Last Interval Access__ - The minimum amount of time, in seconds, that must elapse before an image from this set can be used again. If "0", the restriction is deactivated.
+
+  * __Games__ - The games in which images from this set may be used.
+
+  * __Subject Matters__ - The subject matters you would like to assign to this image set.
+
+Click "Create" to add the image set to the system.
+
+On the "Manage Image Sets" page, you may search for a image set or a group of image sets by matching in the Name, More Information, Licence, and/or Last Interval Access data fields.
+
+**(NOTE: The "Item locked" status of of the "All" image set exists to insure that this default image set is never deleted. For all practical purposes, you can ignore the Locked column.)**
+
+Type your desired search values in the text boxes at the top of the table in the Name, More Information, and/or Last Interval Access columns, and select a value from the drop-down box at the top of the Licence column (if desired). You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the image sets table, entering the desired search values, and clicking "Search".
+
+To delete a group of image sets, mark the check-box in the first column of the table corresponding to each desired image set, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+
+Licences tool
+-------------
+
+The **Licences** tool allows you to create licences under which images can be published in the system. By default, clicking "Licences" will bring you to the "Manage Licences" page. This page contains a table listing all current licences. The final column of the table allows you to view, update, or delete the corresponding licence.
+
+To add a licence, click "Create Licence" in the sidebar on the right side of the page. Under Name, enter the desired name of the licence. Under Description, add a description of the licence. During gameplay, all images will be accompanied by the name and description of the licence they are published under. Click "Create" to add the licence to the system.
+
+On the "Manage Licences" page, you may search for a licence or a group of licences by matching in any of the following data fields:
+
+  * __Name__ - The name of the licence.
+
+  * __Description__ - The description of the licence.
+
+  * __Created__ - The date and time the licence was created, in YYYY-MM-DD HH:MM:SS format.
+
+  * __Modified__ - The date and time the licence was last modified, in YYYY-MM-DD HH:MM:SS format.
+
+Type your desired search values in the text boxes at the top of the table in the Name, Description, Created, and/or Modified columns. You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the licences table, entering the desired search values, and clicking "Search".
+
+To delete a group of licences, mark the check-box in the first column of the table corresponding to each desired licences, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+
+Players tool
+------------
+
+The **Players** tool allows you to create and update accounts for players. By default, clicking "Players" will bring you to the "Manage Players" page. This page contains a table listing all current players. The final column of the table allows you to view, update, or delete the corresponding player.
+
+
+### Custom Profile Fields ###
+
+Before adding players, you may create additional custom profile fields for them to fill out. Examples of this may include asking for demographic data or adding a profile photo. Click "Manage Profile Fields" in the sidebar on the right side of the page to see a table listing all current custom profile fields. The final column of the table allows you to view, update, or delete the corresponding field.
+
+To add a profile field, click "Create Profile Field" in the sidebar on the right side of the page. The following options exist for profile fields:
+
+  * __Variable name__ (required) - The database variable name. Limited to lowercase characters and digits.
+  
+  * __Title__ (required) - The external field name.
+  
+  * __Field Type__ (required) - The database data type. Options include "INTEGER", "VARCHAR" (a text string), "TEXT" (a text field), "DATE", "FLOAT", and "BOOL" (Boolean value).
+  
+  * __Field Size__ - The database field size. If Field Type is "TEXT", the maximum character length of the input field instead.
+  
+  * __Field Size min__ - The minimum size of the input value (typically number of characters in a string). Any given value smaller than this size will cause an error to be displayed.
+  
+  * __Required__ - Options include "No", "No, but show on registration form", "Yes and show on registration form", and "Yes".
+  
+  * __Match__ - A regular expression to match in the input text.
+  
+  * __Range__ - Predefined values that may be used to create a drop-down selection box.
+  
+  * __Error Message__ - The message displayed when an invalid input is given.
+  
+  * __Other Validator__ - A JSON string to match.
+  
+  * __Default__ - The default value of the database field.
+  
+  * __Widget__ - A widget to add functionality. Current options include "File field" for uploading files and "jQueryUI datepicker" for selecting a date.
+  
+  * __Position__ - The position that this field appears in on each player's profile page.
+  
+  * __Visible__ - The user groups that may see the profile field.
+
+Not all options exist for each Field Type. See the table below for a detailed breakdown.
+
+Click "Create" to add this custom profile field to the system.
+
+**TO DO**: Did Vincent remove some of these fields?
+
+**TO DO**: Minor changes to field and option names.
+
+
+### Player Accounts ###
+
+To add a player, click "Create Player" in the sidebar on the right side of the "Manage Players" page. Enter the desired user name, password, and a valid email address for the player. To activate the player's account, select "Active" from the Status drop-down box. Under Role, there are four different options for the account:
+
+  * __admin__ - Has full privileges and access to all admin tools.
+  
+  * __dbmanager__ - **TO DO**: What is the difference?
+  
+  * __editor__ - Does not have access to the Players, Games, Global Settings, and Admin Log tools.
+  
+  * __player__ - Does not have access to any admin tools. "player"-level users may edit their own profile, including password, subject matter interests, and custom fields.
+
+Select the desired role from the drop-down box. After adding any desired data to custom profile fields, click "Create" to add the player to the system.
+
+On the "Manage Players" page, you may search for a player or a group of players by matching in any of the following data fields:
+
+  * __Player Name__ - The player's user name.
+  
+  * __Email__ - The player's email address.
+  
+  * __Role__ - The player's role ("admin", "dbmanager", "editor", or "player").
+  
+  * __Status__ - The player's account status ("Not active", "Active", or "Banned").
+  
+  * __Banned Tags__ - The number of tags created by the player that have been banned.
+  
+  * __Created__ - The date and time the account was created, in YYYY-MM-DD HH:MM:SS format.
+  
+  * __Lastvisit__ - The date and time the player last logged in, in YYYY-MM-DD HH:MM:SS format.
+
+Type your desired search values in the text boxes at the top of the table in the Player Name, Email, Banned Tags, Created and/or Lastvisit columns, and select values from the drop-down boxes at the top of the Role and/or Status columns (if desired). You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the players table, entering the desired search values, and clicking "Search".
+
+Banning a player removes their ability to log into the system. To ban a group of players, mark the check-box in the first column of the table corresponding to each desired player, select "Ban selected players" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+You may only delete accounts that have not contributed any tags to the system. To delete a group of players, mark the check-box in the first column of the table corresponding to each desired player, select "Delete selected players" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+
+Subject Matters tool
+--------------------
+
+The **Subject Matters** tool allows you to create categories for image sets that share topics or themes. Players may express personal interest in these subject matters, which will influence image selection and tag weights during gameplay. By default, clicking "Subject Matters" will bring you to the "Manage Subject Matters" page. This page contains a table listing all current subject matters. The final column of the table allows you to view, update, or delete the corresponding subject matter.
+
+To add a subject matter, click "Create Subject Matter" in the sidebar on the right side of the page. Under Name, enter the desired name of the subject matter. Under Image Sets, select all image sets to which you would like to assign the subject matter. Click "Create" to add the subject matter to the system.
+
+On the "Manage Subject Matters" page, you may search for a subject matter or a group of subject matters by matching in any of the following data fields:
+
+  * __Name__ - The name of the subject matter.
+  
+  * __Created__ - The date and time the subject matter was created, in YYYY-MM-DD HH:MM:SS format.
+  
+  * __Modified__ - The date and time the subject matter was last modified, in YYYY-MM-DD HH:MM:SS format.
+
+**(NOTE: The "Item locked" status of of the "All" subject matter exists to insure that this default subject matter is never deleted. For all practical purposes, you can ignore the Locked column.)**
+
+Type your desired search values in the text boxes at the top of the table in the Name, Created, and/or Modified columns. You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the subject matters table, entering the desired search values, and clicking "Search".
+
+To delete a group of subject matters, mark the check-box in the first column of the table corresponding to each desired subject matter, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+
+Plugins tool
+------------
+
+The **Plugins** tool allows you to manage plugins that are used by games in the suite. By default, clicking "Plugins" will bring you to the "Manage Plugins" page. This page contains a table listing all current plugins. The Used By Games column lists all games that use the corresponding plugin. The final column of the table (Enable/Disable Plugin) allows you to view, update, or delete the corresponding plugin.
+
+**(NOTE: Plugins are responsible for much of the extensibility of the Metadata Games suite.)**
+
+To enable or disable a plugin, click the center "Update" button in the last column of the table corresponding to the desired plugin, and change the value of the Active drop-down box. Click "Save" to complete the change. This will bring you to the View page for that specific plugin.
+
+To change the settings of a plugin, click "Manage _plugin-name_ (Settings)" in the sidebar on the right side of the plugin's View page. You may also click "Manage _plugin-name_ (Settings)" in the Manage column on the main Manage Plugins page.
+
+Then click "Update _plugin-short-name_", where _plugin-short-name_ is a string such as "ScoreNewMatch" (for "weighting-ScoreNewMatchPlugin"). Make the desired changes, and click "Save" to update the system.
+
+On the "Manage Plugins" page, you may search for a plugin or a group of plugins by matching  in any of the following data fields:
+
+  * __Type__ - Plugin type. Examples include "dictionary", "export", "import", and "weighting".
+  
+  * __Unique Name__ - Specific name of the plugin.
+  
+  * __Active__ - Status of the plugin. Either "Active" or "Not active".
+
+Type your desired search values in the text box at the top of the table in the Unique Name column, and select values from the drop-down boxes at the top of the Type and/or Active columns (if desired). You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the plugins table, entering the desired search values, and clicking "Search".
+
+
+Games tool
+----------
+
+The **Games** tool allows you to manage games in the suite. By default, clicking "Games" will bring you to the "Manage Games" page. This page contains a table listing all current games. The Used Plugins column lists all plugins that are used by the corresponding game.
+
+To change the settings of a game, or to activate or deactivate it, click the "Update" button in the last column of the table corresponding to the desired game. Make the desired changes, and click "Save" to update the system.
+
+On the "Manage Games" page, you may search for a game or a group of games by matching in any of the following data fields:
+
+  * __Active__ - Status of the game. Either "Active" or "Not active".
+  
+  * __Number Played__ - The number of times the game has been played.
+  
+  * __Game ID__ - The game's default name (e.g., "ZenPond").
+  
+  * __Created__ - The date and time the game was created, in YYYY-MM-DD HH:MM:SS format.
+  
+  * __Modified__ - The date and time the game was last modified, in YYYY-MM-DD HH:MM:SS format.
+
+Type your desired search values in the text boxes at the top of the table in the Number Played, Game ID, Created, and/or Modified columns, and select a value from the drop-down box at the top of the Active column (if desired). You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the games table, entering the desired search values, and clicking "Search".
+
+
+Badges tool
+-----------
+
+The **Badges** tool allows you to create badges that players may earn during gameplay. By default, clicking "Badges" will bring you to the "Manage Badges" page. This page contains a table listing all current badges. The final column of the table allows you to view, update, or delete the corresponding badge.
+
+To add a badge, click "Create Badge" in the sidebar on the right side of the page. The following options exist for badges:
+
+  * __Title__ - The name of the badge.
+  
+  * __Points__ - The number of points required to earn the badge.
+  
+  * __Badge Image (inactive)__ - The image that represents the badge when it has not been earned.
+  
+  * __Badge Image (active)__ - The image that represents the badge when it has been earned.
+
+All fields must be filled. For each badge image, click "Browse..." and identify the location of the PNG file you would like to use. The images may no larger than 1024 x 256 pixels and 256 KB, but we recommend they be no larger than 50 x 50 pixels. Click "Create" to add this badge to the system.
+
+On the "Manage Badges" page, you may search for a badge or a group of badges by matching in the Title and/or Points data fields.
+
+Type your desired search values in the text boxes at the top of the table in the Title and/or Points columns. You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the badges table, entering the desired search values, and clicking "Search".
+
+To delete a group of badges, mark the check-box in the first column of the table corresponding to each desired badge, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+
+IP Blacklist tool
+-----------------
+
+The **IP Blacklist** tool allows you to specify IP addresses or address blocks that are explicitly allowed access (whitelisted) or denied access (blacklisted) to Metadata Games. By default, clicking "IP Blacklist" will bring you to the "Manage IP Blacklist" page. This page contains a table listing all current IP whitelists and blacklists. The final column of the table allows you to view, update, or delete the corresponding access rule.
+
+To whitelist or blacklist an IP address or block, click "Create IP Blacklist" in the sidebar on the right side of the page. Data must be entered into the following fields:
+
+  * __IP__ - The desired IP address or block. * may be used as a wildcard to specify all addresses in a particular block.
+  
+  * __Type__ - "allow" to whitelist an address or block, or "deny" to blacklist an address or block.
+
+Click "Create" to add this access rule to the system.
+
+On the "Manage IP Blacklist" page, you may search for an access rule or a group of access rules by matching in any of the following data fields:
+
+  * __IP__ - The IP address or block. * may be used as a wildcard to specify all addresses in a particular block.
+  
+  * __Type__ - "allow" to whitelist an address or block, or "deny" to blacklist an address or block.
+  
+  * __Created__ - The date and time the access rule was created, in YYYY-MM-DD HH:MM:SS format.
+  
+  * __Modified__ - The date and time the access rule was last modified, in YYYY-MM-DD HH:MM:SS format.
+
+Type your desired search values in the text boxes at the top of the table in the IP, Type, Created, and/or Modified columns. You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the IP table, entering the desired search values, and clicking "Search".
+
+To delete a group of access rules, mark the check-box in the first column of the table corresponding to each desired access rule, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".
+
+
+Global Settings tool
+--------------------
+
+The **Global Settings** tool allows you to view and update global settings for the system. By default, clicking "Global Settings" will bring you to the "View Global Settings" page. To update settings, click "Update Global Settings" in the sidebar on the right side of the page.
+
+The following settings are currently available:
+
+  * __Application Name__ - The name of the installation. You may change this field to reflect how you will use Metadata Games (e.g., by institution - "Metadata Games - Dartmouth College", by role - "Home Movies Project", "Jones Family History", etc.)
+  
+  * __Throttle Interval__ - The minimum amount of time, in milliseconds, between API requests.
+  
+  * __Message Queue Interval__ - The minimum amount of time, in milliseconds, between message queue requests. Message queue requests are not throttled.
+  
+  * __Email Address__ - The address from which outgoing system emails are received and to which incoming contact emails are sent.
+  
+  * __Listings Pagination Size__ - The maximum number of rows in a table that appear per page.
+  
+  * __Upload Folder__ (relative path to application folder) - The actual system location of the folder in which uploaded images are stored.
+  
+  * __Upload Folder URL__ - The URL of the folder in which uploaded images are stored.
+
+All settings require a non-blank value. When you have finished making changes to these settings, click "Save".
+
+
+Admin Log tool
+--------------
+
+The **Admin Log** tool allows you to view and update logs of admin changes made to the system. Each change is listed in a table, which can be sorted by its category, message, player, or creation date. The final column of the table allows you to view, update, or delete the corresponding log entry.
+
+You may search for an entry or a group of entries by matching in any of the following data fields:
+
+  * __Category__ - The type of change made. Examples include "batch-import-process", "create", "import-uploadfromlocal", and "update".
+  
+  * __Message__ - The message given upon completion of the change.
+  
+  * __Player__ - The player responsible for the change.
+  
+  * __Created__ - The date and time the change was made, in YYYY-MM-DD HH:MM:SS format.
+
+Type your desired search values in the text boxes at the top of the table in the Category, Message, and/or Created columns, and select a player from the drop-down box at the top of the Player column (if desired). You may include the comparison operators <, <=, >, >=, <>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.
+
+You may also perform a search by clicking "Advanced Search" above the log table, entering the desired search values, and clicking "Search".
+
+To delete a group of entries, mark the check-box in the first column of the table corresponding to each desired entry, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".

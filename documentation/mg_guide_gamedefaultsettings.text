@@ -1,0 +1,134 @@
+Metadata Games - Game Default Settings
+===========================
+
+Last modified: 12/18/2011
+
+**TO DO**: Write longform descriptions.
+
+
+Introduction
+------------
+
+This page contains information about the games included with Metadata Games, and their default settings following installation of the software.
+
+The following settings may be changed for each game:
+
+ * __Active__ - The status of the game. Either "Active" or "Not active". Must be switched to "Active" in order to make the game playable.
+ 
+ * __Name__ - The desired name of the game for your install.
+ 
+ * __Description__ - A description of the game that appears on the "Arcade" page.
+ 
+ * __More Info Url__ - **TO DO**: Where does this appear?
+ 
+ * __Game Image Location__ - Location of the image representing the game on the "Arcade" page.
+ 
+ * __Turns__ - The number of turns for each player in the game.
+ 
+ * __Image Sets__ - The image sets used by the game.
+ 
+ * __Plugins__ - The plugins used by the game.
+
+
+Guess What!
+-----------
+
+This game [description]. Here are the default values for its standard settings:
+
+ * __Description__ - Can you guess what the other player's image is?
+ 
+ * __Game Image Location__ - guesswhat_arcade.png
+ 
+ * __Turns__ - 4
+
+ * __Allowed Number of Guesses Per Turn__ - The maximum number of guesses per turn. Default value: 3.
+
+Here are its unique settings:
+ 
+ * __The number of hints that can be maximal given per turn__ - The maximum number of hints per turn. Default value: 3. **TO DO**: Does this work?
+ 
+ * __Tagger's Maximum Image Width__ - The maximum width, in pixels, of the image displayed to the tagger. Default value: 450.
+ 
+ * __Tagger's Maximum Image Height__ - The maximum height, in pixels, of the image displayed to the tagger. Default value: 450.
+ 
+ * __Guesser's Maximum Image Width__ - The maximum width, in pixels, of the images displayed to the guesser. Default value: 150.
+ 
+ * __Guesser's Maximum Image Height__ - The maximum height, in pixels, of the images displayed to the guesser. Default value: 150.
+ 
+ * __Partner Search Time Frame (seconds)__ - The maximum search time allowed for the system to find a human partner for a player. Default value: 30.
+ 
+ * __Enable Play with Computer Mode__ - Allow the user to be partnered with a computer. By default, "Yes".
+
+We recommend the following plugins be enabled for _Guess What!_:
+
+  * dictionary-StopWordPlugin
+  
+  * dictionary-WordsToAvoidPlugin
+  
+  * weighting-GuessWhatScoringPlugin
+
+
+Zen Pond
+--------
+
+This game [description]. Here are the default values for its standard settings:
+
+ * __Description__ - Clear your mind with a partner and you will hear the voices of the serene taggers within you. Ohm.
+ 
+ * __Game Image Location__ - zenpond_arcade.png
+ 
+ * __Turns__ - 4
+
+Here are its unique settings:
+
+ * __Maximum Image Width__ - The maximum width, in pixels, of each displayed image. Default value: 450.
+ 
+ * __Maximum Image Height__ - The maximum height, in pixels, of each displayed image. Default value: 450.
+ 
+ * __Partner Search Time Frame (seconds)__ - The maximum search time allowed for the system to find a human partner for a player. Default value: 30
+ .
+ * __Enable Play with Computer Mode__ - Allow the user to be partnered with a computer. By default, "Yes".
+
+We recommend the following plugins be enabled for _Zen Pond_:
+
+ * dictionary-StopWordPlugin
+ 
+ * dictionary-WordsToAvoidPlugin
+ 
+ * weighting-ScoreBySubjectMatterPlugin
+ 
+ * weighting-ScoreNewMatchPlugin
+ 
+ * weighting-TwoPlayerBonusPlugin
+
+
+Zen Tag
+-------
+
+This game [description]. Here are the default values for its standard settings:
+
+ * __Description__ - Clear your mind and you will hear the voice of the serene tagger within you. Ohm.
+ 
+ * __Game Image Location__ - zentag_arcade.png
+ 
+ * __Turns__ - 4
+ 
+ Here are its unique settings:
+
+ * __Play Once and Move On__ - When "Yes", the game is limited to one turn per game, and the interface does not include the Metadata Games navigation bar. By default, "No".
+ 
+ * __Play Once/Move On Forward to URL__ - When a "Play Once and Move On" game is completed, the player will be redirected to this page. If blank, the player will be redirected to the main "Arcade" page.
+ 
+ * __Maximum Image Width__ - The maximum width, in pixels, of each displayed image. Default value: 450.
+ 
+ * __Maximum Image Height__ - The maximum height, in pixels, of each displayed image. Default value: 450.
+
+We recommend the following plugins be enabled for _Zen Tag_:
+
+ * dictionary-StopWordPlugin
+ 
+ * dictionary-WordsToAvoidPlugin
+ 
+ * weighting-ScoreBySubjectMatterPlugin
+ 
+ * weighting-ScoreNewMatchPlugin
