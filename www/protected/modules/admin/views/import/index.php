@@ -12,7 +12,7 @@ $this->menu = array(
 
 <h1><?php echo Yii::t('app', 'Import'); ?></h1>
 
-<p>This is the Admin Overview. It lists all tools you have access to.</p>
+<p>Import images using one of the selections below. Then process the images.</p>
 
 <?php foreach ($tools as $id => $tool) : ?>
 <div class="tool" id="<?php echo $id; ?>">
