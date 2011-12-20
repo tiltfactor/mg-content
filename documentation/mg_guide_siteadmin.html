@@ -1,6 +1,6 @@
 <h1>Metadata Games - Site Admin</h1>
 
-<p>Last modified: 12/18/2011</p>
+<p>Last modified: 12/19/2011</p>
 
 <h2>Admin Overview page</h2>
 
@@ -42,24 +42,118 @@
 <li><p><strong>Admin Log</strong> - Access records of changes made using admin tools.</p></li>
 </ul>
 
+<h2>Images tool</h2>
+
+<p>The <strong>Images</strong> tool allows you to view the images that are in use by the system, the tags that have been assigned to them, and the image sets they are included in. By default, clicking "Images" will bring you to the "Manage Images" page. This page contains a table listing all current images. The final column of the table allows you to view or update the corresponding image.</p>
+
+<h3>Managing Images</h3>
+
+<p>You may search for an image or a group of images by matching in any of the following data fields:</p>
+
+<ul>
+<li><p><strong>Name</strong> - The name of the image.</p></li>
+<li><p><strong>Batch</strong> - The batch ID of the image, assigned to it during upload (see documentation for the Import tool below for more information).</p></li>
+<li><p><strong>Last Access</strong> - The last time the image was used by a game, in YYYY-MM-DD HH:MM:SS format.</p></li>
+</ul>
+
+<p>Type your desired search values in the text boxes at the top of the table in the Name, Batch, and/or Last Access columns. You may include the comparison operators &lt;, &lt;=, >, >=, &lt;>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.</p>
+
+<p>You may also perform a search by clicking "Advanced Search" above the images table, entering the desired search values, and clicking "Search".</p>
+
+<p>You may change an image's batch ID and the image sets it is included in by clicking the "Update" button in the last column of the table corresponding to the desired image. Click "Save" to complete the change.</p>
+
+<p>To add or remove a group of images from an image set, mark the check-box in the first column of the table corresponding to each desired image, select the desired option from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".</p>
+
+<p>To see all tags assigned to an image, and the number of times that each user has tagged the image, click the "View" button in the last column of the table corresponding to the desired image. To see detailed information about each tag use, including its creation date, the player's IP address, and the tag's status at the time of creation, click "View Tag Uses for <em>tag-name</em>" in the sidebar on the right side of the page.</p>
+
+<h3>Tag Uses</h3>
+
+<p>On the "View Tag Uses" page, you may search for a tag use by matching in any of the following data fields:</p>
+
+<ul>
+<li><p><strong>Image (Filter with ID)</strong> - The chosen image. You may change this field to look at the tag uses for another image.</p></li>
+<li><p><strong>Tag (Filter with ID)</strong> - The tag. All tags that use the same string of characters are given the same tag ID.</p></li>
+<li><p><strong>Weight</strong> - The tag's weight at the time of the tag use.</p></li>
+<li><p><strong>Type</strong> - The tag's type(s) at the time of the tag use. Options include "banned", "match", "new", "stopword", "tag-banned", "user-banned", and "wordstoavoid".</p></li>
+<li><p><strong>Player Name</strong> - The name of the player who submitted the tag.</p></li>
+<li><p><strong>IP Address</strong> - The IP address of the player who submitted the tag.</p></li>
+<li><p><strong>Created</strong> - The date and time the tag use was created, in YYYY-MM-DD HH:MM:SS format.</p></li>
+</ul>
+
+<p>You may re-weight a tag use by clicking the "Re-Weight" button in the last column of the table corresponding to the desired tag use.</p>
+
 <h2>Tags tool</h2>
 
-<p>The <strong>Tags</strong> tool allows you to view and adjust weights for tags that have been submitted to the system.</p>
+<p>The <strong>Tags</strong> tool allows you to view usage statistics and adjust weights for tags that have been submitted to the system. By default, clicking "Tags" will bring you to the "Manage Tags" page. This page contains a table listing all current tags. The final column of the table allows you to view or update the corresponding tag.</p>
 
-<p>Weighting currently affected by two factors: trusted/expert status, and the Guess What! plugin weighting for correct first guesses</p>
+<h3>Managing Tags</h3>
 
-<p>Removing tags from WordsToAvoid status - reweight directly</p>
+<p>You may search for a tag or a group of tags by matching in any of the following data fields:</p>
 
-<p><strong>NOT FINISHED</strong></p>
+<ul>
+<li><p><strong>Tag</strong> - The name of the tag.</p></li>
+<li><p><strong>Created</strong> - The date and time the tag was created, in YYYY-MM-DD HH:MM:SS format.</p></li>
+<li><p><strong>Modified</strong> - The date and time the tag was last modified, in YYYY-MM-DD HH:MM:SS format.</p></li>
+</ul>
+
+<p>Type your desired search values in the text boxes at the top of the table in the Tag, Created, and/or Modified columns. You may include the comparison operators &lt;, &lt;=, >, >=, &lt;>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.</p>
+
+<p>You may also perform a search by clicking "Advanced Search" above the tags table, entering the desired search values, and clicking "Search".</p>
+
+<p>You may change an image's batch ID and the image sets it is included in by clicking the "Update" button in the last column of the table corresponding to the desired image. Click "Save" to complete the change.</p>
+
+<p>To see all images that a tag has been assigned to, and the number of times that each user has used the tag, click the "View" button in the last column of the table corresponding to the desired tag.</p>
+
+<h3>Tag Uses</h3>
+
+<p>On the "View" page for each tag, you can see the tag's ID, the number of times it has been used, the images it has been assigned to, and the players it has been used by. You can also see minimum, maximum, and average values for the tag's weight. By default, all tag uses receive a weight of 1. Weighting may be altered by two factors:</p>
+
+<ul>
+<li><p>An administrator's assignment of trusted or expert status to a player for a particular subject matter (see documentation for the Players tool below for more information).</p></li>
+<li><p>The bonus given by the GuessWhatScoring plugin for a tag that leads to a correct first guess.</p></li>
+</ul>
+
+<p>You may also manually re-weight a tag. For example, you may reduce a tag's weight so that it is no longer marked by the WordsToAvoid plugin.</p>
+
+<p>In order to ban a tag, you may then click "Ban <em>tag-name</em>" in the sidebar on the right side of the page. Clicking "ban tag" will then set the weight for all uses of this tag to 0, and will add this tag to the dictionary of the StopWord plugin. Note that this will not remove uses of the tag from the system.</p>
+
+<p>To see detailed information about each tag use, including its creation date, the player's IP address, and the tag's status at the time of creation, click "View Tag Uses for <em>tag-name</em>" in the sidebar on the right side of the page. For an overview of this page, see documentation for the Images tool above.</p>
 
 <h2>Import tool</h2>
 
-<p>The <strong>Import</strong> tool allows you to import images and process them so they may be used by the system.</p>
+<p>The <strong>Import</strong> tool allows you to import images and process them so they may be used by the system. Clicking "Import" brings you to a page with three link options for importing images, and one link for processing them. <strong>No matter which method you use for importing images, they must be processed before they can be used by the system.</strong></p>
 
-<p>Image file size limit: 1.5 MB?
-Minimum of 100 images suggested</p>
+<p><strong>(NOTE: All images imported into the system must be in the JPEG (.jpg or .jpeg) format. We highly recommend that each image is no larger than 1.5 MB in size, due to limits in a typical PHP configuration. Furthermore, we recommend that a minimum of 100 images are imported and processed into the system before starting gameplay.)</strong></p>
 
-<p><strong>NOT FINISHED</strong></p>
+<p>When you choose a method for importing images, you will have the option of changing the batch ID, an identifier given to all images that are imported at the same time. The batch ID aids in distinguishing between different groups of images during image processing. The default batch ID assigned to each image group is in the following format: B-YYYY-MM-DD-HH:MM:SS.</p>
+
+<h3>Importing Images</h3>
+
+<p>There are three methods available for importing images:</p>
+
+<ul>
+<li><p>To <em>import images from your local machine</em>, click "Import images from your computer". You may click "Add files..." and select the desired images. Alternatively, if you are using Chrome, Firefox, or Safari, you may drag images from your Desktop or a folder location into the list of images below the toolbar. To remove an image, click the corresponding "Cancel" button on the right side of the page. When you are ready to upload images to the server, click "Start upload". After uploading images, click on the link at the bottom of the page to go to the "Process Imported Images" page.</p></li>
+<li><p>To <em>import images from your server</em>, click "Import images that can be found in the server's '/uploads/ftp' folder". The desired images must be placed in the /uploads/ftp folder on your server. The page will give the number of images found in that location. To import these images, click "Import Images".</p>
+
+<p><strong>TO DO</strong>: Get bug fixed.</p></li>
+<li><p>To <em>import a group of images contained within a ZIP file on your local machine</em>, click "Import images in a ZIP file from your computer". This method may be less reliable than the other import methods, due to PHP memory limits. Each ZIP file uploaded may have a maximum size of 32 MB. Click "Choose File" and select the desired ZIP file. Then click "Import Images" to continue.</p>
+
+<p><strong>TO DO</strong>: Add error message.</p></li>
+</ul>
+
+<h3>Processing Images</h3>
+
+<p>Once image uploading is complete, navigate to the "Process Imported Images" page. You may individually select images so that they can be assigned to different image sets upon processing. To do so, mark the check-boxes next to the image set(s) to which you would like to assign the newly imported images. Then mark the check-box in the first column of the table corresponding to each desired image.</p>
+
+<p>Instead of selecting images via check-box, you may also use the drop-down box at the bottom of the page, choosing a particular number of images to select.</p>
+
+<p>To process the selected images, click the "Process images" button in the bottom-right corner of the page. These images may now be used during gameplay.</p>
+
+<p>You may search for a image or a group of images by matching in the Name, Size, and/or Batch data fields.</p>
+
+<p>Type your desired search values in the text boxes at the top of the table in the Name, Size, and/or Batch columns. You may include the comparison operators &lt;, &lt;=, >, >=, &lt;>, or = before your search value in any column to assist in your search. Hit Enter to perform the search.</p>
+
+<p>To delete a group of images without processing them, mark the check-box in the first column of the table corresponding to each desired image, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".</p>
 
 <h2>Image Sets tool</h2>
 
@@ -71,7 +165,7 @@ Minimum of 100 images suggested</p>
 <li><p><strong>Name</strong> - The name of the image set.</p></li>
 <li><p><strong>More Information</strong> - A description of the image set.</p></li>
 <li><p><strong>Licence</strong> - The licence applied to the image set.</p></li>
-<li><p><strong>Last Interval Access</strong> - The minimum amount of time, in seconds, that must elapse before an image from this set can be used again. If "0", the restriction is deactivated.</p></li>
+<li><p><strong>Last Interval Access</strong> - The minimum amount of time, in seconds, that must elapse before an image from this set can be used again. If "0", the restriction is deactivated. Set a value if an image is appearing more than once in a single game. </p></li>
 <li><p><strong>Games</strong> - The games in which images from this set may be used.</p></li>
 <li><p><strong>Subject Matters</strong> - The subject matters you would like to assign to this image set.</p></li>
 </ul>
@@ -108,6 +202,16 @@ Minimum of 100 images suggested</p>
 <p>You may also perform a search by clicking "Advanced Search" above the licences table, entering the desired search values, and clicking "Search".</p>
 
 <p>To delete a group of licences, mark the check-box in the first column of the table corresponding to each desired licences, select "Delete selected entries" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".</p>
+
+<h2>Export tool</h2>
+
+<p>The <strong>Export</strong> tool allows you to export data about tags, their uses with particular images, and game statistics, using the CSVExport and GameStatisticsExport plugins.</p>
+
+<p>The following options are available for the Export tool:</p>
+
+<p><strong>NOT FINISHED</strong></p>
+
+<p><strong>TO DO</strong>: Change field descriptions and notes.</p>
 
 <h2>Players tool</h2>
 
@@ -173,7 +277,13 @@ Minimum of 100 images suggested</p>
 
 <p>You may also perform a search by clicking "Advanced Search" above the players table, entering the desired search values, and clicking "Search".</p>
 
-<p>Banning a player removes their ability to log into the system. To ban a group of players, mark the check-box in the first column of the table corresponding to each desired player, select "Ban selected players" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".</p>
+<h3>Designating Expert and Trusted Players</h3>
+
+<p>To mark a player as expert or trusted in a particular subject matter, click the "Update" button in the last column of the table corresponding to the desired player. You may then adjust the sliders under the Expertise and Trust columns for all currently existing subject matters. Click "Save" to update the system. Any players with Expertise and/or Trust values above 50 for a particular subject matter will be considered expert and/or trusted in that subject matter by the ScoreBySubjectMatter plugin.</p>
+
+<h3>Banning and Deleting Accounts</h3>
+
+<p>Banning a player removes their ability to log into the system, and reduces their game scores and the weights of their tags to 0. To ban a group of players, mark the check-box in the first column of the table corresponding to each desired player, select "Ban selected players" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".</p>
 
 <p>You may only delete accounts that have not contributed any tags to the system. To delete a group of players, mark the check-box in the first column of the table corresponding to each desired player, select "Delete selected players" from the "Batch Actions" drop-down box at the bottom of the page, and click "Go".</p>
 
