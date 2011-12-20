@@ -70,7 +70,7 @@ if ($count_files > 0) : ?>
       if (!active) {
         active = true;
         $(window).bind('beforeunload', function () {return 'Leaving the page might disturb the uploading process.';});
-        MG_API.popup('<h1>Processing Images</h1><p><span id="found"><?php echo $count_files ?></span> found, <span id="processed">0</span> processed, <span id="skipped">0</span> skipped, <span id="left">0</span> left</p>', {
+        MG_API.popup('<h1>Importing Images</h1><p><span id="found"><?php echo $count_files ?></span> found, <span id="processed">0</span> imported, <span id="skipped">0</span> skipped, <span id="left">0</span> left</p>', {
           onClosed : function () {active = false;$(window).unbind('beforeunload');$('#mg_popup').hide();}
         })
         $.post("<?php echo Yii::app()->createUrl('/admin/import/queueProcess'); ?>/action/ftp", $("#import-form").serialize(), onresponse);
