@@ -656,7 +656,8 @@ class XMPAppend {
     }
     
     // No matching rdf:Description block found
-    return FALSE;
+    $return = FALSE;
+    return $return;
   }
   
   /************************************************************************
