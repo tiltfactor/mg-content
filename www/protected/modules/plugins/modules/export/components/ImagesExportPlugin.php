@@ -73,8 +73,10 @@ class ImagesExportPlugin extends MGExportPlugin {
                  // date
                  date("r"),
                  // system
-                 "some.university.edu/mg/ " .
-                 "(TODO: Source the correct value here)");
+                 //
+                 // URLs should look something like:
+                 // "some.university.edu/mg/ "
+                 Yii::app()->createAbsoluteUrl(''));
   }
   
   function preProcess(&$model, &$command, $tmp_folder) {
@@ -113,8 +115,6 @@ EOT;
   }
   
   function process(&$model, &$command, $tmp_folder, $image_id) {
-    error_log("starting to process");
-    
     // These are the values we'll embed into the XMP metadata of each
     // exported image.
     list($version, $format, $date, $system) = $this->systemInformation();
@@ -137,7 +137,7 @@ i.name
     $command->where(array('and', $command->where, 'tu.image_id = :imageID'),
                     array(":imageID" => $image_id));
     $command->order('tu.image_id, t.tag');
-     
+    
     $info = $command->queryAll();
     $c = count($info);
     $tags = array();
@@ -147,10 +147,10 @@ i.name
     for($i=0;$i<$c;$i++) {
       $tags[] = $info[$i]['tag'];
     }
-
+    
     // Extract the filename of the image from the query results array.
     $filename = $info[0]['name'];
-
+    
     
     // Copy this image into our output directory.
       
@@ -158,17 +158,12 @@ i.name
     // directory structure, so that this code will continue to work
     // properly even if the underlying structure of the uploads/
     // directory is changed on disk.
-    $a = Yii::app()->getBasePath();
+    $base = Yii::app()->getBasePath();
+    $upload_path = Yii::app()->fbvStorage->get("settings.app_upload_path");
     
-    $source_directory =
-      realpath($a .
-               Yii::app()->fbvStorage->get("settings.app_upload_path")) .
-      "/images";
-
-    Yii::log("Source Directory is: $source_directory", "Error");
-    Yii::log("Output Directory is: " . $this->output_directory, "Error");
-    
-    //$source_directory = "/uploads/images";
+    // Note that the 'images' portion of the path is not inside the
+    // call to realpath() as that directory _does not exist yet_ !
+    $source_directory = realpath($base . $upload_path) . "/images";
     
     // XXX - for some reason we're getting $output_directory
     // overwritten or cleared on each pass through the loop, so we're
@@ -184,9 +179,8 @@ i.name
 
     // Sanity-check.
     file_exists($source_filepath) or
+      // TODO: This should probably be an exception or similar.
       Yii::log("does not exist: $source_filepath", "Error");
-
-    Yii::log("source: $source_filepath, output: $output_filepath", "Error");
 
     // NOTE: I'd like to make this copy up-front here, however that
     // might be the cause of some issues later when we try to call
@@ -194,8 +188,6 @@ i.name
     // source and the destination file.
     //
     //copy($source_filepath, $output_filepath);
-    
-    Yii::log("File copy successful.", "Error");    
     
     // -- Embed metadata in this image -------------------
     //
@@ -205,15 +197,9 @@ i.name
     //$header_data = XMPAppend::get_jpeg_header_data( $output_filepath);
     $header_data = XMPAppend::get_jpeg_header_data( $source_filepath);
 
-    Yii::log("Extracted the jpeg header data.", "Error");    
-
     $xmp_array =  read_XMP_array_from_text(get_XMP_text($header_data));
 
-    Yii::log("Read the xmp array.", "Error");    
-
     $existing_dc_metadata = XMPAppend::get_xmp_dc($xmp_array);
-
-    Yii::log("Got the xmp dc", "Error");
 
     // Following the formatting guidelines, create a string that
     // embeds not ony the tags, but also includes key information such
@@ -221,10 +207,8 @@ i.name
     // mg server software.
     $description_blurb =
       "[org.tiltfactor.metadatagames_$version f$format ($date) " .
-      "(" . implode(", ", $tags) . ") installation:$system]";
+      "(" . implode(", ", $tags) . ") installation: $system]";
     
-    Yii::log("Description is: $description_blurb ---", "Error");
-
     // Append the new metadata to the old array (filling-in/creating
     // any missing metadata contents/structure necessary along the
     // way).
@@ -232,29 +216,15 @@ i.name
       XMPAppend::append_to_xmp_dc($xmp_array,
                                   array( "description" => $description_blurb ));
     
-    Yii::log("Appended the metadata: " . print_r($updated_dc_metadata, true) ,
-             "Error");
-    
     // Put the tweaked XMP metadata back into the full metadata array.
     $XMP_array_as_text = write_XMP_array_to_text($updated_dc_metadata);
     
-    Yii::log("XMP array written to text", "Error");
-    
     $updated_header_data = put_XMP_text($header_data, $XMP_array_as_text);
-    
-    Yii::log("updated header data array", "Error");
-    Yii::log("source: $source_filepath, destination: $output_filepath", "Error");
     
     // Load the new metadata into the image.
     $result = XMPAppend::put_jpeg_header_data($source_filepath,
                                               $output_filepath,
                                               $updated_header_data);
-    /*
-    Yii::log("Putting the JPEG header back was a " .
-             $result ?
-             "Success." :
-             "Failure.", "Error");
-    /**/
   }
   
 }
