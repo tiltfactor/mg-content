@@ -158,6 +158,12 @@ class ImportController extends GxController {
     if (!Yii::app()->getRequest()->getIsPostRequest()) 
       $model->batch_id = "B-" . date('Y-m-d-H:i:s');
     
+    if (Yii::app()->getRequest()->getIsPostRequest() && !$model->hasErrors()) {
+      $model->addError("zipfile", Yii::t('app', 'Please make sure to keep the file smaller than %dB', array('%d' => ini_get('upload_max_filesize'))));
+      $model->batch_id = "B-" . date('Y-m-d-H:i:s');
+      $model->addError("batch_id", Yii::t('app', 'Please check your upload batch id'));
+    }
+    
     $this->render('uploadzip', array(
       'model' => $model,
     ));
