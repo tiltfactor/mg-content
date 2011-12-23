@@ -58,7 +58,7 @@ class StopWordPlugin extends MGDictionaryPlugin  {
   function add($tag, $info) {
     $model = new StopWord;
     $model->word = $tag;
-    $model->created = date('Y-m-d H:i:s'); 
+    $model->counter = 0; 
     $model->modified = date('Y-m-d H:i:s'); 
     $model->source = $info;
     
