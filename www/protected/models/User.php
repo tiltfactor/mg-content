@@ -28,7 +28,7 @@ class User extends BaseUser
       array('username', 'length', 'max'=>32),
       array('email', 'email'),
       array('password', 'required', 'on'=>'insert'),
-      array('password, email, activekey', 'length', 'max'=>128, 'min'=>6),
+      array('password, email, activekey', 'length', 'max'=>128, 'min'=>3),
       array('role', 'length', 'max'=>45),
       array('role', 'checkRoleAccess'),
       array('activekey, lastvisit, role, status, edited_count, created, modified', 'default', 'setOnEmpty' => true, 'value' => null),

@@ -136,8 +136,6 @@ class UserController extends Controller
       
       $model->modified = date('Y-m-d H:i:s');
       
-      // xxx implement a on "Ban" routine
-      
 			if($model->validate()&&$profile->validate()) {
 				$old_password = User::model()->notsafe()->findByPk($model->id);
 				if ($old_password->password!=$model->password) {
