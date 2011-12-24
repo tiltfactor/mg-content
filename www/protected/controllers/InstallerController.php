@@ -85,6 +85,12 @@ class InstallerController extends Controller
         Yii::t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
         Yii::t('yii','This is required if you are using MySQL database.')),
       array(
+        Yii::t('yii','ZIP extension'),
+        false,
+        extension_loaded("zip"),
+        Yii::t('app','Recommended to improve the performance and relyablility of imports and exports'),
+        extension_loaded("zip") ? '' : Yii::t('app', 'We recommend to install/activate the php zip extension to improve the performance of the imports and exports.')),
+      array(
         Yii::t('yii','Memcache extension'),
         false,
         extension_loaded("memcache") || extension_loaded("memcached"),

@@ -34,7 +34,7 @@ class EZip extends CApplicationComponent {
     
     // TODO: we could have a check wether php is allowed to make use of tar and gzip 
     // and run the create as a system() command. This would save a lot of memory
-    if (class_exists('ZipArchive')) {
+    if (extension_loaded("zip") && class_exists('ZipArchive')) {
       include_once('EFlxZipArchive.php');
       
       $archive = new EFlxZipArchive();
