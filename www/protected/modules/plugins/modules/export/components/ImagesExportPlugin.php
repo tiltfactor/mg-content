@@ -194,12 +194,13 @@ i.name
     // TODO: Factor this section out.
 
     // Get the embedded XMP data from our image.
-    //$header_data = XMPAppend::get_jpeg_header_data( $output_filepath);
-    $header_data = XMPAppend::get_jpeg_header_data( $source_filepath);
+    $xmp = new XMPAppend();
+    
+    $header_data = $xmp->get_jpeg_header_data( $source_filepath);
 
     $xmp_array =  read_XMP_array_from_text(get_XMP_text($header_data));
 
-    $existing_dc_metadata = XMPAppend::get_xmp_dc($xmp_array);
+    $existing_dc_metadata = $xmp->get_xmp_dc($xmp_array);
 
     // Following the formatting guidelines, create a string that
     // embeds not ony the tags, but also includes key information such
@@ -213,8 +214,8 @@ i.name
     // any missing metadata contents/structure necessary along the
     // way).
     $updated_dc_metadata =
-      XMPAppend::append_to_xmp_dc($xmp_array,
-                                  array( "description" => $description_blurb ));
+      $xmp->append_to_xmp_dc($xmp_array,
+			     array( "description" => $description_blurb ));
     
     // Put the tweaked XMP metadata back into the full metadata array.
     $XMP_array_as_text = write_XMP_array_to_text($updated_dc_metadata);
@@ -222,9 +223,9 @@ i.name
     $updated_header_data = put_XMP_text($header_data, $XMP_array_as_text);
     
     // Load the new metadata into the image.
-    $result = XMPAppend::put_jpeg_header_data($source_filepath,
-                                              $output_filepath,
-                                              $updated_header_data);
+    $result = $xmp->put_jpeg_header_data($source_filepath,
+					 $output_filepath,
+					 $updated_header_data);
   }
   
 }
