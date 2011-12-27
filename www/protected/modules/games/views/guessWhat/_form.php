@@ -54,12 +54,6 @@
   </div>
   
   <div class="row">
-    <?php echo $form->labelEx($model,'number_hints'); ?>
-    <?php echo $form->textField($model,'number_hints'); ?>
-    <?php echo $form->error($model,'number_hints'); ?>
-  </div>
-  
-  <div class="row">
     <?php echo $form->labelEx($model,'image_width'); ?>
     <?php echo $form->textField($model,'image_width'); ?>
     <?php echo $form->error($model,'image_width'); ?>
