@@ -23,16 +23,28 @@ MG_API = function ($) {
         $('#no_js').remove();
         
         // create curtain and display it
-        MG_API.curtain = $('<div id="mg_curtain"/>');
-        MG_API.curtain.appendTo($("body")).css({
+        
+        MG_API.curtainDiv = $('<div id="mg_curtain"/>');
+        MG_API.curtainDiv.appendTo($("body")).css({
           opacity:0.7, 
           height: $(document).height(),
           width: $(document).width(),
           backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'
         }); 
         
+        MG_API.curtain = {
+          show : function () {
+            MG_API.curtainDiv.show();
+            MG_API.curtain.css({height: $(document).height(), width: $(document).width(),backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'});
+          },
+          
+          hide : function () {
+            MG_API.curtainDiv.hide();
+          }
+        }
+        
         $(window).resize(function () {
-          MG_API.curtain.css({height: $(document).height(), width: $(document).width(),backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'}); 
+          MG_API.curtainDiv.css({height: $(document).height(), width: $(document).width(),backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'}); 
         });
         
         MG_API.fancyboxLink = $('<a id="mg_fancybox_link" href="#" class="ir"></a>');
@@ -40,8 +52,6 @@ MG_API = function ($) {
         MG_API.modals = $('<div id="mg_modals"/>').appendTo($("body"));
         $('<div id="mg_error"/>').appendTo(MG_API.modals);
         $('<div id="mg_popup"/>').appendTo(MG_API.modals);
-        
-        MG_API.curtain.appendTo($("body"));
         
         //Combine options with default settings
         if (options) {
@@ -121,7 +131,7 @@ MG_API = function ($) {
     },
     
     exitGame : function (response) {
-      MG_GAME_API.curtain.hide();
+      MG_API.curtain.hide();
       $("#mg_popup").html("");
       
       if ($("#template-info-modal-critical-error").length > 0) {
