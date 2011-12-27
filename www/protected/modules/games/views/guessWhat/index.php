@@ -32,9 +32,9 @@
     	<div class="form clearfix">
         <div class="hints"><h3>Hints Received</h3></div> 
       </div>
-      <h3>
-				Select an image or ask for another <a href="#" id="requestHint">HINT</a>        	
-      </h3>
+      <!-- 
+        VVU: Hint request has been disabled. Currently there are as many hints possible as guesses 
+        <h3>Select an image or ask for another <a href="#" id="requestHint">HINT</a></h3> -->
     </div>
   </div>
   <div id="finalScreen"></div>

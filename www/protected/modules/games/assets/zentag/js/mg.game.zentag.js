@@ -227,7 +227,6 @@ MG_GAME_ZENTAG = function ($) {
             licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
           };
           
-          log(turn_info);
         } else {
           // turn info == image 
           var turn_info = {

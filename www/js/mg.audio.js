@@ -44,8 +44,6 @@ MG_AUDIO = function ($) {
       } else {
         throw "$.jPlayer() cannot be found. Make sure to load the needed JavaScript file!";
       }
-      
-      log('settings', MG_AUDIO.settings);
     },
     
     /*

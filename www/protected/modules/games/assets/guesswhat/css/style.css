@@ -290,6 +290,7 @@ div.left-column {
 }
 
 .guess .hints {
+  margin-top: 15px;
   float: left;
 }
 
