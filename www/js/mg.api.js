@@ -35,7 +35,7 @@ MG_API = function ($) {
         MG_API.curtain = {
           show : function () {
             MG_API.curtainDiv.show();
-            MG_API.curtain.css({height: $(document).height(), width: $(document).width(),backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'});
+            MG_API.curtainDiv.css({height: $(document).height(), width: $(document).width(),backgroundPosition : ($(window).width()/2) + 'px ' + ($(window).height()/2) + 'px'});
           },
           
           hide : function () {
