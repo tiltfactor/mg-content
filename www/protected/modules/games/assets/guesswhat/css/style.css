@@ -36,6 +36,7 @@ body {
 .container {
   width: 1000px;
   min-height: 600px;
+  margin-bottom: 5px;
   background: url(../images/guesswhat_bg.png);
   border-radius: 20px;
 }
@@ -269,6 +270,7 @@ div.left-column {
   margin-bottom: 20px;
 }
 
+
 .hints h3 {
   padding: 0 0 5px 0;
   line-height: 18px;
@@ -292,6 +294,7 @@ div.left-column {
 .guess .hints {
   margin-top: 15px;
   float: left;
+  margin-bottom: 0px;
 }
 
 a#sendHint:link, a#sendHint:visited {
@@ -310,12 +313,14 @@ a#sendHint:hover {
 
 #failedToGuess {
   width: 450px;
+  padding:10px;
   text-align: center;
 }
 
 #partnerFailedToGuess {
   width: 250px;
   text-align: center;
+  padding: 10px;
 }
 
 #failedToGuess div.image {
@@ -328,7 +333,6 @@ a#sendHint:hover {
   height: 20px;
   width: 120px;
   line-height: 20px;
-  background-color: #333;
   margin: 0 auto;
 }
 
@@ -542,8 +546,36 @@ a#sendHint:hover {
   padding: 25px;
   vertical-align:middle;
   z-index: 1000;
-  border:2px solid #fff;
-  background-color:#529EC6;
+  border:5px solid #F7A31E;
+  border-radius: 10px;
+  background-color:#F7A31E;
+  color: #fff;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+#info-modal a, #info-modal a:link, #info-modal a:visited {
+  color: #666;
+}
+
+#info-modal a:hover {
+  color: #333;
+}
+
+#requestHintContainer {
+  display: none;
+  margin-top: 20px;
+}
+
+#fancybox-outer,
+#fancybox-content {
+  border-radius: 20px;
+  border-color: #F7A31E;
+}
+
+#mg_error {
+  background-color: #F7A31E;
+  color: #fff;
 }
 
 #debug {

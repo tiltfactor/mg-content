@@ -36,8 +36,6 @@ MG_GAME_GUESSWHAT = function ($) {
       
       MG_GAME_GUESSWHAT.submitHintButton = $("#sendHint").click(MG_GAME_GUESSWHAT.onSendHint);
       
-      MG_GAME_GUESSWHAT.requestHintButton = $("#requestHint").click(MG_GAME_GUESSWHAT.onRequestHint);
-      
       MG_GAME_API.game_init(settings);
       
       MG_AUDIO.init({
@@ -150,6 +148,14 @@ MG_GAME_GUESSWHAT = function ($) {
     renderGuessTurn : function (response, score_info, turn_info, licence_info, more_info) {
       $("#stage").hide();
       
+      if (MG_GAME_API.game.number_hints > 0) { 
+        $("#requestHintContainer").html('').show();
+        $("#template-request-hint-active").tmpl().appendTo($("#requestHintContainer"));
+        $("#requestHint").click(MG_GAME_GUESSWHAT.onRequestHint);  
+      } else {
+        $("#requestHintContainer").hide();
+      }
+      
       $("#scores").html(""); 
       $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
 
@@ -187,6 +193,7 @@ MG_GAME_GUESSWHAT = function ($) {
       if (!MG_GAME_GUESSWHAT.game.user_authenticated) {
         $("#scores .total_score").remove();
       }
+      $("#requestHintContainer").hide();
       
       $("#game .guess").hide();
       $('#wrong-guesses').show();
@@ -564,6 +571,12 @@ MG_GAME_GUESSWHAT = function ($) {
       $("#game .guess .hints").show();
       $('<span>').text(hint).appendTo($("#game .guess .hints").fadeIn(2500, function () {MG_AUDIO.play("hint");}));
       MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.push(hint);
+      
+      if ((MG_GAME_GUESSWHAT.game.number_guesses*1 + MG_GAME_API.game.number_hints*1) - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.length - (MG_GAME_GUESSWHAT.game.number_guesses*1 - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses.length) < 0) {
+        $("#requestHintContainer").html('');
+        $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
+      }
+      
     },
     
     onsubmitTurn : function () {
@@ -809,6 +822,11 @@ MG_GAME_GUESSWHAT = function ($) {
         }).appendTo($("#info-modal"));
         $("#info-modal:hidden").fadeIn(500);
         MG_GAME_API.postMessage('hintrequest');
+        
+        if ((MG_GAME_GUESSWHAT.game.number_guesses*1 + MG_GAME_API.game.number_hints*1) - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.length - (MG_GAME_GUESSWHAT.game.number_guesses*1 - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses.length) <= 0) {
+          $("#requestHintContainer").html('');
+          $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
+        }
       }
     },
     

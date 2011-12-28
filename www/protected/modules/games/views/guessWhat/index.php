@@ -32,9 +32,7 @@
     	<div class="form clearfix">
         <div class="hints"><h3>Hints Received</h3></div> 
       </div>
-      <!-- 
-        VVU: Hint request has been disabled. Currently there are as many hints possible as guesses 
-        <h3>Select an image or ask for another <a href="#" id="requestHint">HINT</a></h3> -->
+        <div id="requestHintContainer"></div>
     </div>
   </div>
   <div id="finalScreen"></div>
@@ -46,6 +44,13 @@
   
 </div>
 <div id="info-modal"></div>
+
+<script id="template-request-hint-active" type="text/x-jquery-tmpl">
+  <h3>Select an image or ask for another <a href="#" id="requestHint">HINT</a></h3>
+</script>
+<script id="template-request-hint-inactive" type="text/x-jquery-tmpl">
+  <h3>Select an image you can not ask for further additional hints</h3>
+</script>
 
 <script id="template-describe-image" type="text/x-jquery-tmpl">
   <img src="${url}" alt="game image" /><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a>

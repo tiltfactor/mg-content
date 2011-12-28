@@ -29,7 +29,8 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
         array('image_grid_width, image_grid_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('active', 'numerical', 'min'=>0, 'max'=>1),
         array('play_against_computer', 'numerical', 'min'=>0, 'max'=>1),
-        array('turns, partner_wait_threshold, number_guesses, number_hints', 'numerical', 'min'=>1, 'max'=>1000),
+        array('turns, partner_wait_threshold, number_guesses', 'numerical', 'min'=>1, 'max'=>1000),
+        array('number_hints', 'numerical', 'min'=>0, 'max'=>1000)
     );
   }
   
@@ -46,7 +47,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
       'partner_wait_threshold' => Yii::t('app', 'Partner Search Time Frame (seconds)'),
       'play_against_computer' => Yii::t('app', 'Enable Play with Computer Mode'),
       'number_guesses' => Yii::t('app', 'Allowed Number of Guesses Per Turn'),
-      'number_hints' => Yii::t('app', 'Allowed Number of Hints Per Turn'),
+      'number_hints' => Yii::t('app', 'Additional Hints Per Turn'),
     );
   }
   
