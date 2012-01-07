@@ -392,6 +392,16 @@ a#sendHint:hover {
   color: #fff;
 } 
 
+#scores .hints_left {
+  text-transform: uppercase;
+  background-color: #00FF00;
+  border-radius: 20px;
+  padding: 5px;
+  text-align: center;
+  margin: 10px 0 0 0;
+  color: #fff;
+} 
+
 #scores.final h2 {margin-bottom:10px;}
 
 #scores.final h3 {
