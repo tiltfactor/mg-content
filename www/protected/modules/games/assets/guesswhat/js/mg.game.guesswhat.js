@@ -1,3 +1,5 @@
+// -*- tab-width:2; indent-tabs-mode:nil -*-
+
 MG_GAME_GUESSWHAT = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
@@ -408,7 +410,8 @@ MG_GAME_GUESSWHAT = function ($) {
             current_turn : MG_GAME_GUESSWHAT.turn,
             guess: 0,
             guesses : MG_GAME_GUESSWHAT.game.number_guesses,
-            num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses
+            num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses,
+            num_hints_left : MG_GAME_GUESSWHAT.game.number_hints
           };
           
           // find out in what mode we are this can't be only done for the first turn on the server 
@@ -563,20 +566,39 @@ MG_GAME_GUESSWHAT = function ($) {
       }
       return false;
     },
+
+    // Are any more hints are allowed to be given?
+    areHintsAllowedLeft : function () {
+      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+      return (MG_GAME_API.game.number_hints*1 > current_turn.hints.length);
+    },
+
+    // Prepare for the next hint (including blocking further hints,
+    // if the appropriate conditions have been met).
+    prepareForNextHint : function () {
+      // If we've given as many hints as allowed (or more), disable the
+      // hint button and replace it with a notification.
+      if (!MG_GAME_GUESSWHAT.areHintsAllowedLeft()){
+        $("#requestHintContainer").html('');
+        $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
+      }
+    },
     
     processHint : function (hint) {
+      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+
       $("#info-modal:visible").fadeOut(500);
       MG_GAME_API.curtain.hide();
       MG_GAME_GUESSWHAT.busy = false;
       $("#game .guess .hints").show();
       $('<span>').text(hint).appendTo($("#game .guess .hints").fadeIn(2500, function () {MG_AUDIO.play("hint");}));
-      MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.push(hint);
+      current_turn.hints.push(hint);
       
-      if ((MG_GAME_GUESSWHAT.game.number_guesses*1 + MG_GAME_API.game.number_hints*1) - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.length - (MG_GAME_GUESSWHAT.game.number_guesses*1 - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses.length) < 0) {
-        $("#requestHintContainer").html('');
-        $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
-      }
-      
+      // Update the score field on the LHS.
+      MG_GAME_GUESSWHAT.updateScore();
+        
+      // Prepare for the next hint.
+      MG_GAME_GUESSWHAT.prepareForNextHint();
     },
     
     onsubmitTurn : function () {
@@ -656,6 +678,38 @@ MG_GAME_GUESSWHAT = function ($) {
       }
       return licence_info;
     },
+
+      // Update the 'score' section using the current values stored in
+      // MG_GAME_GUESSWHAT.
+      //
+      // We copied-out this section so that we could call it from
+      // inside the hint code. We need to call it in a couple of
+      // places, so it would be ideal to refactor those locations to
+      // make this shared code.
+      updateScore : function () {
+        var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+        
+        var score_info = {
+          user_name : MG_GAME_GUESSWHAT.game.user_name,
+          game_partner_name : MG_GAME_GUESSWHAT.game.game_partner_name,
+          user_score : MG_GAME_GUESSWHAT.game.user_score,
+          current_score : current_turn.score,
+          user_num_played : MG_GAME_GUESSWHAT.game.user_num_played,
+          turns : MG_GAME_GUESSWHAT.game.turns,
+          current_turn : MG_GAME_GUESSWHAT.turn,
+          guess: current_turn.guesses.length,
+          max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
+          num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
+          max_hints : MG_GAME_GUESSWHAT.game.number_hints,
+          num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
+        };
+        
+        $("#scores").html(""); 
+        $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
+        if (!MG_GAME_GUESSWHAT.game.user_authenticated) {
+          $("#scores .total_score").remove();
+        }
+      },
     
     evaluateGuess : function (guessedImageID) {
       MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses.push(guessedImageID);
@@ -707,24 +761,7 @@ MG_GAME_GUESSWHAT = function ($) {
           
         }
       } else {
-        var score_info = {
-          user_name : MG_GAME_GUESSWHAT.game.user_name,
-          game_partner_name : MG_GAME_GUESSWHAT.game.game_partner_name,
-          user_score : MG_GAME_GUESSWHAT.game.user_score,
-          current_score : current_turn.score,
-          user_num_played : MG_GAME_GUESSWHAT.game.user_num_played,
-          turns : MG_GAME_GUESSWHAT.game.turns,
-          current_turn : MG_GAME_GUESSWHAT.turn,
-          guess: current_turn.guesses.length,
-          max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
-          num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length
-        };
-        
-        $("#scores").html(""); 
-        $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
-        if (!MG_GAME_GUESSWHAT.game.user_authenticated) {
-          $("#scores .total_score").remove();
-        }
+        MG_GAME_GUESSWHAT.updateScore();
         
         if (current_turn.mode == "describe") {
           if (secret_image.image_id == guessedImageID) { // the partner has found the right image
@@ -785,6 +822,13 @@ MG_GAME_GUESSWHAT = function ($) {
     },
     
     sendHintRequest : function() {
+      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+
+      // If there are no more hints, we terminate.
+      if(!MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
+        return 0;
+      }
+
       MG_GAME_GUESSWHAT.busy = true;
       
       $("#partner-waiting").hide();
@@ -793,20 +837,19 @@ MG_GAME_GUESSWHAT = function ($) {
       
       if (MG_GAME_GUESSWHAT.game.played_against_computer) {
         
-        if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.available_hints === undefined) {
-          MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.available_hints = [];
-          for (var hint in MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.hints) {
-            MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.available_hints.push(MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.hints[hint]);
+        if (current_turn.images.describe.available_hints === undefined) {
+          current_turn.images.describe.available_hints = [];
+          for (var hint in current_turn.images.describe.hints) {
+            current_turn.images.describe.available_hints.push(current_turn.images.describe.hints[hint]);
           }
         }
-        var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
         var secret_image = current_turn.images.describe;
         var next_hint = "";
         
         if (secret_image.available_hints.length > 0) {
           pos = MG_GAME_GUESSWHAT.getRandomInt(0, secret_image.available_hints.length - 1);
           next_hint = secret_image.available_hints[pos].tag;
-          MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.available_hints.splice(pos,1);
+          current_turn.images.describe.available_hints.splice(pos,1);
         } 
         if (next_hint != "") {
           MG_GAME_GUESSWHAT.processHint(next_hint);
@@ -822,11 +865,9 @@ MG_GAME_GUESSWHAT = function ($) {
         }).appendTo($("#info-modal"));
         $("#info-modal:hidden").fadeIn(500);
         MG_GAME_API.postMessage('hintrequest');
-        
-        if ((MG_GAME_GUESSWHAT.game.number_guesses*1 + MG_GAME_API.game.number_hints*1) - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.length - (MG_GAME_GUESSWHAT.game.number_guesses*1 - MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses.length) <= 0) {
-          $("#requestHintContainer").html('');
-          $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
-        }
+
+        // Prepare for the next hint.
+        MG_GAME_GUESSWHAT.prepareForNextHint();
       }
     },
     

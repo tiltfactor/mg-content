@@ -49,7 +49,7 @@
   <h3>Select an image or ask for another <a href="#" id="requestHint">HINT</a></h3>
 </script>
 <script id="template-request-hint-inactive" type="text/x-jquery-tmpl">
-  <h3>Select an image you can not ask for further additional hints</h3>
+  <h3>Select an image (you can not ask for further additional hints)</h3>
 </script>
 
 <script id="template-describe-image" type="text/x-jquery-tmpl">
@@ -87,6 +87,10 @@
     <div class="current_score">This game's score <span>${current_score}</span> Points</div>
     <div class="total_turns">Turn <span>${current_turn}</span>&nbsp;/&nbsp;<span>${turns}</span></div>
     <div class="guesses"><span>${num_guesses_left}</span> guess(es) left</div>
+    <!-- TODO: Give hints their own CSS class... -->
+    <div class="hints_left">
+      <span>${num_hints_left}</span> hint(s) left
+    </div>
   </div>
 </script>
 
