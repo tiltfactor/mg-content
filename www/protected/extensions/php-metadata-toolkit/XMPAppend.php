@@ -61,6 +61,72 @@ class XMPAppend {
     return put_jpeg_header_data($a, $b, $header);
   }
 
+
+  /************************************************************************
+   *
+   * Function:     extract_and_stash_dc_field
+   *
+   * Description:  Extracts and stashes Dublin Core data into an output
+   *               array.
+   *
+   ************************************************************************/
+
+  function extract_and_stash_dc_field($block, &$output, $fieldname, $tag) {
+    debug_log("extract_and_stash_dc_field: $fieldname");
+    
+    // Extract Description
+    $Item = self::find_XMP_item( $block, "dc:$fieldname");
+    debug_log("ex and stash: Found item");
+    
+    // If the field does not exist, or if there is no 'children' entry
+    // in the Item, or if the tag doesn't match, then we're done.
+    if ( $Item == FALSE ||
+         !array_key_exists( 'children', $Item ) ||
+         $Item['children'][0]['tag'] != $tag ) {
+      return 0;
+    }
+    
+    debug_log("ex and stash: $fieldname tag exists");
+
+    $children = $Item['children'][0]['children'];
+    
+    // We need to deal with 'Bag' items differently from other field
+    // types.
+    if($tag == "rdf:Bag") {
+      debug_log("ex and stash: Bag tag");
+
+      // TODO: Fully implement this feature
+      return 0;
+
+      // Cycle through each Subject value and save them.
+      foreach ( $children as $keywords ) {
+        debug_log("ex and stash: Adding keywords");
+        if ( ! in_array ( HTML_UTF8_Escape( $keywords['value'] ),
+                          $outputarray['keywords'])) {
+          if  ( array_key_exists( 'value', $keywords ) ) {
+            $outputarray['keywords'][] =
+              HTML_UTF8_Escape( $keywords['value'] );
+          }
+        }
+      }
+    } else {
+      // If a value exists for this field, save it.
+      if( array_key_exists( 'value', $children[0] ) ) {
+        debug_log("ex and stash: Adding to field");
+        $output =
+          self::add_to_field( $output, $fieldname,
+                              // DEBUG: Try not escaping UTF8 chars
+                              // so that they appear properly in the
+                              // output.
+                              //
+                              //HTML_UTF8_Escape($children[0]['value'] ),
+                              $children[0]['value'],
+                              "\n" );
+        debug_log("ex and stash: Added to field");
+      }
+    }
+  }
+  
   
   /************************************************************************
    *
@@ -86,7 +152,12 @@ class XMPAppend {
    ************************************************************************/
   
   public function get_xmp_dc( $XMP_array ) {
-    $outputarray = array("description" => "");
+    $outputarray = array("description" => "",
+                         "creator" => "",
+                         "title" => "",
+                         "rights" => "",
+                         "keywords" => array()
+                         );
     
     // XMP Processing
     
@@ -95,109 +166,24 @@ class XMPAppend {
     // Extract the Dublin Core section from the XMP
     $dublincore_block = self::find_XMP_block( $XMP_array, "dc" );
     
-    error_log("block extracted");
+    debug_log("get xmp dc: Lock extracted");
 
-    // Check that the Dublin Core section exists
-    if ( $dublincore_block != FALSE ) {
-      
-      // Dublin Core Description Field.
-      // Extract Description
-      $Item = self::find_XMP_item( $dublincore_block, "dc:description" );
-      
-      // Check if Description Tag exists.
-      if ( $Item != FALSE ) {
-        // Ensure that the Description value exists and save it.
-        if  ( ( array_key_exists( 'children', $Item ) ) &&
-              ( $Item['children'][0]['tag'] == "rdf:Alt" ) &&
-              ( array_key_exists( 'value',
-                                  $Item['children'][0]['children'][0] ) ) ) {
-          $outputarray =
-            self::add_to_field( $outputarray, 'description' ,
-				// DEBUG: Try not escaping UTF8 chars
-				// so that they appear properly in the
-				// output.
-				//
-                                //HTML_UTF8_Escape( $Item['children'][0]['children'][0]['value'] ),
-                                $Item['children'][0]['children'][0]['value'],
-                                "\n" );
-        }
-      }
-      
-      // Dublin Core Creator Field contains author
-      // Extract Author
-      $Item = self::find_XMP_item( $dublincore_block, "dc:creator" );
-      
-      // Check if Creator Tag existed
-      if ( $Item != FALSE ) {
-        // Ensure that the Creator value exists and save it.
-        if  ( ( array_key_exists( 'children', $Item ) ) &&
-              ( $Item['children'][0]['tag'] =="rdf:Seq" ) &&
-              ( array_key_exists( 'value',
-                                  $Item['children'][0]['children'][0] ) ) ) {
-          $outputarray =
-            self::add_to_field( $outputarray, 'author' ,
-                                HTML_UTF8_Escape( $Item['children'][0]['children'][0]['value'] ),
-                          "\n" );
-        }
-      }
-      
-      // Dublin Core Title Field contains title
-      // Extract Title
-      $Item = self::find_XMP_item( $dublincore_block, "dc:title" );
-      
-      // Check if Title Tag existed
-      if ( $Item != FALSE ) {
-        // Ensure that the Title value exists and save it.
-        if  ( ( array_key_exists( 'children', $Item ) ) &&
-              ( $Item['children'][0]['tag'] =="rdf:Alt" ) &&
-              ( array_key_exists( 'value',
-                                  $Item['children'][0]['children'][0] ) ) ) {
-          $outputarray =
-            self::add_to_field( $outputarray, 'title' ,
-                                HTML_UTF8_Escape( $Item['children'][0]['children'][0]['value'] ), "," );
-        }
-      }
-      
-      // Dublin Core Rights Field contains copyrightnotice
-      // Extract Rights
-      $Item = self::find_XMP_item( $dublincore_block, "dc:rights" );
-      
-      // Check if Rights Tag existed
-      if ( $Item != FALSE ) {
-        // Ensure that the Rights value exists and save it.
-        if  ( ( array_key_exists( 'children', $Item ) ) &&
-              ( $Item['children'][0]['tag'] =="rdf:Alt" ) &&
-              ( array_key_exists( 'value',
-                                  $Item['children'][0]['children'][0] ) ) ) {
-          $outputarray =
-            self::add_to_field( $outputarray, 'copyrightnotice' ,
-                                HTML_UTF8_Escape( $Item['children'][0]['children'][0]['value'] ),
-                                "," );
-        }
-      }
-      
-      // Dublin Core Subject Field contains keywords
-      // Extract Subject
-      $Item = self::find_XMP_item( $dublincore_block, "dc:subject" );
-      
-      // Check if Subject Tag existed
-      if ( $Item != FALSE ) {
-        // Ensure that the Subject values exist
-        if  ( ( array_key_exists( 'children', $Item ) ) &&
-              ( $Item['children'][0]['tag'] =="rdf:Bag" ) ) {
-          // Cycle through each Subject value and save them
-          foreach ( $Item['children'][0]['children'] as $keywords ) {
-            if ( ! in_array ( HTML_UTF8_Escape( $keywords['value'] ),
-                              $outputarray['keywords'])) {
-              if  ( array_key_exists( 'value', $keywords ) ) {
-                $outputarray['keywords'][] =
-                  HTML_UTF8_Escape( $keywords['value'] );
-              }
-            }
-          }
-        }
-      }
+    // If there's no existing Dublin Core section, we can just return
+    // our skeleton array.
+    if ( $dublincore_block == FALSE ) {
+      return $outputarray;
     }
+
+    self::extract_and_stash_dc_field($dublincore_block, $outputarray,
+                                     "description", "rdf:Alt");
+    self::extract_and_stash_dc_field($dublincore_block, $outputarray,
+                                     "creator", "rdf:Seq");
+    self::extract_and_stash_dc_field($dublincore_block, $outputarray,
+                                     "title", "rdf:Alt");
+    self::extract_and_stash_dc_field($dublincore_block, $outputarray,
+                                     "rights", "rdf:Alt");
+    self::extract_and_stash_dc_field($dublincore_block, $outputarray,
+                                     "subject", "rdf:Bag");
     
     return $outputarray;
   }
@@ -245,7 +231,7 @@ class XMPAppend {
     
     // Q: Should this HTML->UTF conversion apply to the passed-in data
     // or the extracted data?
-    
+
     // Cycle the fields of the passed-in data.
     foreach( $dc as $valkey => $val ) {
       // If the element is 'Keywords' or 'Supplemental Categories',
@@ -266,7 +252,8 @@ class XMPAppend {
         }
       }
     }
-    
+
+    debug_log("Append: About to set up XMP array.");
     
     // -- Make sure that the XMP array is properly set up.
     
@@ -296,6 +283,7 @@ class XMPAppend {
     }
         
     // -- Process the XMP Dublin Core block.
+    debug_log("Append: Now processing dc block");
     
     // Find the Dublin Core Information within the XMP block
     $DC_block = & self::find_XMP_block( $new_XMP_array, "dc" );
@@ -303,6 +291,7 @@ class XMPAppend {
     // The Dublin Core description tag - Find it and
     // Update the value.
     $new_value = $existing_xmp_dc["description"] . "\n" . $dc["description"];
+    debug_log("Append: New description is: $new_value");
 
     $Item = & self::find_XMP_item( $DC_block, "dc:description" );
 
@@ -310,6 +299,8 @@ class XMPAppend {
       array( array(  'tag'   => "rdf:li",
                      'value' => $new_value,
                      'attributes' => array( 'xml:lang' => "x-default" ) ) );
+
+    debug_log("Append: Returning xmp array");
     
     // -- Return the array.
     return $new_XMP_array;
@@ -537,25 +528,38 @@ class XMPAppend {
    ************************************************************************/
   
   public function add_to_field( $field_array, $field, $value, $separator ) {
+    debug_log("add to field: $field");
+    
     // Check if the value is blank
     if ( $value == "" ) {
       // Value is blank - return File Info array unchanged
       return $field_array;
     }
     
-    // Check if the value can be found anywhere within the existing
-    // value for this field
-    if ( stristr ( $field_array[ $field ], $value ) == FALSE) {
-      // Value could not be found
-      // Check if the existing value for the field is blank
-      if ( $field_array[$field] != "" ) {
-        // Existing value for field is not blank - append a separator
-        $field_array[$field] .= $separator;
-      }
-      // Append the value to the field
-      $field_array[$field] .= $value;
-    }
+    debug_log("add to field: Value not blank");
     
+    // If the value is found in the existing value for this field, we
+    // return.
+    if ( stristr ( $field_array[ $field ], $value ) != FALSE) {
+      return $field_array;
+    }
+
+    // Value could not be found
+    debug_log("add to field: Value not found");
+    
+    // Check if the existing value for the field is blank
+    if ( $field_array[$field] != "" ) {
+      // Existing value for field is not blank - append a separator
+      $field_array[$field] .= $separator;
+    }
+
+    debug_log("add to field: About to append");
+
+    // Append the value to the field
+    $field_array[$field] .= $value;
+    
+    debug_log("add to field: Returning");
+
     // Return the File Info Array
     return $field_array;
   }
@@ -586,6 +590,8 @@ class XMPAppend {
    ************************************************************************/
   
   public function & find_XMP_item( & $Item_Array, $item_name ) {
+    debug_log("find XMP item: start");
+
     // Cycle through the top level of the XMP array
     foreach( $Item_Array as $Item_Key => $Item ) {
       // Check this tag name against the required tag name
@@ -596,7 +602,9 @@ class XMPAppend {
     }
     
     // No matching tag found - return error code
-    return FALSE;
+    $return = FALSE;
+    // Can't return 'FALSE' directly, as we have to return a reference.
+    return $return;
   }
   
   /************************************************************************
@@ -657,6 +665,7 @@ class XMPAppend {
     
     // No matching rdf:Description block found
     $return = FALSE;
+    // Can't return 'FALSE' directly, as we have to return a reference.
     return $return;
   }
   
@@ -705,6 +714,7 @@ class XMPAppend {
           ),
           'children' =>
           array (
+                 /* -- DEBUGGING -- might be extra and causing problems
             1 =>
             array (
               'tag' => 'rdf:Description',
@@ -714,6 +724,7 @@ class XMPAppend {
                 'xmlns:pdf' => 'http://ns.adobe.com/pdf/1.3/',
               ),
             ),
+                 */
             2 =>
             array (
               'tag' => 'rdf:Description',
@@ -723,6 +734,8 @@ class XMPAppend {
                 'xmlns:photoshop' => 'http://ns.adobe.com/photoshop/1.0/',
               ),
             ),
+            /* -- more extra stuff; remove for debugging
+
             4 =>
             array (
               'tag' => 'rdf:Description',
@@ -755,6 +768,7 @@ class XMPAppend {
                 ),
               ),
             ),
+            */
 
             /* 
 
@@ -792,6 +806,7 @@ class XMPAppend {
             ),
             */
             /**/
+            /* -- more to comment-out
             6 =>
             array (
               'tag' => 'rdf:Description',
@@ -809,6 +824,7 @@ class XMPAppend {
                 ),
               ),
             ),
+            */
             7 =>
             array (
               'tag' => 'rdf:Description',
@@ -819,6 +835,7 @@ class XMPAppend {
               ),
               'children' =>
               array (
+                     /*
                 0 =>
                 array (
                   'tag' => 'dc:format',
@@ -835,6 +852,7 @@ class XMPAppend {
                     ),
                   ),
                 ),
+                     */
                 2 =>
                 array (
                   'tag' => 'dc:description',
@@ -846,6 +864,7 @@ class XMPAppend {
                     ),
                   ),
                 ),
+                /*
                 3 =>
                 array (
                   'tag' => 'dc:rights',
@@ -879,6 +898,7 @@ class XMPAppend {
                     ),
                   ),
                 ),
+                */
               ),
             ),
 

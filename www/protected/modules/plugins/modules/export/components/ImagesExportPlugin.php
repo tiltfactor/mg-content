@@ -26,6 +26,20 @@
 
 Yii::import('ext.php-metadata-toolkit.XMPAppend');
 
+/************************************************************************
+ *  Debugging/Logging
+ ************************************************************************/
+
+function debug_log($message) {
+  // If debugging is active, we'll direct logging messages to the
+  // error log.
+  error_log($message);
+}
+
+/************************************************************************
+ *  End
+ ************************************************************************/
+
 class ImagesExportPlugin extends MGExportPlugin {
   public $enableOnInstall = true;
 
@@ -209,7 +223,9 @@ i.name
     $description_blurb =
       "[org.tiltfactor.metadatagames_$version f$format ($date) " .
       "(" . implode(", ", $tags) . ") installation: $system]";
-    
+
+    debug_log("process: Description blurb is: $description_blurb");
+
     // Append the new metadata to the old array (filling-in/creating
     // any missing metadata contents/structure necessary along the
     // way).
@@ -220,12 +236,29 @@ i.name
     // Put the tweaked XMP metadata back into the full metadata array.
     $XMP_array_as_text = write_XMP_array_to_text($updated_dc_metadata);
     
+    // NOTE: To verify what's in the new XMP array, this text
+    // representation can be written out to log file, etc. at this
+    // point.
+    //error_log($XMP_array_as_text);
+
     $updated_header_data = put_XMP_text($header_data, $XMP_array_as_text);
     
+    // Output the old header data.
+    debug_log(get_XMP_text($updated_header_data));
+    debug_log("---------- Old above, New below this line -------");
+    debug_log(get_XMP_text($header_data));
+    
     // Load the new metadata into the image.
-    $result = $xmp->put_jpeg_header_data($source_filepath,
-					 $output_filepath,
-					 $updated_header_data);
+    $result =
+      $xmp->put_jpeg_header_data($source_filepath,
+				 $output_filepath,
+				 $updated_header_data
+				 // DEBUG: If you're having problems
+				 //getting proper metadata in the
+				 //output, try adding the original
+				 //data back instead of the updated.
+				 //$header_data
+				 );
   }
   
 }
