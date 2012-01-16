@@ -27,17 +27,17 @@
 Yii::import('ext.php-metadata-toolkit.XMPAppend');
 
 /************************************************************************
- *  Debugging/Logging
+ *  Debugging/Logging Functions
  ************************************************************************/
 
 function debug_log($message) {
   // If debugging is active, we'll direct logging messages to the
   // error log.
-  error_log($message);
+  //error_log($message);
 }
 
 /************************************************************************
- *  End
+ *  End Debugging/Logging Functions
  ************************************************************************/
 
 class ImagesExportPlugin extends MGExportPlugin {
@@ -239,7 +239,7 @@ i.name
     // NOTE: To verify what's in the new XMP array, this text
     // representation can be written out to log file, etc. at this
     // point.
-    //error_log($XMP_array_as_text);
+    //debug_log($XMP_array_as_text);
 
     $updated_header_data = put_XMP_text($header_data, $XMP_array_as_text);
     
