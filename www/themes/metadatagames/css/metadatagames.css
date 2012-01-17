@@ -50,6 +50,16 @@ body
   padding: 20px 0 20px 0;
 }
 
+#footer #footerLogos {
+  padding: 20px;
+}
+
+#footerLogos img {
+  vertical-align: middle;
+  border: 5px solid #fff;
+  margin: 10px;
+}
+
 #mainmenu {
 	float: right;
 }

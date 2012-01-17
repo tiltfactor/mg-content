@@ -39,6 +39,11 @@
 
   <div id="footer">
     © <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
+    <div id="footerLogos">
+      <img src="<?php echo MGHelper::bu("/"); ?>/images/dartmouth_logo_20120116.jpg" />
+      <img src="<?php echo MGHelper::bu("/"); ?>/images/NEH-Logo-Horizontal_252x62.jpg" />
+      <img src="<?php echo MGHelper::bu("/"); ?>/images/acls-logo.gif" height="88" width="88" />
+    </div>
   </div><!-- footer -->
 
 </div><!-- page -->
