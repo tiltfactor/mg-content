@@ -42,6 +42,16 @@ body
 	text-align: center;
 }
 
+#footer #footerLogos {
+  padding: 20px;
+}
+
+#footerLogos img {
+  vertical-align: middle;
+  border: 5px solid #fff;
+  margin: 10px;
+}
+
 #logo
 {
 	padding: 10px 20px;
