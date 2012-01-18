@@ -20,10 +20,12 @@
       <div class="form">
       	<div id="words_to_avoid"></div>
         <div class="hints clearfix"><h3>Hints Given</h3></div>
-        <form action="#">
-          <input type="text" name="tag" width="60" id="tag"/>
-          <a href="#" id="sendHint">SEND HINT</a>
-        </form>
+        <div id="sendHintFormContainer">
+          <form action="#">
+            <input type="text" name="tag" width="60" id="tag"/>
+            <a href="#" id="sendHint">SEND HINT</a>
+          </form>
+        </div>
       </div>
       <div id="guesses"></div>
     </div>
@@ -50,6 +52,10 @@
 </script>
 <script id="template-request-hint-inactive" type="text/x-jquery-tmpl">
   <h3>Select an image (you can not ask for further additional hints)</h3>
+</script>
+
+<script id="template-send-hint-form-inactive" type="text/x-jquery-tmpl">
+  <h3>Please wait for the other player (you can not give further hints)</h3>
 </script>
 
 <script id="template-describe-image" type="text/x-jquery-tmpl">
