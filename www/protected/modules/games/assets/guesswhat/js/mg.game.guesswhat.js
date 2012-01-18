@@ -503,73 +503,81 @@ MG_GAME_GUESSWHAT = function ($) {
       if (tags == "") {
         // val filtered for all white spaces (trim)
         MG_GAME_GUESSWHAT.error("<h1>Ooops</h1><p>Please enter a word</p>");
-      } else {
-        MG_GAME_GUESSWHAT.busy = true;
-        MG_GAME_API.curtain.show();
-        MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
-        var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+        return false;
+      }
 
-        if (MG_API.checkResponse(response)) { 
-              // The api call returns an empty string if the first
-              // tag was a stop word.
-              if (response.response == "") {
-                 MG_GAME_GUESSWHAT.error($("#template-error-hint-stop-word").tmpl());
-                 MG_GAME_GUESSWHAT.busy = false;
-              } else {
-                hint_ok = true;
-                if (current_turn.wordstoavoid) {
-                  for (image in current_turn.wordstoavoid) {
-                    for (tag in current_turn.wordstoavoid[image]) {
-                      if (current_turn.wordstoavoid[image][tag].tag.toLowerCase() == response.response.toLowerCase()) {
-                        hint_ok = false;
-                        MG_GAME_GUESSWHAT.error($("#template-error-hint-word-to-avoid").tmpl());
-                        MG_GAME_GUESSWHAT.busy = false;
-                        break;
-                      }
-                    }
-                    if (!hint_ok) 
-                      break;
-                  }
-                }
-                
-                if (current_turn.hints.length) {
-                  for (h_index in current_turn.hints) {
-                    if (current_turn.hints[h_index].toLowerCase() == response.response.toLowerCase()) {
-                      hint_ok = false;
-                      MG_GAME_GUESSWHAT.error($("#template-error-hint-given-twice").tmpl());
-                      MG_GAME_GUESSWHAT.busy = false;
-                    }
-                  }
-                }
-                
-                if (hint_ok) {
-                  MG_AUDIO.play("hint");
-                  
-                  $('<span>').text(response.response).appendTo($("#game .describe .hints"));
-                  $("#game .describe .hints:hidden").toggle();
-                  MG_GAME_API.postMessage( {code:'hint','hint': response.response});
-                  
-                  MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.push(response.response);
-                  
-                  $("#partner-waiting").hide();
-        
-                  MG_GAME_API.curtain.show();
-                  
-                  $("#info-modal").html("").hide();
-                  $("#template-info-modal-waiting-for-guess").tmpl({
-                    game_partner_name: MG_GAME_API.game.game_partner_name,
-                    game_base_url: MG_GAME_API.game.game_base_url,
-                    arcade_url: MG_GAME_API.game.arcade_url
-                  }).appendTo($("#info-modal"));
-                  $("#info-modal:hidden").fadeIn(500, function () {
-                    MG_GAME_API.postMessage('waiting');
-                  });
-                }
-                
-              }
+      MG_GAME_GUESSWHAT.busy = true;
+      MG_GAME_API.curtain.show();
+      MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
+      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+
+      if (!MG_API.checkResponse(response)) { 
+        return false;
+      }
+
+      // The api call returns an empty string if the first
+      // tag was a stop word.
+      if (response.response == "") {
+        MG_GAME_GUESSWHAT.error($("#template-error-hint-stop-word").tmpl());
+        MG_GAME_GUESSWHAT.busy = false;
+        return false;
+      }
+
+      hint_ok = true;
+      if (current_turn.wordstoavoid) {
+        for (image in current_turn.wordstoavoid) {
+          for (tag in current_turn.wordstoavoid[image]) {
+            if (current_turn.wordstoavoid[image][tag].tag.toLowerCase() ==
+                response.response.toLowerCase()) {
+              hint_ok = false;
+              MG_GAME_GUESSWHAT.error($("#template-error-hint-word-to-avoid").tmpl());
+              MG_GAME_GUESSWHAT.busy = false;
+              break;
             }
-          });
+          }
+
+          if (!hint_ok) 
+            break;
         }
+      }
+                
+      if (current_turn.hints.length) {
+        for (h_index in current_turn.hints) {
+          if (current_turn.hints[h_index].toLowerCase() ==
+              response.response.toLowerCase()) {
+            hint_ok = false;
+            MG_GAME_GUESSWHAT.error($("#template-error-hint-given-twice").tmpl());
+            MG_GAME_GUESSWHAT.busy = false;
+          }
+        }
+      }
+               
+      if (hint_ok) {
+        MG_AUDIO.play("hint");
+                  
+        $('<span>').text(response.response).appendTo($("#game .describe .hints"));
+        $("#game .describe .hints:hidden").toggle();
+        MG_GAME_API.postMessage( {code:'hint','hint': response.response});
+                
+        current_turn.hints.push(response.response);
+        $("#partner-waiting").hide();
+        
+        MG_GAME_API.curtain.show();
+                  
+        $("#info-modal").html("").hide();
+        $("#template-info-modal-waiting-for-guess").tmpl({
+          game_partner_name: MG_GAME_API.game.game_partner_name,
+          game_base_url: MG_GAME_API.game.game_base_url,
+          arcade_url: MG_GAME_API.game.arcade_url
+        }).appendTo($("#info-modal"));
+
+        $("#info-modal:hidden").fadeIn(500, function () {
+          MG_GAME_API.postMessage('waiting');
+        });
+      }
+
+     });
+
       return false;      
     },
 
