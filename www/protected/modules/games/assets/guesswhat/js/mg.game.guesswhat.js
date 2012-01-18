@@ -101,7 +101,7 @@ MG_GAME_GUESSWHAT = function ($) {
                       
                     case "waiting":
                       $("#partner-waiting").html("");
-                      $("#template-wating-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+                      $("#template-waiting-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
                       $("#partner-waiting").fadeIn(2500);
                       break;
                     
@@ -111,7 +111,7 @@ MG_GAME_GUESSWHAT = function ($) {
                       MG_GAME_GUESSWHAT.busy = false;
                     
                       $("#partner-waiting").html("");
-                      $("#template-wating-for-hint").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+                      $("#template-waiting-for-hint").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
                       $("#partner-waiting").fadeIn(500);
                       break;
                     
@@ -817,7 +817,7 @@ MG_GAME_GUESSWHAT = function ($) {
           }
           MG_GAME_API.curtain.hide();
           $("#partner-waiting").html("");
-          $("#template-wrong-guess-wating-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+          $("#template-wrong-guess-waiting-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
           $("#partner-waiting").fadeIn(500);
         } else {
           if (secret_image.image_id == guessedImageID) { // the player has found the right image
