@@ -494,18 +494,23 @@ MG_GAME_GUESSWHAT = function ($) {
     },
     
     onSendHint : function () {
-      if (!MG_GAME_GUESSWHAT.busy) {
-        var tags = $.trim(MG_GAME_GUESSWHAT.wordField.val());
-        MG_GAME_GUESSWHAT.wordField.val("");
-        if (tags == "") {
-          // val filtered for all white spaces (trim)
-          MG_GAME_GUESSWHAT.error("<h1>Ooops</h1><p>Please enter a word</p>");
-        } else {
-          MG_GAME_GUESSWHAT.busy = true;
-          MG_GAME_API.curtain.show();
-          MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
+      if (MG_GAME_GUESSWHAT.busy) {
+        return false;
+      }
+
+      var tags = $.trim(MG_GAME_GUESSWHAT.wordField.val());
+      MG_GAME_GUESSWHAT.wordField.val("");
+      if (tags == "") {
+        // val filtered for all white spaces (trim)
+        MG_GAME_GUESSWHAT.error("<h1>Ooops</h1><p>Please enter a word</p>");
+      } else {
+        MG_GAME_GUESSWHAT.busy = true;
+        MG_GAME_API.curtain.show();
+        MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
             if (MG_API.checkResponse(response)) { 
-              if (response.response == "") { // the api call returns an empty string if the first tag was a stop word
+              // The api call returns an empty string if the first
+              // tag was a stop word.
+              if (response.response == "") {
                  MG_GAME_GUESSWHAT.error($("#template-error-hint-stop-word").tmpl());
                  MG_GAME_GUESSWHAT.busy = false;
               } else {
@@ -563,8 +568,7 @@ MG_GAME_GUESSWHAT = function ($) {
             }
           });
         }
-      }
-      return false;
+      return false;      
     },
 
     // Are any more hints are allowed to be given?
