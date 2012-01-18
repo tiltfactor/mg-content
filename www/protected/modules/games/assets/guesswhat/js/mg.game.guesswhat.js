@@ -442,12 +442,12 @@ MG_GAME_GUESSWHAT = function ($) {
             current_turn : MG_GAME_GUESSWHAT.turn,
             guess: 0,
             guesses : MG_GAME_GUESSWHAT.game.number_guesses,
-            //num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses,
-            //num_hints_left : MG_GAME_GUESSWHAT.game.number_hints
-            max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
-            num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
-            max_hints : MG_GAME_GUESSWHAT.game.number_hints,
-            num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
+            num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses,
+            num_hints_left : MG_GAME_GUESSWHAT.game.number_hints
+            //max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
+            //num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
+            //max_hints : MG_GAME_GUESSWHAT.game.number_hints,
+            //num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
           };
           
           // find out in what mode we are this can't be only done for the first turn on the server 
@@ -539,8 +539,8 @@ MG_GAME_GUESSWHAT = function ($) {
         // disappearance.
         $("#requestHintContainer").html('');
         $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
-        $("#sendHintFormContainer").html('');
-        $("#template-send-hint-form-inactive").tmpl().appendTo($("#sendHintFormContainer"));
+        //$("#sendHintFormContainer").html('');
+        //$("#template-send-hint-form-inactive").tmpl().appendTo($("#sendHintFormContainer"));
       }
     },
     
@@ -839,7 +839,7 @@ MG_GAME_GUESSWHAT = function ($) {
               // hint' mode if there are more hints for
               // us. Otherwise, we should just stay in guessing
               // mode.
-              if(MG_GAME_GUESSWHAT.areHintsAllowedLeft) {
+                if(MG_GAME_GUESSWHAT.areHintsAllowedLeft) {
                 MG_GAME_API.curtain.show();
                 $("#info-modal").html("");
                 $("#template-info-modal-wrong-guess-waiting-for-hint").tmpl({
@@ -853,8 +853,8 @@ MG_GAME_GUESSWHAT = function ($) {
                 // curtain. We should only make a note in the
                 // #info-modal box that the user needs to keep on
                 // guessing.
-                $("#info-modal").html("Make another guess!");
-                $("#info-modal").show();
+                $("#partner-waiting").html("Make another guess!");
+                $("#partner-waiting").show();
               }
             }   
           }
@@ -898,17 +898,33 @@ MG_GAME_GUESSWHAT = function ($) {
           MG_GAME_GUESSWHAT.onsubmitTurn();
         }
       } else {
-        $("#info-modal").html("").hide();
-        $("#template-info-modal-waiting-for-hint").tmpl({
-          game_partner_name: MG_GAME_API.game.game_partner_name,
-          game_base_url: MG_GAME_API.game.game_base_url,
-          arcade_url: MG_GAME_API.game.arcade_url
-        }).appendTo($("#info-modal"));
-        $("#info-modal:hidden").fadeIn(500);
-        MG_GAME_API.postMessage('hintrequest');
+        if(MG_GAME_GUESSWHAT.areHintsAllowedLeft) {
+          $("#info-modal").html("").hide();
+          $("#template-info-modal-waiting-for-hint").tmpl({
+            game_partner_name: MG_GAME_API.game.game_partner_name,
+            game_base_url: MG_GAME_API.game.game_base_url,
+            arcade_url: MG_GAME_API.game.arcade_url
+          }).appendTo($("#info-modal"));
+          $("#info-modal:hidden").fadeIn(500);
+          MG_GAME_API.postMessage('hintrequest');
 
-        // Prepare for the next hint.
-        MG_GAME_GUESSWHAT.prepareForNextHint();
+          // Prepare for the next hint.
+          MG_GAME_GUESSWHAT.prepareForNextHint();
+        } else {
+          // If there are no more hints, we need to lift the curtain
+          // and prod the player to make another guess.
+          MG_GAME_API.curtain.hide();
+
+          $("#partner-waiting").html("Make another guess!");
+          $("#partner-waiting").show();
+
+          // Question: Do we need to make sure that the other player
+          // (the "hint-giver") is getting updates about the # of
+          // guesses left, etc? I'd assume that such information is
+          // getting propagated earlier, when this player (the
+          // "picker") initially chooses an image, but we might need
+          // to check.
+        }
       }
     },
     
