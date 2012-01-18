@@ -507,7 +507,9 @@ MG_GAME_GUESSWHAT = function ($) {
         MG_GAME_GUESSWHAT.busy = true;
         MG_GAME_API.curtain.show();
         MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
-            if (MG_API.checkResponse(response)) { 
+        var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+
+        if (MG_API.checkResponse(response)) { 
               // The api call returns an empty string if the first
               // tag was a stop word.
               if (response.response == "") {
@@ -515,10 +517,10 @@ MG_GAME_GUESSWHAT = function ($) {
                  MG_GAME_GUESSWHAT.busy = false;
               } else {
                 hint_ok = true;
-                if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].wordstoavoid) {
-                  for (image in MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].wordstoavoid) {
-                    for (tag in MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].wordstoavoid[image]) {
-                      if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].wordstoavoid[image][tag].tag.toLowerCase() == response.response.toLowerCase()) {
+                if (current_turn.wordstoavoid) {
+                  for (image in current_turn.wordstoavoid) {
+                    for (tag in current_turn.wordstoavoid[image]) {
+                      if (current_turn.wordstoavoid[image][tag].tag.toLowerCase() == response.response.toLowerCase()) {
                         hint_ok = false;
                         MG_GAME_GUESSWHAT.error($("#template-error-hint-word-to-avoid").tmpl());
                         MG_GAME_GUESSWHAT.busy = false;
@@ -530,9 +532,9 @@ MG_GAME_GUESSWHAT = function ($) {
                   }
                 }
                 
-                if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints.length) {
-                  for (h_index in MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints) {
-                    if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints[h_index].toLowerCase() == response.response.toLowerCase()) {
+                if (current_turn.hints.length) {
+                  for (h_index in current_turn.hints) {
+                    if (current_turn.hints[h_index].toLowerCase() == response.response.toLowerCase()) {
                       hint_ok = false;
                       MG_GAME_GUESSWHAT.error($("#template-error-hint-given-twice").tmpl());
                       MG_GAME_GUESSWHAT.busy = false;
