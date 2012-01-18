@@ -448,10 +448,6 @@ MG_GAME_GUESSWHAT = function ($) {
             guesses : MG_GAME_GUESSWHAT.game.number_guesses,
             num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses,
             num_hints_left : MG_GAME_GUESSWHAT.game.number_hints
-            //max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
-            //num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
-            //max_hints : MG_GAME_GUESSWHAT.game.number_hints,
-            //num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
           };
           
           // find out in what mode we are this can't be only done for the first turn on the server 
@@ -548,6 +544,10 @@ MG_GAME_GUESSWHAT = function ($) {
         $("#sendHintFormContainer").hide();
         $("#hintFormMessage").html('');
         $("#template-hint-form-inactive").tmpl().appendTo($("#hintFormMessage"));     }
+
+      // Update the score.
+      MG_GAME_GUESSWHAT.updateScore();
+
     },
     
     onRequestHint : function () {
@@ -613,7 +613,7 @@ MG_GAME_GUESSWHAT = function ($) {
           }
         }
       }
-               
+
       if (hint_ok) {
         MG_AUDIO.play("hint");
                   
