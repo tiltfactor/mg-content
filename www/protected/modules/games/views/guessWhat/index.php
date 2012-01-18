@@ -26,6 +26,7 @@
             <a href="#" id="sendHint">SEND HINT</a>
           </form>
         </div>
+        <div id="hintFormMessage"></div>
       </div>
       <div id="guesses"></div>
     </div>
@@ -51,11 +52,13 @@
   <h3>Select an image or ask for another <a href="#" id="requestHint">HINT</a></h3>
 </script>
 <script id="template-request-hint-inactive" type="text/x-jquery-tmpl">
-  <h3>Select an image (you can not ask for further additional hints)</h3>
+  <h3>Select an image (you may not ask for further additional hints)</h3>
 </script>
 
-<script id="template-send-hint-form-inactive" type="text/x-jquery-tmpl">
-  <h3>Please wait for the other player (you can not give further hints)</h3>
+<script id="template-hint-form-active" type="text/x-jquery-tmpl">
+</script>
+<script id="template-hint-form-inactive" type="text/x-jquery-tmpl">
+  <h3>Please wait for the other player (you may not give further hints)</h3>
 </script>
 
 <script id="template-describe-image" type="text/x-jquery-tmpl">
@@ -137,7 +140,7 @@
 <script id="template-info-modal-wait-for-partner-to-submit" type="text/x-jquery-tmpl">
   Waiting for ${game_partner_name} to submit turn. <a href="${arcade_url}">Abort</a> game.
 </script>
-<script id="template-wating-for-hint" type="text/x-jquery-tmpl">
+<script id="template-waiting-for-hint" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> waits for you to give a hint.
 </script>
 <script id="template-waiting-for-guess" type="text/x-jquery-tmpl">

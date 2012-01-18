@@ -189,7 +189,13 @@ MG_GAME_GUESSWHAT = function ($) {
     
     renderDescribeTurn : function (response, score_info, turn_info, licence_info, more_info, words_to_avoid) {
       $("#stage").hide();
-      
+
+      if (MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
+        $("#sendHintFormContainer").show();
+        $("#hintFormMessage").html('');
+        $("#template-hint-form-active").tmpl().appendTo($("#hintFormMessage"));
+      }
+
       $("#scores").html(""); 
       $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
       if (!MG_GAME_GUESSWHAT.game.user_authenticated) {
@@ -537,9 +543,11 @@ MG_GAME_GUESSWHAT = function ($) {
         // disappearance.
         $("#requestHintContainer").html('');
         $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
-        $("#sendHintFormContainer").html('');
-        $("#template-send-hint-form-inactive").tmpl().appendTo($("#sendHintFormContainer"));
-      }
+        // XXX - Why can't we just create/destroy these elements? Why
+        // does showing/hiding them give different behavior?
+        $("#sendHintFormContainer").hide();
+        $("#hintFormMessage").html('');
+        $("#template-hint-form-inactive").tmpl().appendTo($("#hintFormMessage"));     }
     },
     
     onRequestHint : function () {
