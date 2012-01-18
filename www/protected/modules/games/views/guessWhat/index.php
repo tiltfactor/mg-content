@@ -144,6 +144,9 @@
   <b>${game_partner_name}</b> waits for you to make a guess.
 </script>
 <script id="template-wrong-guess-waiting-for-guess" type="text/x-jquery-tmpl">
+  <b>${game_partner_name}</b> made a wrong guess. 
+</script>
+<script id="template-wrong-guess-waiting-for-hint" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> made a wrong guess. Please give another hint. 
 </script>
 <script id="template-error-hint-stop-word" type="text/x-jquery-tmpl">

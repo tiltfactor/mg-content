@@ -539,8 +539,8 @@ MG_GAME_GUESSWHAT = function ($) {
         // disappearance.
         $("#requestHintContainer").html('');
         $("#template-request-hint-inactive").tmpl().appendTo($("#requestHintContainer"));
-        //$("#sendHintFormContainer").html('');
-        //$("#template-send-hint-form-inactive").tmpl().appendTo($("#sendHintFormContainer"));
+        $("#sendHintFormContainer").html('');
+        $("#template-send-hint-form-inactive").tmpl().appendTo($("#sendHintFormContainer"));
       }
     },
     
@@ -809,7 +809,9 @@ MG_GAME_GUESSWHAT = function ($) {
         } else {
             // If the partner has chosen an incorrect image...
             MG_AUDIO.play("fail");
-            if (current_turn.images && current_turn.images['guess'] && current_turn.images['guess'].length) {
+            if (current_turn.images &&
+                current_turn.images['guess'] &&
+                current_turn.images['guess'].length) {
               for (i_image in current_turn.images['guess']) {
                 var image = current_turn.images['guess'][i_image];
                 if (image.image_id == guessedImageID) {
@@ -829,8 +831,15 @@ MG_GAME_GUESSWHAT = function ($) {
         }
 
         MG_GAME_API.curtain.hide();
+
+        var waiting_message = MG_GAME_GUESSWHAT.areHintsAllowedLeft() ?
+          // If we can give hints, then we need to set up to give a
+          // new hint, otherwise we need to not mention giving hints.
+          waiting_message = "#template-wrong-guess-waiting-for-hint" :
+          waiting_message = "#template-wrong-guess-waiting-for-guess";
+
         $("#partner-waiting").html("");
-        $("#template-wrong-guess-waiting-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+        $(waiting_message).tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
         $("#partner-waiting").fadeIn(500);
       } else {
         // If this player has found the correct image...
