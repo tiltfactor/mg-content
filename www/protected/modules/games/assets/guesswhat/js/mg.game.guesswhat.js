@@ -746,13 +746,19 @@ MG_GAME_GUESSWHAT = function ($) {
       var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
       var secret_image = current_turn.images.describe;
       
-      MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.image_id
-      if (current_turn.guesses.length >= MG_GAME_GUESSWHAT.game.number_guesses) {
-        if (secret_image.image_id == guessedImageID) { // correct guess at last guess
+      current_turn.images.describe.image_id
+
+      // If we're on our last guess...
+      if (current_turn.guesses.length >=
+          MG_GAME_GUESSWHAT.game.number_guesses) {
+        // If we got a correct guess...
+        if (secret_image.image_id == guessedImageID) {
           MG_AUDIO.play("success");
           MG_GAME_GUESSWHAT.onsubmitTurn();
-          
-        } else { // failed to guess within the allowed number of guesses show correct solution in popup 
+        } else {
+          // If we failed to pick the correct image within the allowed
+          // number of guesses, we will show the correct solution in a
+          // popup.
           MG_AUDIO.play("fail");
           if (current_turn.mode == "describe") {
             licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, secret_image);
@@ -787,15 +793,21 @@ MG_GAME_GUESSWHAT = function ($) {
           }
           
         }
-      } else {
-        MG_GAME_GUESSWHAT.updateScore();
+        return false;
+      }
+
+      // If we're on a guess PRIOR to the last guess...
+
+      // First, update the score.
+      MG_GAME_GUESSWHAT.updateScore();
         
-        if (current_turn.mode == "describe") {
-          if (secret_image.image_id == guessedImageID) { // the partner has found the right image
-            MG_AUDIO.play("success");
-            MG_GAME_GUESSWHAT.onsubmitTurn();
-             
-          } else {
+      if (current_turn.mode == "describe") {
+        // If the partner has found the correct image...
+        if (secret_image.image_id == guessedImageID) {
+          MG_AUDIO.play("success");
+          MG_GAME_GUESSWHAT.onsubmitTurn();
+        } else {
+            // If the partner has chosen an incorrect image...
             MG_AUDIO.play("fail");
             if (current_turn.images && current_turn.images['guess'] && current_turn.images['guess'].length) {
               for (i_image in current_turn.images['guess']) {
@@ -814,17 +826,22 @@ MG_GAME_GUESSWHAT = function ($) {
                 }
               }
             }
-          }
-          MG_GAME_API.curtain.hide();
-          $("#partner-waiting").html("");
-          $("#template-wrong-guess-waiting-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
-          $("#partner-waiting").fadeIn(500);
+        }
+
+        MG_GAME_API.curtain.hide();
+        $("#partner-waiting").html("");
+        $("#template-wrong-guess-waiting-for-guess").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+        $("#partner-waiting").fadeIn(500);
+      } else {
+        // If this player has found the correct image...
+        if (secret_image.image_id == guessedImageID) {
+          MG_AUDIO.play("success");
+          MG_GAME_GUESSWHAT.onsubmitTurn();
         } else {
-          if (secret_image.image_id == guessedImageID) { // the player has found the right image
-            MG_AUDIO.play("success");
-            MG_GAME_GUESSWHAT.onsubmitTurn();
-          } else { // the player has clicked the wrong image
+            // If this player has chosen an incorrect image...
             MG_AUDIO.play("fail");
+            // Mark this image as incorrect by adding the "wrong"
+            // class to it.
             $('#guess-me-' + guessedImageID).unbind('click').click(function () {return false;}).parent().addClass("wrong");
             
             if (MG_GAME_GUESSWHAT.game.played_against_computer) {
@@ -839,7 +856,7 @@ MG_GAME_GUESSWHAT = function ($) {
               // hint' mode if there are more hints for
               // us. Otherwise, we should just stay in guessing
               // mode.
-                if(MG_GAME_GUESSWHAT.areHintsAllowedLeft) {
+              if(MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
                 MG_GAME_API.curtain.show();
                 $("#info-modal").html("");
                 $("#template-info-modal-wrong-guess-waiting-for-hint").tmpl({
@@ -851,15 +868,18 @@ MG_GAME_GUESSWHAT = function ($) {
               } else {
                 // If there are no hints left, then we do not use the
                 // curtain. We should only make a note in the
-                // #info-modal box that the user needs to keep on
+                // #partner-waiting box that the user needs to keep on
                 // guessing.
-                $("#partner-waiting").html("Make another guess!");
+                //
+                // We also need to hide the curtain!
+                MG_GAME_API.curtain.hide();
+
+                $("#partner-waiting").html("Please make another guess!");
                 $("#partner-waiting").show();
               }
             }   
           }
         }
-      }
     },
     
     sendHintRequest : function() {
@@ -898,7 +918,7 @@ MG_GAME_GUESSWHAT = function ($) {
           MG_GAME_GUESSWHAT.onsubmitTurn();
         }
       } else {
-        if(MG_GAME_GUESSWHAT.areHintsAllowedLeft) {
+        if(MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
           $("#info-modal").html("").hide();
           $("#template-info-modal-waiting-for-hint").tmpl({
             game_partner_name: MG_GAME_API.game.game_partner_name,
