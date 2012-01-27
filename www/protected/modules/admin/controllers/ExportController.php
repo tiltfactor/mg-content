@@ -216,7 +216,7 @@ class ExportController extends GxController {
                 ->join('{{image}} i', 'i.id=tu.image_id')
                 ->join('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
                 ->join('{{session}} s', 's.id=gs.session_id')
-                ->join('{{user}} u', 'u.id=s.user_id');
+                ->leftJoin('{{user}} u', 'u.id=s.user_id');
 
     if ($model->tags) {
       $parsed_tags = MGTags::parseTags($model->tags);
