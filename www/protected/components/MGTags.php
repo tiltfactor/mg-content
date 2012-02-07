@@ -4,6 +4,11 @@
  * 
  * Some of the code has been taken from http://code.google.com/p/yiiext/ many thanks to Alexander Makarov 
  * 
+ * @author Vincent Van Uffelen <novazembla@gmail.com>
+ * @link http://www.metadatagames.com/
+ * @copyright Copyright &copy; 2008-2012 Tiltfactor
+ * @license http://www.metadatagames.com/license/
+ * @package MG
  */
 
 class MGTags {
@@ -11,7 +16,7 @@ class MGTags {
   /**
    * This method gets the tags that have been used for the images identified by $images_ids.
    * Only tag uses with a weight >=1 will be regarded.
-   * 
+   * <pre>
    * It will return an array of arrays
    * 
    * array(
@@ -23,6 +28,7 @@ class MGTags {
    *  )
    *  ...
    * )
+   * </pre>
    * 
    * @param array $image_ids array of the image(s) which tags shall be retrieved
    * @param int $user_id if set only tag that have been used by the user will be shown
@@ -69,7 +75,7 @@ class MGTags {
   /**
    * This method gets the tags that have been used for the images identified by $images_ids.
    * Only tag uses with a weight >=1 will be regarded.
-   * 
+   * <pre>
    * It will return an array of arrays
    * 
    * array(
@@ -81,6 +87,7 @@ class MGTags {
    *  )
    *  ...
    * )
+   * </pre>
    * 
    * @param array $image_ids array of the image(s) which tags shall be retrieved
    * @param int $user_id if set only tag that have been used by the user will be shown
@@ -92,7 +99,7 @@ class MGTags {
   
   /**
    * This method gets the tags with a certain compound weight that have been used for the images identified by $images_ids. 
-   * 
+   * <pre>
    * THE used SQL is: 
    *  
    * SELECT tu.image_id, tu.tag_id, t.tag, SUM(tu.weight) as total
@@ -115,6 +122,7 @@ class MGTags {
    *  )
    *  ...
    * )
+   * </pre>
    * 
    * @param array $image_ids array of the image(s) which tags shall be retrieved
    * @param int $weight return only tags that have a compound weight equal or great than this value
@@ -164,6 +172,10 @@ class MGTags {
   }
   
   /** 
+   * Saves new tags and tag uses for one or more image(s) 
+   * 
+   * <pre>
+   * Please use the follwing structure for the $tags array:
    * 
    * $tags = array(
    *   "image_id" = array(
@@ -179,6 +191,7 @@ class MGTags {
    *   )
    *   ...
    * )
+   * </pre>
    * 
    * @param array $tags All needed information to save tag uses in the system
    * @param int $game_submission_id The ID of the game submission_id in the database
@@ -263,6 +276,7 @@ class MGTags {
   
   /**
    * Get tags array from comma separated tags string.
+   * 
    * @access private
    * @param string|array $tags
    * @return array
@@ -283,6 +297,7 @@ class MGTags {
   
   /**
    * Used as a callback to trim tags.
+   * 
    * @access private
    * @param string $item
    * @param string $key

@@ -1,7 +1,8 @@
 <?php
 
 /**
- * xxx
+ * Implementation of a export plugin. Exports the game statistics in a tab 
+ * separated CSV file.
  */
 Yii::import('ext.CSVExport.CSVExport');
 

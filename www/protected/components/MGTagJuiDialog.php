@@ -1,8 +1,12 @@
 <?php
 /**
- * CJuiDialog class file.
+ * MGTagJuiDialog extends CJuiWidget class file.
  *
  * @author Vincent Van Uffelen based on CJuiDialog from Sebastian Thierer <sebathi@gmail.com>
+ * @link http://www.metadatagames.com/
+ * @copyright Copyright &copy; 2008-2012 Tiltfactor
+ * @license http://www.metadatagames.com/license/
+ * @package MG
  */
 
 Yii::import('zii.widgets.jui.CJuiWidget');

@@ -6,7 +6,8 @@
  * 
  * @author Vincent Van Uffelen <novazembla@gmail.com>
  * @link http://tiltfactor.org
- * @license AGPL 3.0 
+ * @license AGPL 3.0
+ * @package MG
  */
 
 /**

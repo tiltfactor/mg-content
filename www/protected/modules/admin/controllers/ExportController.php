@@ -30,7 +30,7 @@ class ExportController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('admin', 'exported', 'queueprocess', 'remove'),
-  				'roles'=>array('editor', 'xxx'),
+  				'roles'=>array('editor', 'dbmanager', 'admin'),
   				),
   			array('deny', 
   				'users'=>array('*'),

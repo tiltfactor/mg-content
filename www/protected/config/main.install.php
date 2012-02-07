@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * This is the config file that will be configured by the installer (by replacing 
+ * tokens such as %%user%%) and then used to replace main.php 
+ */
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

@@ -52,7 +52,7 @@
     <?php echo $model->modified; ?>
     <?php endif; ?>
     </div><!-- row -->
-<?php if (Yii::app()->user->checkAccess('dbmanager')) : // xxx check confirm role ?>    
+<?php if (Yii::app()->user->checkAccess('dbmanager')) : ?>    
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
 		<div class="row clearfix">
 		<?php echo $form->checkBoxList($model, 'games', GxHtml::encodeEx(GxHtml::listDataEx(Game::model()->findAllAttributes(null, true)), false, true), 

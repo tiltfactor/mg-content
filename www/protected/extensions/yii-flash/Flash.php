@@ -1,6 +1,7 @@
 <?php
 /**
- * Flash widget class file.
+ * Flash widget class file. Renders flash messages above the content
+ * 
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License

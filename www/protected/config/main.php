@@ -1,5 +1,10 @@
 <?php
-
+/*
+ * This is the initial config file that strips Yii & MG down to the bare essentials
+ * ensuring that the system allows to redirect to install.php. 
+ * 
+ * The installer will copy main.install.php over this file
+ */
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

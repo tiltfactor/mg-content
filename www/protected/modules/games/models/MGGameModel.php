@@ -1,7 +1,8 @@
 <?php
 
 /**
- * xxx
+ * The generic model used to be extended by any game models. It provides standard
+ * attributes that should be available for all games.
  */
 class MGGameModel extends Game {
   public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Game database entry

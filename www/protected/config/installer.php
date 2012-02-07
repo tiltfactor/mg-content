@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * This is the installers config file stripped down to the Yii & MG's bare essentials
+ * ensuring that the installer can run. 
+ */
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

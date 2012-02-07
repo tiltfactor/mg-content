@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * The controler used for the plugin management. It allows to list all 
+ * registered plugins and register new plugins by scanning the file system 
+ * for new plugins in the modules 'modules' folder. It also renders all needed
+ * interfaces to allow to update the plugins settings.   
+ */
 class DefaultController extends GxController
 {
 	public $defaultAction = 'admin';

@@ -1,10 +1,24 @@
 <?php
 /**
- * This class is a collection of helper methods for various tasks
+ * This class holds serveral static helper methods facilitating tasks throughout MG
  * 
+ * @author Vincent Van Uffelen <novazembla@gmail.com>
+ * @link http://tiltfactor.org
+ * @license AGPL 3.0
+ * @package MG
  */
 
+
 class MGHelper {
+  
+  /**
+   * This methods stores and returns lists of strings in 
+   * associates arrays used in drop down/select boxes and/or radio lists. 
+   * 
+   * @param string $type The name of the list to retrieve
+   * @param string $code One value of the list identified by $type
+   * @return mixed list of values in associative array or single value 
+   */
   public static function itemAlias($type,$code=NULL) {
     $_items = array(
       'active' => array(
@@ -45,7 +59,8 @@ class MGHelper {
    * This is the shortcut to Yii::app()->request->baseUrl
    * If the parameter is given, it will be returned and prefixed with the app baseUrl.
    *
-   * @param $url if set the url to append 
+   * @param $url if set the url to append
+   * @return string The url
    */
   public static function bu($url=null) {
     static $baseUrl;
@@ -59,6 +74,7 @@ class MGHelper {
    * If an header is specified it's value or null will be returned
    * 
    * @param mixed $header The header which value should be retrieved. Omit the leading HTTP_X_ 
+   * @return mixed array (all HTTP_X_ headers) or null 
    */
   public static function HTTPXHeader($header="") {
     static $headers = array();
@@ -128,7 +144,14 @@ class MGHelper {
       return $new_name;
     }
   }
-
+  
+  /**
+   * Creates a shared secret used in the MG_API and a new entry in the session table.
+   * 
+   * @param int $user_id The id of the user in the user table
+   * @param sting $user_name The name of the user 
+   * @param boolean $refresh If true a the system makes sure that a new session will be created for the user. Defaults to false. 
+   */
   public static function createSharedSecretAndSession($user_id, $user_name, $refresh=false) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     if (!isset(Yii::app()->session[$api_id .'_SHARED_SECRET'])) {

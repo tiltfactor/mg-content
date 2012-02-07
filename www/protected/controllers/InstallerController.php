@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Class InstallerController. Holds the actions needed by the installer. 
+ * 
+ * @package MG
+ */
 class InstallerController extends Controller
 {
   public $layout='//layouts/installer';
@@ -34,6 +38,9 @@ class InstallerController extends Controller
     $this->render('index');
   }
   
+  /**
+   * Implements the requirements action. Here all system requirement will be checked. 
+   */
   public function actionRequirements() {
     $requirements=array(
       array(
@@ -166,6 +173,10 @@ class InstallerController extends Controller
     ));
   } 
   
+  /**
+   * Queries the needed database settings, checks them, and if they are valid configures
+   * the main.php config file.
+   */
   public function actionDatabase() {
     $error = "";
     $model=new DatabaseForm;
@@ -267,6 +278,9 @@ class InstallerController extends Controller
     $this->render('configuration',array('model'=>$model));
   }
   
+  /**
+   * This action renders the todo screen
+   */
   public function actionTodo() {
     $this->render('todo');
   }
@@ -287,6 +301,9 @@ class InstallerController extends Controller
     }
   }
   
+  /**
+   * Executes the Yii migration tool via the browser
+   */
   private function runMigrationTool() {
     $commandPath = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . 'commands';
     $runner = new CConsoleCommandRunner();

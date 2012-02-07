@@ -7,6 +7,7 @@
  *
  * @author Vincent Van Uffelen <novazambla@gmail.com>
  * @version 0.1
+ * @package MG
  * 
  */
 class GridBatchAction extends CWidget {
@@ -45,6 +46,9 @@ class GridBatchAction extends CWidget {
       $this->textNoAction = Yii::t('ui','Please select an action you want to execute!');
   }
   
+  /**
+   * The run function of the widget
+   */
   public function run() {
     if(count($this->items)) {
       echo CHtml::openTag('div',$this->htmlOptions)."\n";

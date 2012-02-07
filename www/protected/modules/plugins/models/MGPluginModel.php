@@ -1,7 +1,7 @@
 <?php
 
 /**
- * xxx
+ * The extension of the plugin module as base for any mg plugin module class.
  */
 class MGPluginModel extends Plugin {
   public $active = 0; //active will never be saved in the games FBVStorage settings it is just a handler for the Game database entry

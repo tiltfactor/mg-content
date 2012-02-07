@@ -1,7 +1,8 @@
 <?php
 
 /**
- * xxx
+ * Implentation of the an export plugin. It allows to export the tags, 
+ * tag uses for images in a CSV file (tab separated)
  */
 Yii::import('ext.CSVExport.CSVExport');
 

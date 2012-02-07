@@ -4,6 +4,7 @@
  * 
  * Please download and install the latest version of pcl zip from the server
  * 
+ * <pre>
  * Add definition to CWebApplication config file (main.php)
  * 'components'=>array(
  *    ...
@@ -12,6 +13,7 @@
  *   ),
  *  ...
  *  ),
+ * </pre>
  * 
  * Usage in your controller:
  * $pclzip = Yii::app()->pclzip;

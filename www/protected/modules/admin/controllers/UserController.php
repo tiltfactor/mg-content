@@ -293,6 +293,6 @@ class UserController extends Controller
     TagUse::model()->banUser($user_id);
     UserToGame::model()->banUser($user_id);
     
-    //xxx how to deal with the problem that the banned user still might be logged in?
+    //TODO: how to deal with the problem that the banned user still might be logged in?
   }
 }

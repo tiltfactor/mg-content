@@ -40,10 +40,6 @@
   </div>
   <div id="partner-waiting-modal"></div>
 </div>
-<h3 id="debug">SESSION ID: <?php 
-    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-    echo (int)Yii::app()->session[$api_id .'_SESSION_ID'];
-    ?><span></span></h3>
 <script id="template-scores" type="text/x-jquery-tmpl">
   <h2>Welcome ${user_name}</h2>
   <div class="game_partner">You're playing with 

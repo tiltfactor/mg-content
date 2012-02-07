@@ -1,7 +1,12 @@
 <?php
-
 /**
- * This is the base implementation of a mg plugin 
+ * This is the base implementation of a mg plugin. Each plugin type has to extend this class. 
+ * It holds some small methods used by several plugin types. 
+ * 
+ * @author Vincent Van Uffelen <novazembla@gmail.com>
+ * @link http://tiltfactor.org
+ * @license AGPL 3.0
+ * @package MG
  */
 
 class MGPlugin extends CComponent {

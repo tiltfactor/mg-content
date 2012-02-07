@@ -523,7 +523,7 @@ class GamesController extends ApiController {
   }
   
   /**
-   * Processes the GET request of the play method call xxx
+   * Processes the GET request of the play method call
    * 
    * GET Request expect only one parameter (however like all requests it expects shared secret and X_REQUESTED_WITH header) 
    * - gid = the unique id of the game
@@ -567,13 +567,13 @@ class GamesController extends ApiController {
    *    tags : { //information of the previous turn's tags 
    *      "user" : [{
    *        "tag" : 'tag1',
-   *        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs) // xxx define cleanup rules
+   *        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs)
    *        "score" : 1, // score of this tag
    *        "weight" : 1 
    *      },
    *      ...
    *      ],
-   *      "partner" : [{ xxx implement define
+   *      "partner" : [{ TODO: implement define
    *        "tag" : 'tag1',
    *        "tag" : 'tag1',
    *      },
@@ -629,7 +629,7 @@ class GamesController extends ApiController {
   }
   
   /**
-   * Processes the GET request of the play method call xxx this should be the two player version
+   * Processes the GET request of a two player game play method call
    * 
    * GET Request expect only one parameter (however like all requests it expects shared secret and X_REQUESTED_WITH header) 
    * - gid = the unique id of the game
@@ -673,13 +673,13 @@ class GamesController extends ApiController {
    *    tags : { //information of the previous turn's tags 
    *      "user" : [{
    *        "tag" : 'tag1',
-   *        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs) // xxx define cleanup rules
+   *        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs) 
    *        "score" : 1, // score of this tag
    *        "weight" : 1 
    *      },
    *      ...
    *      ],
-   *      "partner" : [{ xxx implement define
+   *      "partner" : [{ TODO: implement define
    *        "tag" : 'tag1',
    *        "tag" : 'tag1',
    *      },
@@ -729,7 +729,7 @@ class GamesController extends ApiController {
   }
   
   /**
-   * This method generates xxx
+   * This method generates a new entry of a played game in the system. 
    */
   private function _createPlayedGame(&$game, &$game_model, &$game_engine, $session_id_1=null, $session_id_2=null) {
     $played_game = new PlayedGame;
@@ -759,7 +759,7 @@ class GamesController extends ApiController {
   }
   
   /**
-   * Processes the POST request of the play method call xxx
+   * Processes the POST request of the play method call
    * 
    * @param object $game the game object
    * @param object $game_model the model representing the game in the database
@@ -825,7 +825,7 @@ class GamesController extends ApiController {
   }
   
   /**
-   * Processes the POST request of the play method call xxx
+   * Processes the POST request of the play method call of a two player game
    * 
    * @param object $game the game object
    * @param object $game_model the model representing the game in the database

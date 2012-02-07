@@ -5,13 +5,14 @@ Yii::import('zii.widgets.CMenu');
  * MGMenu class file.
  *
  * @author Vincent Van Uffelen <novazembla@gmail.com>
+ * @link http://www.metadatagames.com/
+ * @license http://www.metadatagames.com/license/
+ * @package MG
  */
 
 /**
  * MGMenu is a extension of CMenu. It is just overwriting the  isItemActive() method to cater for 
  * MG's needs
- *
- * 
  *
  * @author Vincent Van Uffelen <novazembla@gmail.com>
  */

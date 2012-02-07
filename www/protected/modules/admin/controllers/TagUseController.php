@@ -17,7 +17,7 @@ class TagUseController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('view', 'batch', 'update', 'weight', 'admin'),
-  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
+  				'roles'=>array('editor', 'dbmanager', 'admin'), 
   				),
   			array('deny', 
   				'users'=>array('*'),

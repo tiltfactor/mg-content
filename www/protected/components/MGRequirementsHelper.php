@@ -1,7 +1,26 @@
 <?php
+/**
+ * MGRequirementsHelper class file.
+ *
+ * @author Vincent Van Uffelen <novazembla@gmail.com>
+ * @link http://www.metadatagames.com/
+ * @license http://www.metadatagames.com/license/
+ * @package MG
+ */
+
+/**
+ * Collection of helper functions for hte installer
+ *
+ * @author Vincent Van Uffelen <novazembla@gmail.com>
+ */
 
 class MGRequirementsHelper {
   
+  /**
+   * Checks whether the gd library is 
+   * 
+   * @return boolean false 
+   */
   static function checkGDVersion() {
     $flag = true;
     if(extension_loaded('gd')) {
@@ -13,6 +32,12 @@ class MGRequirementsHelper {
     return $flag;
   }
   
+  /**
+   * Checks the write permissions for subfolders of the MG install
+   * 
+   * @param boolean If true the string of folder info will be retruned
+   * @return mixed boolean (false if not all needed folder are writeable) or string with check result for all the files
+   */
   static function checkFolderPermissions($listFolder) {
     $flag = true;
     $list = "<p>Path to application root: " . Yii::getPathOfAlias('webroot') . "<br/><br/><b>The following Folder and files in application root have to be writable:</b><br/>";
@@ -42,6 +67,12 @@ class MGRequirementsHelper {
     }
   }
   
+  /**
+   * Checks the availablity of several server vars. If they can't be read or are not set the installer cannot progress.
+   * 
+   * @param string $file the real path the $file
+   * @return string emtpy if no error. Error messages if given
+   */
   static function checkServerVar($file)
   {
     $vars=array('HTTP_HOST','SERVER_NAME','SERVER_PORT','SCRIPT_NAME','SCRIPT_FILENAME','PHP_SELF','HTTP_ACCEPT','HTTP_USER_AGENT');
@@ -54,10 +85,6 @@ class MGRequirementsHelper {
     if(!empty($missing))
       return Yii::t('yii','$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
     
-    /*
-    if(realpath($_SERVER["SCRIPT_FILENAME"]) !== realpath(__FILE__))
-      return Yii::t('yii','$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
-    */
     if(!isset($_SERVER["REQUEST_URI"]) && isset($_SERVER["QUERY_STRING"]))
       return Yii::t('yii','Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
   
@@ -67,6 +94,11 @@ class MGRequirementsHelper {
     return '';
   }
   
+  /**
+   * Checks if the GD library is installed
+   * 
+   * @return string empty if not error
+   */
   static function checkGD()
   {
     if(extension_loaded('gd'))
@@ -79,6 +111,11 @@ class MGRequirementsHelper {
     return Yii::t('yii','GD not installed');
   }
   
+  /**
+   * Checks the current Yii versions
+   * 
+   * @return string empty if not error
+   */
   static function getYiiVersion()
   {
     $coreFile=dirname(__FILE__).'/../framework/YiiBase.php';
@@ -91,7 +128,12 @@ class MGRequirementsHelper {
     }
     return '';
   }
-
+  
+  /**
+   * Check if Image Magick is installed
+   * 
+   * @return boolean true if the library is installed
+   */
   static function checkImageMagick() {
     return @is_file($path = @exec('which convert'));  
   }

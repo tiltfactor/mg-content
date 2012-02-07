@@ -350,8 +350,6 @@ MG_GAME_GUESSWHAT = function ($) {
           }
         }, 1000);
       } else if (response.status = 'ok') {
-        $('#debug span').html('<br/>GAME PARTNER NAME:' + MG_GAME_GUESSWHAT.game.game_partner_name + '<br/>PLAYED GAME ID:' + MG_GAME_GUESSWHAT.game.played_game_id); // xxx remove
-        
         MG_GAME_GUESSWHAT.wordField.val("");
         
         $("#info-modal").hide();

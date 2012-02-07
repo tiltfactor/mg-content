@@ -227,8 +227,6 @@ MG_GAME_ZENPOND = function ($) {
           }
         }, 1000);
       } else if (response.status = 'ok'){
-        $('#debug span').html('<br/>GAME PARTNER NAME:' + MG_GAME_ZENPOND.game.game_partner_name + '<br/>PLAYED GAME ID:' + MG_GAME_ZENPOND.game.played_game_id); // xxx remove
-        
         MG_GAME_ZENPOND.wordField.val("");
         
         $("#partner-waiting-modal").hide();

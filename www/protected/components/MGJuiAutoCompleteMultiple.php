@@ -1,11 +1,9 @@
 <?php
 /**
- * CJuiAutoComplete class file.
+ * Extension of the CJuiAutoComplete class file.
  *
- * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @author Sebastian Thierer <sebathi@gmail.com>, Vincent Van Uffelen <novazembla@gmail.com>
+ * @package MG
  */
 
 Yii::import('zii.widgets.jui.CJuiInputWidget');

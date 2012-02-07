@@ -17,7 +17,7 @@ class ImageSetController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
-  				'roles'=>array('editor', 'dbmanager', 'admin', 'xxx'), // ammend after creation
+  				'roles'=>array('editor', 'dbmanager', 'admin'), 
   				),
   			array('deny', 
   				'users'=>array('*'),

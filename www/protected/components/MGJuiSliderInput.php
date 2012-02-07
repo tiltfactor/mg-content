@@ -1,11 +1,12 @@
 <?php
 /**
- * MGJuiSliderInput class file.
+ * Extends CJuiSliderInput class file.  
+ *
  *
  * @author Vincent Van Uffelen <novazembla@gmail.com>
  * @link http://www.metadatagames.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.metadatagames.com/license/
+ * @package MG
  */
 
 Yii::import('zii.widgets.jui.CJuiSliderInput');
