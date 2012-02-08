@@ -30,11 +30,11 @@
   )); ?><!-- flashes -->
   <?php echo $content; ?>
   <div id="footer">
-    © <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
+    &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
     <div id="footerLogos">
-      <img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" />
-      <img src="<?php echo MGHelper::bu("/"); ?>images/NEH-Logo-Horizontal_252x62.jpg" />
-      <img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" height="88" width="88" />
+      <a href="http://www.dartmouth.edu" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" /></a>
+      <a href="http://www.neh.gov" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/NEH-Logo-Horizontal_252x62.jpg" /></a>
+      <a href="http://www.acls.org/" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" height="88" width="88" /></a>
     </div>
   </div><!-- footer -->
 
