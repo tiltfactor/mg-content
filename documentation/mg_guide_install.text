@@ -97,3 +97,11 @@ Finally, use the "Games" tool to activate and customize the games you want to us
 
 Your system setup is complete. Go to the Arcade and play!
 
+
+### Troubleshooting ###
+
+1) I've set up ZenTag, but I'm not scoring any points!
+
+Check to make sure that you have the right combination of plugins
+enabled. If you don't have any point-generating plugins enabled, then
+the players won't get any points!
