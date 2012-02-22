@@ -243,7 +243,9 @@ class Image extends BaseImage
   }
   
   /**
-   * lists all image set of the image as comma separated list of html links (linking to the imageSet/view page)
+   * Lists all image set of the image as comma separated list of html links (linking to the imageSet/view page)
+   * 
+   * @return string Partial html (list of links to image sets of the image)
    */
   public function listImageSets() {
     $out = array();
@@ -256,7 +258,7 @@ class Image extends BaseImage
   }
   
   /**
-   * updates the last_access time of each image identified by the ids in the passed array.
+   * Updates the last_access time of each image identified by the ids in the passed array.
    * 
    * @param array $image_ids array of integer - the ids of the images which last_access should be set to now
    */

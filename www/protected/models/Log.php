@@ -12,6 +12,11 @@ class Log extends BaseLog
     return Yii::t('app', 'Admin Log Entry|Admin Logs', $n);
   }
   
+  /**
+   * Provides the search CActiveDataProvider for the admin tools grid view
+   * 
+   * @return CActiveDataProvider
+   */
   public function search() {
     $criteria = new CDbCriteria;
 

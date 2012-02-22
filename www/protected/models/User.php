@@ -36,6 +36,11 @@ class User extends BaseUser
     );
   }
   
+  /**
+   * Create the data proviced for the CGridView
+   * 
+   * @return CActiveDataProvider The dataprovider for the CGridView
+   */
   public function search() {
     $criteria = new CDbCriteria;
 
@@ -99,7 +104,11 @@ class User extends BaseUser
   }
   
   /**
-   * checks if the currently logged in user tries to changer her own role and throws an validation error if so
+   * Implementation of a custom rule for the model. Checks if the currently logged 
+   * in user tries to changer her own role and throws an validation error if so.
+   * 
+   * @param array $attribute Not used
+   * @param array $param Not used
    */
   public function checkRoleAccess($attribute,$params) {
     if (!Yii::app()->authManager->isAssigned($this->role, Yii::app()->user->id) && Yii::app()->user->id == $this->id) 
@@ -168,6 +177,13 @@ class User extends BaseUser
     );
   }
   
+  
+  /** 
+   * Retrive the most used tags by this user
+   * 
+   * @param int $num_tags The number of top tags that should be retrieved. Default is 10
+   * @return string A list of linked tags or empty string
+   */
   public function getTopTags($num_tags=10) {
     $tags = Yii::app()->db->createCommand()
                   ->select('count(t.id) as counted, t.id, t.tag')
@@ -200,6 +216,14 @@ class User extends BaseUser
     );
   }
   
+  /**
+   * Retrieve string aliases/translations displayed to the user or list of values 
+   * for item codes stored in the sytem. 
+   * 
+   * @param string The item to be looked up
+   * @param $code The particular code that has to be resolved
+   * @param mixed string or array of code/string pairs or false if no element could be found 
+   */
   public static function itemAlias($type,$code=NULL) {
     $roles = array();
     foreach (Yii::app()->authManager->getRoles() as $role) {
@@ -234,7 +258,7 @@ class User extends BaseUser
   }
   
   /**
-   * lists user names that contain the passed parameter. It is mainly used for autocomplete
+   * Lists user names that contain the passed parameter. It is mainly used for autocomplete
    * widgets
    * 
    * @param string $name the begin of the user name that should be found
@@ -250,6 +274,12 @@ class User extends BaseUser
                   ->queryColumn();
   }
   
+  /**
+   * Provide an CArrayDataProvider to allow to browse all users that tagged an image.
+   * 
+   * @param int $image_id The id of the image for which the tagging users should be listed
+   * @return CArrayDataProvider The data provider to display the users
+   */
   public function searchImageUsers($image_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('count(u.id) as counted, count(DISTINCT tu.tag_id) as tag_counted, u.id, u.username')
@@ -274,7 +304,13 @@ class User extends BaseUser
       ),
     ));
   }
-
+  
+  /**
+   * Provide an CArrayDataProvider to allow to browse all users that used a particula tag.
+   * 
+   * @param int $tag_id The id of the tag for which the tagging users should be listed
+   * @return CArrayDataProvider The data provider to display the users
+   */
   public function searchTagUsers($tag_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('count(u.id) as counted, count(DISTINCT tu.image_id) as image_counted, u.id, u.username')
@@ -299,7 +335,13 @@ class User extends BaseUser
       ),
     ));
   }
-
+  
+  /**
+   * Checks if the user can be deleted. A user can be deleted if it is not the currently 
+   * logged in user and the user has not contributed any game submissions
+   * 
+   * @return boolean True if user can be deleted
+   */
   public function canDelete() {
     if ($this->id == Yii::app()->user->id) {
       return false;

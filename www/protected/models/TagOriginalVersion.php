@@ -11,6 +11,13 @@ class TagOriginalVersion extends BaseTagOriginalVersion
 		return parent::model($className);
 	}
   
+  /**
+   * Provides a CActiveDataProvider listing all original versions for a 
+   * particular tag use
+   * 
+   * @param int The ID of the tag use for which the original tag uses should be shown
+   * @return CActiveDataProvider The tag use original versions
+   */
   public static function listTagUseOriginalVersions($tag_use_id) {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
@@ -31,6 +38,12 @@ class TagOriginalVersion extends BaseTagOriginalVersion
     ));
   }
   
+  /**
+   * Creates the data provider to list the original tag use versions for a tag 
+   * 
+   * @param int $tag_id The id of the tags for which the original tag uses are listd
+   * @return CActiveDataProvider Lists the original uses
+   */
   public static function listTagOriginalVersions($tag_id) {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
@@ -49,6 +62,11 @@ class TagOriginalVersion extends BaseTagOriginalVersion
     ));
   }
   
+  /**
+   * Returns the linked username or guest for the tag use
+   * 
+   * @return string The user name
+   */
   public function getUserName() {
     if ($this->username && $this->user_id) {
       return CHtml::link($this->username, array('user/view', 'id' => $this->user_id));

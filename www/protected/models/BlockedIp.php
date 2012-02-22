@@ -9,6 +9,7 @@ class BlockedIp extends BaseBlockedIp
 	}
   
   public function rules() {
+    // this regular expression test ip4 IP addresses
     $exp_ip = '/^(\*)$|';
     $exp_ip .= '^(([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.\*)$|';
     $exp_ip .= '^(([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]))\.\*)$|';

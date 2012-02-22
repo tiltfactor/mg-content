@@ -1,9 +1,9 @@
 <?php
 
 /**
- * ContactForm class.
- * ContactForm is the data structure for keeping
- * contact form data. It is used by the 'contact' action of 'SiteController'.
+ * DatabaseForm class.
+ * DatabaseForm is the form model used by the installer to collect the needed
+ * data to setup the database.
  */
 class DatabaseForm extends CFormModel
 {

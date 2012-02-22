@@ -36,6 +36,12 @@ class Plugin extends BasePlugin
     ));
   }
   
+  /**
+   * List all active plugins of type dictionary or weighting as array of models using
+   * $model->findAllAttributes().
+   * 
+   * @return array Array of plugin models 
+   */
   public static function listActivePluginsForGames() {
     $criteria = new CDbCriteria;
 
@@ -43,7 +49,13 @@ class Plugin extends BasePlugin
     $criteria->addInCondition('type', array('dictionary', 'weighting'));
     return Plugin::model()->findAllAttributes(array('unique_id'), true, $criteria);
   }
-
+  
+  /**
+   * Lists all games using the given plugin
+   * 
+   * @param int $id The plugin id
+   * @return string The linked list of games or 'none'
+   */
   public static function listGamesUsingPlugin($id) {
     $games = Yii::app()->db->createCommand()
                   ->select('g.unique_id')
@@ -68,6 +80,12 @@ class Plugin extends BasePlugin
     }
   }
   
+  /**
+   * Lists all plugins used by games
+   * 
+   * @param int $gid The game's id
+   * @return string The linked list of plugins or 'none'
+   */
   public static function listPluginsUsedByGame($gid) {
     $plugins = Yii::app()->db->createCommand()
                   ->select('p.id, p.unique_id')

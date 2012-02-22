@@ -16,6 +16,11 @@ class Tag extends BaseTag
     );
   }
   
+  /**
+   * Provides the CActiveDataProvider for the image tools grid view filter function
+   * 
+   * @return CActiveDataProvider
+   */
   public function search() {
     $criteria = new CDbCriteria;
     $criteria->alias = "t";
@@ -69,7 +74,14 @@ class Tag extends BaseTag
       ),
     ));
   }
-
+  
+  /**
+   * Provides a CArrayDataProvider of all tags and their compound information (use count, 
+   * average weight) submitted by the given user. 
+   * 
+   * @param int $user_id The id of the user for which the tags should be listed
+   * @return CArrayDataProvider
+   */
   public function searchUserTags($user_id) {
     $tags = Yii::app()->db->createCommand()
                   ->select('count(t.id) as counted, AVG(tu.weight) as weight, t.id, t.tag')
@@ -95,6 +107,13 @@ class Tag extends BaseTag
     ));
   }
   
+  /**
+   * Provides a CArrayDataProvider of all tags and their compound information (use count, 
+   * average weight) for the given image. 
+   * 
+   * @param int $image_id The id of the image for which the tags should be listed
+   * @return CArrayDataProvider
+   */
   public function searchImageTags($image_id) {
     $tags = Yii::app()->db->createCommand()
                   ->select('count(t.id) as counted, AVG(tu.weight) as weight, t.id, t.tag')
@@ -118,6 +137,12 @@ class Tag extends BaseTag
     ));
   }
   
+  /**
+   * Get the top n images used the tag has been used for
+   * 
+   * @param int $num_images The amount of images to be listed
+   * @return string Partial HTML. The linked images or empty string 
+   */
   public function getTopImages($num_images=10) {
     $images = Yii::app()->db->createCommand()
                   ->select('count(i.id) as counted, i.id, i.name')
@@ -141,6 +166,12 @@ class Tag extends BaseTag
     }
   }
   
+  /**
+   * Get the top n users that submitted the tag
+   * 
+   * @param int $num_users The amount of users to be listed
+   * @return string Partial HTML. The linked users or empty string 
+   */
   public function getTopUsers($num_users=10) {
     $users = Yii::app()->db->createCommand()
                   ->select('count(u.id) as counted, u.id, u.username')
@@ -165,6 +196,11 @@ class Tag extends BaseTag
     }
   }
   
+  /**
+   * Returns a row of tag use info for the active tag
+   * 
+   * @param array The result or null
+   */ 
   public function tagUseInfo() {
     return Yii::app()->db->createCommand()
                   ->select('count(tu.id) as use_count, AVG(tu.weight) as average, MAX(tu.weight) as max_weight, MIN(tu.weight) as min_weight, count(distinct tu.image_id) as image_count')
@@ -173,6 +209,11 @@ class Tag extends BaseTag
                   ->queryRow();
   }
   
+  /**
+   * Creates a partial HTML with the compound tag use info for the active tag.
+   * 
+   * @return string List of info or empty string
+   */
   public function getTagUseInfo() {
     $tag_info = $this->tagUseInfo();
     if ($tag_info) {

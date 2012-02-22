@@ -41,6 +41,11 @@ class TagUse extends BaseTagUse
     );
   }
   
+  /**
+   * Set all instances of tag weight's of the to be banned user to 0
+   * 
+   * @param int $user_id The banned user's id 
+   */
   public function banUser($user_id) {
     $sql = "  UPDATE tag_use tu
               LEFT JOIN game_submission gs ON gs.id=tu.game_submission_id
@@ -53,6 +58,16 @@ class TagUse extends BaseTagUse
     $command->execute();
   }
   
+  /**
+   * Implementation of the ban tag functionality. It includes the following steps 
+   * <ul>
+   *  <li>Increase edited count by one</li>
+   *  <li>Set tag weights of the banned tags tag uses to 0</li>
+   *  <li>Add |tag-banned to the tag uses type column</li>
+   * </ul>
+   * 
+   * @param int $tag_id The id of the tag to be banned
+   */
   public function banTag($tag_id) {
     $users = Yii::app()->db->createCommand()
                   ->select('u.id')
@@ -81,6 +96,11 @@ class TagUse extends BaseTagUse
     $command->execute();
   }
   
+  /**
+   * Create the data provider for the tag use data grid
+   * 
+   * @return CActiveDataProvider 
+   */
   public function search() {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
@@ -113,6 +133,11 @@ class TagUse extends BaseTagUse
     ));
   }
   
+  /**
+   * List all used tag use types
+   * 
+   * @return array List of types
+   */
   public static function getUsedTypes() {
     static $types;
     
@@ -144,7 +169,12 @@ class TagUse extends BaseTagUse
     ksort($types);
     return $types;
   }
-
+  
+  /**
+   * Returns a linked user name of the tag use creator or guest.
+   * 
+   * @return string The username
+   */
   public function getUserName($in_search = false) {
     if ($in_search) {
       if ($this->username && $this->user_id) {
@@ -215,11 +245,25 @@ class TagUse extends BaseTagUse
                 ->queryAll();
   }
   
+  /**
+   * Update the weight of one tag use
+   * 
+   * @param float $weight The new tag weight
+   * @param int $tag_id The id of the tag to be updated
+   */
   public function updateWeightWithTag($weight, $tag_id) {
     return Yii::app()->db->createCommand()
             ->update('{{tag_use}}', array('weight' => $weight), 'tag_id = :tagID', array(':tagID' => $tag_id), 'weight > 0');      
   }
-
+  
+  /**
+   * Mass updates the tag use weight of all tag weights matching the given 
+   * parameter. Adds |reweight to the tag uses type column
+   * 
+   * @param float $weight The new weight
+   * @param int $tag_id The id of the tag which tag uses should be updated
+   * @param int $user_id The id of the user which tag uses should be updated
+   */
   public function updateWeightWithTagAndUser($weight, $tag_id, $user_id) {
     $sql = "  UPDATE tag_use tu
               LEFT JOIN game_submission gs ON gs.id=tu.game_submission_id
@@ -234,6 +278,13 @@ class TagUse extends BaseTagUse
     $command->execute();
   }
   
+  /**
+   * Mass updates all tag uses of a tag submitted by guests. 
+   * Adds |reweight to the tag uses type column
+   * 
+   * @param float $weight The new weight
+   * @param int $tag_id The id of the tag which tag uses should be updated
+   */
   public function updateWeightWithTagForGuests($weight, $tag_id) {
     $sql = "  UPDATE tag_use tu
               LEFT JOIN game_submission gs ON gs.id=tu.game_submission_id
@@ -247,6 +298,11 @@ class TagUse extends BaseTagUse
     $command->execute();
   }
   
+  /**
+   * Provides additional links for the tag use admin tools grid view
+   * 
+   * @return string Partial html (links to the tag use tools)
+   */
   public function getTagToolLink() {
     $linkEdit = CHtml::link($this->tag, array("/admin/tag/view", "id" => $this->tag_id), array('class' => 'edit ir'));
     $linkView = CHtml::link($this->tag, array("/admin/tag/view", "id" => $this->tag_id), array('class' => 'tag'));
