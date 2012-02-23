@@ -41,5 +41,5 @@ $this->menu = array(
 </tr>
 </table>
 
-<h2>Subject Matters</h2>
+<h2>Interests</h2>
 <?php $this->widget('PlayerSubjectMatter', array('user_id' => $model->id)); ?>
