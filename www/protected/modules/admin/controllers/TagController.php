@@ -90,7 +90,10 @@ class TagController extends GxController {
     } else 
       throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
   }
-    
+  
+  /**
+   * Yii controller action: change tag use weights
+   */
   public function actionWeight($id) {
     $formModel = new TagReWeightForm;
     $tagModel = $this->loadModel($id, 'Tag');
@@ -149,6 +152,9 @@ class TagController extends GxController {
         ));
   }
   
+  /**
+   * Yii controller action: merges two tags
+   */
   public function actionMerge($from_id, $to_id) {
     $tag_from = Tag::model()->findByPk($from_id);
     $tag_to = Tag::model()->findByPk($to_id);

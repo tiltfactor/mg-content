@@ -237,6 +237,7 @@ class UserController extends Controller
     return $this->_model;
   }
   
+  //implentation of the batch interface for the gridview
   public function actionBatch($op) {
     if (Yii::app()->getRequest()->getIsPostRequest()) {
       switch ($op) {
