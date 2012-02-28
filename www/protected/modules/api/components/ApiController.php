@@ -48,6 +48,7 @@ class ApiController extends Controller
    * Passes the given data to the currently activated response handler
    * 
    * @param mixed The data that should be returned with the response handler
+   * @param int $status If set the method attempts to map the value to a corresponding header entry
    */
   public function sendResponse($data = "", $status = NULL) {
     if ($status) {

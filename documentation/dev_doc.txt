@@ -5,3 +5,120 @@ controller batch
 used libraries
 
 ajax queue handler
+
+fbvStorage
+
+How to Build a game. 
+
+Interface mggame 
+
+$game->submission_id = $game_engine->saveSubmission($game, $game_model); 
+    
+$tags = $game_engine->parseTags($game, $game_model);
+
+$tags = $game_engine->setWeights($game, $game_model, $tags); // in there you can use weighting functions
+
+$turn_score = $game_engine->getScore($game, $game_model, $tags);
+
+$data['turn'] = $game_engine->getTurn($game, $game_model, $tags);
+
+
+GET REQUEST == game initializing
+POST REQUESTS == game playing
+
+API
+Will communicate in JSON
+SHARED SECRET
+
+- /api/user/SharedSecret
+Returns a shared secret for the user that will be saved in the session. Each further request has 
+to be signed with this shared secret. This should happen by setting a custom header 
+HTTP_X_<fbvStorage(api_id)>_SHARED_SECRET
+
+It will return the following array
+
+JSON: it will return either 
+{shared_secret:'USERS SHARED SECRET'}
+   
+javascript APIs. used javascript
+    
+- /api/games/abort/played_game_id/xxx
+Attempts to retrive the played game identified by the current users session id and the 
+given played game id to notifiy the opponent that the user has left the game.
+ 
+- /api/games/abort/AbortPartnerSearch/played_game_id/xxx
+Attempts to retrive the game_partner table entry identified by the given id. 
+It it finds it. It will delete the set the row date to an 01/01/1970 and sends the other
+user an abort message. If a second user should happen to be assigned to this id. 
+ 
+- /api/games/abort/messages/played_game_id/xxx
+Returns messages for the user playing the given game   
+   
+- /api/games/abort/postmessage/played_game_id/xxx
+Attempts to retrive the played game identified by the current users session id and the given played game id to leave the posted message for the opponent. 
+You have to make sure $_POST['message'] is set
+
+- /api/games/gameapi/
+This method is a bridge between the api and game engines. It allows games to extend the api with further game specific functionality.
+
+All requests to this API hook are throttled for security. 
+
+You have to make sure $_POST['call'] is set as this is required at the game engine to processs
+the request. 
+
+The JSON of call should be:
+
+$_POST['call'] = {'method', 'name of method'}
+
+You can optionally pass parameter by setting $_POST['parameter']
+
+The minimum JSON of data should be:
+
+$_POST['parameter'] = {
+ 'parameter1', 'value', 
+ 'parameter2', 'value',
+ ... 
+}
+
+- /api/games/play/gid/xxx/
+This method handels play requests into the system. It distinguishes between GET and POST requests. 
+A GET requests is the initial call for a game. It prepares the needed database entries and provides 
+the first turn's information. 
+
+The user submits data as POST request. In the post request the users submission will be parsed, weightend, 
+scored and stored in the database. The post method returns scoring results and the next turns information.
+
+
+The following API calls are implemented but not currently in use. These and further
+to be implemented API methods could be used to implement non web based application.
+E.g. mobile phone apps making use of JSON calls to communicate with the server
+
+- /api/games/games/
+This action returns a list of all games available in the system
+You'll have to set the HTTP_X_<fbvStorage(api_id)>_SHARED_SECRET with the current session's shared secret.
+ 
+- /api/games/scores/
+  Returns the top 10 score list of all users
+  
+- /api/user/login/
+This is the login action it expects to receive 
+ 
+ Needs POST request
+ needs fields login and password
+   
+- /api/user/logout/
+Attempts to logout the user.
+ It has to be called via a GET request. 
+ 
+ The currently logged in user will be logged out and the session destroyed
+ 
+ JSON: it will return 
+ {status:'ok'} or throw an exception
+   
+- /api/user/passwordrecovery/
+This is the password recovery action action.
+ It has to be called via a POST request.
+ 
+ If receives a user name or email address in a field called "login_or_email". If either
+ name or email are found an password reset email will be generated and send to the user.  
+ 

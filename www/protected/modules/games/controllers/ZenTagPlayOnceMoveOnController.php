@@ -25,8 +25,13 @@ class ZenTagPlayOnceMoveOnController extends ZenTagController
           'users'=>array('*'),
           ),
         );
-  }  
+  }
   
+  /**
+   * As most of the game play is handled via JavaScript and API callbacks the controller
+   * renders only the initial needed HTML while making sure all needed assets CSS 
+   * and JavaScript are loaded 
+   */
   public function actionIndex() {
     MGHelper::setFrontendTheme();
     
@@ -72,6 +77,9 @@ EOD;
     }
   }
   
+  /**
+   * show the game's settings
+   */
   public function actionView() {
     $model = $this->loadModel(array("unique_id" => "ZenTagPlayOnceMoveOn"), 'ZenTagPlayOnceMoveOn');  
     $model->fbvLoad();
@@ -82,6 +90,9 @@ EOD;
     ));
   }
   
+  /**
+   * edit the game's settings
+   */
   public function actionUpdate() {
     $model = $this->loadModel(array("unique_id" => "ZenTagPlayOnceMoveOn"), 'ZenTagPlayOnceMoveOn');
     $model->fbvLoad();
@@ -95,8 +106,10 @@ EOD;
         'plugins' => $_POST['ZenTagPlayOnceMoveOn']['plugins'] === '' ? null : $_POST['ZenTagPlayOnceMoveOn']['plugins'],
         );
       
+      // save the games data in the database
       if ($model->saveWithRelated($relatedData)) {
-        $model->fbvSave();
+        $model->fbvSave(); // but also save it in the settings file as each game uses FBVstorage
+        
         MGHelper::log('update', 'Game ' . $model->name . ' updated');
         Flash::add('success', $model->name . ' ' . Yii::t('app', "Updated"));
         $this->redirect(array('view'));

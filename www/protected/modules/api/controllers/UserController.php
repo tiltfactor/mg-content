@@ -39,6 +39,7 @@ class UserController extends ApiController {
    * JSON: it will return either 
    * {shared_secret:'USERS SHARED SECRET'}
    * 
+   * @return string JSON response
    */
   public function actionSharedSecret() {
     $data = array();  
@@ -48,7 +49,7 @@ class UserController extends ApiController {
   }
   
   /**
-   * This is the login action it expects to receive 
+   * Attempts to login a user. It expects to receive 
    * 
    * Needs POST request
    * needs fields login and password
@@ -56,6 +57,7 @@ class UserController extends ApiController {
    * JSON: it will return either 
    * {status:'ok'} or HTTP status 400 and {"errors":{"field":["Error Message"]}}
    * 
+   * @return string JSON response
    * @throws CHttpException if the request is not a Post request or one of the needed fields is not set
    */
   public function actionLogin() {
@@ -89,7 +91,7 @@ class UserController extends ApiController {
   }
   
   /**
-   * This is the logout action.
+   * Attempts to logout the user.
    * It has to be called via a GET request. 
    * 
    * The currently logged in user will be logged out and the session destroyed
@@ -97,6 +99,7 @@ class UserController extends ApiController {
    * JSON: it will return 
    * {status:'ok'} or throw an exception
    * 
+   * @return string JSON response
    * @throws CHttpException if the request is not a GET request
    */
   public function actionLogout() {
@@ -121,6 +124,7 @@ class UserController extends ApiController {
    * JSON: it will return either 
    * {status:'ok'} or HTTP status 400 and {"errors":{"field":["Error Message"]}}
    * 
+   * @return string JSON response
    * @throws CHttpException if the request is not a POST request
    */
   public function actionPasswordRecovery() {

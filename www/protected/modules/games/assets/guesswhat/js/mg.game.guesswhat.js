@@ -1,11 +1,12 @@
-// -*- tab-width:2; indent-tabs-mode:nil -*-
-
 MG_GAME_GUESSWHAT = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
     doQueryMessages : false,
     doPartnerSearch : true, 
     
+    /*
+     * implementation of the game's init method called in the view
+     */
     init : function (options) {
       var settings = $.extend(options, {
         ongameinit: MG_GAME_GUESSWHAT.ongameinit,
@@ -40,6 +41,7 @@ MG_GAME_GUESSWHAT = function ($) {
       
       MG_GAME_API.game_init(settings);
       
+      // initialize MG_AUDIO helper component
       MG_AUDIO.init({
         swfPath: MG_GAME_GUESSWHAT.settings.base_url + "/js/jQuery.jPlayer"
       });
@@ -66,6 +68,9 @@ MG_GAME_GUESSWHAT = function ($) {
           {supplied : 'oga, mp3, wav'});
     },
     
+    /*
+     * check if new messages are available for the user and evaluate the response
+     */
     queryMessages : function () {
       if (MG_GAME_GUESSWHAT.doQueryMessages && !MG_GAME_GUESSWHAT.game.played_against_computer) {
         MG_API.ajaxCall('/games/messages/played_game_id/' + MG_GAME_GUESSWHAT.game.played_game_id , function (response) {
@@ -143,10 +148,15 @@ MG_GAME_GUESSWHAT = function ($) {
             }
           }
         }, {}, true);
+        
+        // make sure that the messages are checked again after a certain interval
         setTimeout(MG_GAME_GUESSWHAT.queryMessages, MG_GAME_API.settings.message_queue_interval);  
       }
     },
     
+    /*
+     * renders a guess turn
+     */
     renderGuessTurn : function (response, score_info, turn_info, licence_info, more_info) {
       $("#stage").hide();
       
@@ -187,6 +197,9 @@ MG_GAME_GUESSWHAT = function ($) {
       $("#stage").fadeIn(1000, function () {MG_GAME_GUESSWHAT.busy = false;MG_GAME_GUESSWHAT.wordField.focus();});
     },
     
+    /*
+     * renders a describe turn
+     */
     renderDescribeTurn : function (response, score_info, turn_info, licence_info, more_info, words_to_avoid) {
       $("#stage").hide();
 
@@ -228,6 +241,9 @@ MG_GAME_GUESSWHAT = function ($) {
       $("#stage").fadeIn(1000, function () {MG_GAME_GUESSWHAT.busy = false;MG_GAME_GUESSWHAT.wordField.focus();});
     },
     
+    /*
+     * game is over render the final screen
+     */
     renderFinal : function (response, score_info, turn_info, licence_info, more_info) {
       $("#stage").hide();
       
@@ -255,42 +271,47 @@ MG_GAME_GUESSWHAT = function ($) {
       $("#stage").fadeIn(1000, function () {MG_GAME_GUESSWHAT.busy = false;});
     },
 
-      // Update the 'score' section using the current values stored in
-      // MG_GAME_GUESSWHAT.
-      //
-      // We copied-out this section so that we could call it from
-      // inside the hint code. We need to call it in a couple of
-      // places, so it would be ideal to refactor those locations to
-      // make this shared code.
-      updateScore : function () {
-        var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
-        
-        var score_info = {
-          user_name : MG_GAME_GUESSWHAT.game.user_name,
-          game_partner_name : MG_GAME_GUESSWHAT.game.game_partner_name,
-          user_score : MG_GAME_GUESSWHAT.game.user_score,
-          current_score : current_turn.score,
-          user_num_played : MG_GAME_GUESSWHAT.game.user_num_played,
-          turns : MG_GAME_GUESSWHAT.game.turns,
-          current_turn : MG_GAME_GUESSWHAT.turn,
-          guess: current_turn.guesses.length,
-          max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
-          num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
-          max_hints : MG_GAME_GUESSWHAT.game.number_hints,
-          num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
-        };
-        
-        $("#scores").html(""); 
-        $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
-        if (!MG_GAME_GUESSWHAT.game.user_authenticated) {
-          $("#scores .total_score").remove();
-        }
-      },
+    // Update the 'score' section using the current values stored in
+    // MG_GAME_GUESSWHAT.
+    //
+    // We copied-out this section so that we could call it from
+    // inside the hint code. We need to call it in a couple of
+    // places, so it would be ideal to refactor those locations to
+    // make this shared code.
+    updateScore : function () {
+      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+      
+      var score_info = {
+        user_name : MG_GAME_GUESSWHAT.game.user_name,
+        game_partner_name : MG_GAME_GUESSWHAT.game.game_partner_name,
+        user_score : MG_GAME_GUESSWHAT.game.user_score,
+        current_score : current_turn.score,
+        user_num_played : MG_GAME_GUESSWHAT.game.user_num_played,
+        turns : MG_GAME_GUESSWHAT.game.turns,
+        current_turn : MG_GAME_GUESSWHAT.turn,
+        guess: current_turn.guesses.length,
+        max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
+        num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
+        max_hints : MG_GAME_GUESSWHAT.game.number_hints,
+        num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
+      };
+      
+      $("#scores").html(""); 
+      $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
+      if (!MG_GAME_GUESSWHAT.game.user_authenticated) {
+        $("#scores .total_score").remove();
+      }
+    },
     
+    /*
+     * the post request to the /api/games/play/ action has send an response. 
+     * here the response will be evailuated
+     */
     onresponse : function (response) {
       MG_GAME_GUESSWHAT.doQueryMessages = false;
       
-      if (response.status == "wait") {
+      if (response.status == "wait") { // wait for the second player to respond
+        
         MG_GAME_GUESSWHAT.doQueryMessages = true;
         MG_GAME_GUESSWHAT.queryMessages();
         
@@ -303,7 +324,7 @@ MG_GAME_GUESSWHAT = function ($) {
         }).appendTo($("#info-modal"));
         $("#info-modal:hidden").fadeIn(250);
 
-      } else if (response.status == "retry") {
+      } else if (response.status == "retry") { // wait a bit longer for a second player
         // no partner available
         $("#info-modal").html("");
         $("#template-info-modal-wait-for-partner").tmpl({
@@ -314,12 +335,15 @@ MG_GAME_GUESSWHAT = function ($) {
         $("#info-modal:hidden").fadeIn(500);
         
         $('#playAgainstComputerNow').click(function () { 
+          // this function allows the user to start to play agains a user immideately
           // hide the waiting window and make a final game partner search call with attempt == MG_GAME_API.settings.partner_wait_threshold
           // this will trigger the play against the computer mode 
           $("#info-modal").fadeOut(250);
           MG_GAME_GUESSWHAT.doPartnerSearch = false;
           
-          MG_API.waitForThrottleIntervalToPass(function () {
+          // a throttle interval makes sure that the players api calls are not being throttled by the 
+          // throttle filter
+          MG_API.waitForThrottleIntervalToPass(function () { 
             MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid + '/a/' + MG_GAME_API.settings.partner_wait_threshold + '/gp/' + MG_GAME_GUESSWHAT.game.game_partner_id , function(response) {
               if (MG_API.checkResponse(response)) {
                 MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
@@ -332,13 +356,14 @@ MG_GAME_GUESSWHAT = function ($) {
         
         // wait for throttle interval to pass and check if a partner came online
         MG_API.waitForThrottleIntervalToPass(function () {
-          if (MG_GAME_GUESSWHAT.doPartnerSearch) {
+          if (MG_GAME_GUESSWHAT.doPartnerSearch) { // wait for other player
             var interval = MG_GAME_API.settings.throttleInterval;
-            if (interval < 1000)
-              interval = 1000;
+            if (interval < 1000) // we want to check only ever second for a new player (controls also the countdown)
+              interval = 1000; 
               
             MG_GAME_API.settings.partner_waiting_time += (interval/1000);
             if (MG_GAME_API.settings.partner_waiting_time <= MG_GAME_API.settings.partner_wait_threshold) {
+              // check for new player by calling ../play as a get request 
               MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid + '/a/' + MG_GAME_API.settings.partner_waiting_time + '/gp/' + MG_GAME_GUESSWHAT.game.game_partner_id , function(response) {
                 if (MG_API.checkResponse(response)) {
                   MG_GAME_API.game = $.extend(MG_GAME_API.game, response.game);
@@ -346,6 +371,7 @@ MG_GAME_GUESSWHAT = function ($) {
                 }
               }); 
             } else {
+              
               MG_GAME_API.releaseOnBeforeUnload(); // make sure the user can navigate away without seeing the leaving confirmation
               $("#info-modal").html("");
               $("#template-info-modal-time-out").tmpl({
@@ -356,6 +382,8 @@ MG_GAME_GUESSWHAT = function ($) {
           }
         }, 1000);
       } else if (response.status = 'ok') {
+        // great game has been initialized. 
+        // prepare data and render the turns
         MG_GAME_GUESSWHAT.wordField.val("");
         
         $("#info-modal").hide();
@@ -456,7 +484,10 @@ MG_GAME_GUESSWHAT = function ($) {
             MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode = "guess";
           }
           if (MG_GAME_GUESSWHAT.turn > 1 && !MG_GAME_GUESSWHAT.game.played_against_computer) {
-            if (MG_GAME_GUESSWHAT.turns[0].mode == "describe") {
+            // user plays against other human
+            // to distinguish whether a user should describe or guess
+            // look back to first turn and figure out what the actual turn should be 
+            if (MG_GAME_GUESSWHAT.turns[0].mode == "describe") { 
               // user started with the describe screen;
               if (MG_GAME_GUESSWHAT.turn % 2 == 0) {
                 MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode = "guess";
@@ -473,6 +504,8 @@ MG_GAME_GUESSWHAT = function ($) {
           }
           
           if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == "describe") {
+            // prepare and render describe turn
+            
             $('.game_description.describe').show();
             
             if (response.turn.wordstoavoid) {
@@ -498,6 +531,8 @@ MG_GAME_GUESSWHAT = function ($) {
               MG_GAME_GUESSWHAT.renderDescribeTurn(response, score_info, turn_info, licence_info, more_info, words_to_avoid);
             }
           } else {
+            // prepare and render guess turn
+            
             var licence_info = response.turn.licences;
             
             var turn_info = [];
@@ -550,16 +585,21 @@ MG_GAME_GUESSWHAT = function ($) {
 
     },
     
+    // on callback function. hint request clicked
     onRequestHint : function () {
       MG_GAME_GUESSWHAT.sendHintRequest();
       return false;
     },
     
+    /*
+     * on callback for desciber clicks on send hint button
+     */ 
     onSendHint : function () {
       if (MG_GAME_GUESSWHAT.busy) {
         return false;
       }
-
+      
+      // check if the user 
       var tags = $.trim(MG_GAME_GUESSWHAT.wordField.val());
       MG_GAME_GUESSWHAT.wordField.val("");
       if (tags == "") {
@@ -567,88 +607,97 @@ MG_GAME_GUESSWHAT = function ($) {
         MG_GAME_GUESSWHAT.error("<h1>Ooops</h1><p>Please enter a word</p>");
         return false;
       }
-
+      
       MG_GAME_GUESSWHAT.busy = true;
       MG_GAME_API.curtain.show();
+      
+      // validate hint if it is not on stop word list
       MG_GAME_API.callGameAPI('validateHint', {'hint': tags}, function (response) {
-      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
-
-      if (!MG_API.checkResponse(response)) { 
-        return false;
-      }
-
-      // The api call returns an empty string if the first
-      // tag was a stop word.
-      if (response.response == "") {
-        MG_GAME_GUESSWHAT.error($("#template-error-hint-stop-word").tmpl());
-        MG_GAME_GUESSWHAT.busy = false;
-        return false;
-      }
-
-      hint_ok = true;
-      if (current_turn.wordstoavoid) {
-        for (image in current_turn.wordstoavoid) {
-          for (tag in current_turn.wordstoavoid[image]) {
-            if (current_turn.wordstoavoid[image][tag].tag.toLowerCase() ==
+        var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+  
+        if (!MG_API.checkResponse(response)) { 
+          return false;
+        }
+  
+        // The api call returns an empty string if the first
+        // tag was a stop word.
+        if (response.response == "") {
+          MG_GAME_GUESSWHAT.error($("#template-error-hint-stop-word").tmpl());
+          MG_GAME_GUESSWHAT.busy = false;
+          return false;
+        }
+        
+        // hint is not a stopword 
+        // let's look if it is a word to avoid
+        hint_ok = true;
+        if (current_turn.wordstoavoid) {
+          for (image in current_turn.wordstoavoid) {
+            for (tag in current_turn.wordstoavoid[image]) {
+              if (current_turn.wordstoavoid[image][tag].tag.toLowerCase() ==
+                  response.response.toLowerCase()) {
+                hint_ok = false;
+                MG_GAME_GUESSWHAT.error($("#template-error-hint-word-to-avoid").tmpl());
+                MG_GAME_GUESSWHAT.busy = false;
+                break;
+              }
+            }
+  
+            if (!hint_ok) 
+              break;
+          }
+        }
+        
+        // also check if the hint hasn't been given twice
+        if (current_turn.hints.length) {
+          for (h_index in current_turn.hints) {
+            if (current_turn.hints[h_index].toLowerCase() ==
                 response.response.toLowerCase()) {
               hint_ok = false;
-              MG_GAME_GUESSWHAT.error($("#template-error-hint-word-to-avoid").tmpl());
+              MG_GAME_GUESSWHAT.error($("#template-error-hint-given-twice").tmpl());
               MG_GAME_GUESSWHAT.busy = false;
-              break;
             }
           }
-
-          if (!hint_ok) 
-            break;
         }
-      }
-                
-      if (current_turn.hints.length) {
-        for (h_index in current_turn.hints) {
-          if (current_turn.hints[h_index].toLowerCase() ==
-              response.response.toLowerCase()) {
-            hint_ok = false;
-            MG_GAME_GUESSWHAT.error($("#template-error-hint-given-twice").tmpl());
-            MG_GAME_GUESSWHAT.busy = false;
-          }
+  
+        if (hint_ok) { // hint is ok 
+          MG_AUDIO.play("hint");
+                    
+          $('<span>').text(response.response).appendTo($("#game .describe .hints"));
+          $("#game .describe .hints:hidden").toggle();
+          
+          // send a message to the server to let the other player know about the new link 
+          MG_GAME_API.postMessage( {code:'hint','hint': response.response});
+                  
+          current_turn.hints.push(response.response);
+  
+          // Immediately after adding a hint to the list, we need to
+          // (potentially) redraw our hint interaction information so
+          // that we can hide buttons if no more hints are to be given.
+          MG_GAME_GUESSWHAT.prepareForNextHint();
+  
+          $("#partner-waiting").hide();
+          
+          MG_GAME_API.curtain.show();
+                    
+          $("#info-modal").html("").hide();
+          $("#template-info-modal-waiting-for-guess").tmpl({
+            game_partner_name: MG_GAME_API.game.game_partner_name,
+            game_base_url: MG_GAME_API.game.game_base_url,
+            arcade_url: MG_GAME_API.game.arcade_url
+          }).appendTo($("#info-modal"));
+  
+          $("#info-modal:hidden").fadeIn(500, function () {
+            MG_GAME_API.postMessage('waiting');
+          });
         }
-      }
-
-      if (hint_ok) {
-        MG_AUDIO.play("hint");
-                  
-        $('<span>').text(response.response).appendTo($("#game .describe .hints"));
-        $("#game .describe .hints:hidden").toggle();
-        MG_GAME_API.postMessage( {code:'hint','hint': response.response});
-                
-        current_turn.hints.push(response.response);
-
-        // Immediately after adding a hint to the list, we need to
-        // (potentially) redraw our hint interaction information so
-        // that we can hide buttons if no more hints are to be given.
-        MG_GAME_GUESSWHAT.prepareForNextHint();
-
-        $("#partner-waiting").hide();
-        
-        MG_GAME_API.curtain.show();
-                  
-        $("#info-modal").html("").hide();
-        $("#template-info-modal-waiting-for-guess").tmpl({
-          game_partner_name: MG_GAME_API.game.game_partner_name,
-          game_base_url: MG_GAME_API.game.game_base_url,
-          arcade_url: MG_GAME_API.game.arcade_url
-        }).appendTo($("#info-modal"));
-
-        $("#info-modal:hidden").fadeIn(500, function () {
-          MG_GAME_API.postMessage('waiting');
-        });
-      }
-
-     });
+     }); // end of validate hint call back
 
       return false;      
     },
     
+    /*
+     * callback call if the a message of the type hint has been received
+     */
     processHint : function (hint) {
       var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
 
@@ -666,6 +715,11 @@ MG_GAME_GUESSWHAT = function ($) {
       MG_GAME_GUESSWHAT.prepareForNextHint();
     },
     
+    /*
+     * callback called if the turn has been submitted. for this game it will be triggerd after
+     * either the hint limit has been reached and the player clicks load new turn. or after the 
+     * guess limit has been reached.
+     */
     onsubmitTurn : function () {
       if (!MG_GAME_GUESSWHAT.busy) {
         $("#partner-waiting").hide();
@@ -703,6 +757,9 @@ MG_GAME_GUESSWHAT = function ($) {
       return false;
     },
     
+    /*
+     * callback if the guessing player chooses an image 
+     */
     onguess : function (event) {
       var link = $(this);
       var id = link.attr('id');
@@ -712,6 +769,8 @@ MG_GAME_GUESSWHAT = function ($) {
       if (id.length > 9) {
         var guessedImageId = id.substring(id.indexOf('guess-me-') + 9);
         if (!MG_GAME_GUESSWHAT.game.played_against_computer) {
+          
+          // inform other player about guess
           MG_GAME_API.postMessage( {code:'guess','guessedImageId': guessedImageId});
         }
         MG_AUDIO.play("select");
@@ -725,10 +784,16 @@ MG_GAME_GUESSWHAT = function ($) {
       return false;
     },
     
+    /*
+     * calback once the API get request sends a response
+     */
     ongameinit : function (response) {
       MG_GAME_GUESSWHAT.onresponse(response);
     },
     
+    /*
+     * helper function to extract the licence infos for the images
+     */
     extractImageLicenceInfo : function (licences, image) {
       var licence_info = [];
       if (licences.length) { // reduce the licence info only on the licences of the displayed image
@@ -744,6 +809,10 @@ MG_GAME_GUESSWHAT = function ($) {
       return licence_info;
     },
     
+    /*
+     * evaluate the guess. either directly after guessing player has clicked guess or after
+     * discriber has received the guess from the message queue
+     */
     evaluateGuess : function (guessedImageID) {
       MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses.push(guessedImageID);
       
@@ -897,6 +966,9 @@ MG_GAME_GUESSWHAT = function ($) {
         }
     },
     
+    /*
+     * called if the guesser clicked the hint request. 
+     */
     sendHintRequest : function() {
       var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
 
@@ -911,7 +983,8 @@ MG_GAME_GUESSWHAT = function ($) {
       
       MG_GAME_API.curtain.show();
       
-      if (MG_GAME_GUESSWHAT.game.played_against_computer) {
+      if (MG_GAME_GUESSWHAT.game.played_against_computer) { 
+        // played against computer extract hint from decribing images tags
         
         if (current_turn.images.describe.available_hints === undefined) {
           current_turn.images.describe.available_hints = [];
@@ -934,6 +1007,8 @@ MG_GAME_GUESSWHAT = function ($) {
         }
       } else {
         if(MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
+          
+          // if you can still ask for hints
           $("#info-modal").html("").hide();
           $("#template-info-modal-waiting-for-hint").tmpl({
             game_partner_name: MG_GAME_API.game.game_partner_name,
@@ -946,6 +1021,7 @@ MG_GAME_GUESSWHAT = function ($) {
           // Prepare for the next hint.
           MG_GAME_GUESSWHAT.prepareForNextHint();
         } else {
+          
           // If there are no more hints, we need to lift the curtain
           // and prod the player to make another guess.
           MG_GAME_API.curtain.hide();
@@ -963,6 +1039,9 @@ MG_GAME_GUESSWHAT = function ($) {
       }
     },
     
+    /*
+     * helper funciton get random hint
+     */
     getRandomInt : function (min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }

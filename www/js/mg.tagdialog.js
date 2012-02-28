@@ -1,20 +1,35 @@
+/*
+ * Helper class that allows to render the tag helper dialogs in the admin tools
+ */
 MG_TAGDIALOG = function ($) {
   return {
     settings : {
       admin_tool_url : '/admin'
     },
+    
+    /*
+     * initialize the 
+     */
     init : function (options) {
       if (options) {
         MG_TAGDIALOG.settings = $.extend(MG_TAGDIALOG.settings, options); //Pull from both defaults and supplied options
       } 
+      
+      // make sure each tag-dialog link triggers the dialog
       $('.tag-dialog .edit').unbind('click').click(MG_TAGDIALOG.onclick);
     },
     
+    /*
+     * helper functions triggered after a grid view has been updated
+     */
     refresh : function () {
       $("#modalTagDialog").remove(); 
       $('.tag-dialog .edit').unbind('click').click(MG_TAGDIALOG.onclick);
     },
     
+    /*
+     * onclick handler. show the tag dialog pop up
+     */
     onclick : function () {
       $('#modalTagDialog').remove();
       link = $(this);
@@ -38,6 +53,9 @@ MG_TAGDIALOG = function ($) {
       return false;
     },
     
+    /*
+     * helper function to retrieve the scroll position of a page
+     */
     getPageScroll : function() {
       var xScroll, yScroll;
       if (self.pageYOffset) {

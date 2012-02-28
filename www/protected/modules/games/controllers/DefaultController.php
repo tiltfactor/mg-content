@@ -23,6 +23,9 @@ class DefaultController extends Controller
         );
   }  
 
+  /**
+   * shows the admin screens for games
+   */
   public function actionAdmin() {
     $this->layout = '//layouts/column1';
     

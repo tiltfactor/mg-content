@@ -1,11 +1,22 @@
 <?php
 
 class MGGame extends CComponent {
+  /**
+   * @var boolean $two_player_game Set TRUE if the game is a two player game
+   */
   public $two_player_game = false;
+  
+  /**
+   * @var Array in two player games this value will be set to the opponents two player 
+   */
   public $opponents_submission = null;
   
   /**
-   * @param array Array of image id's that have been used.
+   * Saves the user's submission to the database
+   * 
+   * @param Object $game the current game object
+   * @param Game $game_model The current game's model
+   * @return null
    */
   public function saveSubmission($game, &$game_model) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
@@ -27,11 +38,20 @@ class MGGame extends CComponent {
     return null;
   }
   
+  /**
+   * Retrieves the active image sets for the current game. 
+   * In future this method could be expanded to disable one or more of the 
+   * active image set by dynamic criteria (e.g. the users ip address range)
+   * 
+   * @param Object $game the current game object
+   * @param Game $game_model The current game's model
+   * @return Array the ids of the active image sets
+   */
   protected function getImageSets($game, &$game_model) {
     $imageSets = array();
     
     foreach ($game_model->imageSets as $imageSet) {
-      //TODO: here comes the image set access filter magic
+      //TODO: here could be the image set access filter magic
       $imageSets[] = $imageSet->id;
     }
     
@@ -131,7 +151,12 @@ class MGGame extends CComponent {
   } 
  
   /**
+   * Retrieve the IDs of all images that have been seen/used by the current user 
+   * on a per game and per session basis.
    * 
+   * @param Object $game the current game object
+   * @param Game $game_model The current game's model
+   * @return Array the ids of the images that have been already seen by the current user in this session
    */
   protected function getUsedImages($game, &$game_model) {
     
@@ -154,7 +179,12 @@ class MGGame extends CComponent {
   }
   
   /**
-   * @param array Array of image id's that have been used.
+   * Add images to the used images list stored in the current session for the currently 
+   * played game
+   * 
+   * @param Array $usedImages the images that have been shown to the user
+   * @param Object $game the current game object
+   * @param Game $game_model The current game's model
    */
   protected function setUsedImages($usedImages, $game, &$game_model) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
@@ -176,7 +206,10 @@ class MGGame extends CComponent {
   }
   
   /**
-   * @param array Array of image id's that have been used.
+   * Clears the used images in the session for the current game.
+   * 
+   * @param Object $game the current game object
+   * @param Game $game_model The current game's model
    */
   protected function resetUsedImages($game, &$game_model) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
@@ -196,9 +229,10 @@ class MGGame extends CComponent {
   }
   
   /**
-   * returns the full info about licences used on this turn.
+   * Returns the full distinct info about licences used on this turn.
    * 
-   * @param array
+   * @param Array the licence IDs of the images of this turn
+   * @return Array the aggregated licence info. Empty array if no info could be found
    */
   protected function getLicenceInfo($licenceIDs) {
     $data = array();
@@ -213,7 +247,10 @@ class MGGame extends CComponent {
   }
   
   /** 
-   * Loads a turn from the played_game_turn_info table and parses and returns the stored turn info
+   * In two player games both users have to see the same turn (info). As SESSION data cannot be
+   * shared between users this can in a stateless system only be ensured by storing the turn in 
+   * the database. This method loads a turn from the played_game_turn_info table and parses and 
+   * returns the stored turn info
    * 
    * @param int $played_game_id the played game id
    * @param int $turn the turn number
@@ -275,14 +312,75 @@ class MGGame extends CComponent {
 }
 
 /**
- * Interface for Game Logic
+ * Interface for Game Logic.
+ * Each game has to implement these methods as these will be called in the 
+ * game controller. 
+ * 
  * @abstract
  */
 interface MGGameInterface
 {
+  /**
+   * As the JSON submitted/posted by the JavaScript implementation of the game 
+   * can vary each game has to implement a parsing function to make it available
+   * for the further methods. This is also the right place to sanity check the 
+   * submission received by the server
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @return boolean TRUE if the submission has been successfully parsed
+   */
   public function parseSubmission(&$game, &$game_model);
+  
+  /**
+   * Take the information from the submission and extract the tags for each image
+   * involved in the current turn.
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @return Array the tags for each image
+   */
   public function parseTags(&$game, &$game_model);
+  
+  /**
+   * Allows to implement weighting of the submitted tags. Here you should usually 
+   * provide hooks to the setWeight methods of the dictionary and weighting plugins.
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param Array the tags submitted by the player for each image
+   * @return Array the tags (with additional weight information)
+   */
   public function setWeights(&$game, &$game_model, $tags);
+  
+  /**
+   * Creates the needed data for a turn. This data will be passed on to the 
+   * players client and there rendered. It will most likely involve the follwoing 
+   * tasks. 
+   * 
+   * + Retrive a new image list for the next turn
+   * + Call the wordstoavoid method of the dictionary plugins
+   * 
+   * If two player game 
+   * + check/store a created turn in the database. so both users play with the same
+   * turn. See ZenPondGame->getTurn for a exemplary implementation.
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param Array the tags submitted by the player for each image
+   * @return Array the turn information that will be sent to the players client
+   */
   public function getTurn(&$game, &$game_model, $tags=array());
+  
+  /**
+   * This method should hold the implementation that allows the scoring 
+   * of the turn's submitted tags. It is the place to call the weighting 
+   * plugin's 'scoring' methods. 
+   * 
+   * @param object $game The game object
+   * @param object $game_model The game model
+   * @param Array the tags submitted by the player for each image
+   * @return int the score for this turn
+   */
   public function getScore(&$game, &$game_model, &$tags);
 }
