@@ -13,6 +13,13 @@ class GameStatisticsExportPlugin extends MGExportPlugin {
     parent::init();
   }
   
+  /**
+   * Adds a checkbox that allows to activate/disactivate the use of the plugin on the 
+   * export form.
+   * 
+   * @param object $form the GxActiveForm rendering the export form
+   * @param object $model the ExportForm instance holding the forms values
+   */
   function form(&$form, &$model) {
     $legend = CHtml::tag("legend", array(), Yii::t('app', 'Plugin: Game Statistics Export'));
     
@@ -28,6 +35,14 @@ class GameStatisticsExportPlugin extends MGExportPlugin {
     return CHtml::tag("fieldset", array(), $legend . '<div class="row">' . $label . $buttons . '<div class="description">' . Yii::t('app', "Export game use statistics as csv file") . '</div></div>');
   }
   
+  /**
+   * Creates the CSV export file in the temporary folder and add the header row  
+   * and the statistics for each game in the file.
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   */
   function preProcess(&$model, &$command, $tmp_folder) {
     
     $stats = GamesModule::getStatistics();
@@ -50,10 +65,6 @@ class GameStatisticsExportPlugin extends MGExportPlugin {
     
     }
   }
-  
-  function process(&$model, &$command, $tmp_folder, $image_id) {
-    // this plugin does not need to process each image
-  }  
 }
 
 ?>

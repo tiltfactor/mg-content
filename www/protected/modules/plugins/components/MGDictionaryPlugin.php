@@ -21,8 +21,8 @@ class MGDictionaryPlugin extends MGPlugin {
   }
   
   /**
-   * Checks whether one or more of the given tags are in the stop word list. It will return the tags
-   * as an array in this form
+   * This is a callup that will allow you to check wether a list of tags are listed in the 
+   * dictionary 
    * 
    * array(
    *  'tag1', true/false // true if found

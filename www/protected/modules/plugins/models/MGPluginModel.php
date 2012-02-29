@@ -11,13 +11,24 @@ class MGPluginModel extends Plugin {
  * Unfortunately in PHP 5.2 it is not possible to retrieve the child class name 
  * in a parent class method usind __CLASS__ or get_class.
  * 
- * Hence we have to make sure getGameID is implemented in each GameModel by making use 
+ * Hence we have to make sure certain plugin methods are by each plugin component by making use 
  * of this interface
  * @abstract
  */
 interface MGPluginModelInterface
 {
+  /*
+   * loads values from the settings file using the FBVStorage compontent
+   */  
   public function fbvLoad();
-  public function fbvSave(); 
+  
+  /*
+   * saves values from to settings file using the FBVStorage compontent
+   */  
+  public function fbvSave();
+  
+  /*
+   * generates the unique id of the plugin
+   */
   public function getPluginID();
 }

@@ -32,7 +32,14 @@ class TagsExportPlugin extends MGExportPlugin {
   function init() {
     parent::init();
   }
-
+  
+  /**
+   * Adds a checkbox that allows to activate/disactivate the use of the plugin on the 
+   * export form.
+   * 
+   * @param object $form the GxActiveForm rendering the export form
+   * @param object $model the ExportForm instance holding the forms values
+   */
   function form(&$form, &$model) {
     $legend = CHtml::tag("legend", array(),
                          Yii::t('app', 'Plugin: Tags Export'));
@@ -61,6 +68,14 @@ class TagsExportPlugin extends MGExportPlugin {
                       '</div></div>');
   }
   
+  /**
+   * Creates the CSV export file in the temporary folder and add the header row  
+   * and the statistics for each game in the file.
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   */
   function preProcess(&$model, &$command, $tmp_folder) {
     $version = Yii::app()->params['version'];
     $format = Yii::app()->params['tags_csv_format'];
@@ -91,7 +106,16 @@ EOT;
 
   }
   
+  /**
+   * Retrieves the tags for an image and exports them as a line of the CSV file 
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   * @param int $image_id the id of the image that should be exported
+   */
   function process(&$model, &$command, $tmp_folder, $image_id) {
+    
     $sql = "
 tu.image_id,
 COUNT(tu.id) tu_count,

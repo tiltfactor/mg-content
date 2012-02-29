@@ -34,14 +34,28 @@ class MGPlugin extends CComponent {
    */
   public $accessRole = "editor";
   
+  /**
+   * Called by the plugins on the plugin initialization 
+   */
   function init() {
     parent::init();
   }
   
+  /**
+   * This method can be overwritten by a plugin implementation. Called on installation/
+   * registration of the plugin
+   * 
+   * @return boolean Feedback if installation worked
+   */
   function install() {
     return TRUE;
   }
   
+  /**
+   * This method can be overwritten by a plugin implementation. Called on deinstallation
+   * 
+   * @return boolean Feedback if deinstallation worked
+   */
   function uninstall() {
     return TRUE;
   }

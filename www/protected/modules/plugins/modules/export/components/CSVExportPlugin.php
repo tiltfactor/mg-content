@@ -13,6 +13,13 @@ class CSVExportPlugin extends MGExportPlugin {
     parent::init();
   }
   
+  /**
+   * Adds a checkbox that allows to activate/disactivate the use of the plugin on the 
+   * export form.
+   * 
+   * @param object $form the GxActiveForm rendering the export form
+   * @param object $model the ExportForm instance holding the forms values
+   */
   function form(&$form, &$model) {
     $legend = CHtml::tag("legend", array(), Yii::t('app', 'Plugin: CSV Export'));
     
@@ -28,6 +35,14 @@ class CSVExportPlugin extends MGExportPlugin {
     return CHtml::tag("fieldset", array(), $legend . '<div class="row">' . $label . $buttons . '<div class="description">' . Yii::t('app', "Export tag uses, tag weights, tags, (and usernames) as tab separated CSV file") . '</div></div>');
   }
   
+  /**
+   * Create the CSV export file in the temporary folder and add the header row in this 
+   * file
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   */
   function preProcess(&$model, &$command, $tmp_folder) {
     if ($model->option_list_user == 1) {
       file_put_contents ($tmp_folder . $model->filename . '.csv', "ImageId\tTagUseCnt\tWeightMin\tWeightMax\tWeightAVG\tWeightSum\tTag\tmageName\tUserName\n");
@@ -36,6 +51,15 @@ class CSVExportPlugin extends MGExportPlugin {
     }
   }
   
+  /**
+   * Retrieves the compound use statistics for a image (according to the settings)
+   * on the export form and adds it to the export file
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   * @param int $image_id the id of the image that should be exported
+   */
   function process(&$model, &$command, $tmp_folder, $image_id) {
     if ($model->option_list_user == 1) {
       $command->selectDistinct('tu.image_id, COUNT(tu.id) tu_count, MIN(tu.weight) w_min, MAX(tu.weight) w_max, AVG(tu.weight) w_avg, SUM(tu.weight) as w_sum, t.tag, i.name, u.username');

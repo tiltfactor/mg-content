@@ -22,6 +22,9 @@ class WordsToAvoid extends MGPluginModel implements MGPluginModelInterface
     );
   }
   
+  /*
+   * loads values from the settings file using the FBVStorage compontent
+   */  
   public function fbvLoad() {
     $plugin_data = Yii::app()->fbvStorage->get("plugins.dictionary." . $this->getPluginID(), null);
     if (is_array($plugin_data)) {
@@ -29,6 +32,9 @@ class WordsToAvoid extends MGPluginModel implements MGPluginModelInterface
     }
   }
   
+  /*
+   * saves values from to settings file using the FBVStorage compontent
+   */  
   public function fbvSave() {
     $plugin_data = array(
       'words_to_avoid_threshold' => $this->words_to_avoid_threshold,

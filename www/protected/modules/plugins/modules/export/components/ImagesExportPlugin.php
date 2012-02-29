@@ -48,7 +48,14 @@ class ImagesExportPlugin extends MGExportPlugin {
   function init() {
     parent::init();
   }
-
+  
+  /**
+   * Adds a checkbox that allows to activate/disactivate the use of the plugin on the 
+   * export form.
+   * 
+   * @param object $form the GxActiveForm rendering the export form
+   * @param object $model the ExportForm instance holding the forms values
+   */
   function form(&$form, &$model) {
     $legend = CHtml::tag("legend", array(),
                          Yii::t('app', 'Plugin: Images Export'));
@@ -93,6 +100,14 @@ class ImagesExportPlugin extends MGExportPlugin {
                  Yii::app()->createAbsoluteUrl(''));
   }
   
+  /**
+   * Creates needed subfolder and a README.txt with current information in the
+   * temporary folder
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   */
   function preProcess(&$model, &$command, $tmp_folder) {
     // Create the output directory for the images.
     $d = $tmp_folder . "images/";
@@ -128,6 +143,15 @@ EOT;
     file_put_contents ($this->output_directory ."/README.txt", $note);
   }
   
+  /**
+   * Retrieves the tags of the image, copies the image, and embeds its tags
+   * regarding the tags threshold into the images header (making use of XMP)
+   * 
+   * @param object $model the ExportForm instance
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param string $tmp_folder the full path to the temporary folder
+   * @param int $image_id the id of the image that should be exported
+   */
   function process(&$model, &$command, $tmp_folder, $image_id) {
     // These are the values we'll embed into the XMP metadata of each
     // exported image.
@@ -164,7 +188,6 @@ i.name
     
     // Extract the filename of the image from the query results array.
     $filename = $info[0]['name'];
-    
     
     // Copy this image into our output directory.
       

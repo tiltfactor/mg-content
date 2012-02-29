@@ -2,7 +2,7 @@
 /**
  * This plugin makes use of the two player information to match the players submitted tags.
  * In case both player have submitted the same matching or new tag a bonus will be added to the score. 
-s */
+ */
 
 class TwoPlayerBonusPlugin extends MGWeightingPlugin  {
   public $enableOnInstall = true;
@@ -10,7 +10,12 @@ class TwoPlayerBonusPlugin extends MGWeightingPlugin  {
   public $accessRole = "dbmanager";
   
   /**
-   * give each tag that has been submitted by both users a bit more weight
+   * Give each tag that has been submitted by both users a bit more weight
+   * 
+   * @param object $game The currently active game
+   * @param object $game_model The currently instance of the 
+   * @param array $tags The tags that have to be rewighted
+   * @return array The weightened tags
    */
   function setWeights(&$game, &$game_model, $tags) {
     if (!$game->played_against_computer) {
@@ -33,8 +38,19 @@ class TwoPlayerBonusPlugin extends MGWeightingPlugin  {
     return $tags;
   }
   
+  /**
+   * Compares the submitted tags with the tags of the images and adds points 
+   * whether the tag is new or matched. All extra points can be set via the 
+   * backend. 
+   * 
+   * @param object $game The currently active game
+   * @param object $game_model The currently instance of the 
+   * @param array $tags The tags that will be used as base for scoring
+   * @param int $score The score that might be increased decreased 
+   * @return int The new score after scroring through this plugin
+   */
   function score(&$game, &$game_model, &$tags, $score) {
-    if (!$game->played_against_computer) {
+    if (!$game->played_against_computer) { // make sure there is a human opponent
       $model = new TwoPlayerBonus;
       $model->fbvLoad();
       if (isset($game->opponents_submission) && isset($game->opponents_submission["parsed"]) && is_array($game->opponents_submission["parsed"])) { // make sure the game is really a two player game and the opponents_submission is set
@@ -65,6 +81,9 @@ class TwoPlayerBonusPlugin extends MGWeightingPlugin  {
     return $score;
   }
   
+  /**
+   * Ensures that the needed settings are saved in the setting file
+   */
   function install() {
     $model = new ScoreNewMatch;
     $model->fbvSave();

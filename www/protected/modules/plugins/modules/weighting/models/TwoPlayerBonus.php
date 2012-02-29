@@ -24,6 +24,9 @@ class TwoPlayerBonus extends MGPluginModel implements MGPluginModelInterface
     );
   }
   
+  /*
+   * loads values from the settings file using the FBVStorage compontent
+   */  
   public function fbvLoad() {
     $plugin_data = Yii::app()->fbvStorage->get("plugins.weighting." . $this->getPluginID(), null);
     if (is_array($plugin_data)) {
@@ -32,6 +35,9 @@ class TwoPlayerBonus extends MGPluginModel implements MGPluginModelInterface
     }
   }
   
+  /*
+   * saves values from to settings file using the FBVStorage compontent
+   */  
   public function fbvSave() {
     $plugin_data = array(
       'score_new' => $this->score_new,

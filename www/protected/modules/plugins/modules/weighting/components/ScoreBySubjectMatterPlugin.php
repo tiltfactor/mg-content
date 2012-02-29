@@ -1,6 +1,7 @@
 <?php
 /**
- * This is the implementation of a weighting plugin. 
+ * This plugin takes subject matter and the players interest, trust, and
+ * expertise into account. 
  *  
  */
 
@@ -9,6 +10,17 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
   public $hasAdmin = TRUE;
   public $accessRole = "dbmanager";
   
+  /**
+   * Reads the players subject matter and the players interest, trust, and
+   * expertise. And gives extra points for these. All values can be set on 
+   * the plugin's settings pages. 
+   * 
+   * @param object $game The currently active game
+   * @param object $game_model The currently instance of the 
+   * @param array $tags The tags that will be used as base for scoring
+   * @param int $score The score that might be increased decreased 
+   * @return int The new score after scroring through this plugin
+   */
   function score(&$game, &$game_model, &$tags, $score) {
     $model = new ScoreBySubjectMatter;
     $model->fbvLoad();
@@ -21,7 +33,9 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
     }
     
     if (!Yii::app()->user->isGuest) {
+      // current player is not guest
       $subject_matters = UserToSubjectMatter::listMAXForUserAndImages(Yii::app()->user->id, $image_ids);
+      // extract subject matter information
       if ($subject_matters) {
         foreach ($subject_matters as $subject_matter_info) {
           if ($subject_matter_info["expertise"] > 50) { // i assume everything > 50 is expert and expertise more important than trust
@@ -29,7 +43,7 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
             continue;
           }
           
-          if ($subject_matter_info["trust"] > 50) { // i assume everything > 50 is expert
+          if ($subject_matter_info["trust"] > 50) { // i assume everything > 50 is trusted
             $image_subject_matter[$subject_matter_info["image_id"]] = "trusted";
             continue;
           }
@@ -37,6 +51,8 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
       }
     }
     
+    // loop through all tags and images and add extra points if the user is 
+    // expert or trusted
     foreach ($tags as $image_id => $image_tags) {
       foreach ($image_tags as $tag => $tag_info) {
         if ($tag_info["weight"] > 0) {
@@ -87,6 +103,9 @@ class ScoreBySubjectMatterPlugin extends MGWeightingPlugin  {
     return $score;
   }
   
+  /**
+   * Ensures that the needed settings are saved in the setting file
+   */
   function install() {
     $model = new ScoreBySubjectMatter;
     $model->fbvSave();

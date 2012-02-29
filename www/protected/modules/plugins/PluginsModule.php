@@ -42,6 +42,13 @@ class PluginsModule extends CWebModule
 			return false;
 	}
   
+  /**
+   * Creates a link to the plugin settings page 
+   *  
+   * @param string $uid Unique ID of the plugin
+   * @param string $label Optional label for the link
+   * @return string Html partail link to plugin settings or empty
+   */
   public static function pluginAdminLink($uid, $label="") {
     try {
       $component = Yii::createComponent(self::getPluginClassName($uid));
@@ -61,6 +68,12 @@ class PluginsModule extends CWebModule
     return "";
   }
   
+  /**
+   * Returns the class name of a plugin extracted from the unique id
+   * 
+   * @param string $uid Unique ID of the plugin
+   * @return string The classname
+   */
   public static function getPluginClassName($uid) {
     $info = explode("-", $uid);
     return $info[1];
@@ -191,6 +204,10 @@ class PluginsModule extends CWebModule
   
   /**
    * This method lists all active plug-ins the current user has got access to.
+   * 
+   * @param string $type Filter list only plugins of this type
+   * @param int $active Filter show active inactive plugins. Defaults to active. Set to 0 to show inactive 
+   * @return Array List of active plugins or empty
    */
   public static function getAccessiblePlugins($type=null, $active=1) {
     $plugins = Plugin::model()->findAll('active=:a', array(':a'=>$active));
