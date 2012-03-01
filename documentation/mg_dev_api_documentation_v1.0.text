@@ -1,0 +1,461 @@
+Metadata Games - Development Guidelines API Documentation
+===========================
+
+Last modified: 03/01/2012
+
+Introduction
+------------
+
+The follwing document explains how to use the Metadata Games API. The API has 
+been developped to allow the implementation of HTML(5), CSS, and JavaScript 
+based games that will make use of the MG platform to facilitate the research 
+in new ways of gathering keyword/tag information for large amount of images.
+
+This document will explain all implemented API callbacks to support your
+endevour in coding new or ammending existing games
+
+API
+---
+
+As the whole system the API is implemented making use of the Yii framework. 
+The API is a module that implements its functionality via controller and 
+their actions. 
+
+*To construct the url calling the API user http://(MG ROOT URL)/api/...*
+
+While the current state of the API is implemented within two controller 
+(User & Games) it will be here presented as one. You'll be able to distinguish
+the controller by looking at the API callback URL.
+
+API SECURITY / USED FILTER
+--------------------------
+
+To increase security the API makes use of several techniques and Yii action 
+filter to enforce them and other. If you like to extend the API you will have
+to make sure to set the needed filter or ammend the existing controller's filter
+rules.
+
+The API makes returns valid JSON and expects you to make all request via the 
+browsers 'XMLHttpRequest' objects. E.g. with jQuery's $.ajax(...) calls. The
+system checks the reqest if a HTTP header entry named *HTTP_X_REQUESTED_WITH*
+exists and is set to *XMLHttpRequest*.
+
+To increase security and make spoofing more complex the API expects you to 
+retrieve a shared secret by sending a GET request to 
+http://(MG ROOT URL)/api/user/SharedSecret and to sign all further request 
+with the retrieved icon by adding a further header to your request. This header
+should be called *HTTP_X_REQUESTED_WITH* and have the shared secret as a
+value. 
+
+*To simplify development we have developped a JavaScript API that offers many 
+features and automatically attempts to retrieve the needed shared secret and 
+signs the AJAX request with the needed headers. You can find the needed files
+in /www/js/. Best to extend the base class that can be found in mg.api.js.*
+
+*FILTER*
+
+The API implementation makes use of the following filter:
+
+- **throttle** making sure that the API can only be called in certain intervals. 
+    Throwing 420 HTTP error if the client calls to fast (the sharedsecret call is 
+    not throttled)'.
+    
+    HTTP STATUS ON FILTER TRIGGERED: 420
+      
+- **IPBlock** all API calls can be blocked for certain IP addresses by making use 
+    of MG's IP block functionality.
+    
+    HTTP STATUS ON FILTER TRIGGERED: 403
+    
+- **APIAjaxOnly** all API request have to come as JavaScript GET or POST ajax request
+    
+    The filter will not throw an exception but redirect all non ajax traffic to the API
+    modules default controller. Showing a short message that the API can only be consumed
+    via AJAX requests
+    
+- **accessControl** some API callbacks might be using the Yii access control filter.
+
+    HTTP STATUS ON FILTER TRIGGERED: 403
+    
+- **sharedSecret** as already mentioned with exclusion of the index and sharesecret 
+    callbacks all requests have to be signed with an shared secret HTTP header
+    
+    HTTP STATUS ON FILTER TRIGGERED: 420
+
+API SPECIFICATION 
+-----------------
+
+The following listing describes all implemented callback functions. And their 
+behaviour in HTTP GET and/or POST requests. The development of the API aimed
+to make the use of MG independent to the implementation of the arcade.
+
+In general each API callback responses in JSON or throws exceptions coded with 
+HTTP STATUSES. Each JSON respons includes a status field that can either be 'ok' 
+or 'error'. In case of 'error' an additional field 'errors' might give more detailed
+error information.
+
+### */api/user/SharedSecret*
+
+Returns a shared secret for the user that will be saved in the session. Each further 
+request has to be signed with this shared secret. This should happen by setting the 
+custom header *HTTP_X_MG_API_SHARED_SECRET* with the retrieved value
+
+HTTP METHOD: GET
+
+JSON:
+<pre> 
+  {
+    "status":"ok",
+    "shared_secret":"MG_API4f4fabdb05820p6tfh"
+  }
+</pre>
+   
+    
+### */api/games/abort/played_game_id/(ID)/*
+
+Attempts to retrive the played game identified by the current users session id and the 
+given played game id to notifiy the opponent that the user has left the game.
+
+This method is also used to skip the waiting for other player screen and play instantly
+against the computer if the game does allow this option.
+   
+HTTP METHOD: GET
+
+JSON: it will return {status:'ok'} or throws an HTTP 400 exception if the *played_game_id*
+cannot be found. 
+ 
+### */api/games/abort/AbortPartnerSearch/played_game_id/(ID)/*
+
+Attempts to retrive the game_partner table entry identified by the given id. 
+It it finds it. It will delete the set the row date to an 01/01/1970 and sends the other
+user an abort message. If a second user should happen to be assigned to this id. 
+
+HTTP METHOD: GET
+
+JSON: it will return {status:'ok'} or throws an HTTP 400 exception if the *played_game_id*
+cannot be found. 
+ 
+### */api/games/abort/messages/played_game_id/(ID)/*
+
+Returns messages for the user playing the given game identiefied by *played_game_id*
+
+HTTP METHOD: GET
+
+JSON: 
+<pre>
+{
+  "status" : "ok" or "error",
+  "messages" : [{message:'message 1'}, {message:'message 2'}, {message:'message 3'}, ...]
+}
+</pre>
+   
+### */api/games/abort/postmessage/played_game_id/(ID)/*
+
+Attempts to retrive the played game identified by the current users session id and the given played game id to leave the posted message for the opponent. 
+You have to make sure $_POST['message'] is set to the string you want to send to the other player. This message can be JSON. 
+
+HTTP METHOD: GET
+
+JSON: it will return {status:'ok'} or throws an HTTP 400 exception if the *played_game_id*
+cannot be found. 
+ 
+### */api/games/gameapi/gid/(GID)/played_game_id/(ID)/*
+
+This method is a bridge between the api and game engines. It allows games to extend the api with further game specific functionality.
+
+You have to make sure $_POST['call'] is set as this is required at the game engine to processs
+the request. 
+
+The JSON of call should be:
+
+<pre>$_POST['call'] = {'method', 'name of method'}</pre>
+
+You can optionally pass parameter by setting $_POST['parameter']
+
+The minimum JSON of data should be:
+
+<pre>
+$_POST['parameter'] = {
+ 'parameter1', 'value', 
+ 'parameter2', 'value',
+ ... 
+}
+</pre>
+
+HTTP METHOD: POST
+
+JSON:
+<pre>
+{
+  "status" : "ok" or "error",
+  "response" : ... // json generated by the game engine to be parsed by the game
+}
+</pre>
+
+or throws an HTTP 400 exception if the *played_game_id* cannot be found. 
+ 
+
+### */api/games/play/gid/(GID)/*
+This method handels play requests into the system. It distinguishes between GET and POST requests. The GID 
+is the unique id of a game (string).
+
+#### GET
+
+A GET requests is the initial call for a game. It prepares the needed database entries and provides 
+the first turn's information. 
+
+A GET Request might have to be repeated if the game is a two-player game and the player is forced to
+wait for a second player. 
+
+**Game Flow on Initialization**
+
+<pre>
+Call via GET request to /api/games/play/gid/(GID)/
+  
+If single player game 
+    > send game data 
+  
+If two player game
+  
+1. Other player waiting 
+    > send game data
+
+2. No other player wating 
+    > send 'retry' status
+    
+2.1 Try every 1 second for X seconds to find a partner
+
+  2.1.1 If player found within the time 
+      > send game data
+      
+  2.1.2 If after X seconds no partner has been found and game can be played against the computer 
+      > send game data
+      
+  2.2 If game can be played against computer the player can skip the wait for partner by making 
+      a call to */api/games/abort/AbortPartnerSearch/played_game_id/(ID)/* 
+      the next time the game 'retries' to GET the system will 
+      > send game data.  
+</pre>
+
+HTTP METHOD: GET
+
+JSON: 
+
+If two player and a second player is not available 
+
+<pre>
+{
+  'status': 'retry'
+}
+</pre>
+
+Or the game's initial data. **The data can vary for each game but you can 
+assume that most of the fields listed below are available for all games.**  
+
+<pre>
+{
+  status: 'ok|error',
+  errors: {"field":["Error Message"]}, // if status == error
+  game: {
+    // the following fields are available in all games
+    unique_id : '',
+    played_game_id : '', // as a user can play more than one game per session we have to track a played game id
+    name : '',
+    description : '',
+    more_info_url : '',
+    base_url : '',
+    'play_once_and_move_on' => '0|1', // if the game is a single player game
+    'turns' => '4',
+    'user_name' => null or 'user name' // if the user is authenticated
+    'user_score' => 0 or x // if the user is authenticated
+    'user_num_played' => 0 or x // if the user is authenticated how many times has the user finished this game  
+    'user_authentiated => false/true // true if user is authenticated
+    ... 
+    //a game will list most likely have has more fields, e.g the custom settings
+  },
+  turn : {
+    score : 0, // numeric of the previous turn's score
+    tags : { //information of the previous turn's tags 
+      "user" : [{
+        "tag" : 'tag1',
+        "original" : '', // set if submitted tag differs from registered tag (3 dogs -> three dogs)
+        "score" : 1, // score of this tag
+        "weight" : 1 
+      },
+      ...
+      ],
+      ...
+      ]
+    },
+    // the following fields are available in all games
+    images : [{
+      // all urls are relative to game.base_url
+      full_size : '',
+      scaled : '',
+      thumbnail : '',
+ 
+      licences : [1,2,3] //id of licence(s) of the image that can be found in turn.licences,
+      id : 1 // the id of the image in the database
+    }, {...}],
+ 
+    licences : [{
+      id: '',
+      name : '',
+      description : '',
+    }, {...}],   
+    
+    // the turn can have further elements created by plugins or similar. e.g
+    wordsToAvoid : ["dog", "house", "car"],
+  }
+}
+</pre>
+
+or throws HTTP 400 exception if the *played_game_id* cannot be found.
+
+or throws HTTP 500 exception if the could not be initialized.
+
+#### POST
+
+The games submit data as POST request. In the post request the users submission will be parsed, weightend, 
+scored and stored in the database. The post method returns scoring results and the next turns information.
+
+**Please make sure $_POST["turn"] is set with the following at least the following JSON**
+
+<pre>
+{
+  turn : 2 // the current turn's number
+  played_game_id : 1 // the id in the database representing that played game
+  submissions : [{ // JSON of this turns submission. The shape of the JSON request differs per game it will most likely be
+      image_id: //id of the image that has been tagged
+      tags: //string of submitted tags
+  }],  
+  ... // you can add further values that are important for a particular game e.g. wordstoavoid
+}
+</pre>
+
+This JSON will be parsed by the game API making use of the game engine's parseSumbission(...) implementation. 
+
+Based on this the system will either respond either with the next turn **in form of the same JSON structure 
+as the GET requests above** or if the system 
+
+HTTP METHOD: POST
+
+JSON: 
+
+**In case of a two player game and the player is the first submitting one**
+
+<pre>
+{
+  'status': 'waiting'
+}
+</pre>
+
+This will lead the game to listen to the players message queue and repost the turn once the second
+player who has been informed about the waiting first submittor submitted her turn. 
+
+*OR*
+
+In case of single player game, or second submittor, or re-submit after waiting time with the 
+same JSON as the GET request above.  
+
+
+or throws HTTP 400 exception if the played_game_id cannot be found.
+
+or throws HTTP 400 exception if the submission cannot be parsed.
+
+or throws HTTP 500 exception if the could not be initialized.
+
+FURTHER NOT USED METHOD CALLS
+-----------------------------
+
+The following API calls are implemented but not currently in use. These and further
+to be implemented API methods could be used to implement non web based application.
+E.g. mobile phone apps making use of JSON calls to communicate with the server
+
+### */api/games/*
+
+This controllers index action will returns a list of all games available in the system
+
+HTTP METHOD: GET
+
+JSON: it will return:
+<pre>
+{
+  'status': 'ok' or 'error',
+  "games":[{
+    "name": "", // name of game
+    "description":"", // description of the game
+    "arcade_image":"", // file name of the arcade image
+    
+    "gid":"", // unique game id (string)
+    "url":"", // url to the game (exclusive base url)
+    "image_url":"", // url to the arcade image (exclusive base url)
+    "api_base_url": "", // base url of the API
+    "arcade_url":"", // full URL to the ARCADE
+    "base_url": "", // base url
+    "game_base_url": // base url of the game (a game can be loaded via game_base_url + gid),
+    "user_name":"", // name of player if logged in 
+    "user_num_played":0, // number of times the authenticated player played the game 
+    "user_score":0, // score of the authenticated player 
+    "played_against_computer":false, // true if the game is played against a computer
+    "user_authenticated":false, // true if user is authenticated
+    
+    // and further fields that depend on the games implementation
+    
+    },
+    ...
+  ]}
+}
+</pre> 
+
+ 
+### */api/games/scores/*
+
+Returns the top 10 score list of all users
+
+HTTP METHOD: GET
+
+JSON: it will return:
+<pre>
+{
+  status:'ok' or 'error', 
+  scores: [{
+    id, 
+    username, 
+    score, 
+    number_played
+  }, ...
+  ] 
+}
+</pre> 
+
+
+### */api/user/login/*
+
+This is the login action it expects to receive needs fields login and password in the request body.
+
+HTTP METHOD: POST
+
+JSON: it will return {status:'ok'} or throw an HTTP 400 exception
+
+
+### */api/user/logout/*
+
+Attempts to logout the user. The currently logged in user will be logged out and the session destroyed
+
+HTTP METHOD: GET
+ 
+JSON: it will return {status:'ok'} or throw an HTTP 400 exception
+   
+   
+### */api/user/passwordrecovery/*
+
+
+This is the password recovery action action. It receives a user name or email address in 
+a field called "login_or_email". If either name or email are found an password reset email 
+will be generated and send to the user.  
+
+HTTP METHOD: POST
+
+JSON: it will return {status:'ok'} or throw an HTTP 400 exception
+ 

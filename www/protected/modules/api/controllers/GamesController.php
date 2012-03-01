@@ -136,7 +136,7 @@ class GamesController extends ApiController {
       $opponent_session_id = ($played_game["session_id_1"] == $user_session_id)? $played_game["session_id_2"] : $played_game["session_id_1"];
       $this->_leaveMessage($opponent_session_id, $played_game_id, 'aborted'); 
     } else {
-      throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+      throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
     }
     $this->sendResponse($data);
   }
@@ -145,6 +145,9 @@ class GamesController extends ApiController {
    * Attempts to retrive the game_partner table entry identified by the given id. 
    * It it finds it. It will delete the set the row date to an 01/01/1970 and sends the other
    * user an abort message. If a second user should happen to be assigned to this id. 
+   * 
+   * This method is also used to skip the waiting for other player screen and play instantly
+   * against the computer if the game does allow this option.
    * 
    * @param int $game_partner_id the id of the game_partner table entry
    * @return string JSON response with status message
@@ -218,7 +221,7 @@ class GamesController extends ApiController {
         $opponent_session_id = ($played_game["session_id_1"] == $user_session_id)? $played_game["session_id_2"] : $played_game["session_id_1"];
         $this->_leaveMessage($opponent_session_id, $played_game_id, $_POST['message']); 
       } else {
-        throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
+        throw new CHttpException(400, Yii::t('app', 'Invalid request.'));
       }
     } else {
       $data['status'] = "error";
@@ -548,10 +551,10 @@ class GamesController extends ApiController {
    * {
    *  turn : 2 // the current turn's number
    *  played_game_id : 1 // the id in the database representing that played game
-   *  submissions[] : { // JSON of this turns submission. The shape of the JSON request differs per game it will most likely be
+   *  submissions : [{ // JSON of this turns submission. The shape of the JSON request differs per game it will most likely be
    *      image_id: //id of the image that has been tagged
    *      tags: //string of submitted tags
-   *  } 
+   *  }],  
    *  ... // you can add further values that are important for a particular game e.g. wordstoavoid
    *  
    * }
@@ -574,7 +577,8 @@ class GamesController extends ApiController {
    *    'user_score' => 0 or x // if the user is authenticated
    *    'user_num_played' => 0 or x // if the user is authenticated how many times has the user finished this game  
    *    'user_authentiated => false/true // true if user is authenticated 
-   *    //a game could have more fields
+   *    ... 
+   *    //a game will list most likely have has more fields, e.g the custom settings
    *  },
    *  turn : {
    *    score : 0, // numeric of the previous turn's score
