@@ -45,6 +45,27 @@ If there are any errors found during the system requirement test, please check t
 If your server passes the system requirement test, you may then click "Proceed with database installation". You will need to fill out the Database Name, Database User Name, and Database Host Name fields for the database you wish to use. If the database has a password, enter this in the Database Password field as well. If you do not have this information, please contact your system administrator. If you have not already created a database for use with Metadata Games, please do so now. After entering the required information, click "Submit".
 
 
+ImageMagick
+-----------
+
+We recommend to use ImageMagick as graphics tool kit to manipulate images. If you have it installed on 
+your server you can configure MG to use by following the installer as described above. Once the 
+installations is done you'll have to change the configurarion manually by hand. Please open the 
+file /www/protected/config/main.php in a text editor and search for:
+
+  'image'=>array(
+      'class'=>'ext.image.CImageComponent',
+      'driver'=>'GD',
+    ),
+     
+to activate ImageMagick replace 'GD' with 'ImageMagick' as in the example below.
+
+  'image'=>array(
+      'class'=>'ext.image.CImageComponent',
+      'driver'=>'ImageMagick',
+    ),
+
+
 ### Admin Account Setup ###
 
 At the "Admin Account Setup" page, fill out the following fields:

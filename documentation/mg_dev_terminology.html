@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <title>MG Guide</title>
+    <style>
+      body {
+        width: 600px;
+        margin:20px;
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        margin: 30px 0 5px 0;
+        line-height: 1em;
+      }
+      
+      h2 {
+        line-height: 1.2em;
+        border-bottom: 2px dashed #999;
+      }
+      
+      pre {
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+<h1>Terminology</h1>
+
+<p>Last Modified: 03/02/2012</p>
+
+<h3>Subject Matter</h3>
+
+<p>MG categorizes images and users via subject matter (e.g. arctic or plants). 
+Subject matter can be added and removed by editors. A default subject matter 
+’all’, to which all user and image sets will be automatically assigned, is 
+always present in the system. </p>
+
+<h3>Trust</h3>
+
+<p>For any user, trust can be saved on a per-image, based on a scale from 0 
+to 100%. This will initially be set manually by an editor, but may later 
+be automatically based on algorithms. Trust can be defined by plug-ins 
+that calculates weightings.</p>
+
+<h3>Expertise</h3>
+
+<p>Each user can have expertise in certain subject matters. An editor can 
+configure the expertise of a user for a particular subject matter. 
+Registered expertise can influence the weight of tags submitted by a 
+user. At the moment, an editor will define expertise on a scale from 0 
+to 100%. Expertise can be defined by plug-ins that calculate the score 
+and weight of tags. </p>
+
+<h3>Interest</h3>
+
+<p>As with expertise and trust, interest will be stored in relation to subject 
+matter defined in the system. The user will be able to define interest on a 
+scale from 0 to 100%. Interest will be used by image plug-ins that weight 
+image selection. </p>
+
+<h3>Tag</h3>
+
+<p>A tag is a keyword or short phrase associated with an image. A tag can contain 
+alphanumerical letters and spaces. All other characters will be removed by the 
+system before saving into the database. Tags can only exist in relation to an 
+image. Each user contributed-tag will be annotated with a weight at time of 
+recording. The weight of a user submitted tag is the outcome of a weighting 
+by a weighting plug-in (e.g. high expertise for subject matter increased weight). 
+This weight will influence the tag's importance by export or game play. A later 
+change in the user’s expertise and/or trust will not influence the weight of 
+already recorded tags.</p>
+
+<h3>Tag Use</h3>
+
+<p>A tag use is the relation of a tag with an image. Each tag use is part of a 
+submission for a games turn. Each tag use has a weight and will be marked as 
+with a type. Tag uses can be linked to a player if the player has been 
+authenticated. A tag use gains importance via its weight. A normal submission
+of a tag for an image gets a weight of 1. This weight can be influenced by 
+plugins or manually by an editor. These plugins can for example take trust, 
+expertise, or interest in account. A tag use weight of 0 lets the system not 
+count this tag use for further processing.   </p>
+
+<h3>Image Set</h3>
+
+<p>An image set is a grouping mechanism for images. In MG version 1.0, each image 
+in the system is assigned to only one image set. Images can be made available 
+to games via image sets. Via each image set you can specify access rules, such 
+as restricting image access to users with a certain IP address range. </p>
+
+<h3>Plug-in</h3>
+
+<p>MG makes use of a plug-in architecture to keep crucial parts of the system 
+flexible. We use the Yii framework’s components to implement this architecture. 
+Plug-in classes include: weighting of user-submitted tags, provision of access 
+rules for image sets, import and export of images and tags, and dictionaries 
+to extend MG with word-related functionalities.</p>
+
+<h3>API</h3>
+
+<p>MG provides an application programming interface (API) to abstract all back end 
+and database interactions needed to implement an arcade or game. Via the API, 
+users will be able to login or register, change their profiles, and access and 
+play games. The API enables MG not only to serve web based games, but to be 
+structurally prepared to be used via mobile phone and/or tablet pc apps.</p>
+</body></html>

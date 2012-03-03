@@ -55,6 +55,7 @@ class MGDictionaryPlugin extends MGPlugin {
   
   /**
    * With help of this method you can add further elements to the words to avoid array
+   * returned the player in the turn's data.
    * 
    * See MGTags::saveTags for the data structure of the $tags array
    * 
@@ -89,11 +90,15 @@ class MGDictionaryPlugin extends MGPlugin {
   
   /**
    * Placeholder for future functionality
+   * 
+   * Not used in V.1.0
    */
   function cleanUp() {}
   
   /**
    * Placeholder for future functionality
+   * 
+   * Not used in V.1.0
    */
   function expand() {} 
   

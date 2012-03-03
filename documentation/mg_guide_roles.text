@@ -1,0 +1,48 @@
+Roles in the system
+===================
+
+Last modified: 03/02/2012
+
+Metadata Games has role based access restrictions to certain parts of the system. If 
+a player registers via the arcade he/she will be automatically assigned to the role 
+**Player**. All other roles will have to be manually assigned via the player admin tool
+accessible via the administration tool pages. Each other role allow a player to access
+the admin tool overview pages and incrementally more admin tools. Please find a description 
+of all roles below. 
+
+## Roles in the System
+
+* **Player**
+    
+    Authenticated user. Can play games, view and change their profile settings, 
+    and see their recorded game results.
+    
+* **Editor** 
+
+    An editor is a player with access the following tools
+    
+    * Image Tools
+    * Tag Tools
+    * Import Tools
+    * Image Set Tools
+    * Licences Tools 
+    * Export Tools
+    * Subject Matter Tools
+    * Plugin Tools
+    * Badges
+    * IP Blacklist
+    
+* **DB Manager** 
+
+    An db manage is an editor with extended access to 
+    
+    * Player Tools
+    * Games Tools
+    * Global Settings Tools
+    * Admin Log Tools
+    
+* **Admin**
+
+    An admin has access to all tools. At the moment it grants additional access to 
+    
+    * Update MG Tool

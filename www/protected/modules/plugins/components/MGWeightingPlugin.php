@@ -47,4 +47,20 @@ class MGWeightingPlugin extends MGPlugin {
   function parseSubmission(&$game, &$game_model) {
     return true;
   }
+  
+  /**
+   * This function adds a value to the score of a tag. If the key "score" is not set it will set it
+   * 
+   * @param array $tag the tag to be scored passed by reference
+   * @param int $score the score to be added to the tag
+   */
+  function addScore(&$tag, $score) {
+    if (is_array($tag)) {
+      if (array_key_exists("score", $tag)) {
+        $tag["score"] += $score;
+      } else {
+        $tag["score"] = $score;
+      }
+    } 
+  }
 }

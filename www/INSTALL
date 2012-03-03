@@ -1,27 +1,7 @@
-1. Place content of folder on server
-2. Goto yourdomain.org/requirements
-3. Ensure that your server passes
-   xxxx ensure that safe_mode is off. place links to how to's about safe_mode disabling 
-4. remove requirements folder from the server
-6. make sure the folder 
-  /assets
-  /uploads
-  /uploads/images
-  /upload/thumbs
-  /upload/scaled
-  /upload/ftp
-  /protected/runtime 
-  are writeable for the web server
-7. remove any folder and files in /assets if needed (the clean install should ship without any files)
- 
-8. Define database parameter and install sql (this will have to be adapted to suit basic needs. Ask for admin user name, email and password.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Metadata Games Installation +++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-9. Make sure that debug and gii(x) is commented out in /index.php and /protected/config/main.php
-
-10. Goto games admin tool and activate at least one game make sure to configure the imageSets
-
-11. goto /index.php/admin/import/uploadfromlocal and import some images. This tool works fine with some (<30) images but might make the browser sweat with large images
-
-Disable giix before  
-
-11. in case you see/want to see debug information goto /index.php and (un)comment the debug constant definition 
+Please consult the install guide in ../documents/mg_guide_install.text or
+../documents/mg_guide_install.html to learn more about how to install 
+Metadata Games on your server.  

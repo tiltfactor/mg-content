@@ -18,7 +18,7 @@ class MGImportPlugin extends MGPlugin {
   function form(&$form) {}
   
   /**
-   * Callback handler for validation of the form fields. 
+   * Callback handler for validation of the form fields added by the form method.
    * 
    * @param Image $image Image model
    * @param Array $errors Array holding information of errors on each form field in the form

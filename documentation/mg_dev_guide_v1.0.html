@@ -1,0 +1,677 @@
+<html>
+  <head>
+    <title>MG Guide</title>
+    <style>
+      body {
+        width: 600px;
+        margin:20px;
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        margin: 30px 0 5px 0;
+        line-height: 1em;
+      }
+      
+      h2 {
+        line-height: 1.2em;
+        border-bottom: 2px dashed #999;
+      }
+      
+      pre {
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+<h1>Metadata Games - Development Guideline</h1>
+
+<p>Last modified: 03/02/2012</p>
+
+<p>In the following we'll briefly explain the concepts and technology that
+has been used to implement Metadata Games (MG). Please also refer to the 
+<a href="mg_dev_terminology.html">terminology</a> document for clarification of a few
+key terms.</p>
+
+<h2>Yii Framework</h2>
+
+<p>MG has been written in PHP with help of of the <a href="http://www.yiiframework.com/">Yii framework</a>.
+As database we have choosen mySQL. </p>
+
+<p>Yii is an model view control (<a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.mvc">MVC</a>)
+ framework and we kept for server site implementation strictly to that pattern. </p>
+
+<p>We suggest that you familiarize yourself by browsing through the <a href="http://www.yiiframework.com/doc/guide/">The Definitive Guide to Yii</a>.</p>
+
+<p>Make sure to know about the following key concepts of Yii 
+before you go on with any deleopment for MG. </p>
+
+<ul>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.mvc">Model-View-Control</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.application">Application</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.controller">Controller</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.model">Model</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.view">View</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.component">Components</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.module">Modules</a></li>
+<li>Database Abstraction Layer: <a href="http://www.yiiframework.com/doc/guide/1.1/en/database.dao">Data Access Objects</a> &amp; <a href="http://www.yiiframework.com/doc/guide/1.1/en/database.query-builder">Query Builder</a> </li>
+<li>Automatic Code Generation using <a href="http://www.yiiframework.com/doc/guide/1.1/en/topics.gii">Gii</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/form.overview">Forms</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/extension.overview">Extensions</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/topics.theming">Theming &amp; Skins</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/topics.auth">User Authentication</a></li>
+<li><a href="http://www.yiiframework.com/wiki/148/understanding-assets/">Asset Manager</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/database.migration">Database Migration</a></li>
+<li><a href="http://www.yiiframework.com/doc/guide/1.1/en/topics.logging">Error Logging</a></li>
+</ul>
+
+<h2>Metadata Games System Architecture</h2>
+
+<p>Please consult the following image for a overvie of the system architecture of MG.</p>
+
+<p><img src="mg_dev_system_architecture_v1.0.png" style="width:800px" /></p>
+
+<p>In the following we will briefly list how each of the sections has been implemented.</p>
+
+<ul>
+<li><p><strong>Arcade</strong></p>
+
+<p>The arcade is implemented with controller, views, and several CPortlet widgets. It 
+also makes use of the <em>user</em> module. The arcade and the widgets have been themed
+using Yii's theming methods.</p>
+
+<p>The code for the plugins can be found in /www/protected/controller,  /www/protected/components, 
+/www/protected/models, /www/protected/views,  /www/themes</p></li>
+<li><p><strong>API</strong></p>
+
+<p>The API has been implemented as a module. Making use of several helper compontents. </p>
+
+<p>The code for the plugins can be found in /www/protected/modules/api</p></li>
+<li><p><strong>Games &amp; Game Engines</strong></p>
+
+<p>Games are implemented as compontents and controller within the games module. Each 
+game provides own assets but also uses the JavaScript API implementation provided
+by MG. A game is consuming the API and will make use of weighting and dictionary 
+plugins. All games makee use of several helper compontents. </p>
+
+<p>The code for the plugins can be found in /www/protected/modules/games and /www/js</p></li>
+<li><p><strong>Multiplayer Message Broker</strong></p>
+
+<p>Has been developped as a callback function in the API. </p></li>
+<li><p><strong>Plugins</strong></p>
+
+<p>MG has got a plugin architecture that has been implemented as module. At the moment 
+five plugin categories are implemented as submodule of the plugins module:</p>
+
+<ul>
+<li><p><em>Dictionary</em></p>
+
+<p>Used by games to provide word lists (e.g. stop words, words to avoid) and to influence
+tag use weighting.</p></li>
+<li><p><em>Weighting &amp; Scoring</em></p>
+
+<p>Used by games to weight tag uses and score game results.</p></li>
+<li><p><em>Import</em></p>
+
+<p>Can be used to implement further functionality on image import. E.g assign 
+images to image sets. </p></li>
+<li><p><em>Export</em></p>
+
+<p>Used to provide additional functionality on export. E.g. embed tags into the
+images' XMP headers.</p></li>
+<li><p><em>Image Set Access (Not used in version 1.0)</em></p>
+
+<p>Restrict access to image set based on certain creteria. </p></li>
+</ul>
+
+<p>The code for the plugins can be found in /www/protected/modules/plugins</p></li>
+<li><p><strong>Database</strong></p>
+
+<p>MG makes use of a MySQL as database. Yii, however, supports other databases the 
+only potential constraint for using a different database management system is the 
+install routine that uses a prefabricated SQL file to create all needed tables and 
+their entries.</p></li>
+<li><p><strong>Backend</strong></p>
+
+<p>The backend has been implemented as a module. Making use of several helper compontents.
+Most of the admin tools have been initially generated with Gii (making use of custom 
+templates) and then customized them further to meet the particular admin tools need. </p>
+
+<p>The backend is basically a collection of admin tools implemented in the module but also
+provides access to admin tools provided by other modules (e.g. the plugin setting or user
+administration)</p>
+
+<p>All admin tools are access restricted to be shown only to players of certain roles.</p>
+
+<p><p>The code for the admin tool can be found in /www/protected/modules/admin</p></li>
+</ul></p>
+
+<h2>Games</h2>
+
+<p>MG has been created to support the creation of games that help to create new 
+keyword information (tags) for a large amount of images. As those games and 
+their gameplay are unforeseen the system has to be very flexible. We'll 
+describe in the following the how games can be implemented in MG. </p>
+
+<h3>Game Types</h3>
+
+<p>First of all it is worth to mention MG supports the following types of games:</p>
+
+<ul>
+<li><p><strong>Single Player</strong></p></li>
+<li><p><strong>Two Player</strong></p>
+
+<p>Wherby two player games can be implemented to work in two modes:</p>
+
+<ul>
+<li><p><em>Human vs. Human</em></p></li>
+<li><p><em>Human vs. Computer</em></p>
+
+<p>In case a second player is not available for a requested game or a
+player does not want to play against another player, MG will try to 
+simulate a human response based on existing information about the 
+game, image sets, images, and tags.</p></li>
+</ul></li>
+</ul>
+
+<h3>Game Structure</h3>
+
+<p>Games are implemented as part of the <em>games module</em> (/www/protected/modules/games/).
+Each game is consists of a component, a controller, and an folder containing 
+all needed assets. Before we describe these element in detail it is worth to
+mention that the games implementation is split in two parts. One part will
+be rendered by the game's controller and served to the player to be executed 
+in the users browser/client the other the game engine via the API on 
+the server. </p>
+
+<p>The browser side has the following tasks.</p>
+
+<ul>
+<li>Rendering of the needed HTML/CSS.</li>
+<li>Provision of all needed assets (images, audio, etc.)</li>
+<li><p>The game logic will be implemented as a JavaScript file an consume the 
+API via AJAX calls. The responses of the API will be in JSON and parsed
+by the game logic to render turns or continue the game play. </p></li>
+<li><p>To ensure validity and security a game can only manipulate data in the
+database via the API. </p></li>
+</ul>
+
+<p>The <em>game engine</em> is implemented as a component whichs predefined methods 
+will be called by the API at certain states. At each of these states the 
+game implementation can make use of the current games data, submission, 
+states to process the data, create new turns, or save data to the database.</p>
+
+<h3>Creating New Games</h3>
+
+<p>To create a new game you'll have to implement a "game" package that fulfils 
+the following tasks:</p>
+
+<ul>
+<li>Register game in MG</li>
+<li>Provide interfaces to set needed variables for a game. </li>
+<li>Provide the implementation of the server side game play making use of the API and the game engine.</li>
+<li>Rendering of needed HTML, CSS, and JavaScript</li>
+<li>Implementation of the needed client side JavaScript making use of a base library (provided).</li>
+<li>Provide assets like CSS, images, and JavaScripts.</li>
+</ul>
+
+<p><strong>Once you have created a game and copied all needed files to the appropriate
+folder on you MG install you'll have to visit the game admin tool in order to 
+register the game as available in the system</strong></p>
+
+<h3>Game Flow</h3>
+
+<ol>
+<li><p><strong>Open Game in Browser</strong></p>
+
+<p>This will call the game's controller which will render the needed HTML
+and makes sure all needed CSS &amp; JavaScript will be loaded. </p></li>
+<li><p><strong>Initialize Game</strong></p>
+
+<p>Once the page is loaded the JavaScript game logic (JGL) will make use of 
+the API HTTP GET) to call the initial game data. This may need several 
+attempts as the user may have to wait for a second player.</p></li>
+<li><p><strong>Render Turn</strong></p>
+
+<p>Once the API returns the initial turn the JGL will render the needed 
+HTML to allow the player to start the game. </p></li>
+<li><p><strong>Submit Turn</strong></p>
+
+<p>The player finishs a turn by fullfilling certain criteria. The game logic
+will then sends (HTTP POST) the turn to the API. This evaluates the submission
+by making use of by an instatiation of the game's server side game engine. </p>
+
+<p>If the submission is valid the API will interact with the <strong>game engine</strong> to
+weight the tags from the submission, score the result, save the submission and 
+tags and/or tag uses to the database and generated a new turn (if the game is 
+not already over. The results and the new turn will be JSON encoded and 
+send back to the client.</p></li>
+<li><p><strong>Parse Result</strong>  </p>
+
+<p>The game logic will then parse the result and update the state of the client. 
+This can involve task as rendering of the next turn, showing the last turn's
+score, or showing a final screen if the game reaches the end. </p></li>
+</ol>
+
+<h3>Implementing a Game</h3>
+
+<h4>IMPORTANT: the <strong>Game ID (GID)</strong> is the game's component class name without Game.</h4>
+
+<p>As already said each game is a collection of a component, a controller, and at 
+least a JavaScript file for the client side game logic implementation. We'll discuss 
+these here now briefly. </p>
+
+<ul>
+<li><p><strong>Controller</strong></p>
+
+<p>The controller's task is just to server the inital HTML needed to render the 
+game. You should include all needed JavaScript and CSS. A new controller has to 
+be place in /www/protected/modules/games/controller and name GIDController.php 
+(e.g ZenTagController.php)</p>
+
+<p>Within the HTML you should initialize the game logic and trigger it's init 
+function.  </p>
+
+<p>An example is the ZenTag controller which you can find here: 
+/www/protected/modules/games/controllers/ZenTagController.php</p></li>
+<li><p><strong>JavaScript Game Logic</strong></p>
+
+<p>Each game logic is an extension of the MG GAME API which is an extension of 
+the MG API implementation. Both files reside in /www/js/. By extending these
+files you gain access to shared functionality and an simple interface to 
+consume the API. As its complexity is hidden behind simple method calls. </p>
+
+<p>The init call triggered via the HTML created by the controller cascades 
+downward through the classes initialize all and then upward via success 
+callbacks to start the game.  </p>
+
+<p>An example of the implementation for the JavaScript based game logic is 
+ZenTags that is in the following file /www/protected/modules/games/assets/zentag/js/mg.game.zentag.js</p>
+
+<p>If you're implementing two player games you'll have to make use of the message 
+provided by the API to pass important changes on to the other player as we're 
+working with clients in distributed networks that (yet) cannot talk to each other 
+in real time. Both clients have to poll this queue in short intervals to 
+retrieve and act on these messages. </p>
+
+<p>An exemplary implementation can be found in ZenPond's game logic file 
+/www/protected/modules/games/assets/zenpond/js/mg.game.zenpond.js </p>
+
+<p>Location: /www/protected/modules/games/assets/(game id in lowercase)/</p></li>
+<li><p><strong>Game Engine</strong></p>
+
+<p>Each game engine is a component that should be placed in /www/protected/modules/games/component.
+It should be a class and file name GIDGame(.php) (e.g ZenTagGame.php). The class has
+to extend MGGame and implement MGGameInterface. To ensure all expected 
+methods are present and implemented. </p>
+
+<p>While the methods inherited from MGGame might be only be partially be 
+overwritten by own code. You'll have to implement the following methods as they
+will differ which each games implementation:</p>
+
+<ul>
+<li><p><strong>parseSubmission(...)</strong></p>
+
+<p>As the JSON submitted/posted by the JavaScript implementation of the game 
+can vary each game has to implement a parsing function to make it available
+for the further methods. This is also the right place to sanity check the 
+submission received by the server</p></li>
+<li><p><strong>parseTags(...)</strong></p>
+
+<p>Take the information from the submission and extract the tags for each image
+involved in the current turn.</p></li>
+<li><p><strong>setWeights(...)</strong></p>
+
+<p>Allows to implement weighting of the submitted tags. Here you should usually 
+provide hooks to the setWeight methods of the dictionary and weighting plugins.</p></li>
+<li><p><strong>getTurn(...)</strong></p>
+
+<p>Creates the needed data for a turn. This data will be passed on to the 
+players client and there rendered. It will most likely involve the follwoing 
+tasks. </p></li>
+<li><p><strong>getScore(...)</strong></p>
+
+<p>This method should hold the implementation that allows the scoring 
+of the turn's submitted tags. It is the place to call the weighting 
+plugin's 'scoring' methods. </p></li>
+</ul></li>
+</ul>
+
+<h3>TIPPS</h3>
+
+<ul>
+<li><p>Use jquery templates for the html of you clients. This makes the future
+customization of your games much easier. </p></li>
+<li><p>Don't forget you can extend the functionality of the API for a game by 
+implementing a custom callback using the API's game api callback. </p></li>
+<li><p>Have a look in the code there is many comments will help you to reveal further
+functionality</p></li>
+<li><p><strong>Please give the assets folder in the modules assets folder the name of the 
+gameid in lowercase</strong> </p></li>
+</ul>
+
+<h2>API</h2>
+
+<p>Please refer to the <a href="mg_dev_api_documentation_v1.0.html">API documentation</a> for more 
+information on the current API's functionality and used security concepts implemented
+as filter.</p>
+
+<p>You can consume the API via AJAX JavaScript requests and it will repsond with data in
+form of JSON encoded strings.</p>
+
+<p>The API is implemented as a module which you can find in the /www/protected/modules/api 
+folder. Here you can see that the API is actually no more than controller that extend 
+an ApiController class to inherit base methods and filter. To add new functionality to 
+the API you have either to implement new methods in the existing controller or add a
+new controller. </p>
+
+<p>At the moment the API's:</p>
+
+<ul>
+<li>User controller makes use of functionality implemented in the User module.</li>
+<li>Games controller is more complex. It interact heavily with the database and instantiates
+game engines to call their callback function at appropriate places.  </li>
+</ul>
+
+<p>For all API controller you want to make sure to keep using appropriate filter such as 
+throttle, IPBlock, APIAjaxOnly, accessControl, and sharedSecret.</p>
+
+<p>To allow two player games we implemented a server side message queue with wich help the 
+game logic and API can leave messages for the two clients to trigger events on the remote
+machines. </p>
+
+<p>We recommend to make use of the JavaScript implementation of the API to consume the API
+on client/browser side.</p>
+
+<h2>Plugins</h2>
+
+<p>To make it easier to extend certain functionalities of MG we have made use of 
+a plugin architecture. At the moment the system make use of four categories of 
+plugins. Which use and particular callbacks we will describe further down. </p>
+
+<p>To begin with we want to explain how to implement a plugin. Each plugin will is
+implemented as part of sub-modules of the plugins module extending components 
+and models of the parent plugins module. If you have a look at the component
+and models folder in /www/protected/modules/plugins folder you'll find the base
+classes that you'll have to use. </p>
+
+<p>A plugin consists of at least a component that you'll have to place in one of 
+the sub modules component folder representing the plugin category. You can finde 
+these here: /www/protected/modules/plugins/modules.</p>
+
+<p>To ensure that each plugin of a category has all the callback methods of its 
+category you'll have to extend the plugin's category componentent from the 
+parent module. In your plugin you can overwrite all the inherited methods to 
+suit your needs. </p>
+
+<p><strong>Please make sure that the newly created component's class and filename end
+in Plugin (e.g StopWordPlugin and StopWordPlugin.php)</strong></p>
+
+<p>Once you've copied the files to the appropriate folders on your MG install visit
+the plugin admin tool. Each time you visit the overview screen the system scans
+the plugin folder and attempts to register/deregister plugins in the systems
+database.</p>
+
+<h3>Adding Plugin Settings Functionality</h3>
+
+<p>If a plugin does not need any further settings you're good with just creating 
+a component. To to store settings for a plugin you'll have to implement a model 
+and a controller and place the code in the same sub-module folder. </p>
+
+<p>All plugins share the same model which main task is to allow to save settings 
+in the database and settings file. Please make sure to extend your plugins 
+model with MGPluginModel and to implement the MGPluginModelInterface.</p>
+
+<p>The controller can either be only consist of a sub</p>
+
+<h3>Plugin Component Attributes</h3>
+
+<p>There a few attributes you can set in the component to influence how MG is 
+rendering the admin interfaces:</p>
+
+<ul>
+<li><p><strong>enableOnInstall</strong></p>
+
+<p>Set true to allow the plugin system to auto activate the plugin on registration.</p>
+
+<p>Defaults to: FALSE;</p></li>
+<li><p><strong>hasAdmin</strong>   </p>
+
+<p>Set true if the plug-in has got an admin tool implemented by providing a 
+controller.</p>
+
+<p>Defaults to: FALSE;</p></li>
+<li><p><strong>adminPath</strong>   </p>
+
+<p>If the admin tools path is not the default location please specify it here. 
+User absolute or relative paths. </p>
+
+<p>Beware you might have to specify /index.php/ as part of your path if you use 
+Yii routing</p>
+
+<p>Defaults to: "";</p></li>
+<li><p><strong>accessRole</strong>   </p>
+
+<p>The minimum role needed in order to access the plug-ins admin tools</p>
+
+<p>Defaults to: "editor";</p></li>
+</ul>
+
+<h3>Plugin Categories</h3>
+
+<p>As already described there are currently four plugin categories in use. Each 
+of them serves a different purpose and might ask you to implement different 
+methods that will be called throughout the system. </p>
+
+<p><strong>Note: Please notice that most of the methods are empty stubs and that you'll 
+have on to implement the methods that suit your particular need</strong>  </p>
+
+<p>However some methods are share among all of them as all extend the same base
+class MGPlugin. </p>
+
+<ul>
+<li><p><strong>install()</strong> </p>
+
+<p>Called on installation/registration of the plugin</p></li>
+<li><p><strong>uninstall()</strong> </p>
+
+<p>Called if you delete a plugin in the plugin admin tool.</p></li>
+<li><p><strong>addScore(...)</strong> </p>
+
+<p>This function adds a value to the score of a tag. If the key 
+"score" is not set it will set it. </p></li>
+<li><p><strong>adjustWeight(...)</strong> </p>
+
+<p>This function adds or substracts a value from the weight of a tag.
+If If the key "weight" is not set it will set it. Used by dictionary 
+and weighting plugins.</p></li>
+</ul>
+
+<h4>Dictionary Plugins</h4>
+
+<p>Used by games to provide word lists (e.g. stop words, words to avoid) and 
+to influence tag use weighting.</p>
+
+<ul>
+<li><p><strong>parseSubmission(...)</strong> </p>
+
+<p>This handler allows dictionary plugins to contribute to the game 
+submissions parsing</p></li>
+<li><p><strong>lookup(...)</strong> </p>
+
+<p>This is a callup that will allow you to check wether a list of tags are 
+listed in the dictionary </p></li>
+<li><p><strong>setWeights(...)</strong> </p>
+
+<p>With help of this method you can influence the weight of tag submitted 
+by the players. The weightened tags will be used for scoring and saved 
+as tag uses into the database</p></li>
+<li><p><strong>wordsToAvoid(...)</strong> </p>
+
+<p>With help of this method you can add further elements to the words to 
+avoid array returned the player in the turn's data.</p></li>
+<li><p><strong>add(...)</strong> </p>
+
+<p>This function allows to add a tag to the dictionary. The $info provided 
+can help a plugin to filter add requests.</p></li>
+</ul>
+
+<h3>Export &amp;</h3>
+
+<p>Used to provide additional functionality on export. E.g. embed tags into the
+images' XMP headers.</p>
+
+<ul>
+<li><p><strong>form(...)</strong> </p>
+
+<p>With help of this method you can add additional fields into the form. At 
+a minimum you'll have to add a field that allows the user to activate the 
+plugin for the current export.</p></li>
+<li><p><strong>preprocess(...)</strong> </p>
+
+<p>This method will be called at the moment the temporary folder has been created.
+You could prepare files and folders needed for the processing of the images.</p></li>
+<li><p><strong>process(...)</strong> </p>
+
+<p>This method will be called once for each image to be exported.</p></li>
+<li><p><strong>postprocess(...)</strong> </p>
+
+<p>This method will be called after all images have been exported.</p></li>
+</ul>
+
+<h4>Import</h4>
+
+<p>Can be used to implement further functionality on image import. E.g assign 
+images to image sets. </p>
+
+<ul>
+<li><p><strong>form(...)</strong> </p>
+
+<p>Provides the ability to add additional fields to the form. Before it 
+will be shown to the user. </p></li>
+<li><p><strong>validate(...)</strong> </p>
+
+<p>Callback handler for validation of the form fields added by the form method.</p></li>
+<li><p><strong>process(...)</strong> </p>
+
+<p>Callback handler that allows the plugin to process/manipulate the 
+imported images.</p></li>
+</ul>
+
+<h4>Weighting &amp; Scoring</h4>
+
+<p>Used by games to weight tag uses and score game results.</p>
+
+<ul>
+<li><strong>addScore(...)</strong> </li>
+</ul>
+
+<p>This function adds a value to the score of a tag. If the key "score" is 
+not set it will set it. </p>
+
+<ul>
+<li><p><strong>score(...)</strong> </p>
+
+<p>The method will be called to generate the score for one turn. 
+Several weighting plugins can be called to built up a compound score. </p></li>
+<li><p><strong>setWeights(...)</strong> </p>
+
+<p>The method called by games to reweight any passed tags. </p></li>
+<li><p><strong>parseSubmission(...)</strong> </p>
+
+<p>This handler allows weighting plugins to contribute to the game 
+submissions parsing</p></li>
+<li><p><strong>addScore(...)</strong> </p>
+
+<p>Helper Method: This function adds a value to the score of a tag. 
+If the key "score" is not set it will set it</p></li>
+</ul>
+
+<h2>TAGS</h2>
+
+<p>We'd like to highlight the MGTags class that streamlines the use of tags and the retrieval 
+of tags of images in the system. You can find it in /www/protected/components and encurage 
+strongly to make use of this class.</p>
+
+<h2>Security in MG</h2>
+
+<p>The security and validity of user profile data and user submissions is highly 
+important. To ensure this MG is using the following security mechanism:</p>
+
+<ul>
+<li><p>To prevent a user from gaming or overloading the system, we restrict each 
+user to a certain number of submissions in a certain amount of time, <br />
+e.g., only one submission per 10 seconds. This is enforced via the 'throttle' 
+action. The interval can be configured on the Global Settings page.</p></li>
+<li><p>To deal with repeat offenders or malicious groups of users from a given IP 
+range, we implemented a global black list of IP addresses. 
+You can maintain this list via the admin tools.</p></li>
+<li><p>You can block/deactivate player accounts</p></li>
+<li><p>You have interfaces to set the tag use weight of a user or a tag to 0. </p></li>
+<li><p>You have the ability to fine tune a players tag uses or ban the player alltogether. 
+The system will automatically set all tag uses to 0. </p></li>
+<li><p>Each registered player is identified by a unique id.</p></li>
+<li><p>The API makes use of a session bound shared secret to make double submission 
+from different client more difficult.</p></li>
+<li><p>All user-submitted data is validated and sanitized on the server side before 
+being added to the database to avert SQL injection and such like.</p></li>
+<li><p>All user-submitted data will be sanitized before output to avoid wrong doing 
+like XSS (cross site scripting).</p></li>
+<li><p>To prevent misuse by anonymous users, each anonymous user is tracked in terms 
+of time, IP address, and other session data in order to prevent misuse. The 
+system is able to distinguish between contributions of different anonymous users.</p></li>
+</ul>
+
+<h2>File Base Configuration Items</h2>
+
+<p>To allow further development and update cycles we have made sure that configuration items 
+and user data are clearly separated. All configuration items are stored in the file /www/protected/data/fbvsettings.php
+which can be and is manipulated via the FBVStorage component. </p>
+
+<h2>User Authentication &amp; Roles</h2>
+
+<p>MG makes use of Yii's built in user authentication framework. Which is configured to 
+use the database with help of the <a href="http://www.yiiframework.com/doc/api/1.1/CDbAuthManager">CDbAuthManager</a>
+as storage place for the user authentication items. At the moment MG uses for roles
+that Player, Editor, DB-Admin, Admin that are enforced throughout the sytem with inline
+code in the view generating the menu items and as filter for actions. </p>
+
+<p>One ideosyncracy of the current MG version is that the roles giving access to the admin 
+tools are configured in the settings file that is located in /www/protected/data/fbvsettings.php.
+For an overview over the role admin tool mapping please consult the document describing <a href="mg_guide_roles.html">Roles in MG</a>.</p>
+
+<h2>Gii</h2>
+
+<p>We have written several templates to for Gii to generate modules, models, controller, 
+or views. We encourage you to use gii and giix shipped with this install to develop 
+further admin tools or other backend sections.</p>
+
+<p>We recommend to use . Please use the mg templates while 
+creating models or CRUD code. If you generate CRUD code you can choose between two templates 
+one for tables using created, modified columns and one for other models. Please generate all 
+models representing actual database tables in the applications models (/protected/models/) 
+folder this ensures easy reuse of these models.</p>
+
+<h2>Further Development</h2>
+
+<p>To allow further development and update cycles we have made sure that configuration items 
+and user data are clearly separated. See "File Base Configuration Items" above and also 
+allowed the usage of Yii Migrate. You can trigger the migration process from the terminal 
+or via an admin tool if you are logged in as an administrator. </p>
+
+<p>We have a few more suggestions for further development:</p>
+
+<ul>
+<li>Use Yii migrations to change the database from the V.1.0 scheme.</li>
+<li>Use Gii to create quickly relyable admin tools</li>
+<li>Use the JavaScript classes in /www/js/ (e.g. mg.api.js, mg.audio.js, or mg.tagdialog.js)
+extended or as source for possible improvements for games or the admin tool</li>
+<li>Make strictly use of the API to develop games. Don't invent new ways to consume rather 
+extend the API's functionality</li>
+<li>Please document/comment your work and amend the existing documentation where you see that 
+it does not fit</li>
+<li>Please follow the <a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.convention">Yii Coding Conventions</a>, and 
+keep everything as <a href="http://www.yiiframework.com/doc/guide/1.1/en/basics.best-practices">Model View Control as possible</a></li>
+</ul>
+</body></html>
