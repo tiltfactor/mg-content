@@ -7,7 +7,7 @@
  * 
  * @author Vincent Van Uffelen <novazembla@gmail.com>
  * @link http://www.metadatagames.com/
- * @copyright Copyright &copy; 2008-2011 Tiltfactor
+ * @copyright Copyright &copy; 2008-2012 Tiltfactor
  * @license http://www.metadatagames.com/license/
  * @package MG
  */

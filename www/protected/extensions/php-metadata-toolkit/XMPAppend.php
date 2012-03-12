@@ -4,7 +4,7 @@
  * @BEGIN_LICENSE
  *
  * Metadata Games - A FOSS Electronic Game for Archival Data Systems
- * Copyright (C) 2011 Mary Flanagan, Tiltfactor Laboratory
+ * Copyright (C) 2012 Mary Flanagan, Tiltfactor Laboratory
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
