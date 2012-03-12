@@ -82,6 +82,10 @@ class XMPAppend {
     // in the Item, or if the tag doesn't match, then we're done.
     if ( $Item == FALSE ||
          !array_key_exists( 'children', $Item ) ||
+         !array_key_exists( 0, $Item['children'] ) ||
+         // Make sure that ALL fields exist before we try to dereference them..
+         !array_key_exists( 'tag', $Item['children'][0] ) ||
+         !array_key_exists( 'children', $Item['children'][0] ) ||
          $Item['children'][0]['tag'] != $tag ) {
       return 0;
     }
