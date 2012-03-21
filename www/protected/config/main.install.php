@@ -108,6 +108,9 @@ return array(
     'zip'=>array(
       'class'=>'application.extensions.zip.EZip', 
     ),
+    'counter' => array(
+      'class' => 'ext.usercounter.UserCounter',
+    ),
   ),
   
   // application-level parameters that can be accessed

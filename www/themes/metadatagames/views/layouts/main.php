@@ -28,7 +28,19 @@
     'keys'=>array('success', 'warning','error'), 
     'htmlOptions'=>array('class'=>'flash'),
   )); ?><!-- flashes -->
+
   <?php echo $content; ?>
+
+<!-- Stubbing in code for number of users online -->
+<?php
+// Properly initialize the values in the counter.
+Yii::app()->counter->refresh();
+
+$num = Yii::app()->counter->getOnline();
+echo "There " . ($num == 1 ? "is" : "are") . " $num user" .
+  ($num == 1 ? "" : "s") . " online."; ?>
+<br />
+
   <div id="footer">
     &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
     <div id="footerLogos">
