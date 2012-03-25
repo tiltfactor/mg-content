@@ -292,8 +292,8 @@ MG_GAME_GUESSWHAT = function ($) {
         guess: current_turn.guesses.length,
         max_guesses : MG_GAME_GUESSWHAT.game.number_guesses,
         num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses - current_turn.guesses.length,
-        max_hints : MG_GAME_GUESSWHAT.game.number_hints,
-        num_hints_left : MG_GAME_GUESSWHAT.game.number_hints - current_turn.hints.length
+        max_hints : MG_GAME_GUESSWHAT.game.number_hints + MG_GAME_GUESSWHAT.game.number_guesses ,
+        num_hints_left : MG_GAME_GUESSWHAT.game.number_hints*1 + MG_GAME_GUESSWHAT.game.number_guesses*1 - current_turn.hints.length
       };
       
       $("#scores").html(""); 
@@ -475,7 +475,7 @@ MG_GAME_GUESSWHAT = function ($) {
             guess: 0,
             guesses : MG_GAME_GUESSWHAT.game.number_guesses,
             num_guesses_left : MG_GAME_GUESSWHAT.game.number_guesses,
-            num_hints_left : MG_GAME_GUESSWHAT.game.number_hints
+            num_hints_left : MG_GAME_GUESSWHAT.game.number_hints*1 + MG_GAME_GUESSWHAT.game.number_guesses*1
           };
           
           // find out in what mode we are this can't be only done for the first turn on the server 
@@ -529,6 +529,8 @@ MG_GAME_GUESSWHAT = function ($) {
               }
               
               MG_GAME_GUESSWHAT.renderDescribeTurn(response, score_info, turn_info, licence_info, more_info, words_to_avoid);
+              $("#sendHintFormContainer").show();
+              $("#hintFormMessage").hide();
             }
           } else {
             // prepare and render guess turn
@@ -562,13 +564,20 @@ MG_GAME_GUESSWHAT = function ($) {
     // Are any more hints are allowed to be given?
     areHintsAllowedLeft : function () {
       var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
-      return (MG_GAME_API.game.number_hints*1 > current_turn.hints.length);
+      
+      var total_allowed_per_turn = MG_GAME_API.game.number_hints*1 + MG_GAME_GUESSWHAT.game.number_guesses*1; // 1 hint per guess + additional hints
+      var used_this_turn = current_turn.hints.length;
+      var guesses = current_turn.guesses.length;
+      
+      var guesses_left = MG_GAME_GUESSWHAT.game.number_guesses*1 - current_turn.guesses.length ;
+      
+      return (total_allowed_per_turn - used_this_turn >= guesses_left);
     },
 
     // Prepare for the next hint (including blocking further hints,
     // if the appropriate conditions have been met).
     prepareForNextHint : function () {
-      if (!MG_GAME_GUESSWHAT.areHintsAllowedLeft()){
+      if (!MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
         // Delete our hint-giving and hint-requesting buttons,
         // replacing them with informative statements as to their
         // disappearance.
@@ -578,7 +587,9 @@ MG_GAME_GUESSWHAT = function ($) {
         // does showing/hiding them give different behavior?
         $("#sendHintFormContainer").hide();
         $("#hintFormMessage").html('');
-        $("#template-hint-form-inactive").tmpl().appendTo($("#hintFormMessage"));     }
+        $("#template-hint-form-inactive").tmpl().appendTo($("#hintFormMessage"));
+        $("#hintFormMessage").show();
+      }
 
       // Update the score.
       MG_GAME_GUESSWHAT.updateScore();
@@ -916,6 +927,9 @@ MG_GAME_GUESSWHAT = function ($) {
         $("#partner-waiting").html("");
         $(waiting_message).tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
         $("#partner-waiting").fadeIn(500);
+        
+        $("#sendHintFormContainer").show();
+        $("#hintFormMessage").hide();
       } else {
         // If this player has found the correct image...
         if (secret_image.image_id == guessedImageID) {

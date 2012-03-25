@@ -17,7 +17,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
   public $partner_wait_threshold = 20; // how many seconds should the system wait to look for a partner
   public $play_against_computer = 1; // if true the system will simulate a human player
   public $number_guesses = 3; // the number of guesses the guessing user has per round
-  public $number_hints = 3; // the number of hints that can be given per round (only in human human mode played against the computer the number of hints is equal the number of guesses)
+  public $number_hints = 3; // the number of additional hints that can be given per turn (only in human human mode played against the computer the number of hints is equal the number of guesses)
   
   public function rules() {
     return array(
