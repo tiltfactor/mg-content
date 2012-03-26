@@ -54,6 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'type'=>'html',
         'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
       ),
+    'tag_count',
     array(
       'cssClassExpression' => "'tags'",
       'header' => Yii::t('app', 'Top Tags'),

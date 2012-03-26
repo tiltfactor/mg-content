@@ -4,9 +4,24 @@ Yii::import('application.models._base.BaseImage');
 
 class Image extends BaseImage
 {
+  public $tag_count; // used in search and admin view grid views.
+  
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
+  
+  public function rules() {
+    return array(
+      array('name, size, mime_type, created, modified', 'required'),
+      array('size, locked', 'numerical', 'integerOnly'=>true),
+      array('name', 'length', 'max'=>254),
+      array('mime_type, batch_id', 'length', 'max'=>45),
+      array('last_access', 'safe'),
+      array('batch_id, last_access, locked', 'default', 'setOnEmpty' => true, 'value' => null),
+      array('id, name, size, mime_type, batch_id, last_access, locked, created, modified, tag_count', 'safe', 'on'=>'search'),
+    );
+  }
+  
   
   /**
    * Provides a CActiveDataProvider for the image tool search functionality
@@ -16,7 +31,8 @@ class Image extends BaseImage
   public function search() {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
-    $criteria->join = "";
+    $criteria->select = 't.*, COUNT(DISTINCT tcu.tag_id) as tag_count';
+    $criteria->join .= ' LEFT JOIN {{tag_use}} tcu ON tcu.image_id=t.id';
     $criteria->distinct = true;
     
     $criteria->compare('id', $this->id);
@@ -72,7 +88,7 @@ class Image extends BaseImage
       if (isset($_GET["Custom"]["username"]) && trim($_GET["Custom"]["username"]) != "") {
         $criteria->distinct = true;
         
-        $criteria->join .= "  LEFT JOIN {{tag_use tu}} ON tu.image_id=t.id
+        $criteria->join .= "  LEFT JOIN {{tag_use}} tu ON tu.image_id=t.id
                               LEFT JOIN {{game_submission}} gs ON gs.id=tu.game_submission_id
                               LEFT JOIN {{session}} s ON s.id=gs.session_id
                               LEFT JOIN {{user}} u ON u.id=s.user_id";
@@ -80,15 +96,51 @@ class Image extends BaseImage
         $criteria->addSearchCondition('u.username', $_GET["Custom"]["username"]);                    
       }
     }
+    
+    $criteria->group = ' tcu.image_id';
+    if (isset($_GET['Image']['tag_count'])) {
+      
+      // as YII does not support a $criteria->compare on a HAVING clause 
+      // we have to extract magic helpers hourselves
+      
+      $value=(string)$_GET['Image']['tag_count'];
+       
+      if(preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/',$value,$matches)) {
+        $value=$matches[2];
+        $op=$matches[1];
+      } else {
+        $op=''; 
+      }
 
+      if($value !== '') {
+        if($op==='')
+          $op='=';
+        
+        $criteria->having .= "tag_count $op :tc";
+        $criteria->params[':tc'] = $value;
+          
+      }
+      
+    }
+    
     if(!Yii::app()->request->isAjaxRequest)
         $criteria->order = 'name ASC';
+    
+    $sort = new CSort;
+    $sort->attributes = array(
+        'tag_count' => array(
+          'asc' => 'tag_count',
+          'desc' => 'tag_count DESC',
+        ),
+        '*',
+    );
     
     return new CActiveDataProvider($this, array(
       'criteria' => $criteria,
       'pagination'=>array(
         'pageSize'=> Yii::app()->fbvStorage->get("settings.pagination_size"),
       ),
+      'sort'=>$sort,
     ));
   }
   
