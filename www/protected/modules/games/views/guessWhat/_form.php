@@ -60,6 +60,12 @@
   </div>
   
   <div class="row">
+    <?php echo $form->labelEx($model,'hint_time_out'); ?>
+    <?php echo $form->textField($model,'hint_time_out'); ?>
+    <?php echo $form->error($model,'hint_time_out'); ?>
+  </div>
+  
+  <div class="row">
     <?php echo $form->labelEx($model,'image_width'); ?>
     <?php echo $form->textField($model,'image_width'); ?>
     <?php echo $form->error($model,'image_width'); ?>

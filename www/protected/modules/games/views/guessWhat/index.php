@@ -134,6 +134,9 @@
 <script id="template-info-modal-waiting-for-guess" type="text/x-jquery-tmpl">
   Waiting for <b>${game_partner_name}</b> to make a guess. <a href="${arcade_url}">Abort</a> game.
 </script>
+<script id="template-info-modal-waiting-for-guess-time-out" type="text/x-jquery-tmpl">
+ <p><b>Hint time out!</b></p> Please wait for <b>${game_partner_name}</b> to make a guess. <a href="${arcade_url}">Abort</a> game.
+</script>
 <script id="template-info-modal-partner-aborted" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> has left the game. <a href="${game_base_url}/guessWhat">Retry</a>. You could also go to back to the <a href="${arcade_url}">arcade</a> instead.
 </script>
@@ -141,7 +144,7 @@
   Waiting for ${game_partner_name} to submit turn. <a href="${arcade_url}">Abort</a> game.
 </script>
 <script id="template-waiting-for-hint" type="text/x-jquery-tmpl">
-  <b>${game_partner_name}</b> waits for you to give a hint.
+  <b>${game_partner_name}</b> waits for you to give a hint. ${time_out} Seconds left.
 </script>
 <script id="template-waiting-for-guess" type="text/x-jquery-tmpl">
   <b>${game_partner_name}</b> waits for you to make a guess.
@@ -150,7 +153,7 @@
   <b>${game_partner_name}</b> made a wrong guess. 
 </script>
 <script id="template-wrong-guess-waiting-for-hint" type="text/x-jquery-tmpl">
-  <b>${game_partner_name}</b> made a wrong guess. Please give another hint. 
+  <b>${game_partner_name}</b> made a wrong guess. Please give another hint. ${time_out} Seconds left.  
 </script>
 <script id="template-error-hint-stop-word" type="text/x-jquery-tmpl">
   <h1>Ooops</h1><p>Your hint is on our stop word list. Please give another hint.</p>

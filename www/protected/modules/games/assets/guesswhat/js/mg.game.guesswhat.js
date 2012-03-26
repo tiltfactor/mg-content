@@ -4,6 +4,10 @@ MG_GAME_GUESSWHAT = function ($) {
     doQueryMessages : false,
     doPartnerSearch : true, 
     
+    hintWaitingTime : 0,
+    hintWaitingTemplate : '#template-waiting-for-hint',
+    hintTimeOutHint : 'TIMED OUT',
+    
     /*
      * implementation of the game's init method called in the view
      */
@@ -114,9 +118,11 @@ MG_GAME_GUESSWHAT = function ($) {
                       $("#info-modal:visible").fadeOut(500);
                       MG_GAME_API.curtain.hide();
                       MG_GAME_GUESSWHAT.busy = false;
-                    
-                      $("#partner-waiting").html("");
-                      $("#template-waiting-for-hint").tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+                      
+                      MG_GAME_GUESSWHAT.hintWaitingTime = MG_GAME_GUESSWHAT.game.hint_time_out;
+                      MG_GAME_GUESSWHAT.hintWaitingTemplate = "#template-waiting-for-hint";
+                      MG_GAME_GUESSWHAT.hintTimeOut();                      
+                      
                       $("#partner-waiting").fadeIn(500);
                       break;
                     
@@ -153,6 +159,13 @@ MG_GAME_GUESSWHAT = function ($) {
         setTimeout(MG_GAME_GUESSWHAT.queryMessages, MG_GAME_API.settings.message_queue_interval);  
       }
     },
+    
+    
+    /*
+     * manages the count down for the describer. The describer has got only a limited
+     * amount of time. If the time runs out the system will show a time out information
+     * and ask the guesser to make a guess.
+     */
     
     /*
      * renders a guess turn
@@ -414,6 +427,13 @@ MG_GAME_GUESSWHAT = function ($) {
                 score -= MG_GAME_GUESSWHAT.turns[i].score;
               }
               
+              var hints = [];
+              $(turn.hints).each(function (index, value) {
+                if (value != MG_GAME_GUESSWHAT.hintTimeOutHint)
+                  hints.push(value);
+              })
+              
+              
               // get turn's describe image info
               image_licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(turn.licences, secret_image);
               var image_info = {
@@ -422,7 +442,7 @@ MG_GAME_GUESSWHAT = function ($) {
                 licence_info : MG_GAME_API.parseLicenceInfo(image_licence_info),
                 num_guesses : turn.guesses.length,
                 num_hints : turn.hints.length,
-                hints : turn.hints.join(', '),
+                hints : hints.join(','),
                 num_points : score
               }
               turn_info.push(image_info);
@@ -505,6 +525,7 @@ MG_GAME_GUESSWHAT = function ($) {
           
           if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == "describe") {
             // prepare and render describe turn
+            MG_GAME_GUESSWHAT.hintWaitingTemplate = "#template-waiting-for-hint";
             
             $('.game_description.describe').show();
             
@@ -671,20 +692,7 @@ MG_GAME_GUESSWHAT = function ($) {
         }
   
         if (hint_ok) { // hint is ok 
-          MG_AUDIO.play("hint");
-                    
-          $('<span>').text(response.response).appendTo($("#game .describe .hints"));
-          $("#game .describe .hints:hidden").toggle();
-          
-          // send a message to the server to let the other player know about the new link 
-          MG_GAME_API.postMessage( {code:'hint','hint': response.response});
-                  
-          current_turn.hints.push(response.response);
-  
-          // Immediately after adding a hint to the list, we need to
-          // (potentially) redraw our hint interaction information so
-          // that we can hide buttons if no more hints are to be given.
-          MG_GAME_GUESSWHAT.prepareForNextHint();
+          MG_GAME_GUESSWHAT.sendHintToGuesser(response.response);
   
           $("#partner-waiting").hide();
           
@@ -706,6 +714,31 @@ MG_GAME_GUESSWHAT = function ($) {
       return false;      
     },
     
+    sendHintToGuesser : function (hint) {
+      var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
+      
+      MG_GAME_GUESSWHAT.hintWaitingTime = -1;
+      MG_AUDIO.play("hint");
+      
+      if (hint == MG_GAME_GUESSWHAT.hintTimeOutHint) {
+        $('<span>').addClass("single-hint timedout").text(hint).appendTo($("#game .describe .hints"));  
+      } else {
+        $('<span>').addClass("single-hint").text(hint).appendTo($("#game .describe .hints"));
+      }
+      
+      $("#game .describe .hints:hidden").toggle();
+      
+      // send a message to the server to let the other player know about the new link 
+      MG_GAME_API.postMessage( {code:'hint','hint': hint});
+      
+      current_turn.hints.push(hint);
+
+      // Immediately after adding a hint to the list, we need to
+      // (potentially) redraw our hint interaction information so
+      // that we can hide buttons if no more hints are to be given.
+      MG_GAME_GUESSWHAT.prepareForNextHint();
+    }, 
+    
     /*
      * callback call if the a message of the type hint has been received
      */
@@ -716,7 +749,13 @@ MG_GAME_GUESSWHAT = function ($) {
       MG_GAME_API.curtain.hide();
       MG_GAME_GUESSWHAT.busy = false;
       $("#game .guess .hints").show();
-      $('<span>').text(hint).appendTo($("#game .guess .hints").fadeIn(2500, function () {MG_AUDIO.play("hint");}));
+      
+      var classes = "single-hint";
+      if (hint == MG_GAME_GUESSWHAT.hintTimeOutHint) 
+        classes += " timedout";
+         
+      $('<span>').addClass(classes).text(hint).appendTo($("#game .guess .hints").fadeIn(2500, function () {MG_AUDIO.play("hint");}));
+      
       current_turn.hints.push(hint);
       
       // Update the score field on the LHS.
@@ -728,7 +767,7 @@ MG_GAME_GUESSWHAT = function ($) {
     
     /*
      * callback called if the turn has been submitted. for this game it will be triggerd after
-     * either the hint limit has been reached and the player clicks load new turn. or after the 
+     * either the hint limit has been reached and the player clicks load new turn or after the 
      * guess limit has been reached.
      */
     onsubmitTurn : function () {
@@ -738,11 +777,18 @@ MG_GAME_GUESSWHAT = function ($) {
         MG_GAME_API.curtain.show();
         MG_GAME_GUESSWHAT.busy = true;
         
+        // we have to filter out all TIMED OUT hints as we don't really want to tag images with this
+        var hints = []; 
+        $(MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints).each(function (index, value) {
+          if (value != MG_GAME_GUESSWHAT.hintTimeOutHint)
+            hints.push(value);
+        });
+        
         MG_API.waitForThrottleIntervalToPass(function () {
           var tags = "";
           
           if (MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == 'describe')
-            tags = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints;
+            tags = hints;
           
           MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
             if (MG_API.checkResponse(response)) {
@@ -819,6 +865,43 @@ MG_GAME_GUESSWHAT = function ($) {
       }
       return licence_info;
     },
+    
+    /*
+     * manages the count down for the describer. The describer has got only a limited
+     * amount of time. If the time runs out the system will show a time out information
+     * and ask the guesser to make a guess.
+     */
+    hintTimeOut : function() {
+      if (MG_GAME_GUESSWHAT.hintWaitingTime > 0 && MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == 'describe') {
+        $("#partner-waiting").html("");
+        
+        $(MG_GAME_GUESSWHAT.hintWaitingTemplate).tmpl({
+          game_partner_name: MG_GAME_API.game.game_partner_name,
+          time_out: MG_GAME_GUESSWHAT.hintWaitingTime
+        }).appendTo($("#partner-waiting"));
+        
+        setTimeout(MG_GAME_GUESSWHAT.hintTimeOut, 1000); 
+        MG_GAME_GUESSWHAT.hintWaitingTime--;
+        
+        $("#partner-waiting:hidden").fadeIn(500);
+         
+      } else if (MG_GAME_GUESSWHAT.hintWaitingTime == 0 && MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == 'describe') {
+        
+        $("#partner-waiting").hide();
+        
+        MG_GAME_API.curtain.show();
+        $("#info-modal").html('');
+        $("#template-info-modal-waiting-for-guess-time-out").tmpl({
+          game_partner_name: MG_GAME_API.game.game_partner_name,
+          game_base_url: MG_GAME_API.game.game_base_url,
+          arcade_url: MG_GAME_API.game.arcade_url
+        }).appendTo($("#info-modal"));
+        $("#info-modal:hidden").fadeIn(250);
+        
+        MG_GAME_GUESSWHAT.sendHintToGuesser(MG_GAME_GUESSWHAT.hintTimeOutHint);
+      }
+    },
+    
     
     /*
      * evaluate the guess. either directly after guessing player has clicked guess or after
@@ -915,21 +998,26 @@ MG_GAME_GUESSWHAT = function ($) {
               }
             }
         }
-
-        MG_GAME_API.curtain.hide();
-
-        var waiting_message = MG_GAME_GUESSWHAT.areHintsAllowedLeft() ?
-          // If we can give hints, then we need to set up to give a
-          // new hint, otherwise we need to not mention giving hints.
-          waiting_message = "#template-wrong-guess-waiting-for-hint" :
-          waiting_message = "#template-wrong-guess-waiting-for-guess";
-
-        $("#partner-waiting").html("");
-        $(waiting_message).tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
-        $("#partner-waiting").fadeIn(500);
         
-        $("#sendHintFormContainer").show();
-        $("#hintFormMessage").hide();
+        
+        MG_GAME_API.curtain.hide();
+        
+        
+        if (MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
+          MG_GAME_GUESSWHAT.hintWaitingTime = MG_GAME_GUESSWHAT.game.hint_time_out;
+          MG_GAME_GUESSWHAT.hintWaitingTemplate = "#template-wrong-guess-waiting-for-hint";
+          MG_GAME_GUESSWHAT.hintTimeOut();
+          $("#sendHintFormContainer").show();
+          $("#hintFormMessage").hide(); 
+        } else {
+          $("#partner-waiting").html("");
+          $('#template-wrong-guess-waiting-for-guess').tmpl({game_partner_name: MG_GAME_API.game.game_partner_name}).appendTo($("#partner-waiting"));
+          $("#partner-waiting").fadeIn(500);
+          $("#sendHintFormContainer").hide();
+          $("#hintFormMessage").show();
+        }
+        
+       
       } else {
         // If this player has found the correct image...
         if (secret_image.image_id == guessedImageID) {
@@ -1021,7 +1109,6 @@ MG_GAME_GUESSWHAT = function ($) {
         }
       } else {
         if(MG_GAME_GUESSWHAT.areHintsAllowedLeft()) {
-          
           // if you can still ask for hints
           $("#info-modal").html("").hide();
           $("#template-info-modal-waiting-for-hint").tmpl({

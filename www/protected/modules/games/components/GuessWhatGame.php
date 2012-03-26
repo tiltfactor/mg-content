@@ -33,8 +33,11 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         if (  isset($submission["mode"]) &&
               isset($submission["hints"]) &&
               isset($submission["guesses"]) &&
-              isset($submission["image_id"]) &&
-              isset($submission["tags"])) {
+              isset($submission["image_id"])) {
+                
+          if (!isset($submission['tags']))
+            $submission['tags'] = array();
+          
           // add the submission the the array 
           $game->request->submissions[] = $submission;
         } 
@@ -45,7 +48,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
     $success = (count($game->request->submissions) > 0);
     
     // the following lines call plugins to manipulate & validate the submission further.
-    
+
     // call all dictionary plugins' parseSubmission method
     $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
     if (count($plugins) > 0) {

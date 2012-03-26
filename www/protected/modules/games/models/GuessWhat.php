@@ -14,6 +14,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
   public $image_height = 450;
   public $image_grid_width = 150;
   public $image_grid_height = 150;
+  public $hint_time_out = 15; // how many seconds shall the describer given to give a hint
   public $partner_wait_threshold = 20; // how many seconds should the system wait to look for a partner
   public $play_against_computer = 1; // if true the system will simulate a human player
   public $number_guesses = 3; // the number of guesses the guessing user has per round
@@ -28,6 +29,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
         array('image_width, image_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('image_grid_width, image_grid_height', 'numerical', 'min'=>50, 'max'=>1000),
         array('active', 'numerical', 'min'=>0, 'max'=>1),
+        array('hint_time_out', 'numerical', 'min'=>0, 'max'=>1000),
         array('play_against_computer', 'numerical', 'min'=>0, 'max'=>1),
         array('turns, partner_wait_threshold, number_guesses', 'numerical', 'min'=>1, 'max'=>1000),
         array('number_hints', 'numerical', 'min'=>0, 'max'=>1000)
@@ -48,6 +50,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
       'play_against_computer' => Yii::t('app', 'Enable Play with Computer Mode'),
       'number_guesses' => Yii::t('app', 'Allowed Number of Guesses Per Turn'),
       'number_hints' => Yii::t('app', 'Additional Hints Per Turn'),
+      'hint_time_out' => Yii::t('app', 'Hint Time Out (seconds)'),
     );
   }
   
@@ -67,6 +70,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
       $this->number_hints = (int)$game_data["number_hints"];
       $this->partner_wait_threshold = (int)$game_data["partner_wait_threshold"];
       $this->play_against_computer = (int)$game_data["play_against_computer"];
+      $this->hint_time_out = (isset($game_data["hint_time_out"]))? (int)$game_data["hint_time_out"] : $this->hint_time_out;
     }
   }
   
@@ -85,6 +89,7 @@ class GuessWhat extends MGGameModel implements MGGameModelInterface
       'number_hints' => $this->number_hints,
       'partner_wait_threshold' => $this->partner_wait_threshold,
       'play_against_computer' => $this->play_against_computer,
+      'hint_time_out' => $this->hint_time_out,
     );
     
     Yii::app()->fbvStorage->set("games." . $this->getGameID(), $game_data);

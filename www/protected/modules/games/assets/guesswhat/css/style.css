@@ -291,6 +291,10 @@ div.left-column {
   color: #f7a31e;
 }
 
+.hints span.timedout {
+  color:#f00;
+}
+
 .guess .hints {
   margin-top: 15px;
   float: left;
@@ -448,7 +452,7 @@ a#sendHint:hover {
   background-color: #ff1f57;
   border-radius: 10px;
   padding: 4px;
-  margin: 0px 0 10px 220px;
+  margin: 0px 0 10px 160px;
   text-align: center;
   display: inline-block;
 }

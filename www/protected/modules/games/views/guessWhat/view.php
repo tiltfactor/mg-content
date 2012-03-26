@@ -26,6 +26,8 @@ $this->menu = array(
     'arcade_image',
     'turns',
     'number_guesses',
+    'number_hints',
+    'hint_time_out',
     'image_width',
     'image_height',
     'image_grid_width',
