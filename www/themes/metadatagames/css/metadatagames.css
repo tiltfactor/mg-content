@@ -60,6 +60,22 @@ body
   margin: 10px;
 }
 
+#usersonline {
+  padding:8px 8px 0px 0px;
+  margin:0px;
+  width: 200px;
+  margin: 0 auto 0 auto;
+  text-align: center;
+}
+
+#usersonline span {
+  color:#ffffff;
+  font-size:14px;
+  font-weight:bold;
+  padding: 8px 8px 4px 8px;
+  text-decoration:none;
+}
+
 #mainmenu {
 	float: right;
 }

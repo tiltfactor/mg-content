@@ -15,7 +15,20 @@
     
   )); 
   ?></div><!-- mainmenu -->
+
+  <div id="usersonline">
+  <!-- Stubbing in code for number of users online -->
+<?php
+// Properly initialize the values in the counter.
+Yii::app()->counter->refresh();
+
+$num = Yii::app()->counter->getOnline();
+echo "<span>There " . ($num == 1 ? "is" : "are") . " $num user" .
+  ($num == 1 ? "" : "s") . " online.</span>";
+?>
+  </div><!-- usersonline -->
 </div>
+
 <div class="container" id="page">
   
   <?php if(isset($this->breadcrumbs)):?>
@@ -30,16 +43,6 @@
   )); ?><!-- flashes -->
 
   <?php echo $content; ?>
-
-<!-- Stubbing in code for number of users online -->
-<?php
-// Properly initialize the values in the counter.
-Yii::app()->counter->refresh();
-
-$num = Yii::app()->counter->getOnline();
-echo "There " . ($num == 1 ? "is" : "are") . " $num user" .
-  ($num == 1 ? "" : "s") . " online."; ?>
-<br />
 
   <div id="footer">
     &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
