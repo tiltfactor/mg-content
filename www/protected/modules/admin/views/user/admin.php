@@ -41,6 +41,10 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 
 echo CHtml::beginForm('','post',array('id'=>'users-form'));
 $tagDialog = $this->widget('MGTagJuiDialog');
+
+// Maximum number of tags to show in the 'Top Tags' column.
+$max_toptags = 10;
+
 $this->widget('zii.widgets.grid.CGridView', array(
   'id' => 'users-grid',
   'dataProvider' => $model->search(),
@@ -62,9 +66,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'email',
     array(
       'cssClassExpression' => "'tags'",
-      'header' => Yii::t('app', 'Top Tags'),
+      'header' => Yii::t('app', "Top $max_toptags Tags"),
       'type' => 'html',
-      'value'=>'$data->getTopTags()',
+      'value'=>'$data->getTopTags(' . $max_toptags . ')',
     ),
     array(
       'name'=>'role',
