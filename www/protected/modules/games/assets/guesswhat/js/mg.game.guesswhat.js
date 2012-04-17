@@ -885,7 +885,9 @@ MG_GAME_GUESSWHAT = function ($) {
         
         $("#partner-waiting:hidden").fadeIn(500);
          
-      } else if (MG_GAME_GUESSWHAT.hintWaitingTime == 0 && MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == 'describe') {
+      } else if (MG_GAME_GUESSWHAT.hintWaitingTime == 0 
+                && !MG_GAME_GUESSWHAT.busy 
+                && MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode == 'describe') {
         
         $("#partner-waiting").hide();
         
@@ -898,10 +900,10 @@ MG_GAME_GUESSWHAT = function ($) {
         }).appendTo($("#info-modal"));
         $("#info-modal:hidden").fadeIn(250);
         
+        MG_GAME_GUESSWHAT.busy = true;
         MG_GAME_GUESSWHAT.sendHintToGuesser(MG_GAME_GUESSWHAT.hintTimeOutHint);
       }
     },
-    
     
     /*
      * evaluate the guess. either directly after guessing player has clicked guess or after
