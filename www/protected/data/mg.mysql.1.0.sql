@@ -708,20 +708,6 @@ COMMENT = 'used in multiplayer games';
 
 
 -- -----------------------------------------------------
--- Table `tbl_migration`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `tbl_migration` ;
-
-CREATE  TABLE IF NOT EXISTS `tbl_migration` (
-  `version` VARCHAR(255) NOT NULL ,
-  `apply_time` INT(11) NULL DEFAULT NULL ,
-  PRIMARY KEY (`version`) )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_swedish_ci;
-
-
--- -----------------------------------------------------
 -- Table `pcounter_users`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `pcounter_users` ;
@@ -731,8 +717,7 @@ CREATE  TABLE IF NOT EXISTS `pcounter_users` (
   `user_time` INT(10) UNSIGNED NOT NULL ,
   UNIQUE INDEX `user_ip` (`user_ip` ASC) )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8
-COLLATE = latin1_swedish_ci;
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -744,9 +729,7 @@ CREATE  TABLE IF NOT EXISTS `pcounter_save` (
   `save_name` VARCHAR(10) NOT NULL ,
   `save_value` INT(10) UNSIGNED NOT NULL )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8
-COLLATE = latin1_swedish_ci;
-
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -816,7 +799,7 @@ COMMIT;
 -- Data for table `pcounter_users`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `pcounter_users` (`user_ip`, `user_time`) VALUES ('\'127.0.0.1\'', 1290821670);
+INSERT INTO `pcounter_users` (`user_ip`, `user_time`) VALUES ('127.0.0.1', 1290821670);
 
 COMMIT;
 
@@ -824,9 +807,9 @@ COMMIT;
 -- Data for table `pcounter_save`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('\'day_time\'', 2455527);
-INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('\'max_count\'', 0);
-INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('\'counter\'', 0);
-INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('\'yesterday\'', 0);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('day_time', 2455527);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('max_count', 0);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('counter', 0);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('yesterday', 0);
 
 COMMIT;
