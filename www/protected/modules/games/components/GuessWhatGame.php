@@ -183,6 +183,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         // one of the images has got more than 10 tags to give hints on.
         if ($game->played_against_computer) {  
           $attempts = 10; // we want not to waste too much time checking for tags so do it only ten times.
+          $number_of_tag_needed = 1; // how many tags have to be available for an image
           $available_images = array();  
           
           while ($attempts > 0) {
@@ -191,19 +192,19 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
             $found_one = false;
             $available_images = array();
             
-            // check if one has more than one image
+            // check if one of the images has the needed tags for the play against the computer mode
             foreach ($image_tags as $image_id => $tags) {
-              if (count($tags) > 10) {
+              if (count($tags) >= $number_of_tag_needed) {
                 $available_images[] = $image_id;
                 break;
               } 
             }
             
             if (count($available_images)) {
-              // found one with more than 10 images
+              // found one with more than 1 tags
               break;
             } else {
-              // haven't found one with 10.
+              // haven't found one with >= $number_of_tag_needed tag.
               // select 12 other random images out of the available one
               $used_images = array();
               $turn_images = array_rand($images, 12);

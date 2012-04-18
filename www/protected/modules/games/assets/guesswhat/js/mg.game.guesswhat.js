@@ -1103,7 +1103,12 @@ MG_GAME_GUESSWHAT = function ($) {
           pos = MG_GAME_GUESSWHAT.getRandomInt(0, secret_image.available_hints.length - 1);
           next_hint = secret_image.available_hints[pos].tag;
           current_turn.images.describe.available_hints.splice(pos,1);
-        } 
+        }
+        
+        if (next_hint == "") {
+          next_hint = MG_GAME_GUESSWHAT.hintTimeOutHint;
+        }
+        
         if (next_hint != "") {
           MG_GAME_GUESSWHAT.processHint(next_hint);
         } else {
