@@ -31,8 +31,11 @@ class Image extends BaseImage
   public function search() {
     $criteria = new CDbCriteria;
     $criteria->alias = 't';
-    $criteria->select = 't.*, COUNT(DISTINCT tcu.tag_id) as tag_count';
-    $criteria->join .= ' LEFT JOIN {{tag_use}} tcu ON tcu.image_id=t.id';
+    // TODO: we want to show the tag count for each image.
+    // regardless if it has been tagged or not
+    // used a join, group by and having but this would only show images that had at least one tag use
+    // to fix that we're now - sigh - using subselects is not the fastest way. Might need improvement in further versions
+    $criteria->select = 't.*, (SELECT COUNT(tcu.tag_id) FROM tag_use tcu WHERE tcu.image_id=t.id AND tcu.weight > 0) AS tag_count';
     $criteria->distinct = true;
     
     $criteria->compare('id', $this->id);
@@ -97,8 +100,8 @@ class Image extends BaseImage
       }
     }
     
-    $criteria->group = ' tcu.image_id';
     if (isset($_GET['Image']['tag_count'])) {
+      
       
       // as YII does not support a $criteria->compare on a HAVING clause 
       // we have to extract magic helpers hourselves
@@ -116,7 +119,8 @@ class Image extends BaseImage
         if($op==='')
           $op='=';
         
-        $criteria->having .= "tag_count $op :tc";
+        //TODO: fix for use of subselect in image with tags filter
+        $criteria->condition .= " AND (SELECT COUNT(tcu.tag_id) FROM tag_use tcu WHERE tcu.image_id=t.id AND tcu.weight > 0) $op :tc";
         $criteria->params[':tc'] = $value;
           
       }
