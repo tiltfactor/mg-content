@@ -12,13 +12,14 @@
   </div>
   
   <div id="messages"></div>
-  <div id="partner-waiting"></div>
 
   <div id="game">
     <div class="describe">      
       <div class="image"></div>
       <div class="form">
       	<div id="words_to_avoid"></div>
+
+        <div id="partner-waiting"></div>
         <div class="hints clearfix"><h3>Hints Given</h3></div>
         <div id="sendHintFormContainer">
           <form action="#">

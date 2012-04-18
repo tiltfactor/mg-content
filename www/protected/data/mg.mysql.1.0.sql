@@ -704,8 +704,32 @@ CREATE  TABLE IF NOT EXISTS `played_game_turn_info` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-COMMENT = 'used in multiplayer games' ;
+COMMENT = 'used in multiplayer games';
 
+
+-- -----------------------------------------------------
+-- Table `pcounter_users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pcounter_users` ;
+
+CREATE  TABLE IF NOT EXISTS `pcounter_users` (
+  `user_ip` VARCHAR(39) NOT NULL ,
+  `user_time` INT(10) UNSIGNED NOT NULL ,
+  UNIQUE INDEX `user_ip` (`user_ip` ASC) )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `pcounter_save`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pcounter_save` ;
+
+CREATE  TABLE IF NOT EXISTS `pcounter_save` (
+  `save_name` VARCHAR(10) NOT NULL ,
+  `save_value` INT(10) UNSIGNED NOT NULL )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -735,7 +759,6 @@ START TRANSACTION;
 INSERT INTO `subject_matter` (`id`, `name`, `locked`, `created`, `modified`) VALUES (1, 'All', 1, '2011-01-01 12:00', '2011-01-01 12:00');
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `badge`
@@ -769,5 +792,24 @@ INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('dbmanager', 'editor');
 INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'player');
 INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'editor');
 INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'dbmanager');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `pcounter_users`
+-- -----------------------------------------------------
+START TRANSACTION;
+INSERT INTO `pcounter_users` (`user_ip`, `user_time`) VALUES ('127.0.0.1', 1290821670);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `pcounter_save`
+-- -----------------------------------------------------
+START TRANSACTION;
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('day_time', 2455527);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('max_count', 0);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('counter', 0);
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('yesterday', 0);
 
 COMMIT;
