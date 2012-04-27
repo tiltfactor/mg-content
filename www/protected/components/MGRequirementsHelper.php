@@ -9,7 +9,7 @@
  */
 
 /**
- * Collection of helper functions for hte installer
+ * Collection of helper functions for the installer
  *
  * @author Vincent Van Uffelen <novazembla@gmail.com>
  */
