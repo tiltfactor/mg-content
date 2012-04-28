@@ -47,6 +47,10 @@ class MGRequirementsHelper {
     $folder_files = array (
       Yii::getPathOfAlias('webroot.assets'),
       Yii::getPathOfAlias('webroot.uploads'),
+      Yii::getPathOfAlias('webroot.uploads.ftp'),
+      Yii::getPathOfAlias('webroot.uploads.images'),
+      Yii::getPathOfAlias('webroot.uploads.scaled'),
+      Yii::getPathOfAlias('webroot.uploads.thumbs'),
       Yii::getPathOfAlias('application.runtime'),
       Yii::getPathOfAlias('application.config') . $ds . 'main.php',
       Yii::getPathOfAlias('application.data') . $ds . 'fbvsettings.php',
