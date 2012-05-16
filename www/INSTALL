@@ -2,6 +2,5 @@
 Metadata Games Installation +++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Please consult the install guide in ../documents/mg_guide_install.text or
-../documents/mg_guide_install.html to learn more about how to install 
-Metadata Games on your server.  
+Please consult the install guide in the top-level documents/ directory
+to learn more about how to install Metadata Games on your server.

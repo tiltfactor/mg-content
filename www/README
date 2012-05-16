@@ -2,7 +2,14 @@
 Metadata Games ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Thank you for your interest in Metadata Games
+Thank you for your interest in Metadata Games.
+
+LICENSE
+-------
+
+Metadata Games is available under the GNU Affero General Public
+License v3+. For more specific licensing information, see the
+top-level file 'LICENSE'.
 
 
 INSTALLATION
@@ -12,15 +19,18 @@ Please consult the install guide in ../documents/mg_guide_install.text or
 ../documents/mg_guide_install.html to learn more about how to install 
 Metadata Games on your server.  
 
+
 REQUIREMENTS
 ------------
 
-The minimum requirement by MG is that your Web server supports
-PHP 5.1.0 or above. MG has been tested with Apache HTTP server
-on Windows and Linux operating systems.
+The minimum requirement for MG is that your Web server supports PHP
+5.1.0 or above. MG has been tested under the Apache HTTP server on
+Windows and Linux.
 
-Please access the following URL to check if your Web server reaches
-the requirements by MG, assuming "MGPath" is where MG is installed:
+On a clean install, please access the following URL to check if your
+Web server meets the requirements for MG:
+
+("MGPath" is where MG is installed)
 
       http://hostname/MGPath/installer.php
 
