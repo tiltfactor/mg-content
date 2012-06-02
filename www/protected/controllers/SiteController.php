@@ -82,4 +82,16 @@ class SiteController extends Controller
 		}
 		$this->render('contact',array('model'=>$model));
 	}
+
+	/**
+	 * Displays the Credits page.
+	 */
+ 	public function actionCredits()
+	{
+		MGHelper::setFrontendTheme();
+    
+		//$this->render('contact',array('model'=>$model));
+		$this->render('credits');
+	}
+
 }
