@@ -348,6 +348,13 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
      * on callback for the PASS button
      */
     onpass : function () {
+      // This function is much simpler than its zentag equivalent. We
+      // just take off the safety (the onBeforeUnload() callback), and
+      // pull the trigger (reload the page). Bang!
+      MG_GAME_API.releaseOnBeforeUnload();
+      location.reload();
+      return false;
+
       if (!MG_GAME_ZENTAG_PLAYONCE.busy) {
         var tags = MG_GAME_ZENTAG_PLAYONCE.passString;
         
