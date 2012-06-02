@@ -63,6 +63,14 @@ class MGTags {
                     
     }
     foreach($used_tags as $tag) {
+      // PASSING: In most cases, we don't want to see any of the
+      // so-called PASS tags, so we will filter them out here.
+      if(strcasecmp($tag["tag"], "PASSONTHISTURN") == 0) {
+	// DEBUG
+	//Yii::log("FOUND a PASS tag.", "Error");
+	continue;
+      }
+
       if (!isset($tags[$tag["image_id"]]))
         $tags[$tag["image_id"]] = array();
         

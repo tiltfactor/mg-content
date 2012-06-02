@@ -29,6 +29,10 @@ class ZenTagGame extends MGGame implements MGGameInterface {
       foreach ($_POST["submissions"] as $submission) {
         if ($submission["image_id"] && (int)$submission["image_id"] != 0
           && $submission["tags"] && (string)$submission["tags"] != "") {
+	  // DEBUG - Figure out what's in the tag array here.
+	  //Yii::log("Tags here are: " + var_export($submission["tags"], true),
+	  //         "Error");
+
           // add the submission the the array 
           $game->request->submissions[] = $submission;
         } 
@@ -201,6 +205,21 @@ class ZenTagGame extends MGGame implements MGGameInterface {
    */
   public function getScore(&$game, &$game_model, &$tags) {
     $score = 0;
+    
+    // User Passing: If the user has passed on this turn, we'll just
+    // assign a score of zero (0) and return.
+    //
+    // NOTE: Even though in an ordinary "passing" round we'd only have
+    // a single tag, given that we are passed a complicated packed
+    // datastructure here, it's easiest to use foreach loops to check
+    // for the PASS code.
+    foreach ($tags as $image_id => $image_tags) {
+      foreach ($image_tags as $tag => $tag_info) {
+	if(strcasecmp($tag, "PASSONTHISTURN") == 0) {
+	  return 0;
+	}
+      }
+    }
     
     // call the set score method of all activated weighting plugins
     $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "weighting");
