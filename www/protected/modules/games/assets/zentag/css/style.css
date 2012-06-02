@@ -19,7 +19,9 @@
  */
 
 /* 
- * ZARA's css styles 20100929, modified by sukie, modified by Vincent Van Uffelen
+ * 2010-09-29 - ZARA's css styles
+ * Modified by sukie
+ * Modified by Vincent Van Uffelen
  */
 
 body {
@@ -249,6 +251,18 @@ h4 {
 	margin: 10px 0 0 0;
 	border-radius: 10px;
 	width: 70px;
+}
+
+#passing {
+	font-size: 14px;
+	font-weight: bold;
+	height: 200px;
+	padding: 150px 0 0px 15px;
+	position: absolute;
+	right: -30px;
+	text-align: left;
+	top: 100px;
+	width: 200px;
 }
 
 #licences {

@@ -31,6 +31,18 @@
       </div> 
     </div>
     <div id="scores"></div>
+    <!-- The ability to pass on a given image -->
+    <div id="passing">
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      Don't know anything about this image? Pass to see the next image.<br />
+      <!-- <a href="#" id="button-pass"> -->
+  <button id="button-pass" type="button" style="color: black; background-color: red; font-size: 110%; border: 1px solid;">PASS</button>
+<!--    </a> -->
+</div>
     <div id="licences"></div>
     <div id="more_info"></div>
     <div id="words_to_avoid"></div>  
