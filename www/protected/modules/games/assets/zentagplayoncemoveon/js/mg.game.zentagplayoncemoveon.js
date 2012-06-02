@@ -1,4 +1,4 @@
-MG_GAME_ZENTAG = function ($) {
+MG_GAME_ZENTAG_PLAYONCE = function ($) {
   return $.extend(MG_GAME_API, {
     wordField : null,
     playOnceMoveOnFinalScreenWaitingTime : 15000, // milliseconds
@@ -15,22 +15,22 @@ MG_GAME_ZENTAG = function ($) {
      */
     init : function (options) {
       var settings = $.extend(options, {
-        ongameinit: MG_GAME_ZENTAG.ongameinit
+        ongameinit: MG_GAME_ZENTAG_PLAYONCE.ongameinit
       });
       
-      MG_GAME_ZENTAG.wordField = $("#words");
+      MG_GAME_ZENTAG_PLAYONCE.wordField = $("#words");
       
       // submit on enter
-      MG_GAME_ZENTAG.wordField.focus().keydown(function(event) {
+      MG_GAME_ZENTAG_PLAYONCE.wordField.focus().keydown(function(event) {
         if(event.keyCode == 13) {
-          MG_GAME_ZENTAG.onsubmit(); 
+          MG_GAME_ZENTAG_PLAYONCE.onsubmit(); 
           return false;
         }
       });
       
-      MG_GAME_ZENTAG.submitButton = $("#button-play").click(MG_GAME_ZENTAG.onsubmit);
+      MG_GAME_ZENTAG_PLAYONCE.submitButton = $("#button-play").click(MG_GAME_ZENTAG_PLAYONCE.onsubmit);
     // TRY to get pass button to submit correct value.
-    MG_GAME_ZENTAG.passButton = $("#button-pass").click(MG_GAME_ZENTAG.onpass);
+    MG_GAME_ZENTAG_PLAYONCE.passButton = $("#button-pass").click(MG_GAME_ZENTAG_PLAYONCE.onpass);
 
       
       MG_GAME_API.game_init(settings);
@@ -44,7 +44,7 @@ MG_GAME_ZENTAG = function ($) {
       
       $("#scores").html(""); 
       $("#template-scores").tmpl(score_info ).appendTo($("#scores"));
-      if (!MG_GAME_ZENTAG.game.user_authenticated) {
+      if (!MG_GAME_ZENTAG_PLAYONCE.game.user_authenticated) {
         $("#scores .total_score").remove();
       }
       
@@ -65,7 +65,7 @@ MG_GAME_ZENTAG = function ($) {
       
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
-      $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});
+      $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG_PLAYONCE.busy = false;MG_GAME_ZENTAG_PLAYONCE.wordField.focus();});
     },
     
     /*
@@ -98,16 +98,16 @@ MG_GAME_ZENTAG = function ($) {
       $("#words_to_avoid").html("");
       
       $("#image_container").html("");
-      if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
+      if (MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on == 1) {
         $("#template-final-info-play-once").tmpl(score_info ).appendTo($("#fieldholder"));
         $("#template-final-summary-play-once").tmpl(turn_info).appendTo($("#image_container"));
         $("#box1").hide();
-        window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime);
+        window.setTimeout(function() {window.location = score_info.play_once_and_move_on_url;}, MG_GAME_ZENTAG_PLAYONCE.playOnceMoveOnFinalScreenWaitingTime);
         
         var updateRemainingTime = function () {
-          MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime -= 1000;
-          if (MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime >= 1) {
-            $('#remainingTime').text(MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime/1000);
+          MG_GAME_ZENTAG_PLAYONCE.playOnceMoveOnFinalScreenWaitingTime -= 1000;
+          if (MG_GAME_ZENTAG_PLAYONCE.playOnceMoveOnFinalScreenWaitingTime >= 1) {
+            $('#remainingTime').text(MG_GAME_ZENTAG_PLAYONCE.playOnceMoveOnFinalScreenWaitingTime/1000);
             window.setTimeout(updateRemainingTime, 1000);  
           }
         }
@@ -119,9 +119,9 @@ MG_GAME_ZENTAG = function ($) {
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       MG_GAME_API.releaseOnBeforeUnload();
-      MG_GAME_ZENTAG.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
+      MG_GAME_ZENTAG_PLAYONCE.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
       
-      $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG.busy = false;MG_GAME_ZENTAG.wordField.focus();});
+      $("#stage").fadeIn(1000, function () {MG_GAME_ZENTAG_PLAYONCE.busy = false;MG_GAME_ZENTAG_PLAYONCE.wordField.focus();});
     },
     
     /*
@@ -130,14 +130,14 @@ MG_GAME_ZENTAG = function ($) {
     onresponse : function (response) {
       MG_GAME_API.curtain.hide();
       
-      MG_GAME_ZENTAG.turn++;
-      MG_GAME_ZENTAG.turns.push(response.turn);
+      MG_GAME_ZENTAG_PLAYONCE.turn++;
+      MG_GAME_ZENTAG_PLAYONCE.turns.push(response.turn);
       
       var more_info = {}; 
-      if ($.trim(MG_GAME_ZENTAG.game.more_info_url) != "")
-        var more_info = {url: MG_GAME_ZENTAG.game.more_info_url, name: MG_GAME_ZENTAG.game.name};
+      if ($.trim(MG_GAME_ZENTAG_PLAYONCE.game.more_info_url) != "")
+        var more_info = {url: MG_GAME_ZENTAG_PLAYONCE.game.more_info_url, name: MG_GAME_ZENTAG_PLAYONCE.game.name};
       
-      if (MG_GAME_ZENTAG.turn > MG_GAME_ZENTAG.game.turns) { // render final result
+      if (MG_GAME_ZENTAG_PLAYONCE.turn > MG_GAME_ZENTAG_PLAYONCE.game.turns) { // render final result
         var licence_info = [];  
           
         var taginfo = {
@@ -152,14 +152,14 @@ MG_GAME_ZENTAG = function ($) {
         };
         
         // prepare needed data for the final screen
-        if (MG_GAME_ZENTAG.turns.length) { // extract scoring and licence info
-          for (i_turn in MG_GAME_ZENTAG.turns) {
-            var turn = MG_GAME_ZENTAG.turns[i_turn];
+        if (MG_GAME_ZENTAG_PLAYONCE.turns.length) { // extract scoring and licence info
+          for (i_turn in MG_GAME_ZENTAG_PLAYONCE.turns) {
+            var turn = MG_GAME_ZENTAG_PLAYONCE.turns[i_turn];
             for (i_img in turn.tags.user) { //scores
               var image = turn.tags.user[i_img];
               for (i_tag in image) {
                 // PASSING: If we find the passing tag, we just skip it.
-                if(i_tag == MG_GAME_ZENTAG.passStringFiltered) {
+                if(i_tag == MG_GAME_ZENTAG_PLAYONCE.passStringFiltered) {
                   continue;
                 }
                 var tag = image[i_tag];
@@ -219,47 +219,47 @@ MG_GAME_ZENTAG = function ($) {
         
         //score box
         var score_info = {
-          user_name : MG_GAME_ZENTAG.game.user_name,
-          user_score : MG_GAME_ZENTAG.game.user_score,
+          user_name : MG_GAME_ZENTAG_PLAYONCE.game.user_name,
+          user_score : MG_GAME_ZENTAG_PLAYONCE.game.user_score,
           current_score : response.turn.score,
-          user_num_played : MG_GAME_ZENTAG.game.user_num_played,
-          turns : MG_GAME_ZENTAG.game.turns,
-          current_turn : MG_GAME_ZENTAG.turn,
+          user_num_played : MG_GAME_ZENTAG_PLAYONCE.game.user_num_played,
+          turns : MG_GAME_ZENTAG_PLAYONCE.game.turns,
+          current_turn : MG_GAME_ZENTAG_PLAYONCE.turn,
           tags_new : taginfo.tags_new.scoreinfo,
           tags_new_score : taginfo.tags_new.score,
           tags_matched : taginfo.tags_matched.scoreinfo,
           tags_matched_score : taginfo.tags_matched.score,
         };
         
-        if (MG_GAME_ZENTAG.game.play_once_and_move_on == 1) {
-          if (MG_GAME_ZENTAG.game.play_once_and_move_on_url == "")
-            MG_GAME_ZENTAG.game.play_once_and_move_on_url = "/";
+        if (MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on == 1) {
+          if (MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on_url == "")
+            MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on_url = "/";
           
-          score_info.remainingTime = (MG_GAME_ZENTAG.playOnceMoveOnFinalScreenWaitingTime / 1000);
-          score_info.play_once_and_move_on_url = MG_GAME_ZENTAG.game.play_once_and_move_on_url;
+          score_info.remainingTime = (MG_GAME_ZENTAG_PLAYONCE.playOnceMoveOnFinalScreenWaitingTime / 1000);
+          score_info.play_once_and_move_on_url = MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on_url;
           
           // turn info == image 
           var turn_info = {
-            url : MG_GAME_ZENTAG.turns[0].images[0].scaled,
-            url_full_size : MG_GAME_ZENTAG.turns[0].images[0].full_size,
-            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
+            url : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].scaled,
+            url_full_size : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].full_size,
+            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[0].licences),
           };
           
         } else {
           // turn info == image 
           var turn_info = {
-            url_1 : MG_GAME_ZENTAG.turns[0].images[0].final_screen,
-            url_full_size_1 : MG_GAME_ZENTAG.turns[0].images[0].full_size,
-            licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
-            url_2 : MG_GAME_ZENTAG.turns[1].images[0].final_screen,
-            url_full_size_2 : MG_GAME_ZENTAG.turns[1].images[0].full_size,
-            licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[1].licences),
-            url_3 : MG_GAME_ZENTAG.turns[2].images[0].final_screen,
-            url_full_size_3 : MG_GAME_ZENTAG.turns[2].images[0].full_size,
-            licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[2].licences),
-            url_4 : MG_GAME_ZENTAG.turns[3].images[0].final_screen,
-            url_full_size_4 : MG_GAME_ZENTAG.turns[3].images[0].full_size,
-            licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[3].licences)
+            url_1 : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].final_screen,
+            url_full_size_1 : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].full_size,
+            licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[0].licences),
+            url_2 : MG_GAME_ZENTAG_PLAYONCE.turns[1].images[0].final_screen,
+            url_full_size_2 : MG_GAME_ZENTAG_PLAYONCE.turns[1].images[0].full_size,
+            licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[1].licences),
+            url_3 : MG_GAME_ZENTAG_PLAYONCE.turns[2].images[0].final_screen,
+            url_full_size_3 : MG_GAME_ZENTAG_PLAYONCE.turns[2].images[0].full_size,
+            licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[2].licences),
+            url_4 : MG_GAME_ZENTAG_PLAYONCE.turns[3].images[0].final_screen,
+            url_full_size_4 : MG_GAME_ZENTAG_PLAYONCE.turns[3].images[0].full_size,
+            licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[3].licences)
           }
         }
         
@@ -270,12 +270,12 @@ MG_GAME_ZENTAG = function ($) {
         
         //score box
         var score_info = {
-          user_name : MG_GAME_ZENTAG.game.user_name,
-          user_score : MG_GAME_ZENTAG.game.user_score,
+          user_name : MG_GAME_ZENTAG_PLAYONCE.game.user_name,
+          user_score : MG_GAME_ZENTAG_PLAYONCE.game.user_score,
           current_score : response.turn.score,
-          user_num_played : MG_GAME_ZENTAG.game.user_num_played,
-          turns : MG_GAME_ZENTAG.game.turns,
-          current_turn : MG_GAME_ZENTAG.turn
+          user_num_played : MG_GAME_ZENTAG_PLAYONCE.game.user_num_played,
+          turns : MG_GAME_ZENTAG_PLAYONCE.game.turns,
+          current_turn : MG_GAME_ZENTAG_PLAYONCE.turn
         };
         
         var licence_info = response.turn.licences;
@@ -309,31 +309,31 @@ MG_GAME_ZENTAG = function ($) {
      * on callback for the submit button
      */
     onsubmit : function () {
-      if (!MG_GAME_ZENTAG.busy) {
-        var tags = $.trim(MG_GAME_ZENTAG.wordField.val());
+      if (!MG_GAME_ZENTAG_PLAYONCE.busy) {
+        var tags = $.trim(MG_GAME_ZENTAG_PLAYONCE.wordField.val());
         if (tags == "") {
           // val filtered for all white spaces (trim)
-          MG_GAME_ZENTAG.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
+          MG_GAME_ZENTAG_PLAYONCE.error("<h1>Ooops</h1><p>Please enter at least one word</p>");
         } else {
           
           // text entered 
           MG_GAME_API.curtain.show();
-          MG_GAME_ZENTAG.busy = true;
+          MG_GAME_ZENTAG_PLAYONCE.busy = true;
           
           // send ajax call as POST request to validate a turn
           MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid , function(response) {
             if (MG_API.checkResponse(response)) {
-              MG_GAME_ZENTAG.wordField.val("");
-              MG_GAME_ZENTAG.onresponse(response);
+              MG_GAME_ZENTAG_PLAYONCE.wordField.val("");
+              MG_GAME_ZENTAG_PLAYONCE.onresponse(response);
             }
           }, {
             type:'post',
             data: { // this is the data needed for the turn
-              turn:MG_GAME_ZENTAG.turn,
-              wordstoavoid: MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].wordstoavoid,
-              played_game_id:MG_GAME_ZENTAG.game.played_game_id,
+              turn:MG_GAME_ZENTAG_PLAYONCE.turn,
+              wordstoavoid: MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].wordstoavoid,
+              played_game_id:MG_GAME_ZENTAG_PLAYONCE.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
+                image_id : MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].images[0].image_id,
                 tags: tags
               }]
             }
@@ -348,28 +348,28 @@ MG_GAME_ZENTAG = function ($) {
      * on callback for the PASS button
      */
     onpass : function () {
-      if (!MG_GAME_ZENTAG.busy) {
-        var tags = MG_GAME_ZENTAG.passString;
+      if (!MG_GAME_ZENTAG_PLAYONCE.busy) {
+        var tags = MG_GAME_ZENTAG_PLAYONCE.passString;
         
         // text entered 
         MG_GAME_API.curtain.show();
-        MG_GAME_ZENTAG.busy = true;
+        MG_GAME_ZENTAG_PLAYONCE.busy = true;
         
         // send ajax call as POST request to validate a turn
         MG_API.ajaxCall('/games/play/gid/' + MG_GAME_API.settings.gid ,
           function(response) {
             if (MG_API.checkResponse(response)) {
-              MG_GAME_ZENTAG.wordField.val("");
-              MG_GAME_ZENTAG.onresponse(response);
+              MG_GAME_ZENTAG_PLAYONCE.wordField.val("");
+              MG_GAME_ZENTAG_PLAYONCE.onresponse(response);
             }
           }, {
             type:'post',
             data: { // this is the data needed for the turn
-              turn:MG_GAME_ZENTAG.turn,
-              wordstoavoid: MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].wordstoavoid,
-              played_game_id:MG_GAME_ZENTAG.game.played_game_id,
+              turn:MG_GAME_ZENTAG_PLAYONCE.turn,
+              wordstoavoid: MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].wordstoavoid,
+              played_game_id:MG_GAME_ZENTAG_PLAYONCE.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
+                image_id : MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].images[0].image_id,
                 tags: tags
               }]
             }
@@ -396,7 +396,7 @@ MG_GAME_ZENTAG = function ($) {
      * process /api/games/play get request responses
      */
     ongameinit : function (response) {
-      MG_GAME_ZENTAG.onresponse(response);
+      MG_GAME_ZENTAG_PLAYONCE.onresponse(response);
     },
   });
 }(jQuery);
