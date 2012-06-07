@@ -94,4 +94,13 @@ class SiteController extends Controller
 		$this->render('credits');
 	}
 
+	/**
+	 * Displays the About page.
+	 */
+ 	public function actionAbout()
+	{
+		MGHelper::setFrontendTheme();
+		$this->render('about');
+	}
+
 }

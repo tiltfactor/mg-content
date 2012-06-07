@@ -40,3 +40,7 @@ Sysadmin/Networking: Mike Pettinicchio, Joe Hill, Sean Dunten<br />
 <p><strong>Testers, helpers, and friends:</strong><br />
 Joshua Shaw, Alicia Driscoll, ...(add students who have tested) Sebastian Bierman-Lytle, Edward del Rosario, Rose Flanagan ... (add the guys in Dartmouth networking?) Knick and Tina (add folks who were part of the pilot) Derrick Smith, Nick and Tina Moschella, Courtney Hook, Mehta and Isara Punjasthitkul, Nick Sinnott Armstrong, Matt Geer
 </p>
+
+
+<p>More general information available on the <a href="about">About</a> page.
+</p>
