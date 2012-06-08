@@ -42,5 +42,5 @@ Joshua Shaw, Alicia Driscoll, ...(add students who have tested) Sebastian Bierma
 </p>
 
 
-<p>More general information available on the <a href="about">About</a> page.
+<p>More general information available on the <a target="_blank" href="about">About</a> page.
 </p>
