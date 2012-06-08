@@ -38,7 +38,7 @@ Sysadmin/Networking: Mike Pettinicchio, Joe Hill, Sean Dunten<br />
 </p>
 
 <p><strong>Testers, helpers, and friends:</strong><br />
-Joshua Shaw, Erika Murillo, Viviana Ramos, Robert McAvinue, Shaun Akhtar, Edward del Rosario, Rose Flanagan, Knick and Tina, Derrick Smith, Nick and Tina Moschella, Courtney Hook, Mehta and Isara Punjasthitkul, Nick Sinnott Armstrong, Matt Geer, Rebekah Scott, Leah Nicolich-Henkin, Jack Litherland.
+Joshua Shaw, Erika Murillo, Viviana Ramos, Robert McAvinue, Shaun Akhtar, Edward del Rosario, Rose Flanagan, Derrick Smith, Nick and Tina Moschella, Courtney Hook, Mehta and Isara Punjasthitkul, Nick Sinnott Armstrong, Matt Geer, Rebekah Scott, Leah Nicolich-Henkin, Jack Litherland, and everyone else who has tagged an image or six. Thank you!
 </p>
 
 
