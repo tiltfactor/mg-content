@@ -1,24 +1,20 @@
 Metadata Games - Installing Metadata Games
 ==========================================
 
-Last modified: 12/18/2011
+Last modified: 10/30/2012
 
 
 Download options and requirements
 ---------------------------------
 
-There are two options for getting a copy of Metadata Games:
+Currently you can grab a copy of Metadata Games source code by downloading a git clone of the metadatagames repository at [gitorious.org][1].
 
-  1. Download a .zip file of the build from [insert link here]. Extract all files following download.
-
-  2. Download a Git clone of the metadatagames repository at [gitorious.org][1] (account required).
-
-[1]: http://gitorious.org
+[1]: https://gitorious.org/metadatagames
 
 
 ### Check PHP Memory Limit ###
 
-Before installation, have a system administrator configure your server's php.ini file to make sure its PHP memory limit is at least 128 MB. [check with Robinson]
+Before installation, have a system administrator configure your server's php.ini file to make sure its PHP memory **limit is at least 128 MB.** We currently recommend **256 MB or more** if you are looking to import and use more than 10,000 images. 
 
 
 ### Client Requirements ###
@@ -32,7 +28,7 @@ Metadata Games is accessible using the latest web browsers (as of this writing):
   * Opera (?)
 
 
-Once you have downloaded the Metadata Games software, open a web browser, navigate to its folder location, and open the www/ subfolder. Click "Proceed with system requirement test" to run a test of server capabilities. This will ensure that your server can support the required Yii framework. 
+Once you have downloaded the Metadata Games software, open a web browser, navigate to its folder location, and open the www/ subfolder. Click **"Proceed with system requirement test"** to run a test of server capabilities. This will ensure that your server can support the required Yii framework. 
 
 **(NOTE: We highly recommend that ImageMagick be installed and configured on your server.)**
 
