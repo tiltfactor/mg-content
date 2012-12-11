@@ -1,0 +1,43 @@
+Metadata Games - Troubleshooting
+================================
+
+Last modified: 12/11/2012
+
+
+### I'm going through the installer, and when I enter my admin account info and click submit, I'm brought back to the beginning of install process! ###
+
+--------
+
+It's a PHP issue where you have to explicitly set the timezone. To fix this issue, add the following to your php.ini file:
+
+	[Date]
+	date.timezone = "America/New_York"
+(Substitute "New_York" with timezone of choice)
+
+
+### I've registered for a player account, but I haven't received an email with my activation link. ###
+
+--------
+
+Check your spam/junk folder to see if it got sent there. You can also contact the webmaster of your Metadata Games system to create a player account from the Manage Players page (admin / players).
+
+
+### I've set up ZenTag, but I'm not scoring any points! ###
+
+--------
+
+Check to make sure that you have the right combination of plugins enabled. If you don't have any point-generating plugins enabled, then the players won't get any points! This is what we suggest as the default settings for Zen Tag:
+
+dictionary-StopWordPlugin
+dictionary-WordsToAvoidPlugin
+weighting-ScoreBySubjectMatterPlugin
+weighting-ScoreNewMatchPlugin
+
+
+### I've set up ZenTag, but I'm not scoring any points! ###
+
+--------
+
+Check to make sure that you have the right combination of plugins
+enabled. If you don't have any point-generating plugins enabled, then
+the players won't get any points!

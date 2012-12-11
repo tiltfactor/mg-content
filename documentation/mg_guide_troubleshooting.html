@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>MG Guide</title>
+    <style>
+      body {
+        width: 600px;
+        margin:20px;
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        margin: 30px 0 5px 0;
+        line-height: 1em;
+      }
+      
+      h2 {
+        line-height: 1.2em;
+        border-bottom: 2px dashed #999;
+      }
+      
+      pre {
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+<h1>Metadata Games - Troubleshooting</h1>
+
+<p>Last modified: 12/11/2012</p>
+
+<h3>I'm going through the installer, and when I enter my admin account info and click submit, I'm brought back to the beginning of install process!</h3>
+
+<hr />
+
+<p>It's a PHP issue where you have to explicitly set the timezone. To fix this issue, add the following to your php.ini file:</p>
+
+<pre><code>[Date]
+date.timezone = "America/New_York"
+</code></pre>
+
+<p>(Substitute "New_York" with timezone of choice)</p>
+
+<h3>I've registered for a player account, but I haven't received an email with my activation link.</h3>
+
+<hr />
+
+<p>Check your spam/junk folder to see if it got sent there. You can also contact the webmaster of your Metadata Games system to create a player account from the Manage Players page (admin / players).</p>
+
+<h3>I've set up ZenTag, but I'm not scoring any points!</h3>
+
+<hr />
+
+<p>Check to make sure that you have the right combination of plugins enabled. If you don't have any point-generating plugins enabled, then the players won't get any points! This is what we suggest as the default settings for Zen Tag:</p>
+
+<p>dictionary-StopWordPlugin
+dictionary-WordsToAvoidPlugin
+weighting-ScoreBySubjectMatterPlugin
+weighting-ScoreNewMatchPlugin</p>
+
+<h3>I've set up ZenTag, but I'm not scoring any points!</h3>
+
+<hr />
+
+<p>Check to make sure that you have the right combination of plugins
+enabled. If you don't have any point-generating plugins enabled, then
+the players won't get any points!</p>
+</body></html>

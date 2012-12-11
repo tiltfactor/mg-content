@@ -1,0 +1,66 @@
+Metadata Games - Configuration
+==============================
+
+Last modified: 12/11/2012
+
+
+Configuration
+-------------
+
+Once Metadata Games is installed, it's time to configure your system:
+
+1. Login to gain access to the admin tool.
+2. Visit the plugin tool.
+3. Create image sets and import images.
+4. Visit the games tool and activate the ones you want to use.
+5. Go to the Arcade and play!
+
+
+1. Login
+--------
+
+Gain access to all admin tools by signing in with your newly-created account at
+
+	[yoursite.com]/www/index.php/user/login
+
+<img src ="images/metadatagames1-0_configure_1_login.png" title="Metadata Games - Login Screen" style="border: 1px solid #000;" />
+
+	
+You can access the "Admin Overview" page by clicking on "Admin" in the Metadata Games navigation bar at the top of the page. This page contains links to all of the available tools. These links also appear in the Admin navigation bar, underneath the Metadata Games navigation bar.
+
+<img src ="images/metadatagames1-0_AdminOverview.png" title="Metadata Games - Admin Overview" style="border: 1px solid #000;" width=615 />
+
+> **NOTE:** For detailed information about all admin tools, see the [Site Administration](mg_guide_siteadmin.html "MG - Site Administration Guide") guide in the Metadata Games documentation/ folder.
+
+
+2. Visit the Plugin Tool
+------------------------
+
+From the Admin Overview, click **Plugins** to register and configure plugins settings.
+
+For more information on plugins options, see the [Plugin Default Settings](mg_guide_plugindefaultsettings.html "Plugin Default Settings") help guide in the Metadata Games documentation/ folder.
+
+<img src ="images/metadatagames1_0_RegisterPlugins.png" title="Metadata Games - Register Plugins" style="border: 1px solid #000;" width=615 />
+
+
+3. Create Image Sets & Import Images
+------------------------------------
+
+Next, create image sets and import images from your server or local machine by using the "Image Sets" and "Images" tools.
+
+<img src ="images/metadatagames1-0_Import_1.png" title="Metadata Games - Import Images" style="border: 1px solid #000;" width=615 />
+
+> **Note:** Importing images is a **two**-step process: **Import** and **Process**
+
+> **NOTE: All images imported into the system must be in the JPEG (.jpg or .jpeg) format. We highly recommend that each image is no larger than 1.5 MB in size, due to limits in a typical PHP configuration. Furthermore, we recommend that a minimum of 100 images are imported and processed into the system before starting gameplay.)**
+
+
+4.Activate & Configure Games
+----------------------------
+
+Finally, use the "Games" tool to activate and customize the games you want to use. For information about specific games and their default settings, view the [Game Default Settings](mg_guide_gamedefaultsettings.html "Game Default Settings") help guide in the Metadata Games docuementation/ folder. 
+
+<img src ="images/metadatagames1-0_RegisterGames.png" title="Metadata Games - Import Images" style="border: 1px solid #000;" width=615 />
+
+**Your system setup is complete. Go to the Arcade and play!**
+
