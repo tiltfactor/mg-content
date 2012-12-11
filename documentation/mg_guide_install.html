@@ -27,7 +27,7 @@
   <body>
 <h1>Metadata Games - Installing Metadata Games</h1>
 
-<p>Last modified: 10/30/2012</p>
+<p>Last modified: 12/11/2012</p>
 
 <h2>Download options and requirements</h2>
 
@@ -49,7 +49,11 @@
 <li>Opera (?)</li>
 </ul>
 
-<p>Once you have downloaded the Metadata Games software, open a web browser, navigate to its folder location, and open the www/ subfolder. Click <strong>"Proceed with system requirement test"</strong> to run a test of server capabilities. This will ensure that your server can support the required Yii framework. </p>
+<h3>System Requirement Test</h3>
+
+<p>Once you have downloaded the Metadata Games software, open a web browser, navigate to its folder location, and open the <strong>www/</strong> subfolder. Click <strong>"Proceed with system requirement test"</strong> to run a test of server capabilities. This will ensure that your server can support the required Yii framework. </p>
+
+<p><img src ="images/metadatagames1-0_install_1_welcome.png" title="Metadata Games - Installation Welcome Screen" style="border: 1px solid #000;" /></p>
 
 <p><strong>(NOTE: We highly recommend that ImageMagick be installed and configured on your server.)</strong></p>
 
@@ -57,26 +61,15 @@
 
 <p>If there are any errors found during the system requirement test, please check the Memo column for details. After resolving any incompatibilities, reload the page and look for any further errors. </p>
 
-<p>If your server passes the system requirement test, you may then click "Proceed with database installation". You will need to fill out the Database Name, Database User Name, and Database Host Name fields for the database you wish to use. If the database has a password, enter this in the Database Password field as well. If you do not have this information, please contact your system administrator. If you have not already created a database for use with Metadata Games, please do so now. After entering the required information, click "Submit".</p>
+<p><img src ="images/metadatagames1-0_install_2_requirementsTest.png" title="Metadata Games - Installation Requirement Test" width=615 style="border: 1px solid #000;" /></p>
 
-<h2>ImageMagick</h2>
+<p>If your server passes the system requirement test, you may then click <strong>"Proceed with database installation"</strong>, bring you to the Database Setup page. </p>
 
-<p>We recommend to use ImageMagick as graphics tool kit to manipulate images. If you have it installed on 
-your server you can configure MG to use by following the installer as described above. Once the 
-installations is done you'll have to change the configurarion manually by hand. Please open the 
-file /www/protected/config/main.php in a text editor and search for:</p>
+<h3>Database Setup</h3>
 
-<p>'image'=>array(
-      'class'=>'ext.image.CImageComponent',
-      'driver'=>'GD',
-    ),</p>
+<p>You will need to fill out the <strong>Database Name, Database User Name, and Database Host Name</strong> fields for the database you wish to use. If the database has a password, enter this in the Database Password field as well. If you do not have this information, please contact your system administrator. Leave the Database Host Port field blank. If you have not already created a database for use with Metadata Games, please do so now. </p>
 
-<p>to activate ImageMagick replace 'GD' with 'ImageMagick' as in the example below.</p>
-
-<p>'image'=>array(
-      'class'=>'ext.image.CImageComponent',
-      'driver'=>'ImageMagick',
-    ),</p>
+<p>After entering the required information, click "Submit".</p>
 
 <h3>Admin Account Setup</h3>
 
@@ -90,45 +83,25 @@ file /www/protected/config/main.php in a text editor and search for:</p>
 <li><p><strong>Email</strong> - A valid email address for the administrator.</p></li>
 </ul>
 
+<p><img src ="images/metadatagames1-0_install_4_adminAccountSetup.png" title="Metadata Games - Admin Account Setup" width=615 style="border: 1px solid #000;" /></p>
+
 <p>Then click "Save". Congratulations! You have successfully installed Metadata Games! Now onto configuring your system.</p>
 
-<h2>Configuration</h2>
+<p><img src ="images/metadatagames1-0_install_5_furtherSteps.png" title="Metadata Games - Installation Complete! Now to Configuration..." width=615 style="border: 1px solid #000;" /></p>
 
-<p>Gain access to all admin tools by signing in with your newly-created account at [yoursite.com]/www/index.php/user/login.</p>
+<h3>ImageMagick (optional but recommended)</h3>
 
-<p>You can access the "Admin Overview" page by clicking on "Admin" in the Metadata Games navigation bar at the top of the page. This page contains links to all of the available tools. These links also appear in the Admin navigation bar, underneath the Metadata Games navigation bar.</p>
+<p>We recommend to use ImageMagick as graphics tool kit to manipulate images. If you have it installed on your server you can configure MG to use by following the installer as described above. Once the installations is done you'll have to change the configurarion manually by hand. Please open the file /www/protected/config/main.php in a text editor and search for:</p>
 
-<p><strong>(NOTE: For detailed information about all admin tools, view the "Site Admin" help guide in the Metadata Games documentation/ folder.)</strong></p>
+<p>'image'=>array(
+      'class'=>'ext.image.CImageComponent',
+      'driver'=>'GD',
+    ),</p>
 
-<h3>Visit the Plugin Tool</h3>
+<p>to activate ImageMagick replace 'GD' with 'ImageMagick' as in the example below.</p>
 
-<p>You can adjust the settings for plugins with the "Plugins" tool. For information about specific plugins and their default settings, view the "Plugin Default Settings" help guide in the Metadata Games docuementation/ folder. </p>
-
-<h3>Set Contact Email</h3>
-
-<p>You need to set a contact email. This will be the address used to send registration info to players and receive feedback.</p>
-
-<ul>
-<li>From the "Admin Overview page", click "Global Settings".</li>
-<li>Click "Update Local Settings".</li>
-<li>Enter contact email address in the "Email Address" field. </li>
-</ul>
-
-<h3>Create Image Sets &amp; Import Images</h3>
-
-<p>Next, create image sets and import images from your server or local machine by using the "Image Sets" and "Images" tools.</p>
-
-<h3>Activate &amp; Configure Games</h3>
-
-<p>Finally, use the "Games" tool to activate and customize the games you want to use. For information about specific games and their default settings, view the "Game Default Settings" help guide in the Metadata Games docuementation/ folder. </p>
-
-<p>Your system setup is complete. Go to the Arcade and play!</p>
-
-<h3>Troubleshooting</h3>
-
-<p>1) I've set up ZenTag, but I'm not scoring any points!</p>
-
-<p>Check to make sure that you have the right combination of plugins
-enabled. If you don't have any point-generating plugins enabled, then
-the players won't get any points!</p>
+<p>'image'=>array(
+      'class'=>'ext.image.CImageComponent',
+      'driver'=>'ImageMagick',
+    ),</p>
 </body></html>
