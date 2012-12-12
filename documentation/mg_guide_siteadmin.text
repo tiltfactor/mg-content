@@ -145,12 +145,14 @@ Import tool
 
 The **Import** tool allows you to import images and process them so they may be used by the system. Clicking "Import" brings you to a page with three link options for importing images, and one link for processing them. **No matter which method you use for importing images, they must be processed before they can be used by the system.**
 
-**(NOTE: All images imported into the system must be in the JPEG (.jpg or .jpeg) format. We highly recommend that each image is no larger than 1.5 MB in size, due to limits in a typical PHP configuration. Furthermore, we recommend that a minimum of 100 images are imported and processed into the system before starting gameplay.)**
+> **Note:** Importing images is a **two**-step process: **Import** and **Process**
+
+> **NOTE:** All images imported into the system must be in the JPEG (.jpg or .jpeg) format. We highly recommend that each image is no larger than **1.5 MB** in size, due to limits in a typical PHP configuration. Furthermore, we recommend that a **minimum of 100 images** are imported and processed into the system before starting gameplay.)
 
 When you choose a method for importing images, you will have the option of changing the batch ID, an identifier given to all images that are imported at the same time. The batch ID aids in distinguishing between different groups of images during image processing. The default batch ID assigned to each image group is in the following format: B-YYYY-MM-DD-HH:MM:SS.
 
 
-### Importing Images ###
+### 1. Importing Images ###
 
 There are three methods available for importing images:
 
@@ -165,7 +167,7 @@ There are three methods available for importing images:
   **TO DO**: Add error message.
 
 
-### Processing Images ###
+### 2. Processing Images ###
 
 Once image uploading is complete, navigate to the "Process Imported Images" page. You may individually select images so that they can be assigned to different image sets upon processing. To do so, mark the check-boxes next to the image set(s) to which you would like to assign the newly imported images. Then mark the check-box in the first column of the table corresponding to each desired image.
 
