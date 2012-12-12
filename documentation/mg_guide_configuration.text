@@ -19,9 +19,9 @@ Once Metadata Games is installed, it's time to configure your system:
 1. Login
 --------
 
-Gain access to all admin tools by signing in with your newly-created account at
+Gain access to all admin tools by signing in with your newly-created account at the login screen. For example, on our test server we install Metadata Games in a directory named 'mg/', and our login screen is here:
 
-	[yoursite.com]/www/index.php/user/login
+    http://oursite.com/mg/www/index.php/user/login
 
 <img src ="images/metadatagames1-0_configure_1_login.png" title="Metadata Games - Login Screen" style="border: 1px solid #000;" />
 

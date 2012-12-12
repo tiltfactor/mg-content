@@ -30,7 +30,7 @@ Metadata Games is accessible using the latest web browsers (as of this writing):
 
 ### System Requirement Test ###
 
-Once you have downloaded the Metadata Games software, open a web browser, navigate to its folder location, and open the **www/** subfolder. Click **"Proceed with system requirement test"** to run a test of server capabilities. This will ensure that your server can support the required Yii framework. 
+Once you have downloaded the Metadata Games software, open a web browser and navigate to its folder location. Click **"Proceed with system requirement test"** to run a test of server capabilities. This will ensure that your server can support the required Yii framework. 
 
 <img src ="images/metadatagames1-0_install_1_welcome.png" title="Metadata Games - Installation Welcome Screen" style="border: 1px solid #000;" />
 
@@ -41,6 +41,12 @@ Installation
 ------------
 
 If there are any errors found during the system requirement test, please check the Memo column for details. After resolving any incompatibilities, reload the page and look for any further errors. 
+
+> **NOTE:** Particular directories and files will need to be writable
+> by the webserver user. On Debian/Ubuntu systems, this user is
+> usually 'www-data' while RedHat and derivatives often use
+> 'apache'. The _fix-perms.sh_ script located in the tools/ directory
+> may be of help. Please read the code carefully before use!
 
 <img src ="images/metadatagames1-0_install_2_requirementsTest.png" title="Metadata Games - Installation Requirement Test" width=615 style="border: 1px solid #000;" />
 
@@ -70,7 +76,7 @@ At the "Admin Account Setup" page, fill out the following fields:
 
 <img src ="images/metadatagames1-0_install_4_adminAccountSetup.png" title="Metadata Games - Admin Account Setup" width=615 style="border: 1px solid #000;" />
 
-Then click "Save". Congratulations! You have successfully installed Metadata Games! Now onto configuring your system.
+Then click "Save". Congratulations! You have successfully installed Metadata Games! Now on to configuring your system.
 
 <img src ="images/metadatagames1-0_install_5_furtherSteps.png" title="Metadata Games - Installation Complete! Now to Configuration..." width=615 style="border: 1px solid #000;" />
 
@@ -78,14 +84,14 @@ Then click "Save". Congratulations! You have successfully installed Metadata Gam
 
 We recommend to use ImageMagick as graphics tool kit to manipulate images. If you have it installed on your server you can configure MG to use by following the installer as described above. Once the installations is done you'll have to change the configurarion manually by hand. Please open the file /www/protected/config/main.php in a text editor and search for:
 
-  'image'=>array(
+    'image'=>array(
       'class'=>'ext.image.CImageComponent',
       'driver'=>'GD',
     ),
      
-to activate ImageMagick replace 'GD' with 'ImageMagick' as in the example below.
+to activate ImageMagick, replace 'GD' with 'ImageMagick' as in the example below.
 
-  'image'=>array(
+    'image'=>array(
       'class'=>'ext.image.CImageComponent',
       'driver'=>'ImageMagick',
     ),
