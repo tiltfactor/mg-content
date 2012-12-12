@@ -41,6 +41,11 @@ fi
 echo Webserver user is: $webserver_user
 
 # Make sure we're in the right (tools) directory.
+if [ ${PWD##*/} != "tools" ]
+then
+  echo Error: Script must be run inside the 'tools' directory!
+  exit 1
+fi
 
 # This is the path from the current directory up to the root of the
 # files in version control.
@@ -52,6 +57,10 @@ echo Fixing perms
 FILES="www/protected/data/fbvsettings.php
 www/protected/config/main.php"
 
+DIRECTORIES="www/assets
+www/uploads
+www/protected/runtime"
+
 for f in $FILES
 do
   FILE=$ROOT_DIRECTORY$f
@@ -60,6 +69,18 @@ do
 
   chgrp -v $webserver_user $FILE
   chmod -v g+w $FILE
+done
+
+echo Now fixing perms on directories
+
+for d in $DIRECTORIES
+do
+  DIRECTORY=$ROOT_DIRECTORY$d
+
+  echo Processing $DIRECTORY
+
+  chgrp -vR $webserver_user $DIRECTORY
+  chmod -vR g+w $DIRECTORY
 done
 
 echo Done fixing perms.
