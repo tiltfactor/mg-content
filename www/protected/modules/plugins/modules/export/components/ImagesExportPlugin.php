@@ -48,6 +48,12 @@ class ImagesExportPlugin extends MGExportPlugin {
   function init() {
     parent::init();
   }
+
+  // Is this plugin enabled?
+  function is_enabled() {
+    return (isset($_POST['ExportForm']['ImagesExportPlugin']['active']) &&
+            $_POST['ExportForm']['ImagesExportPlugin']['active'] == 1);
+  }
   
   /**
    * Adds a checkbox that allows to activate/disactivate the use of the plugin on the 
@@ -59,12 +65,12 @@ class ImagesExportPlugin extends MGExportPlugin {
   function form(&$form, &$model) {
     $legend = CHtml::tag("legend", array(),
                          Yii::t('app', 'Plugin: Images Export'));
+
+    $value = 0;
+    if($this->is_enabled()) {
+      $value = 1;
+    }
     
-    $value = ((isset($_POST['ExportForm']) &&
-               isset($_POST['ExportForm']['ImagesExportPlugin']) &&
-               isset($_POST['ExportForm']['ImagesExportPlugin']['active'])) ?
-              $_POST['ExportForm']['ImagesExportPlugin']['active'] :
-              1);
     $label = CHtml::label(Yii::t('app', 'Active'),
                           'ExportForm_ImagesExportPlugin_active');
     
@@ -109,6 +115,10 @@ class ImagesExportPlugin extends MGExportPlugin {
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
+    if(!$this->is_enabled()) {
+      return 0;
+    }
+
     // Create the output directory for the images.
     $d = $tmp_folder . "images/";
     if(mkdir($d)) {
@@ -153,6 +163,10 @@ EOT;
    * @param int $image_id the id of the image that should be exported
    */
   function process(&$model, &$command, $tmp_folder, $image_id) {
+    if(!$this->is_enabled()) {
+      return 0;
+    }
+
     // These are the values we'll embed into the XMP metadata of each
     // exported image.
     list($version, $format, $date, $system) = $this->systemInformation();
