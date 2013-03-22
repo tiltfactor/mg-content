@@ -197,7 +197,9 @@ class UserCounter extends CComponent
 		{
 			// Alten Rekord zurückgeben
 			$output['max_count'] = $data['max_count'];
-			$output['max_time']  = $data['max_time'];
+// 2013-03-21 - qubit - Running into some db error/unset var error weirdness,
+// so commenting-out these lines for now. 
+//			$output['max_time']  = $data['max_time'];
 		}
 
 		$this->user_total		= $output['counter'];
@@ -205,7 +207,8 @@ class UserCounter extends CComponent
 		$this->user_today		= $output['today'];
 		$this->user_yesterday	= $output['yesterday'];
 		$this->user_max_count	= $output['max_count'];
-		$this->user_time		= $output['max_time'];
+// 2013-03-21 - qubit - Same error as mentioned above.
+//		$this->user_time		= $output['max_time'];
    	}
 
 	/**
