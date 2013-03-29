@@ -45,7 +45,14 @@ date.timezone = "America/New_York"
 
 <hr />
 
-<p>Check your spam/junk folder to see if it got sent there. You can also contact the webmaster of your Metadata Games system to create a player account from the Manage Players page (admin / players).</p>
+<p>This could be due to one or more of the following: </p>
+
+<ul>
+<li><p><strong>Email is in your spam/junk folder.</strong> <br />
+Check your spam/junk folder to see if it got sent there. You can also contact the webmaster of your Metadata Games system to create a player account from the Manage Players page (admin / players).</p></li>
+<li><p><strong>Server not configured to send email.</strong> <br />
+Check with your system administrator and ask if sendmail or postfix are installed and configured. If the server is running SELinux, check that the <strong>SELinux boolean 'httpd<em>can</em>sendmail' is set to TRUE.</strong></p></li>
+</ul>
 
 <h3>I've set up ZenTag, but I'm not scoring any points!</h3>
 
@@ -53,10 +60,12 @@ date.timezone = "America/New_York"
 
 <p>Check to make sure that you have the right combination of plugins enabled. If you don't have any point-generating plugins enabled, then the players won't get any points! This is what we suggest as the default settings for Zen Tag:</p>
 
-<p>dictionary-StopWordPlugin
-dictionary-WordsToAvoidPlugin
-weighting-ScoreBySubjectMatterPlugin
-weighting-ScoreNewMatchPlugin</p>
+<p>dictionary-StopWordPlugin <br />
+dictionary-WordsToAvoidPlugin <br />
+weighting-ScoreBySubjectMatterPlugin <br />
+weighting-ScoreNewMatchPlugin  </p>
+
+<p><img src ="images/metadatagames1-0_ZenTag_pluginSettings.png" title="Metadata Games - Plug-In Settings for Zen Tag" width=615 style="border: 1px solid #000;" /></p>
 
 <h3>I've set up ZenTag, but I'm not scoring any points!</h3>
 
