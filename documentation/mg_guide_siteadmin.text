@@ -241,13 +241,26 @@ To delete a group of licences, mark the check-box in the first column of the tab
 Export tool
 -----------
 
-The **Export** tool allows you to export data about tags, their uses with particular images, and game statistics, using the CSVExport and GameStatisticsExport plugins.
+The __Export__ tool allows you to export data about tags, their uses with particular images, and game statistics, using the CSVExport and GameStatisticsExport plugins. 
 
-The following options are available for the Export tool:
+To use the Export tool, you first enter a file name for your export and then check for images that have tag data, based on options listed below. Click the __Check__ button at the bottom of the page to see how many images meet your search criteria. 
 
-**NOT FINISHED**
+* __Image Sets(s)__ - Select the image set(s) to search 
 
-**TO DO**: Change field descriptions and notes.
+* __Tag(s)__ - Use commas to add additional tags. Select __OR__ or __AND__ buttons to further refine search results.
+
+* __Player Name__ - Search for images who have tags from a particular player(s). Select __OR__ or __AND__ buttons to further refine search results.
+
+* __Tag Weight (minimum)__ - The minimum tag weight required for export.
+
+* __Tag Weight (sum)__ - The minum sum of all tag use weights to make a tag elegible for export).
+
+* __Submitted (from)__ - Starting tag submission date. Note the choosen date will be included in the search. 
+
+* __Submitted (until)__ - Ending tag submission date. Note the choosen date will be included in the search. 
+
+To export your search results, click the __Export__ button.
+
 
 
 Players tool
