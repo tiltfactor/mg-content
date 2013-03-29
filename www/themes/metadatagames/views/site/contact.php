@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
 <?php else: ?>
 
 <p>
-If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
+Use the form below to us know what you think of Metadata Games. Thanks!
 </p>
 
 <div class="form">
