@@ -45,21 +45,21 @@ class ImportController extends GxController {
       
       $tools["import-local"] = array(
                               "name" => Yii::t('app', "Import images from your computer"),
-                              "description" => Yii::t('app', "Select image(s). This includes the ability to click and drag files to import (recommended import method)."), 
+                              "description" => Yii::t('app', "Select image(s). This includes the ability to click and drag files to import <strong>(good for small media sets)</strong>."), 
                               "url" => $this->createUrl('/admin/import/uploadfromlocal'),
                            );
+            
+      $tools["import-ftp"] = array(
+                              "name" => Yii::t('app', "Import images that can be found in the server's '/uploads/ftp' folder"),
+                              "description" => Yii::t('app', "Place images in this folder using a SFTP client and let the system do its work <strong>(recommended method for large media sets)</strong>."),
+                              "url" => $this->createUrl('/admin/import/uploadftp'),
+                           );                           
       
       $tools["import-zip"] = array(
                               "name" => Yii::t('app', "Import images in a ZIP file from your computer"),
                               "description" => Yii::t('app', "Import .zip compressed archives of images. Currently has a filesize limit of 32 MB."),
                               "url" => $this->createUrl('/admin/import/uploadzip'),
-                           );
-      
-      $tools["import-ftp"] = array(
-                              "name" => Yii::t('app', "Import images that can be found in the server's '/uploads/ftp' folder"),
-                              "description" => Yii::t('app', "Place images in this folder and let the system do its work (currently experimental)."),
-                              "url" => $this->createUrl('/admin/import/uploadftp'),
-                           );                           
+                           );      
       
       $tools["process"] = array(
                               "name" => Yii::t('app', "Process imported images"),
