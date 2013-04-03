@@ -328,12 +328,12 @@ class ExportController extends GxController {
     
     if (trim((string)$model->created_after) != "") {
       $where[] = 'tu.created >= :after';
-      $params[':after'] = (int)$model->created_after;
+      $params[':after'] = (string)$model->created_after;
     } 
     
     if (trim((string)$model->created_before) != "") {
       $where[] = 'tu.created <= :before';
-      $params[':before'] = (int)$model->created_before;
+      $params[':before'] = (string)$model->created_before;
     } 
     
     $command->where($where, $params);
