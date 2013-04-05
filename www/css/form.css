@@ -45,6 +45,12 @@ div.form select
 	margin: 0.2em 0 0.5em 0;
 }
 
+div.form textarea /* set minimum input window size */
+{
+	min-width: 260px;
+	min-height: 120px;
+}
+
 div.form fieldset
 {
 	border: 1px solid #DDD;
