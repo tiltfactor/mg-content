@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
 <?php else: ?>
 
 <p>
-Use the form below to us know what you think of Metadata Games. Thanks!
+Questions? Comments? Use the form below to let us know what you think of Metadata Games. Thanks!
 </p>
 
 <div class="form">

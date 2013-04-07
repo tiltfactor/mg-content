@@ -243,7 +243,9 @@ Export tool
 
 The __Export__ tool allows you to export data about tags, their uses with particular images, and game statistics, using the CSVExport and GameStatisticsExport plugins. 
 
-To use the Export tool, you first enter a file name for your export and then check for images that have tag data, based on options listed below. Click the __Check__ button at the bottom of the page to see how many images meet your search criteria. 
+To use the Export tool, you first enter a file name for your export and then check for images that have tag data, based on options listed below. 
+
+<img src ="images/metadatagames1-0_export_filterOptions.png" title="Metadata Games - Export filter options" width=615 style="border: 1px solid #000;" />
 
 * __Image Sets(s)__ - Select the image set(s) to search 
 
@@ -259,9 +261,13 @@ To use the Export tool, you first enter a file name for your export and then che
 
 * __Submitted (until)__ - Ending tag submission date. Note the choosen date will be included in the search. 
 
-To export your search results, click the __Export__ button.
+Click the __Check__ button at the bottom of the page to see how many images meet your search criteria. 
 
+<img src ="images/metadatagames1-0_export_checkButton.png" title="Metadata Games - Export &quot;check&quot; button" width=241 style="border: 1px solid #000;" />
 
+To export your search results, click the __Export Images__ button near the top of the page.
+
+<img src ="images/metadatagames1-0_export_exportButton.png" title="Metadata Games - Export &quot;check&quot; button" width=241 style="border: 1px solid #000;" />
 
 Players tool
 ------------
