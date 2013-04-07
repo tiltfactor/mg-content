@@ -19,12 +19,13 @@
   <div id="usersonline">
   <!-- Stubbing in code for number of users online -->
 <?php
+// 2013-04-07 - qubit - Disable user counter by default (mostly disabled in many builds)
 // Properly initialize the values in the counter.
-Yii::app()->counter->refresh();
-
-$num = Yii::app()->counter->getOnline();
-echo "<span>There " . ($num == 1 ? "is" : "are") . " $num user" .
-  ($num == 1 ? "" : "s") . " online.</span>";
+//Yii::app()->counter->refresh();
+//
+//$num = Yii::app()->counter->getOnline();
+//echo "<span>There " . ($num == 1 ? "is" : "are") . " $num user" .
+//  ($num == 1 ? "" : "s") . " online.</span>";
 ?>
   </div><!-- usersonline -->
 </div>
