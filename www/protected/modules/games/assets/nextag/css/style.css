@@ -356,27 +356,31 @@ textarea {
 
 /* Side Panel to display copyright, etc.. info */
 #sidepanel {
-    position:absolute;
-    right:-300px;
-    top:30px;
-    width:320px;
-    height:100%;
+  position: fixed;
+  right:-300px;
+  top:30px;
+  width:324px;
+  height:100%;
 }
 
 #sidepanel .content {
-    background:#ffffff; 
+  background:#ffffff; 
 }
 
 #sidepanel .content {
-    float:right;
-    width:300px;
-    height:inherit;
+  position: absolute;
+  left: 24px;
+  top: 0px;
+  width:300px;
+  height:inherit;
 }
 
 #sidepanel .tab {
-    cursor:pointer;
-    float:left;
-    background: url(../images/sidepanel_handle.png) 0px 0px no-repeat transparent;
-    width:24px;
-    height:24px;
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  background: url(../images/sidepanel_handle.png) 0px 0px no-repeat transparent;
+  width:24px;
+  height:24px;
 }

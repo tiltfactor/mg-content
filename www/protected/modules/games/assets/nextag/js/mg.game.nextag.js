@@ -409,5 +409,7 @@ MG_GAME_NEXTAG = function ($) {
 $('#sidepanel .tab').toggle(function(){
     $('#sidepanel').animate({'right':0});
 }, function(){
-    $('#sidepanel').animate({'right':-300});
+    // Question: Why does '-290' work, and '-300' push the arrow too
+    // far right?
+    $('#sidepanel').animate({'right':-290});
 });
