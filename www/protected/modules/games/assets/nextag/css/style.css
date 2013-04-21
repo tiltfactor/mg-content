@@ -82,14 +82,14 @@ h4 {
 }
 
 #holder {
-  width: 501px;
+  /* width: 501px;
   padding-top:17px;
-  padding-bottom:17px;
+  padding-bottom:17px; */
   margin: 0px auto;
   /* background-color: #3a3014;
   border: thin solid #BEC638; */
   text-align: center;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 
 #holder img {
@@ -147,15 +147,10 @@ h4 {
 }
 
 #fieldholder {
-  width: 501px;
-  min-height: 70px;
-  padding-top:5px;
-  padding-bottom:10px;
-  margin: 0px auto;
-  /* background-color: #5b5341;
-  border-left: thin solid #BEC638;
-  border-right: thin solid #BEC638;
-  color: #eef0e3; */
+  position: fixed;
+  left: 100px;
+  bottom: 200px;
+  width: 550px;
   text-align: center;
   vertical-align: middle;
 }
@@ -163,26 +158,12 @@ h4 {
 
 
 /* Style the Text Area inside the fieldholder DIV */
-textarea {
-  position: absolute
-  left: 300px;
-  top: 600px;
+#fieldholder textarea {
+  float: left;
   width: 475px;
   height: 20px;
   font-size: 14px;
   color: #000000;
-/*  color: #3a3014;
-  background-color: #b5af9d;
-  border: thin solid #000000; */
-  padding: 5px;
-}
-
-#fieldholder p {
-  margin:0;
-  padding: 0 20px 10px 20px;
-}
-#fieldholder p:first-child {
-  padding: 10px 20px 10px 20px;
 }
   
 #nextag {
@@ -192,41 +173,22 @@ textarea {
   text-align: center;
 }
 
-#box1 {
-  width: 400px;
-  height: 24px;
-  margin: 0px auto;
-  /* background-color: #958f81;
-  border: thin solid #BEC638; */
-}
-
-#box2 {
-  width: 375px;
-  height: 24px;
-  margin: 0px auto;
-  /* background-color: #5b5341;
-  border-left: thin solid #BEC638;
-  border-right: thin solid #BEC638;
-*/
-}
-
-#box3 {
-  width: 285px;
-  height: 24px;
-  margin: 0px auto;
-  /* background-color: #3a3014;
-  border-left: thin solid #BEC638;
-  border-right: thin solid #BEC638;
-*/
-  text-align: center;
-}
-
 #button-play {
-  display: block;
-  width: 182px;
-  height: 24px;
-  margin: 0px auto 0px auto;
-  background:url(../images/button.png) 0px 0px no-repeat transparent;
+  float: right;
+  background-color: red;
+  text-indent: 0px;
+  width: 40px;
+  height: 40px;
+}
+
+#button-play span {
+  position:relative;
+  top:-20px;
+  text-align: center;
+  font-family: Helvetica, Verdana, Arial, Sans-Serif;
+  font-size: 55px;
+  font-weight: bold;
+  color: #ffffff;  
 }
 
 #button-play.again {

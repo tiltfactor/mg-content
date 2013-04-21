@@ -2,41 +2,10 @@
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
-    <div id="game_description">
-<!--
-    	<h2>How To Play</h2>
-    	<ul>
-    		<li>Describe the image as accurately as you can.</li> 
-    		<li>Use commas to separate phrases or individual words.</li>
-    		<li>Hit enter or click Ohm when done.</li>
-    	</ul>
-    	<p>Click on the image to see a full-screen version.</p>
--->
-    </div>
-<!-- No logo
-    <div id="nextag"> 
-      <img src="<?php echo GamesModule::getAssetsUrl(); ?>/nextag/images/nextag.gif" alt="NexTag" width="222" height="46" /> 
-    </div>     
--->
     <div id="holder">
       <div id="image_container" class="clearfix"></div>
     </div>
-    <!-- user text field -->
-    <div id="fieldholder" class="clearfix">   
-      <form action="#">
-        <!-- Let's make our Text Area a single row -->
-        <!-- <textarea name="words" cols="50" rows="1" id="words"></textarea> -->
-      </form> 
-    </div>  
-    <div id="box1"> 
-      <div id="box2"> 
-        <div id="box3"> 
-          <a href="#" id="button-play" class="ir"> 
-            play
-          </a> 
-        </div> 
-      </div> 
-    </div>
+
     <div id="scores"></div>
     <!-- The ability to pass on a given image -->
     <div id="passing">
@@ -45,22 +14,20 @@
       <br />
       <br />
       <br />
-<!--
-      Don't know anything about this image? Pass to see the next image.<br />
--->
-      <!-- <a href="#" id="button-pass"> -->
-<!--
-  <button id="button-pass" type="button" style="color: black; background-color: red; font-size: 110%; border: 1px solid;">PASS</button>
--->
-<!--    </a> -->
-</div>
+    </div>
+
     <div id="more_info"></div>
     <div id="words_to_avoid"></div>  
   </div> 
 </div>
 
-<!-- Try the textarea at the top level -->
-<textarea name="words" cols="50" rows="1" id="words"></textarea>
+<!-- user text field -->
+<div id="fieldholder" class="clearfix">   
+  <form action="#">
+    <textarea name="words" cols="50" rows="1" id="words"></textarea>
+    <a href="#" id="button-play" class="ir"><span>+</span></a> 
+  </form> 
+</div>  
 
 <!-- New slide-out panel -->
 <div id="sidepanel">
