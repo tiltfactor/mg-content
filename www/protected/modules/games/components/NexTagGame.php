@@ -112,8 +112,11 @@ class NexTagGame extends MGGame implements MGGameInterface {
           "image_id" => $images[$i]["id"],
           "full_size" => $path . "/images/". $images[$i]["name"],
           "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
+	  // For reskin of NexTag, we might want larger images on the Final Screen...
           "final_screen" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", 212, 171, 80, 10),
-          "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+	  // RESKIN: For our "scaled" image, use the full size image instead.
+          //"scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+	  "scaled" => $path . "/images/". $images[$i]["name"],
           "licences" => $images[$i]["licences"],
         );
         

@@ -240,7 +240,8 @@ MG_GAME_NEXTAG = function ($) {
           
           // turn info == image 
           var turn_info = {
-            url : MG_GAME_NEXTAG.turns[0].images[0].scaled,
+            //url : MG_GAME_NEXTAG.turns[0].images[0].scaled,
+            url : response.turn.images[0].full_size,
             url_full_size : MG_GAME_NEXTAG.turns[0].images[0].full_size,
             licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences),
           };
@@ -294,7 +295,8 @@ MG_GAME_NEXTAG = function ($) {
         
         // turn info == image 
         var turn_info = {
-          url : response.turn.images[0].scaled,
+          //url : response.turn.images[0].scaled,
+          url : response.turn.images[0].full_size,
           url_full_size : response.turn.images[0].full_size,
           licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
@@ -402,3 +404,10 @@ MG_GAME_NEXTAG = function ($) {
 }(jQuery);
 
 
+
+/* For the new side panel */
+$('#sidepanel .tab').toggle(function(){
+    $('#sidepanel').animate({'right':0});
+}, function(){
+    $('#sidepanel').animate({'right':-300});
+});

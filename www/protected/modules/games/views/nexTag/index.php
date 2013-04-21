@@ -3,6 +3,7 @@
   <!-- Images from the database appear here --> 
   <div id="stage">
     <div id="game_description">
+<!--
     	<h2>How To Play</h2>
     	<ul>
     		<li>Describe the image as accurately as you can.</li> 
@@ -10,16 +11,22 @@
     		<li>Hit enter or click Ohm when done.</li>
     	</ul>
     	<p>Click on the image to see a full-screen version.</p>
+-->
     </div>
+<!-- No logo
     <div id="nextag"> 
       <img src="<?php echo GamesModule::getAssetsUrl(); ?>/nextag/images/nextag.gif" alt="NexTag" width="222" height="46" /> 
     </div>     
+-->
     <div id="holder">
       <div id="image_container" class="clearfix"></div>
     </div>
     <!-- user text field -->
     <div id="fieldholder" class="clearfix">   
-      <form action="#"><textarea name="words" cols="50" rows="8" id="words"></textarea></form> 
+      <form action="#">
+        <!-- Let's make our Text Area a single row -->
+        <!-- <textarea name="words" cols="50" rows="1" id="words"></textarea> -->
+      </form> 
     </div>  
     <div id="box1"> 
       <div id="box2"> 
@@ -38,25 +45,46 @@
       <br />
       <br />
       <br />
+<!--
       Don't know anything about this image? Pass to see the next image.<br />
+-->
       <!-- <a href="#" id="button-pass"> -->
+<!--
   <button id="button-pass" type="button" style="color: black; background-color: red; font-size: 110%; border: 1px solid;">PASS</button>
+-->
 <!--    </a> -->
 </div>
-    <div id="licences"></div>
     <div id="more_info"></div>
     <div id="words_to_avoid"></div>  
   </div> 
 </div>
+
+<!-- Try the textarea at the top level -->
+<textarea name="words" cols="50" rows="1" id="words"></textarea>
+
+<!-- New slide-out panel -->
+<div id="sidepanel">
+  <div class="tab"></div>
+  <div class="content">
+      <p>NexTag game stuff...</p>
+
+      <div id="licences"></div>
+  </div>
+</div>
+
 <script id="template-scores" type="text/x-jquery-tmpl">
+<!--
   <h2>Welcome ${user_name}</h2>
   <div class="total_score">You played <span>${user_num_played}</span> times and scored <span>${user_score}</span> Points</div>
   <div class="current_score">This game's score <span>${current_score}</span> Points</div>
   <div class="total_turns">Turn <span>${current_turn} </span>/<span> ${turns}</span></div>
+-->
 </script>
 <script id="template-licence" type="text/x-jquery-tmpl">
+<!--
   <h4>${name}</h4>
   <p>${description}</p>
+-->
 </script> 
 <script id="template-turn" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">

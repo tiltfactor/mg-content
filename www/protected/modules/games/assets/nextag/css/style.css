@@ -31,7 +31,8 @@ body {
   padding: 0;
   text-align: center;
   list-style: none;
-  background: url(../images/bg.png) 0px 0px repeat-x #c0c93b;
+  /* background: url(../images/bg.png) 0px 0px repeat-x #c0c93b; */
+  background: #000000;
   min-height: 100%;
 }
 
@@ -85,14 +86,14 @@ h4 {
   padding-top:17px;
   padding-bottom:17px;
   margin: 0px auto;
-  background-color: #3a3014;
-  border: thin solid #BEC638;
+  /* background-color: #3a3014;
+  border: thin solid #BEC638; */
   text-align: center;
   vertical-align: middle;
 }
 
 #holder img {
-  border: thin solid #9AA699;
+  /* border: thin solid #9AA699; */
 }
 
 
@@ -101,10 +102,10 @@ h4 {
   height: 191px;
   float:left;
   margin: 0px 0px 0px 17px;
-  background-color: #958f81;
+ /*  background-color: #958f81;
   border-top: thin solid #BEC638;
   border-left: thin solid #BEC638;
-  border-bottom: thin solid #BEC638;
+  border-bottom: thin solid #BEC638; */
   text-align: center;
   vertical-align: middle;
 }
@@ -114,8 +115,8 @@ h4 {
   height: 191px;
   float:left;
   margin: 0px auto;
-  background-color: #b5af9d;
-  border: thin solid #BEC638;
+  /* background-color: #b5af9d;
+  border: thin solid #BEC638; */
   text-align: center;
   vertical-align: middle;
 }
@@ -125,10 +126,10 @@ h4 {
   height: 191px;
   float:left;
   margin: 0px 0px 0px 17px;
-  background-color: #b5af9d;
+/*  background-color: #b5af9d;
   border-left: thin solid #BEC638;
   border-bottom: thin solid #BEC638;
-  border-right: thin solid #BEC638;
+  border-right: thin solid #BEC638; */
   text-align: center;
   vertical-align: middle;
 }
@@ -138,9 +139,9 @@ h4 {
   height: 191px;
   float:left;
   margin: 0px auto;
-  background-color: #958f81;
+  /* background-color: #958f81;
   border-right: thin solid #BEC638;
-  border-bottom: thin solid #BEC638;
+  border-bottom: thin solid #BEC638; */
   text-align: center;
   vertical-align: middle;
 }
@@ -151,23 +152,29 @@ h4 {
   padding-top:5px;
   padding-bottom:10px;
   margin: 0px auto;
-  background-color: #5b5341;
+  /* background-color: #5b5341;
   border-left: thin solid #BEC638;
   border-right: thin solid #BEC638;
-  color: #eef0e3;
+  color: #eef0e3; */
   text-align: center;
   vertical-align: middle;
 }
 
+
+
 /* Style the Text Area inside the fieldholder DIV */
-#fieldholder textarea {
+textarea {
+  position: absolute
+  left: 300px;
+  top: 600px;
   width: 475px;
-  height: 50px;
+  height: 20px;
   font-size: 14px;
-  color: #3a3014;
+  color: #000000;
+/*  color: #3a3014;
   background-color: #b5af9d;
-  border: thin solid #3a3014;
-  padding: 5px
+  border: thin solid #000000; */
+  padding: 5px;
 }
 
 #fieldholder p {
@@ -189,26 +196,28 @@ h4 {
   width: 400px;
   height: 24px;
   margin: 0px auto;
-  background-color: #958f81;
-  border: thin solid #BEC638;
+  /* background-color: #958f81;
+  border: thin solid #BEC638; */
 }
 
 #box2 {
   width: 375px;
   height: 24px;
   margin: 0px auto;
-  background-color: #5b5341;
+  /* background-color: #5b5341;
   border-left: thin solid #BEC638;
   border-right: thin solid #BEC638;
+*/
 }
 
 #box3 {
   width: 285px;
   height: 24px;
   margin: 0px auto;
-  background-color: #3a3014;
+  /* background-color: #3a3014;
   border-left: thin solid #BEC638;
   border-right: thin solid #BEC638;
+*/
   text-align: center;
 }
 
@@ -343,4 +352,31 @@ h4 {
 
 #game_description p {
   margin: 16px 0;
+}
+
+/* Side Panel to display copyright, etc.. info */
+#sidepanel {
+    position:absolute;
+    right:-300px;
+    top:30px;
+    width:320px;
+    height:100%;
+}
+
+#sidepanel .content {
+    background:#ffffff; 
+}
+
+#sidepanel .content {
+    float:right;
+    width:300px;
+    height:inherit;
+}
+
+#sidepanel .tab {
+    cursor:pointer;
+    float:left;
+    background: url(../images/sidepanel_handle.png) 0px 0px no-repeat transparent;
+    width:24px;
+    height:24px;
 }
