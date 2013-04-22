@@ -16,8 +16,6 @@
       <br />
     </div>
 
-    <div id="more_info"></div>
-    <div id="words_to_avoid"></div>  
   </div> 
 </div>
 
@@ -33,7 +31,13 @@
 <div id="sidepanel">
   <div class="tab"></div>
   <div class="content">
-      <p>NexTag game stuff...</p>
+      <p>NexTag is part of the Metadata Games suite.</p>
+
+      <br />
+      <br />
+      <br />
+      <p>Metadata Games is...</p>
+      <div id="more_info"></div>
 
       <div id="licences"></div>
   </div>
@@ -48,10 +52,8 @@
 -->
 </script>
 <script id="template-licence" type="text/x-jquery-tmpl">
-<!--
   <h4>${name}</h4>
   <p>${description}</p>
--->
 </script> 
 <script id="template-turn" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
@@ -80,12 +82,7 @@
 <script id="template-more-info" type="text/x-jquery-tmpl">
   <a href="${url}">Click here to learn more about ${name}</a>
 </script>
-<script id="template-words-to-avoid-heading" type="text/x-jquery-tmpl">
-  <h2>Words To Avoid</h2>
-</script>
-<script id="template-words-to-avoid" type="text/x-jquery-tmpl">
-  <span>${tag}</span>
-</script>
+
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
 </script>
