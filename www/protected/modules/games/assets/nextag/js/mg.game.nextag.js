@@ -97,7 +97,7 @@ MG_GAME_NEXTAG = function ($) {
       $("#licences").html("");
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
-      $("#more_info").html("ZZZ");
+      $("#more_info").html("");
       
       if (more_info.hasOwnProperty("url"))
         $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
