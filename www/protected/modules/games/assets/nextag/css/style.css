@@ -312,9 +312,6 @@ h4 {
 
 #sidepanel .content {
   background:#ffffff; 
-}
-
-#sidepanel .content {
   position: absolute;
   left: 24px;
   top: 0px;
@@ -330,6 +327,14 @@ h4 {
   background: url(../images/sidepanel_handle.png) 0px 0px no-repeat transparent;
   width:24px;
   height:24px;
+}
+
+#sidepanel .skinny {
+  position: relative;
+  /* Let's just bring in the sides a bit */
+  width: 270px;
+  left: 15px; /* Why can't this center? */
+  text-align: left;
 }
 
 /* The smallfooter is scaled significantly smaller than the default

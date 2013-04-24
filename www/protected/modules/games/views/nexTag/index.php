@@ -31,17 +31,24 @@
 <div id="sidepanel">
   <div class="tab"></div>
   <div class="content">
-    <p>NexTag is part of the Metadata Games suite.</p>
-    
-    <br />
-    <br />
-    <br />
-    <p>Metadata Games is...</p>
-    <div id="more_info"></div>
-    
-    <br />
-    <div id="licences"></div>
-    
+    <!-- In the mockup, looks like there's supposed to be a skinnier
+         DIV comprising the top section -->
+    <div class="skinny">
+      <br />
+      <br />
+      
+      <p>NexTag is part of the Metadata Games suite.</p>
+      
+      <br />
+      <br />
+      <br />
+      <p>Metadata Games is an online game system for gathering useful data on photo, audio, and moving image artifacts.</p>
+      <div id="more_info"></div>
+      
+      <br />
+      <div id="licences"></div>
+    </div>
+
     <div id="smallfooter">
       &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
       <div id="footerLogos">
