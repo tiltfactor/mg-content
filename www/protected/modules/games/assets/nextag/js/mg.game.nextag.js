@@ -32,6 +32,8 @@ MG_GAME_NEXTAG = function ($) {
     // TRY to get pass button to submit correct value.
     MG_GAME_NEXTAG.passButton = $("#button-pass").click(MG_GAME_NEXTAG.onpass);
 
+// Delete the default footer content.
+      $("#footer").html("");
       
       MG_GAME_API.game_init(settings);
     },

@@ -31,16 +31,32 @@
 <div id="sidepanel">
   <div class="tab"></div>
   <div class="content">
-      <p>NexTag is part of the Metadata Games suite.</p>
-
-      <br />
-      <br />
-      <br />
-      <p>Metadata Games is...</p>
-      <div id="more_info"></div>
-
-      <br />
-      <div id="licences"></div>
+    <p>NexTag is part of the Metadata Games suite.</p>
+    
+    <br />
+    <br />
+    <br />
+    <p>Metadata Games is...</p>
+    <div id="more_info"></div>
+    
+    <br />
+    <div id="licences"></div>
+    
+    <div id="smallfooter">
+      &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
+      <div id="footerLogos">
+	<a href="http://www.dartmouth.edu" target="_blank">
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" />
+	</a>
+	<a href="http://www.neh.gov" target="_blank">
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/NEH-Logo-Horizontal_252x62.jpg" />
+	</a>
+	<a href="http://www.acls.org/" target="_blank">
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" />
+	</a>
+      </div>
+    </div> <!-- smallfooter -->
+    
   </div>
 </div>
 
