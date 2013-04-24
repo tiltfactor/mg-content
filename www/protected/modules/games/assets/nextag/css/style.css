@@ -69,9 +69,15 @@ h4 {
   display:none;
 }
 
+/* Was this ID for the "image to tag" (originally) ? */
 #gameimage {
   max-width: 485px;
   max-height: 366px;
+}
+
+#image_to_tag {
+  width: 100%;
+  height: auto;
 }
 
 .scoreimages {

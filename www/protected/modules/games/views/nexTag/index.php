@@ -39,6 +39,7 @@
       <p>Metadata Games is...</p>
       <div id="more_info"></div>
 
+      <br />
       <div id="licences"></div>
   </div>
 </div>
@@ -57,7 +58,7 @@
 </script> 
 <script id="template-turn" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
-    <a href="${url_full_size}" rel="zoom" title="${licence_info}"><img src="${url}" alt="game image" /></a>
+    <img src="${url}" alt="game image" id="image_to_tag" />
   </div>
 </script>
 <script id="template-final-summary" type="text/x-jquery-tmpl">
@@ -82,7 +83,6 @@
 <script id="template-more-info" type="text/x-jquery-tmpl">
   <a href="${url}">Click here to learn more about ${name}</a>
 </script>
-
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
 </script>
