@@ -80,13 +80,6 @@ h4 {
   height: auto;
 }
 
-.scoreimages {
-  max-width: 400px;
-  max-height: 300px;
-  margin-top: 10px;
-  border: 0;
-}
-
 #holder {
   /* width: 501px;
   padding-top:17px;
@@ -102,54 +95,22 @@ h4 {
   /* border: thin solid #9AA699; */
 }
 
-
-#smallholder0 {
-  width: 348px;
-  height: 287px;
+/* One class for all of the smallholder image divs */
+.smallholder {
+  width: 40%;
+  height: 40%;
   float:left;
-  margin: 0px 0px 0px 10px;
- /*  background-color: #958f81;
-  border-top: thin solid #BEC638;
-  border-left: thin solid #BEC638;
-  border-bottom: thin solid #BEC638; */
+  margin: 10px 10px 10px 10px;
   text-align: center;
   vertical-align: middle;
 }
 
-#smallholder1 {
-  width: 348px;
-  height: 287px;
-  float:left;
-  margin: 0px auto;
-  /* background-color: #b5af9d;
-  border: thin solid #BEC638; */
-  text-align: center;
-  vertical-align: middle;
-}
-
-#smallholder2 {
-  width: 348px;
-  height: 287px;
-  float:left;
-  margin: 0px 0px 0px 10px;
-/*  background-color: #b5af9d;
-  border-left: thin solid #BEC638;
-  border-bottom: thin solid #BEC638;
-  border-right: thin solid #BEC638; */
-  text-align: center;
-  vertical-align: middle;
-}
-
-#smallholder3 {
-  width: 348px;
-  height: 287px;
-  float:left;
-  margin: 0px auto;
-  /* background-color: #958f81;
-  border-right: thin solid #BEC638;
-  border-bottom: thin solid #BEC638; */
-  text-align: center;
-  vertical-align: middle;
+.smallholder img {
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+  max-height: 300px;
+  border: 0;
 }
 
 /* Don't need this for the text input field, etc.. anymore */
@@ -200,8 +161,23 @@ h4 {
   color: #ffffff;  
 }
 
-#button-play.again {
-  background:url(../images/button_playagain.png) 0px 0px no-repeat transparent;
+#button-play-again {
+  background-color: red;
+  text-align: center;
+  text-indent: 0px;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+#button-play-again span {
+  /*   text-align: center; */
+  font-family: Helvetica, Verdana, Arial, Sans-Serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 30px;  /* to center the text vertically */
+  color: #ffffff;  
 }
 
 #scores {

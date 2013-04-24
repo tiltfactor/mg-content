@@ -2,6 +2,9 @@
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
   <!-- Images from the database appear here --> 
   <div id="stage">
+    <!-- The #holder div contains both the primary image for tagging
+         as well as the set of all images displayed at the end of the
+         game (added-in via javascript) -->
     <div id="holder">
       <div id="image_container" class="clearfix"></div>
     </div>
@@ -89,16 +92,16 @@
   </div>
 </script>
 <script id="template-final-summary" type="text/x-jquery-tmpl">
-  <div id="smallholder0"> 
+  <div class="smallholder"> 
     <a href="${url_full_size_1}" rel="zoom" title="${licence_info_1}"><img class="scoreimages" src="${url_1}" alt="game image" /></a>
   </div> 
-  <div id="smallholder1"> 
+  <div class="smallholder"> 
     <a href="${url_full_size_2}" rel="zoom" title="${licence_info_2}"><img class="scoreimages" src="${url_2}" alt="game image" /></a>
   </div> 
-  <div id="smallholder2"> 
+  <div class="smallholder"> 
     <a href="${url_full_size_3}" rel="zoom" title="${licence_info_3}"><img class="scoreimages" src="${url_3}" alt="game image" /></a>
   </div> 
-  <div id="smallholder3"> 
+  <div class="smallholder"> 
     <a href="${url_full_size_4}" rel="zoom" title="${licence_info_4}"><img class="scoreimages" src="${url_4}" alt="game image" /></a>
   </div> 
 </script>
@@ -111,7 +114,8 @@
   <a href="${url}">Click here to learn more about ${name}</a>
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
-  <p class="final">Congratulations <b>${user_name}</b>, you scored <b>${current_score}</b> points in this game.</p>
+  <p class="final">You have earned ${current_score} point(s)! Thank you for playing.</p>
+  <a href="#" id="button-play-again" class="ir"><span>Play Again</span></a> 
 </script>
 <script id="template-final-tags-new" type="text/x-jquery-tmpl">
   <p class="tag-info">New tag(s): <b>'${tags_new}'</b> scoring <b>${tags_new_score}</b> point(s)</p>

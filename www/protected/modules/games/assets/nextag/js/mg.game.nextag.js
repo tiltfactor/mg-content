@@ -125,7 +125,9 @@ MG_GAME_NEXTAG = function ($) {
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       MG_GAME_API.releaseOnBeforeUnload();
-      MG_GAME_NEXTAG.submitButton.addClass("again").unbind("click").attr("href", window.location.href);
+
+      // Set up the play-again button.
+      $("#button-play-again").attr("href", window.location.href);
       
       $("#stage").fadeIn(1000, function () {MG_GAME_NEXTAG.busy = false;MG_GAME_NEXTAG.wordField.focus();});
     },
