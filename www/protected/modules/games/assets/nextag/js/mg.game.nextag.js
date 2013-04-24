@@ -18,6 +18,8 @@ MG_GAME_NEXTAG = function ($) {
         ongameinit: MG_GAME_NEXTAG.ongameinit
       });
       
+// This used to be a Text Area, and now is a Text Box -- hopefully the
+// mechanics are close enough to just work without much tweaking!
       MG_GAME_NEXTAG.wordField = $("#words");
       
       // submit on enter
@@ -81,6 +83,10 @@ MG_GAME_NEXTAG = function ($) {
       $("#scores").html(""); 
       
       $("#fieldholder").html("");
+// We should hide the input_area as well.
+      $("#input_area").html("");
+      $("#input_area").hide();
+
       $("#template-final-info").tmpl(score_info ).appendTo($("#fieldholder"));
       if (score_info.tags_new !== undefined && score_info.tags_new != "") 
         $("#template-final-tags-new").tmpl(score_info ).appendTo($("#fieldholder"));

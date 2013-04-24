@@ -152,27 +152,29 @@ h4 {
   vertical-align: middle;
 }
 
+/* Don't need this for the text input field, etc.. anymore */
 #fieldholder {
-  position: fixed;
-  left: 100px;
-  bottom: 200px;
-  width: 550px;
-  text-align: center;
-  vertical-align: middle;
-  color: white;
 }
 
+#input_area {
+  position: fixed;
+  left: 50px;
+  bottom: 200px;
+  width: 40%; /* 550px; */
+  height: 40px;
+  background-color: white;  /* to find it */
+}
 
-
-/* Style the Text Area inside the fieldholder DIV */
-#fieldholder textarea {
-  float: left;
-  width: 475px;
-  height: 20px;
+/* Style the Text Field inside the fieldholder DIV */
+#input_area input {
+  width: 90%;
+  height: 36px; /* Center vertically, roughly (nuances here...) */
   font-size: 14px;
   color: #000000;
+  border: none;
+  margin: 0px 0px;
 }
-  
+
 #nextag {
   width: 290px;
   height: 58px;

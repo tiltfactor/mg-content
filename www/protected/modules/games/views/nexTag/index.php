@@ -19,13 +19,17 @@
   </div> 
 </div>
 
-<!-- user text field -->
-<div id="fieldholder" class="clearfix">   
+<div id="fieldholder" class="clearfix">
+</div>  
+
+<!-- The bounding-box around the text input and the button -->
+<div id="input_area">
   <form action="#">
-    <textarea name="words" cols="50" rows="1" id="words"></textarea>
+    <!-- user text field -->
+    <input type="text" name="words" id="words" />
     <a href="#" id="button-play" class="ir"><span>+</span></a> 
   </form> 
-</div>  
+</div>
 
 <!-- New slide-out panel -->
 <div id="sidepanel">
