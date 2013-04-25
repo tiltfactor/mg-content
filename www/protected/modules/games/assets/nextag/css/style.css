@@ -125,14 +125,14 @@ h4 {
   position: fixed;
   left: 50px;
   bottom: 200px;
-  width: 40%; /* 550px; */
+  width: 40%;
   height: 40px;
-  background-color: white;  /* to find it */
+  background-color: white;
 }
 
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
-  width: 90%;
+  width: 80%;
   height: 36px; /* Center vertically, roughly (nuances here...) */
   font-size: 14px;
   color: #000000;
