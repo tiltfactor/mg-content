@@ -36,6 +36,15 @@ body {
   min-height: 100%;
 }
 
+/* Override main metadatagames screen.css style
+ *
+ * Have all images left align and fill browser window up to width of
+ * window
+ */
+.container {
+  margin: 0 !important;
+}
+
 a:link, a:hover, a:visited {
   font-weight: 600;
   color: #f3611a;
