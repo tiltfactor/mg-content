@@ -63,7 +63,8 @@ MG_GAME_NEXTAG = function ($) {
 
       // 2013-04-22 - qubit - Hmm, object length in Javascript is..undefined?
       // Solution: test for url property.
-      if (more_info.hasOwnProperty("url"))
+      if ((typeof more_info != 'undefined') &&
+           more_info.hasOwnProperty("url"))
         $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
       
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
