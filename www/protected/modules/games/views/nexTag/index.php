@@ -118,10 +118,10 @@
   <a href="#" id="button-play-again" class="ir"><span>Play Again</span></a> 
 </script>
 <script id="template-final-tags-new" type="text/x-jquery-tmpl">
-  <p class="tag-info">New tag(s): <b>'${tags_new}'</b> scoring <b>${tags_new_score}</b> point(s)</p>
+  <p class="tag-info"><!-- No tags displayed in NexTag --></p>
 </script>
 <script id="template-final-tags-matched" type="text/x-jquery-tmpl">
-  <p class="tag-info">Matched tag(s): <b>'${tags_matched}'</b> scoring <b>${tags_matched_score}</b> point(s).</p>
+  <p class="tag-info"><!-- No tags displayed in NexTag --></p>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
   You'll be redirected in <span id="remainingTime">${remainingTime}</span> seconds. <a href="${play_once_and_move_on_url}">Click here to proceed right away.</a></p>
