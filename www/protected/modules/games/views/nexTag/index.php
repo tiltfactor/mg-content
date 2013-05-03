@@ -7,14 +7,6 @@
          game (added-in via javascript) -->
     <div id="holder">
       <div id="image_container" class="clearfix"></div>
-      <!-- The bounding-box around the text input and the button -->
-      <div id="input_area">
-	<form action="#">
-	  <!-- user text field -->
-	  <input type="text" name="words" id="words" />
-	  <a href="#" id="button-play" class="ir"></a> 
-	</form> 
-      </div>
     </div>
 
     <div id="scores"></div>
@@ -28,6 +20,15 @@
     </div>
 
   </div> 
+</div>
+
+<!-- The bounding-box around the text input and the button -->
+<div id="input_area">
+  <form action="#">
+    <!-- user text field -->
+    <input type="text" name="words" id="words" />
+    <a href="#" id="button-play" class="ir"></a> 
+  </form> 
 </div>
 
 <div id="fieldholder" class="clearfix">

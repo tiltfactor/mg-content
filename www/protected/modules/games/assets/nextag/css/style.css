@@ -24,6 +24,10 @@
  * Modified by Vincent Van Uffelen
  */
 
+html {
+  min-height: 100px; /* Override mg default from metadatagames.css */
+}
+
 body {
   font-family: Helvetica, Verdana, Arial, Sans-Serif;
   color: black;
@@ -32,8 +36,8 @@ body {
   text-align: center;
   list-style: none;
   /* background: url(../images/bg.png) 0px 0px repeat-x #c0c93b; */
-  background: #000000;
-  min-height: 100%;
+  background: #363434; /* Make bg a bit darker than the top bar */
+  min-height: 100px;
 }
 
 /* Override main metadatagames screen.css style
@@ -43,6 +47,7 @@ body {
  */
 .container {
   margin: 0 !important;
+  width: inherit;  /* let width be variable */
 }
 
 a:link, a:hover, a:visited {
@@ -67,27 +72,23 @@ h4 {
 /* game related styles */
 
 #gamearea {
-	font-size: 14px;
-	margin: 0;
+  font-size: 14px;
+  margin: 0;
 /*	min-height: 600px; */
-	padding: 20px 0 10px;
-	position: relative;
+  padding: 20px 0 10px;
+  position: relative;
 }
+
 
 #stage {
   display:none;
 }
 
-/* Was this ID for the "image to tag" (originally) ? */
-#gameimage {
-  max-width: 485px;
-  max-height: 366px;
-}
-
 #image_to_tag {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+/*  display: block;
+  margin: auto; */
+  max-height: 50%;
+  max-width: 90%;
 }
 
 #holder {
@@ -123,21 +124,31 @@ h4 {
 
 #input_area {
   position: fixed;
-  left: 50px;
-  bottom: 200px;
-  width: 40%;
-  height: 40px;
-  background-color: white;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 60px;
+  background-color: #161414;
 }
 
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
-  width: 80%;
-  height: 36px; /* Center vertically, roughly (nuances here...) */
-  font-size: 14px;
+  float: left;
+  width: 550px;
+  height: 38px; /* Should be 40px, but seems to be taller than the form? */
+  font-size: 14pt;
   color: #000000;
   border: none;
-  margin: 0px 0px;
+  margin: 0px;
+}
+
+#input_area form {
+  position: relative;
+  width: 600px;
+  height: 40px;
+  top: 10px;
+  margin: 0 auto;
+  background-color: white;
 }
 
 #nextag {
@@ -150,14 +161,15 @@ h4 {
 #button-play {
   float: right;
   background: url(../images/button.svg) 0px 0px no-repeat;
-  background-size: 40px 40px;
-  width: 40px;
-  height: 40px;
+  background-size: 36px 36px;
+  width: 36px;
+  height: 36px;
+  margin: 2px;
 }
 
 #button-play:hover {
   background: url(../images/button_over.svg) 0px 0px no-repeat;
-  background-size: 40px 40px;
+  background-size: 36px 36px;
 }
 
 #button-play-again {
