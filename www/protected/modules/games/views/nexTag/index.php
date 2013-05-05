@@ -26,7 +26,7 @@
 <div id="input_area">
   <form action="#">
     <!-- user text field -->
-    <input type="text" name="words" id="words" />
+    <input type="text" name="words" id="words" placeholder="List what is in this image, separated by commas" />
     <a href="#" id="button-play" class="ir"></a> 
   </form> 
 </div>
@@ -46,6 +46,7 @@
       
       <p>NexTag is part of the Metadata Games suite.</p>
       
+      <p>Enter words that are relevant to the image. Separate words with a comma.</p>
       <br />
       <br />
       <br />

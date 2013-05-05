@@ -134,12 +134,12 @@ h4 {
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
   float: left;
-  width: 550px;
+  width: 530px;  /* 550 - 20px margin */
   height: 38px; /* Should be 40px, but seems to be taller than the form? */
   font-size: 14pt;
   color: #000000;
   border: none;
-  margin: 0px;
+  margin: 0px 0px 0px 20px;
 }
 
 #input_area form {
