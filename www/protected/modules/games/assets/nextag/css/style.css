@@ -100,21 +100,34 @@ h4 {
   /* border: thin solid #9AA699; */
 }
 
-/* One class for all of the smallholder image divs */
-.smallholder {
-  width: 40%;
-  height: 40%;
-  float:left;
-  margin: 10px 10px 10px 10px;
+/* Table to hold our images during the final score/review screen */
+#image_review {
+  width: 80%;
+  height: 80%;
+  margin: 0px auto;
+}
+
+#image_review tbody tr td {
+  background: none;
+  padding: 2px;
+}
+
+/* Classes for all of the smallholder image divs */
+.smallholder_left {
+  float: right;
   text-align: center;
   vertical-align: middle;
 }
 
-.smallholder img {
-  width: 100%;
+.smallholder_right {
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#image_review img {
+  max-width: 100%;
   height: auto;
-  max-width: 400px;
-  max-height: 300px;
   border: 0;
 }
 

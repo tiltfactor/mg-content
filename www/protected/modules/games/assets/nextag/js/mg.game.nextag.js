@@ -123,6 +123,18 @@ MG_GAME_NEXTAG = function ($) {
       } else {
         $("#template-final-summary").tmpl(turn_info).appendTo($("#image_container"));
       }
+
+      // Set the height of the table based on the current height of the window.
+      //
+      // Note: If the window is resized, the calculations based on the value will
+      // not be updated. Ideally we'd have these calculations be actively updated
+      // via this mechanism:
+      //     $(window).resize(function() { ... });
+
+      // Subtract heights of the top bar, the bottom "fieldholder", internal offset,
+      // subtract padding, and then divide by two to set image height.
+      $("#image_review img").height(($(window).height() - 30 - 89 - 100 - 40) / 2);
+
       $("a[rel='zoom']").fancybox({overlayColor: '#000'});
       
       MG_GAME_API.releaseOnBeforeUnload();

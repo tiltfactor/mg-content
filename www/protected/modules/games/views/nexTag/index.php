@@ -93,18 +93,40 @@
   </div>
 </script>
 <script id="template-final-summary" type="text/x-jquery-tmpl">
-  <div class="smallholder"> 
-    <a href="${url_full_size_1}" rel="zoom" title="${licence_info_1}"><img class="scoreimages" src="${url_1}" alt="game image" /></a>
-  </div> 
-  <div class="smallholder"> 
-    <a href="${url_full_size_2}" rel="zoom" title="${licence_info_2}"><img class="scoreimages" src="${url_2}" alt="game image" /></a>
-  </div> 
-  <div class="smallholder"> 
-    <a href="${url_full_size_3}" rel="zoom" title="${licence_info_3}"><img class="scoreimages" src="${url_3}" alt="game image" /></a>
-  </div> 
-  <div class="smallholder"> 
-    <a href="${url_full_size_4}" rel="zoom" title="${licence_info_4}"><img class="scoreimages" src="${url_4}" alt="game image" /></a>
-  </div> 
+  <table id="image_review">
+    <tr>
+      <td>
+        <div class="smallholder_left"> 
+          <a href="${url_full_size_1}" rel="zoom" title="${licence_info_1}">
+            <img class="scoreimages" src="${url_1}" alt="game image" />
+          </a>
+        </div>
+      </td>
+      <td>
+        <div class="smallholder_right"> 
+          <a href="${url_full_size_2}" rel="zoom" title="${licence_info_2}">
+            <img class="scoreimages" src="${url_2}" alt="game image" />
+          </a>
+        </div> 
+      </td>
+   </tr>
+   <tr>
+      <td>
+        <div class="smallholder_left"> 
+          <a href="${url_full_size_3}" rel="zoom" title="${licence_info_3}">
+            <img class="scoreimages" src="${url_3}" alt="game image" />
+          </a>
+        </div> 
+      </td>
+      <td>
+        <div class="smallholder_right"> 
+          <a href="${url_full_size_4}" rel="zoom" title="${licence_info_4}">
+            <img class="scoreimages" src="${url_4}" alt="game image" />
+          </a>
+        </div>
+      </td>
+   </tr>
+ </table>
 </script>
 <script id="template-final-summary-play-once" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
