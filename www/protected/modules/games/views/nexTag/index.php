@@ -36,7 +36,7 @@
 
 <!-- New slide-out panel -->
 <div id="sidepanel">
-  <div class="tab"></div>
+  <div id="tab" class="tab_closed"></div>
   <div class="content">
     <!-- In the mockup, looks like there's supposed to be a skinnier
          DIV comprising the top section -->

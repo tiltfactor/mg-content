@@ -299,27 +299,34 @@ h4 {
   position: fixed;
   right:-300px;
   top:30px;
-  width:324px;
+  width:319px;
   height: 100%;  /* Tried calc(100% - 30px); didn't work properly */
 }
 
 #sidepanel .content {
-  background:#ffffff; 
+  background:#b8b8b8; 
   position: absolute;
-  left: 24px;
+  left: 19px;
   top: 0px;
   width:300px;
   height:inherit;
 }
 
-#sidepanel .tab {
+#sidepanel #tab {
   cursor: pointer;
   position: absolute;
   left: 0px;
   top: 50%;
-  background: url(../images/sidepanel_handle.png) 0px 0px no-repeat transparent;
-  width:24px;
-  height:24px;
+  width:19px;
+  height:26px;
+}
+
+.tab_closed {
+  background: url(../images/nextag_sidebar_btn_open.png) 0px 0px no-repeat transparent;
+}
+
+.tab_open {
+  background: url(../images/nextag_sidebar_btn_close.png) 0px 0px no-repeat transparent;
 }
 
 #sidepanel .skinny {

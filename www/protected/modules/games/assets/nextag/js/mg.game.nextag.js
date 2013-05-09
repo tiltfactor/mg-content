@@ -401,10 +401,12 @@ MG_GAME_NEXTAG = function ($) {
 
 
 /* For the new side panel */
-$('#sidepanel .tab').toggle(function(){
+$('#sidepanel #tab').toggle(function(){
+    $(this).attr("class", "tab_open");
     $('#sidepanel').animate({'right':0});
 }, function(){
     // Question: Why does '-290' work, and '-300' push the arrow too
     // far right?
+    $(this).attr("class", "tab_closed");
     $('#sidepanel').animate({'right':-290});
 });
