@@ -85,9 +85,6 @@ h4 {
 }
 
 #image_to_tag {
-/*  display: block;
-  margin: auto; */
-  max-height: 50%;
   max-width: 90%;
 }
 

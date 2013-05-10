@@ -54,6 +54,12 @@ MG_GAME_NEXTAG = function ($) {
       
       $("#image_container").html("");
       $("#template-turn").tmpl(turn_info).appendTo($("#image_container"));
+
+      // Resize the height of the image to fit in the height of the window.
+      // From the total window height, subtract the top bar (30px), bottom bar (60px)
+      // and the padding
+      $("#image_to_tag").height($(window).height() - 32 - 60 - 70);
+
       
       $("#licences").html("");
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
