@@ -57,7 +57,8 @@ MG_GAME_NEXTAG = function ($) {
 
       // Resize the height of the image to fit in the height of the window.
       // From the total window height, subtract the top bar (30px), bottom bar (60px)
-      // and the padding
+      // and the padding.
+      // NOTE: we may want to change the total padding here, but can tweak CSS as well.
       $("#image_to_tag").height($(window).height() - 32 - 60 - 70);
 
       
