@@ -1,0 +1,377 @@
+html {
+  min-height: 100%;
+}
+
+body
+{
+	margin: 0;
+	padding: 0;
+	color: #555;
+	font: normal 10pt Helvetica,Arial,sans-serif;
+	background: #fff;
+	min-height: 100%;
+}
+
+#page {}
+
+#header
+{
+	margin: 0;
+	padding: 0;
+	background-color:#424040;
+	height:30px;
+	border-bottom: 2px solid #000;
+	margin-bottom: 5px;
+}
+
+#page_title {
+  width: 129px;
+  height:14px;
+  background: url(../images/metadatagames.png) 0px 0px no-repeat transparent;
+  float:left;
+  margin:10px 0px 0px 8px;
+}
+
+#content
+{
+    padding: 20px;
+}
+
+#sidebar
+{
+	padding: 20px 20px 20px 0;
+}
+
+#footer
+{
+	text-align: center;
+  color: #666;
+  font-size: 10px;
+  padding: 20px 0 20px 0;
+}
+
+#footer #footerLogos {
+  padding: 20px;
+}
+
+#footerLogos img {
+  vertical-align: middle;
+  border: 5px solid #fff;
+  margin: 10px;
+}
+
+#usersonline {
+  padding:8px 8px 0px 0px;
+  margin:0px;
+  width: 200px;
+  margin: 0 auto 0 auto;
+  text-align: center;
+}
+
+#usersonline span {
+  color:#ffffff;
+  font-size:14px;
+  font-weight:bold;
+  padding: 8px 8px 4px 8px;
+  text-decoration:none;
+}
+
+#mainmenu {
+	float: right;
+}
+
+#mainmenu ul
+{
+	padding:8px 8px 4px 8px;
+	margin:0px;
+}
+
+#mainmenu ul li {
+	display: inline;
+	border-left:1px solid #ff0;
+}
+
+#mainmenu ul li:first-child {
+  border-left:none;
+}
+
+#mainmenu ul li a
+{
+	color:#ffffff;
+	font-size:14px;
+	font-weight:bold;
+	padding:5px 8px;
+	text-decoration:none;
+}
+
+#mainmenu ul li a:hover, #mainmenu ul li.active a
+{
+	color: #FF0;
+}
+
+div.flash-error, div.flash-notice, div.flash-success
+{
+	padding:.8em;
+	margin-bottom:1em;
+	border:2px solid #ddd;
+}
+
+div.flash-error
+{
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
+}
+
+div.flash-notice
+{
+	background:#FFF6BF;
+	color:#514721;
+	border-color:#FFD324;
+}
+
+div.flash-success
+{
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
+}
+
+div.flash-error a
+{
+	color:#8a1f11;
+}
+
+div.flash-notice a
+{
+	color:#514721;
+}
+
+div.flash-success a
+{
+	color:#264409;
+}
+
+div.form .rememberMe label
+{
+	display: inline;
+}
+
+div.view
+{
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #C9E0ED;
+}
+
+div.breadcrumbs
+{
+	font-size: 0.9em;
+	padding: 5px 20px;
+}
+
+div.breadcrumbs span
+{
+	font-weight: bold;
+}
+
+div.search-form
+{
+	padding: 10px;
+	margin: 10px 0;
+	background: #eee;
+	display:none;
+}
+
+.portlet
+{
+
+}
+
+.portlet-decoration
+{
+	padding: 0;
+	margin: 0 0 10px 0;
+}
+
+.portlet-title
+{
+	font-size: 22px;
+	color: #000;
+	padding: 0;
+	margin: 0;
+}
+
+.portlet-content {
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+
+.portlet-content ul
+{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin: 0;
+	padding: 0;
+}
+
+.portlet-content li
+{
+	padding: 2px 0 4px 0px;
+}
+
+.operations
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.operations li
+{
+	padding-bottom: 2px;
+}
+
+.operations li a
+{
+	font: bold 12px Arial;
+	color: #333;
+	display: block;
+	padding: 2px 0 2px 8px;
+	line-height: 15px;
+	text-decoration: none;
+}
+
+.operations li a:visited
+{
+	color: #333;
+}
+
+.operations li a:hover
+{
+	background: #F2F098;
+}
+
+
+/* MG by VVU */
+.ir {
+  display:block;
+  text-indent: -3000px;
+  outline:none;
+}
+
+ul#arcade-games {
+  border-top: thin dashed #D7CF01;
+  margin: 0px 0px 20px 0px;
+  padding:0;
+}
+
+ul#arcade-games li {
+  list-style: none;
+  margin:0;
+  padding:20px 0px 20px 0px;
+  border-bottom: thin dashed #D7CF01; 
+}
+
+ul#arcade-games a.image {
+  display: block;
+  float: left;
+  margin-right:20px;
+}
+
+ul#arcade-games h2,
+ul#arcade-games p {
+  margin-left:255px;
+}
+
+thead th {
+    background: none repeat scroll 0 0 #D7CF01;
+}
+
+tbody tr:nth-child(2n) td, 
+tbody tr.even td {
+    background: none repeat scroll 0 0 #F2F098;
+}
+
+.flash {
+  margin-top: 10px;
+}
+
+/* these are styles use by all games - it is important that they are present */
+
+#mg_fancybox_link {
+  position: absolute;
+  top:-3000px;
+  left:-3000px;
+  z-index:-99;
+}
+
+#mg_curtain {
+  position: absolute;
+  z-index: 10;
+  top:0px;
+  left:0px;
+  width:100%;
+  height: 100%;
+  background:url(../images/ajax-loader.gif) center center no-repeat #000;
+}
+
+#no_js {
+  font-weight: bold;
+  text-align: center;
+  color:#666;
+}
+
+#mg_modals {
+  display: none;
+}
+
+#mg_error {
+  background-color: #ddd;
+  padding:5px;
+}
+
+#stage {display: none;}
+
+.badge {
+  width:50px;
+  float: left;
+  margin:0px 10px 10px 0px;
+}
+
+.badge div {
+  width:42px;
+  height:50px;
+  margin:0 auto 5px auto;
+}
+
+.badge span {
+  display: block;
+  text-align:center;
+  font-size:10px;
+}
+.badge.active span {
+  color:#000;
+}
+.badge.inactive span {
+  color:#ccc;
+}
+
+/* PlayerSubjectMatter */
+td.sm-name {
+  font-weight: bold;
+}
+
+td.sm-value span {
+  display: block;
+  margin:5px;
+  float: left;
+  font-weight: bold;
+}
+
+td.sm-value .ui-slider {
+  float:left;
+  width: 150px;
+  margin:7px 10px 3px 10px;
+}
