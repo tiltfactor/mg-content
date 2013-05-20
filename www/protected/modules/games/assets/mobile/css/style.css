@@ -1,0 +1,365 @@
+/** -*- Mode: css; css-indent-offset: 2; indent-tabs-mode: nil -*-
+ *
+ * Metadata Games - A FOSS Electronic Game for Archival Data Systems
+ * Copyright (C) 2010 Mary Flanagan, Tiltfactor Laboratory
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+/* 
+ * Styles for MOBILE game stub (These will probably be unnecessary)
+ */
+
+html {
+  min-height: 100px; /* Override mg default from metadatagames.css */
+}
+
+body {
+  font-family: Helvetica, Verdana, Arial, Sans-Serif;
+  color: black;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+  /* background: url(../images/bg.png) 0px 0px repeat-x #c0c93b; */
+  background: #363434; /* Make bg a bit darker than the top bar */
+  min-height: 100px;
+}
+
+/* Override main metadatagames screen.css style
+ *
+ * Have all images left align and fill browser window up to width of
+ * window
+ */
+.container {
+  margin: 0 !important;
+  width: inherit;  /* let width be variable */
+}
+
+a:link, a:hover, a:visited {
+  font-weight: 600;
+  color: #f3611a;
+  text-decoration: none;
+}
+
+h2 {
+  color: #000;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 11px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+/* game related styles */
+
+#gamearea {
+  font-size: 14px;
+  margin: 0;
+/*	min-height: 600px; */
+  padding: 20px 0 10px;
+  position: relative;
+}
+
+
+#stage {
+  display:none;
+}
+
+#image_to_tag {
+  max-width: 90%;
+}
+
+#holder {
+  margin: 0px auto;
+  text-align: center;
+}
+
+#holder img {
+  /* border: thin solid #9AA699; */
+}
+
+/* Table to hold our images during the final score/review screen */
+#image_review {
+  width: 80%;
+  height: 80%;
+  margin: 0px auto;
+}
+
+#image_review tbody tr td {
+  background: none;
+  padding: 2px;
+}
+
+/* Classes for all of the smallholder image divs */
+.smallholder_left {
+  float: right;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.smallholder_right {
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#image_review img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+
+/* Don't need this for the text input field, etc.. anymore */
+#fieldholder {
+}
+
+#input_area {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 60px;
+  background-color: #161414;
+}
+
+/* Style the Text Field inside the fieldholder DIV */
+#input_area input {
+  float: left;
+  width: 530px;  /* 550 - 20px margin */
+  height: 38px; /* Should be 40px, but seems to be taller than the form? */
+  font-size: 14pt;
+  color: #000000;
+  border: none;
+  margin: 0px 0px 0px 20px;
+}
+
+#input_area form {
+  position: relative;
+  width: 600px;
+  height: 40px;
+  top: 10px;
+  margin: 0 auto;
+  background-color: white;
+}
+
+#mobile {
+  width: 290px;
+  height: 58px;
+  margin: 0px auto;
+  text-align: center;
+}
+
+#button-play {
+  float: right;
+  background: url(../images/button.svg) 0px 0px no-repeat;
+  background-size: 36px 36px;
+  width: 36px;
+  height: 36px;
+  margin: 2px;
+}
+
+#button-play:hover {
+  background: url(../images/button_over.svg) 0px 0px no-repeat;
+  background-size: 36px 36px;
+}
+
+#button-play-again {
+  background-color: red;
+  text-align: center;
+  text-indent: 0px;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+#button-play-again:hover {
+  background-color: #c40303;
+}
+
+#button-play-again span {
+  /*   text-align: center; */
+  font-family: Helvetica, Verdana, Arial, Sans-Serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 30px;  /* to center the text vertically */
+  color: #ffffff;  
+}
+
+#scores {
+	font-size: 14px;
+	font-weight: bold;
+	height: 200px;
+	padding: 15px 0 1px 15px;
+	position: absolute;
+	right: -30px;
+	text-align: left;
+	top: 100px;
+	width: 200px;
+}
+
+#scores span {
+  font-size: 18px;
+  color: #F3611A;
+  font-weight: bold;
+}
+
+#scores div.total_turns span {
+	color:  #fff;
+}
+#scores div.total_turns {
+	background-color: #FF1F57;
+	padding: 2px 20px;
+	margin: 10px 0 0 0;
+	border-radius: 10px;
+	width: 70px;
+}
+
+#passing {
+	font-size: 14px;
+	font-weight: bold;
+	height: 200px;
+	padding: 150px 0 0px 15px;
+	position: absolute;
+	right: -30px;
+	text-align: left;
+	top: 100px;
+	width: 200px;
+}
+
+#licences {
+/*
+	bottom: 0px;
+	color: #666666;
+	font-size: 10px;
+	height: 200px;
+	left: -30px;
+	position: absolute;
+	width: 200px; */
+  color: black;
+}
+
+#more_info {
+/*  position: relative;
+  top:50%;
+  margin-top: -25px;
+  left: 50px;
+  width:200px;
+  height: 50px; */
+  color: black;
+}
+
+/* error modal window content */
+#mg_error {
+  text-align: left;
+}
+
+#mg_error h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom:10px;
+}
+
+#fieldholder p.final {
+  margin-top:10px;
+  font-size: 14px;
+  color: white;
+}
+
+#game_description {
+	font-size: 14px;
+	left: -10px;
+	margin: 0;
+	padding: 15px 0 1px 15px;
+	position: absolute;
+	text-align: left;
+	top: 100px;
+	width: 180px;
+}
+
+#game_description ul li {
+  margin: 8px 0;
+}
+
+#game_description p {
+  margin: 16px 0;
+}
+
+/* Side Panel to display copyright, etc.. info */
+#sidepanel {
+  position: fixed;
+  right:-300px;
+  top:30px;
+  width:319px;
+  height: 100%;  /* Tried calc(100% - 30px); didn't work properly */
+}
+
+#sidepanel .content {
+  background:#b8b8b8; 
+  position: absolute;
+  left: 19px;
+  top: 0px;
+  width:300px;
+  height:inherit;
+}
+
+#sidepanel #tab {
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  width:19px;
+  height:26px;
+}
+
+.tab_closed {
+  background: url(../images/mobile_sidebar_btn_open.png) 0px 0px no-repeat transparent;
+}
+
+.tab_open {
+  background: url(../images/mobile_sidebar_btn_close.png) 0px 0px no-repeat transparent;
+}
+
+#sidepanel .skinny {
+  position: relative;
+  /* Let's just bring in the sides a bit */
+  width: 270px;
+  left: 15px; /* Why can't this center? */
+  text-align: left;
+}
+
+/* The smallfooter is scaled significantly smaller than the default
+ * page footer
+ */
+#smallfooter {
+  position: absolute;
+  bottom: 30px;  /* hack to push images up -- should be fixed in parent */
+  text-align: center;
+  width: 100%;
+}
+
+#footerLogos {
+
+}
+
+#footerLogos img {
+  max-width: 50px;
+  height: auto;
+}
