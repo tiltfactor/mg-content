@@ -21,7 +21,32 @@
 $.ajaxSetup({global:true,dataFilter:function(g,e){if(e&&e!="html"&&e!="text")return g;var s="script[src],link[rel=\"stylesheet\"]",h=/(\?+)|(_=\d+)/g,a,c,d,b,f=document.getElementsByTagName("head")[0];if(!$._resMap){$._resMap={};$._holder=$(document.createElement("div"));for(c=0,d=$(document).find(s);c<d.length;c++)a=d[c],b=a.src?a.src:a.href,b=b.replace(h,""),a.href&&a.parentNode!=f&&f.appendChild(a),$._resMap[b]=1}$._holder[0].innerHTML=g;for(c=0,d=$._holder.find(s);c<d.length;c++)a=d[c],b=a.src?a.src:a.href,b=b.replace(h,""),$._resMap[b]?$(a).remove():(a.href&&f.appendChild(a),$._resMap[b]=1);return $._holder[0].innerHTML}});
 /*]]>*/
 </script>
-<title>Metadata Games - EasyTag (Mobile)</title>
+
+<script type="text/javascript" src="js/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="js/mg.api.js"></script>
+<script type="text/javascript" src="js/mg.game.api.js"></script>
+<script type="text/javascript" src="js/mg.game.mobile.js"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+jQuery(function($) {
+  var base_url = 'http://mg.local/www/index.php';
+    MG_GAME_MOBILE.init({
+        gid : 'Mobile',
+        app_id : 'MG_API',
+        api_url : base_url + '/api',
+        arcade_url : base_url,
+        game_base_url : base_url + '/games',
+        play_once_and_move_on : 0,
+        play_once_and_move_on_url : '',
+        throttleInterval : 500
+      });
+});
+/*]]>*/
+</script>
+
+
+    <title>Metadata Games - EasyTag (Mobile)</title>
   </head>
 
   <body>
@@ -205,27 +230,6 @@ $.ajaxSetup({global:true,dataFilter:function(g,e){if(e&&e!="html"&&e!="text")ret
   </div><!-- footer -->
 
 </div><!-- page -->
-<script type="text/javascript" src="js/jquery.fancybox-1.3.4.pack.js"></script>
-<script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
-<script type="text/javascript" src="js/mg.api.js"></script>
-<script type="text/javascript" src="js/mg.game.api.js"></script>
-<script type="text/javascript" src="js/mg.game.mobile.js"></script>
-<script type="text/javascript">
-/*<![CDATA[*/
-jQuery(function($) {
-    MG_GAME_MOBILE.init({
-        gid : 'Mobile',
-        app_id : 'MG_API',
-        asset_url : '/www',
-        api_url : 'http://mg.local/www/index.php/api',
-        arcade_url : 'http://mg.local/www/index.php',
-        game_base_url : 'http://mg.local/www/index.php/games',
-        play_once_and_move_on : 0,
-        play_once_and_move_on_url : '',
-        throttleInterval : 500
-      });
-});
-/*]]>*/
-</script>
+
 </body>
 </html>
