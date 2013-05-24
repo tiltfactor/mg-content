@@ -365,3 +365,35 @@ h4 {
   max-width: 50px;
   height: auto;
 }
+
+
+/* iPhone 4 - 4S  in portrait & landscape */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  /* STYLES GO HERE */
+  
+  #input_area input {
+    height: 38px;
+    margin: 0 0 0 20px;  
+  }
+  
+  #input_area form {
+    height: 48px;
+  }
+
+  #button-play {
+    margin-top: -38px; 
+  } 
+  
+  #sidepanel #tab {
+    width: 30px;
+    height: 46px;
+    left: -10px;
+  }
+  
+  .tab_closed, .tab_open {
+    background-size: 30px 46px;
+  }
+
+}
