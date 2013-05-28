@@ -49,7 +49,8 @@
     &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
     <div id="footerLogos">
       <a href="http://www.dartmouth.edu" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" /></a>
-      <a href="http://www.neh.gov" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/NEH-Logo-Horizontal_252x62.jpg" /></a>
+      <a href="http://www.neh.gov" target="_blank">
+        <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_horizontal_252x62.jpg" /></a>
       <a href="http://www.acls.org/" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" height="88" width="88" /></a>
     </div>
   </div><!-- footer -->

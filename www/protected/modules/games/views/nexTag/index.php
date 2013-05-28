@@ -64,7 +64,7 @@
 	  <img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" />
 	</a>
 	<a href="http://www.neh.gov" target="_blank">
-	  <img src="<?php echo MGHelper::bu("/"); ?>images/NEH-Logo-Horizontal_252x62.jpg" />
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_stacked_88x48.png" />
 	</a>
 	<a href="http://www.acls.org/" target="_blank">
 	  <img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" />
