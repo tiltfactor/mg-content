@@ -359,7 +359,7 @@ h4 {
 
 #footerLogos img {
   max-height: 50px;
-  width: auto;
+  max-width: 250px;
 }
 
 

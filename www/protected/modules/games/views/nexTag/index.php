@@ -60,7 +60,7 @@
     <div id="smallfooter">
       <div id="footerLogos">
 	<a href="http://www.metadatagames.com/" target="_blank">
-	  <img src="<?php echo MGHelper::bu("/"); ?>images/metadatagames.png" />
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/metadatagames_logo_650x64.png" />
 	</a>
         <br />
 	<a href="http://www.neh.gov" target="_blank">
