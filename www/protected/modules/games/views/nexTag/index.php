@@ -58,13 +58,20 @@
     </div>
 
     <div id="smallfooter">
-      &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
       <div id="footerLogos">
+	<a href="http://www.metadatagames.com/" target="_blank">
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/metadatagames.png" />
+	</a>
+        <br />
+	<a href="http://www.neh.gov" target="_blank">
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_horizontal_252x62.jpg" />
+	</a>
+        <br />
 	<a href="http://www.dartmouth.edu" target="_blank">
 	  <img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" />
 	</a>
-	<a href="http://www.neh.gov" target="_blank">
-	  <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_stacked_88x48.png" />
+	<a href="http://www.tiltfactor.org/" target="_blank">
+	  <img src="<?php echo MGHelper::bu("/"); ?>images/tilt_logo_portrait_88x88.png" />
 	</a>
 	<a href="http://www.acls.org/" target="_blank">
 	  <img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" />
