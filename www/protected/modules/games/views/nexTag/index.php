@@ -77,6 +77,7 @@
 	  <img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" />
 	</a>
       </div>
+      <p>software developed by tiltfactor</p>
     </div> <!-- smallfooter -->
     
   </div>
