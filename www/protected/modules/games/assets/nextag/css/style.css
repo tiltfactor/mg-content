@@ -307,16 +307,16 @@ h4 {
 /* Side Panel to display copyright, etc.. info */
 #sidepanel {
   position: fixed;
-  right:-300px;
-  top:30px;
-  width:319px;
+  right: -300px;
+  top: 30px; /* offset per our header bar */
+  width: 330px; /* width of panel + width of tab image */
   height: 100%;  /* Tried calc(100% - 30px); didn't work properly */
 }
 
 #sidepanel .content {
   background:#b8b8b8; 
   position: absolute;
-  left: 19px;
+  left: 30px;  /* move over by the width of the tab image */
   top: 0px;
   width:300px;
   height:inherit;
@@ -327,8 +327,8 @@ h4 {
   position: absolute;
   left: 0px;
   top: 50%;
-  width:19px;
-  height:26px;
+  width: 30px;  /* was 19px */
+  height: 56px; /* was 26px */
 }
 
 .tab_closed {
