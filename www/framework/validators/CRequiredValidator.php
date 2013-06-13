@@ -11,8 +11,15 @@
 /**
  * CRequiredValidator validates that the specified attribute does not have null or empty value.
  *
+ * When using the {@link message} property to define a custom error message, the message
+ * may contain additional placeholders that will be replaced with the actual content. In addition
+ * to the "{attribute}" placeholder, recognized by all validators (see {@link CValidator}),
+ * CRequiredValidator allows for the following placeholders to be specified:
+ * <ul>
+ * <li>{value}: replaced with the desired value {@link requiredValue}.</li>
+ * </ul>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CRequiredValidator.php 3157 2011-04-02 19:21:06Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */
@@ -24,7 +31,6 @@ class CRequiredValidator extends CValidator
 	 * If this is set as a value that is not null, the validator will validate that
 	 * the attribute has a value that is the same as this property value.
 	 * Defaults to null.
-	 * @since 1.0.10
 	 */
 	public $requiredValue;
 	/**
@@ -32,7 +38,6 @@ class CRequiredValidator extends CValidator
 	 * When this is true, the attribute value and type must both match those of {@link requiredValue}.
 	 * Defaults to false, meaning only the value needs to be matched.
 	 * This property is only used when {@link requiredValue} is not null.
-	 * @since 1.0.10
 	 */
 	public $strict=false;
 	/**
@@ -53,7 +58,7 @@ class CRequiredValidator extends CValidator
 				$this->addError($object,$attribute,$message);
 			}
 		}
-		else if($this->isEmpty($value,true))
+		elseif($this->isEmpty($value,true))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
 			$this->addError($object,$attribute,$message);
@@ -93,7 +98,7 @@ if(value!=" . CJSON::encode($this->requiredValue) . ") {
 				'{attribute}'=>$object->getAttributeLabel($attribute),
 			));
 			return "
-if($.trim(value)=='') {
+if(jQuery.trim(value)=='') {
 	messages.push(".CJSON::encode($message).");
 }
 ";

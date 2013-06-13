@@ -11,8 +11,10 @@
 /**
  * CCodeFile represents a code file being generated.
  *
+ * @property string $relativePath The code file path relative to the application base path.
+ * @property string $type The code file extension (e.g. php, txt).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCodeFile.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.gii
  * @since 1.1.2
  */
@@ -51,7 +53,7 @@ class CCodeFile extends CComponent
 		$this->content=$content;
 		if(is_file($path))
 			$this->operation=file_get_contents($path)===$content ? self::OP_SKIP : self::OP_OVERWRITE;
-		else if($content===null)  // is dir
+		elseif($content===null)  // is dir
 			$this->operation=is_dir($path) ? self::OP_SKIP : self::OP_NEW;
 		else
 			$this->operation=self::OP_NEW;

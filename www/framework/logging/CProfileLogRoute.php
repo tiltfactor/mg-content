@@ -20,8 +20,9 @@
  * <li>callstack: list the mark code blocks in a hierarchical view reflecting their calling sequence.</li>
  * </ul>
  *
+ * @property string $report The type of the profiling report to display. Defaults to 'summary'.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CProfileLogRoute.php 3204 2011-05-05 21:36:32Z alexander.makarow $
  * @package system.logging
  * @since 1.0
  */
@@ -32,7 +33,6 @@ class CProfileLogRoute extends CWebLogRoute
 	 * If false, the results will be aggregated by categories.
 	 * Defaults to true. Note that this property only affects the summary report
 	 * that is enabled when {@link report} is 'summary'.
-	 * @since 1.0.6
 	 */
 	public $groupByToken=true;
 	/**
@@ -106,7 +106,7 @@ class CProfileLogRoute extends CWebLogRoute
 				$stack[]=$log;
 				$n++;
 			}
-			else if(!strncasecmp($message,'end:',4))
+			elseif(!strncasecmp($message,'end:',4))
 			{
 				$token=substr($message,4);
 				if(($last=array_pop($stack))!==null && $last[0]===$token)
@@ -144,7 +144,7 @@ class CProfileLogRoute extends CWebLogRoute
 				$log[0]=substr($message,6);
 				$stack[]=$log;
 			}
-			else if(!strncasecmp($message,'end:',4))
+			elseif(!strncasecmp($message,'end:',4))
 			{
 				$token=substr($message,4);
 				if(($last=array_pop($stack))!==null && $last[0]===$token)
@@ -192,7 +192,7 @@ class CProfileLogRoute extends CWebLogRoute
 		list($token,$calls,$min,$max,$total)=$result;
 		if($delta<$min)
 			$min=$delta;
-		else if($delta>$max)
+		elseif($delta>$max)
 			$max=$delta;
 		$calls++;
 		$total+=$delta;

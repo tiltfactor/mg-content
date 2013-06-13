@@ -23,8 +23,9 @@
  * <li>{@link sequenceName}</li>
  * </ul>
  *
+ * @property array $columnNames List of column names.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbTableSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */
