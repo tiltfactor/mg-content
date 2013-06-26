@@ -11,6 +11,8 @@ $this->breadcrumbs = array(
 
 <p>This is the Admin Overview. It lists all tools you have access to.</p>
 
+<p>You're running Yii version [ <?php echo Yii::getVersion(); ?> ].</p>
+
 <?php foreach ($tool_groups as $group => $tools) : ?>
 <fieldset class="admin-tools">
   <legend><?php echo $group; ?></legend>
