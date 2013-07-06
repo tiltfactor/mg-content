@@ -118,6 +118,7 @@ return array(
   'params'=>array(
     'version' => "0.1",
     'tags_csv_format' => "1.0",
+    'tags_by_game_csv_format' => "1.0",
     'embedded_metadata_format' => "1.0",
   ),
 );
