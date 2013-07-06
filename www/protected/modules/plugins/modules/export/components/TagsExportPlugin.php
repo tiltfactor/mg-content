@@ -90,6 +90,7 @@ class TagsExportPlugin extends MGExportPlugin {
 # This Export:
 # ------------
 # Version: metadatagames_$version
+# Plugin: TagsExportPlugin
 # Format: $format
 # Date: $date
 # System: $system
