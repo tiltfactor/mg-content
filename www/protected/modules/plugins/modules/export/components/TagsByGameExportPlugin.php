@@ -106,6 +106,12 @@ EOT;
     
     file_put_contents ($filepath, $header . $labels . "\n");
 
+    // If particular image sets are specified, only query those sets.
+    $image_sets_filter = "";
+    if ($model->imageSets) {
+      $image_sets_filter = "AND image_set.id IN (" . join($model->imageSets, ", ") . ") ";
+    }
+
     $sql = <<<EOT
 SELECT game.unique_id AS 'game.uid',
 GROUP_CONCAT(DISTINCT image_set.name
@@ -116,13 +122,14 @@ GROUP_CONCAT(DISTINCT tag
              ORDER BY tag SEPARATOR ', ') AS Tags
 FROM game, game_submission, played_game, image_set, image_set_to_image,
      tag_use, image, tag
-WHERE game_submission.played_game_id = played_game.id AND 
-played_game.game_id = game.id AND
-tag_use.game_submission_id = game_submission.id AND
-tag_use.image_id = image.id AND
-tag_use.tag_id = tag.id AND
-image_set_to_image.image_set_id = image_set.id AND
-image_set_to_image.image_id = image.id
+WHERE game_submission.played_game_id = played_game.id
+AND played_game.game_id = game.id
+AND tag_use.game_submission_id = game_submission.id
+AND tag_use.image_id = image.id
+AND tag_use.tag_id = tag.id
+AND image_set_to_image.image_set_id = image_set.id
+AND image_set_to_image.image_id = image.id
+$image_sets_filter
 GROUP BY image.name
 ORDER BY game.unique_id;
 
