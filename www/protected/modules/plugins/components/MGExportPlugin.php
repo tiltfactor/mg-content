@@ -4,9 +4,25 @@
  * This is the base implementation of a import plug-in 
  */
 
-class MGExportPlugin extends MGPlugin {  
+class MGExportPlugin extends MGPlugin {
+  // Is this Export Plugin active by default in the GUI?
+  //
+  // (This value may be overidden by subclasses in the form()
+  // function; don't use the init() function, as it's unclear when/if
+  // that's called!)
+  public $activeByDefault = false;
+
   function init() {
     parent::init();
+  }
+
+  /**
+   *  Is this plugin active?
+   */
+  function is_active() {
+    return (isset($_POST['ExportForm'][get_class($this)]['active']) ?
+            $_POST['ExportForm'][get_class($this)]['active'] :
+	    $this->activeByDefault);
   }
   
   /**

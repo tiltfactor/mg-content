@@ -4,7 +4,7 @@
  * @BEGIN_LICENSE
  *
  * Metadata Games - A FOSS Electronic Game for Archival Data Systems
- * Copyright (C) 2012 Mary Flanagan, Tiltfactor Laboratory
+ * Copyright (C) 2013 Mary Flanagan, Tiltfactor Laboratory
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -45,11 +45,7 @@ class TagsByGameExportPlugin extends MGExportPlugin {
     $legend = CHtml::tag("legend", array(),
                          Yii::t('app', 'Plugin: Tags Export by Game'));
     
-    $value = ((isset($_POST['ExportForm']) &&
-               isset($_POST['ExportForm']['TagsByGameExportPlugin']) &&
-               isset($_POST['ExportForm']['TagsByGameExportPlugin']['active'])) ?
-              $_POST['ExportForm']['TagsByGameExportPlugin']['active'] :
-              1);
+    $value = $this->is_active() ? 1 : 0;
     $label = CHtml::label(Yii::t('app', 'Active'),
                           'ExportForm_TagsByGameExportPlugin_active');
     
@@ -78,6 +74,10 @@ class TagsByGameExportPlugin extends MGExportPlugin {
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
+    if(!$this->is_active()) {
+      return 0;
+    }
+
     $version = Yii::app()->params['version'];
     $format = Yii::app()->params['tags_by_game_csv_format'];
     $date = date("r");
@@ -147,9 +147,6 @@ EOT;
   }
   
   /**
-   * Retrieves the tags for an image and exports them as a line of the
-   * CSV file.
-   * 
    * @param object $model the ExportForm instance
    *
    * @param object $command the CDbCommand instance holding all

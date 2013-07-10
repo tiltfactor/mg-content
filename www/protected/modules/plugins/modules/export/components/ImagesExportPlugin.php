@@ -4,7 +4,7 @@
  * @BEGIN_LICENSE
  *
  * Metadata Games - A FOSS Electronic Game for Archival Data Systems
- * Copyright (C) 2012 Mary Flanagan, Tiltfactor Laboratory
+ * Copyright (C) 2013 Mary Flanagan, Tiltfactor Laboratory
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -49,12 +49,6 @@ class ImagesExportPlugin extends MGExportPlugin {
     parent::init();
   }
 
-  // Is this plugin enabled?
-  function is_enabled() {
-    return (isset($_POST['ExportForm']['ImagesExportPlugin']['active']) &&
-            $_POST['ExportForm']['ImagesExportPlugin']['active'] == 1);
-  }
-  
   /**
    * Adds a checkbox that allows to activate/disactivate the use of the plugin on the 
    * export form.
@@ -66,11 +60,7 @@ class ImagesExportPlugin extends MGExportPlugin {
     $legend = CHtml::tag("legend", array(),
                          Yii::t('app', 'Plugin: Images Export'));
 
-    $value = 0;
-    if($this->is_enabled()) {
-      $value = 1;
-    }
-    
+    $value = $this->is_active() ? 1 : 0;
     $label = CHtml::label(Yii::t('app', 'Active'),
                           'ExportForm_ImagesExportPlugin_active');
     
@@ -115,7 +105,7 @@ class ImagesExportPlugin extends MGExportPlugin {
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
-    if(!$this->is_enabled()) {
+    if(!$this->is_active()) {
       return 0;
     }
 
@@ -163,7 +153,7 @@ EOT;
    * @param int $image_id the id of the image that should be exported
    */
   function process(&$model, &$command, $tmp_folder, $image_id) {
-    if(!$this->is_enabled()) {
+    if(!$this->is_active()) {
       return 0;
     }
 

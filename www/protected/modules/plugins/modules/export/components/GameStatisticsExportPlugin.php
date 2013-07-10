@@ -1,4 +1,28 @@
-<?php
+<?php // -*- tab-width:2; indent-tabs-mode:nil -*-
+/**
+ *
+ * @BEGIN_LICENSE
+ *
+ * Metadata Games - A FOSS Electronic Game for Archival Data Systems
+ * Copyright (C) 2013 Mary Flanagan, Tiltfactor Laboratory
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * @END_LICENSE
+ * 
+ */
 
 /**
  * Implementation of a export plugin. Exports the game statistics in a tab 
@@ -21,10 +45,13 @@ class GameStatisticsExportPlugin extends MGExportPlugin {
    * @param object $model the ExportForm instance holding the forms values
    */
   function form(&$form, &$model) {
-    $legend = CHtml::tag("legend", array(), Yii::t('app', 'Plugin: Game Statistics Export'));
+    $this->activeByDefault = true;
+    $legend = CHtml::tag("legend", array(),
+                         Yii::t('app', 'Plugin: Game Statistics Export'));
     
-    $value = ((isset($_POST['ExportForm']) && isset($_POST['ExportForm']['GameStatisticsExportPlugin']) && isset($_POST['ExportForm']['GameStatisticsExportPlugin']['active']))? $_POST['ExportForm']['GameStatisticsExportPlugin']['active'] : 1);
-    $label = CHtml::label(Yii::t('app', 'Active'), 'ExportForm_GameStatisticsExportPlugin_active');
+    $value = $this->is_active() ? 1 : 0;
+    $label = CHtml::label(Yii::t('app', 'Active'),
+                          'ExportForm_GameStatisticsExportPlugin_active');
     
     $buttons= CHtml::radioButtonList( 
         "ExportForm[GameStatisticsExportPlugin][active]", 
@@ -44,6 +71,9 @@ class GameStatisticsExportPlugin extends MGExportPlugin {
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
+    if(!$this->is_active()) {
+      return 0;
+    }
     
     $stats = GamesModule::getStatistics();
     if ($stats) {

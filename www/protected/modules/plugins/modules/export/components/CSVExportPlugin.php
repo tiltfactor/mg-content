@@ -1,4 +1,28 @@
-<?php
+<?php // -*- tab-width:2; indent-tabs-mode:nil -*-
+/**
+ *
+ * @BEGIN_LICENSE
+ *
+ * Metadata Games - A FOSS Electronic Game for Archival Data Systems
+ * Copyright (C) 2013 Mary Flanagan, Tiltfactor Laboratory
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * @END_LICENSE
+ * 
+ */
 
 /**
  * Implentation of the an export plugin. It allows to export the tags, 
@@ -21,10 +45,12 @@ class CSVExportPlugin extends MGExportPlugin {
    * @param object $model the ExportForm instance holding the forms values
    */
   function form(&$form, &$model) {
-    $legend = CHtml::tag("legend", array(), Yii::t('app', 'Plugin: CSV Export'));
+    $legend = CHtml::tag("legend", array(),
+                         Yii::t('app', 'Plugin: CSV Export'));
     
-    $value = ((isset($_POST['ExportForm']) && isset($_POST['ExportForm']['CSVExportPlugin']) && isset($_POST['ExportForm']['CSVExportPlugin']['active']))? $_POST['ExportForm']['CSVExportPlugin']['active'] : 1);
-    $label = CHtml::label(Yii::t('app', 'Active'), 'ExportForm_CSVExportPlugin_active');
+    $value = $this->is_active() ? 1 : 0;
+    $label = CHtml::label(Yii::t('app', 'Active'),
+                          'ExportForm_CSVExportPlugin_active');
     
     $buttons= CHtml::radioButtonList( 
         "ExportForm[CSVExportPlugin][active]", 
@@ -44,6 +70,10 @@ class CSVExportPlugin extends MGExportPlugin {
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
+    if(!$this->is_active()) {
+      return 0;
+    }
+
     if ($model->option_list_user == 1) {
       file_put_contents ($tmp_folder . $model->filename . '.csv', "ImageId\tTagUseCnt\tWeightMin\tWeightMax\tWeightAVG\tWeightSum\tTag\tmageName\tUserName\n");
     } else {
@@ -61,6 +91,10 @@ class CSVExportPlugin extends MGExportPlugin {
    * @param int $image_id the id of the image that should be exported
    */
   function process(&$model, &$command, $tmp_folder, $image_id) {
+    if(!$this->is_active()) {
+      return 0;
+    }
+
     if ($model->option_list_user == 1) {
       $command->selectDistinct('tu.image_id, COUNT(tu.id) tu_count, MIN(tu.weight) w_min, MAX(tu.weight) w_max, AVG(tu.weight) w_avg, SUM(tu.weight) as w_sum, t.tag, i.name, u.username');
       
