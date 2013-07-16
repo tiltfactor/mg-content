@@ -67,7 +67,7 @@ class GridBatchAction extends CWidget {
       
       $javascript = <<<EOD
 jQuery('#{$this->formId}-batch-actions-go').click(function() {
-  if (\$('#{$this->formId}-batch-actions option:selected"').first().val() == "none") {
+  if (\$('#{$this->formId}-batch-actions option:selected').first().val() == "none") {
     alert('{$this->textNoAction}');
     return false;
   }      
@@ -80,7 +80,7 @@ jQuery('#{$this->formId}-batch-actions-go').click(function() {
   if(confirm('{$this->textConfirm}')) {
     \$.fn.yiiGridView.update('{$this->ajaxGridId}', {
       type:'POST',
-      url:\$('#{$this->formId}-batch-actions option:selected"').first().val(),
+      url:\$('#{$this->formId}-batch-actions option:selected').first().val(),
       data:\$('#{$this->formId}').serialize(),
       success:function() {
         \$.fn.yiiGridView.update('{$this->ajaxGridId}');
