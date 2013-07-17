@@ -42,6 +42,7 @@ class TagsByGameExportPlugin extends MGExportPlugin {
    * @param object $model the ExportForm instance holding the forms values
    */
   function form(&$form, &$model) {
+    $this->activeByDefault = true;
     $legend = CHtml::tag("legend", array(),
                          Yii::t('app', 'Plugin: Tags Export by Game'));
     
