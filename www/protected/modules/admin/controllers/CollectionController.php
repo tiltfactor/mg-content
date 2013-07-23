@@ -1,6 +1,6 @@
 <?php
 
-class ImageSetController extends GxController {
+class CollectionController extends GxController {
 
   public function filters() {
   	return array(
@@ -27,27 +27,27 @@ class ImageSetController extends GxController {
 
 	public function actionView($id) {
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'ImageSet'),
+			'model' => $this->loadModel($id, 'Collection'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new ImageSet;
+		$model = new Collection;
 		$model->created = date('Y-m-d H:i:s'); 
     $model->modified = date('Y-m-d H:i:s'); 
     
-		$this->performAjaxValidation($model, 'image-set-form');
+		$this->performAjaxValidation($model, 'collection-form');
 
-		if (isset($_POST['ImageSet'])) {
-			$model->setAttributes($_POST['ImageSet']);
+		if (isset($_POST['Collection'])) {
+			$model->setAttributes($_POST['Collection']);
 			$relatedData = array(
-				'games' => $_POST['ImageSet']['games'] === '' ? null : $_POST['ImageSet']['games'],
-				'subjectMatters' => $_POST['ImageSet']['subjectMatters'] === '' ? null : $_POST['ImageSet']['subjectMatters'],
+				'games' => $_POST['Collection']['games'] === '' ? null : $_POST['Collection']['games'],
+				'subjectMatters' => $_POST['Collection']['subjectMatters'] === '' ? null : $_POST['Collection']['subjectMatters'],
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
-        MGHelper::log('create', 'Created ImageSet with ID(' . $model->id . ')');
-				Flash::add('success', Yii::t('app', "ImageSet created"));
+        MGHelper::log('create', 'Created Collection with ID(' . $model->id . ')');
+				Flash::add('success', Yii::t('app', "Collection created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else 
@@ -59,22 +59,22 @@ class ImageSetController extends GxController {
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'ImageSet');
+		$model = $this->loadModel($id, 'Collection');
     $model->modified = date('Y-m-d H:i:s');
-		$this->performAjaxValidation($model, 'image-set-form');
+		$this->performAjaxValidation($model, 'collection-form');
 
-		if (isset($_POST['ImageSet'])) {
-			$model->setAttributes($_POST['ImageSet']);
+		if (isset($_POST['Collection'])) {
+			$model->setAttributes($_POST['Collection']);
 			$relatedData = array(
-				'subjectMatters' => $_POST['ImageSet']['subjectMatters'] === '' ? null : $_POST['ImageSet']['subjectMatters'],
+				'subjectMatters' => $_POST['Collection']['subjectMatters'] === '' ? null : $_POST['Collection']['subjectMatters'],
 				);
       
-      if (isset($_POST['ImageSet']['games']))
-        $relatedData['games'] = $_POST['ImageSet']['games'] === '' ? null : $_POST['ImageSet']['games'];
+      if (isset($_POST['Collection']['games']))
+        $relatedData['games'] = $_POST['Collection']['games'] === '' ? null : $_POST['Collection']['games'];
         
 			if ($model->saveWithRelated($relatedData)) {
-        MGHelper::log('update', 'Updated ImageSet with ID(' . $id . ')');
-        Flash::add('success', Yii::t('app', "ImageSet updated"));
+        MGHelper::log('update', 'Updated Collection with ID(' . $id . ')');
+        Flash::add('success', Yii::t('app', "Collection updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -86,14 +86,14 @@ class ImageSetController extends GxController {
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$model = $this->loadModel($id, 'ImageSet');
+			$model = $this->loadModel($id, 'Collection');
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
 			  $model->delete();
-			  MGHelper::log('delete', 'Deleted ImageSet with ID(' . $id . ')');
+			  MGHelper::log('delete', 'Deleted Collection with ID(' . $id . ')');
         
-        Flash::add('success', Yii::t('app', "ImageSet deleted"));
+        Flash::add('success', Yii::t('app', "Collection deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				  $this->redirect(array('admin'));
@@ -103,11 +103,11 @@ class ImageSetController extends GxController {
 	}
 
 	public function actionIndex() {
-		$model = new ImageSet('search');
+		$model = new Collection('search');
     $model->unsetAttributes();
 
-    if (isset($_GET['ImageSet']))
-      $model->setAttributes($_GET['ImageSet']);
+    if (isset($_GET['Collection']))
+      $model->setAttributes($_GET['Collection']);
 
     $this->render('admin', array(
       'model' => $model,
@@ -115,11 +115,11 @@ class ImageSetController extends GxController {
 	}
 
 	public function actionAdmin() {
-		$model = new ImageSet('search');
+		$model = new Collection('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['ImageSet']))
-			$model->setAttributes($_GET['ImageSet']);
+		if (isset($_GET['Collection']))
+			$model->setAttributes($_GET['Collection']);
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -142,13 +142,13 @@ class ImageSetController extends GxController {
   }
 
   private function _batchDelete() {
-    if (isset($_POST['image-set-ids'])) {
+    if (isset($_POST['collection-ids'])) {
       $criteria=new CDbCriteria;
-      $criteria->addInCondition("id", $_POST['image-set-ids']);
+      $criteria->addInCondition("id", $_POST['collection-ids']);
       $criteria->addInCondition("locked", array(0));      
-      MGHelper::log('batch-delete', 'Batch deleted ImageSet with IDs(' . implode(',', $_POST['image-set-ids']) . ')');
+      MGHelper::log('batch-delete', 'Batch deleted Collection with IDs(' . implode(',', $_POST['collection-ids']) . ')');
         
-      $model = new ImageSet;
+      $model = new Collection;
       $model->deleteAll($criteria);
         
     } 

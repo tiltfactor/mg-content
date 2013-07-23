@@ -15,7 +15,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('image-set-grid', {
+	$.fn.yiiGridView.update('collection-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -36,9 +36,9 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php echo CHtml::beginForm('','post',array('id'=>'image-set-form'));
+<?php echo CHtml::beginForm('','post',array('id'=>'collection-form'));
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'image-set-grid',
+	'id' => 'collection-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
@@ -48,7 +48,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'columns' => array(
 	  array(
       'class'=>'CCheckBoxColumn',
-      'id'=>'image-set-ids',
+      'id'=>'collection-ids',
     ),
 		'name',
 		 array(
@@ -64,9 +64,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
 				'filter'=>GxHtml::listDataEx(Licence::model()->findAllAttributes(null, true)),
 				),
 	   array (
-      'header' => Yii::t('app', 'Images'),
+      'header' => Yii::t('app', 'Medias'),
       'type' => 'raw',
-      'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Images&nbsp;', array(\"{count}\" => count(\$data->images))) . ((count(\$data->images))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/image/?Custom[imagesets][]=' . \$data->id)) . ')' : '') . '</b>'",
+      'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Medias&nbsp;', array(\"{count}\" => count(\$data->medias))) . ((count(\$data->medias))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[medias][]=' . \$data->id)) . ')' : '') . '</b>'",
     ),
 		//'created',
 		/*
@@ -87,9 +87,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
 echo CHtml::endForm();
 
 $this->widget('ext.gridbatchaction.GridBatchAction', array(
-      'formId'=>'image-set-form',
-      'checkBoxId'=>'image-set-ids',
-      'ajaxGridId'=>'image-set-grid', 
+      'formId'=>'collection-form',
+      'checkBoxId'=>'collection-ids',
+      'ajaxGridId'=>'collection-grid',
       'items'=>array(
           array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
       ),

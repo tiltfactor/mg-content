@@ -1,6 +1,6 @@
 <?php
 
-class ImageSetAccessModule extends CWebModule
+class CollectionAccessModule extends CWebModule
 {
 	public function init()
 	{
@@ -9,8 +9,8 @@ class ImageSetAccessModule extends CWebModule
 
 		// import the module-level models and components
 		$this->setImport(array(
-			'ImageSetAccess.models.*',
-			'ImageSetAccess.components.*',
+			'CollectionAccess.models.*',
+			'CollectionAccess.components.*',
 		));
 	}
 

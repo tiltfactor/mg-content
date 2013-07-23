@@ -100,9 +100,9 @@ EOD;
     $this->performAjaxValidation($model, 'nextag-form');
     if (isset($_POST['NexTag'])) {
       $model->setAttributes($_POST['NexTag']);
-      
+
       $relatedData = array(
-        'imageSets' => $_POST['NexTag']['imageSets'] === '' ? null : $_POST['NexTag']['imageSets'],
+        'collections' => $_POST['NexTag']['collections'] === '' ? null : $_POST['NexTag']['collections'],
         'plugins' => $_POST['NexTag']['plugins'] === '' ? null : $_POST['NexTag']['plugins'],
         );
       

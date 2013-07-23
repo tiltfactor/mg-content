@@ -17,8 +17,8 @@
   </div><!-- row -->
   
   <div class="row">
-    <?php echo CHtml::label(Yii::t('app', "Image Sets(s)"), "Custom_imagesets") ?>
-    <?php echo CHtml::checkBoxList("Custom[imagesets]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["imagesets"]))? $_GET["Custom"]["imagesets"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array(
+    <?php echo CHtml::label(Yii::t('app', "Collection(s)"), "Custom_collections") ?>
+    <?php echo CHtml::checkBoxList("Custom[collections]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["collections"]))? $_GET["Custom"]["collections"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(collection::model()->findAllAttributes(null, true)), false, true), array(
         'template' => '<div class="checkbox">{input} {label}</div>',
         'separator' => '',
         )); ?>
@@ -30,7 +30,7 @@
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'name'=>'Custom[username]',
         'value'=> ((isset($_GET["Custom"]) && isset($_GET["Custom"]["username"]))? $_GET["Custom"]["username"] : ''),
-        'source'=>$this->createUrl('/admin/image/searchUser'),
+        'source'=>$this->createUrl('/admin/media/searchUser'),
         'options'=>array(
                 'showAnim'=>'fold',
         ),

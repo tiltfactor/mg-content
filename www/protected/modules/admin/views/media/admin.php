@@ -11,7 +11,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('image-grid', {
+	$.fn.yiiGridView.update('media-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -32,14 +32,14 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 )); ?>
 </div><!-- search-form -->
 
-<?php echo CHtml::beginForm('','post',array('id'=>'image-form'));
+<?php echo CHtml::beginForm('','post',array('id'=>'media-form'));
 $tagDialog = $this->widget('MGTagJuiDialog');
 
 // Maximum number of tags to show in the 'Top Tags' column.
 $max_toptags = 15;
 
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'image-grid',
+	'id' => 'media-grid',
 	'dataProvider' => $model->search(),
 	'filter' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
@@ -50,11 +50,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
   'columns' => array(
     array(
       'class'=>'CCheckBoxColumn',
-      'id'=>'image-ids',
+      'id'=>'media-ids',
     ),
     array(
         'name' => 'name',
-        'cssClassExpression' => '"image"',
+        'cssClassExpression' => '"media"',
         'type'=>'html',
         'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
       ),
@@ -67,9 +67,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
     array(
       'cssClassExpression' => "'tags'",
-      'header' => Yii::t('app', 'Image Sets'),
+      'header' => Yii::t('app', 'Collections'),
       'type' => 'html',
-      'value'=>'$data->listImageSets()',
+      'value'=>'$data->listCollections()',
     ),
 		//'size',
 		'batch_id',
@@ -90,23 +90,23 @@ $this->widget('zii.widgets.grid.CGridView', array(
 echo CHtml::endForm();
 
 $batch_actions = array();
-$image_sets = GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true));
+$collections = GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true));
 
-if (count($image_sets)) {
-  foreach ($image_sets as $id => $name) {
+if (count($collections)) {
+  foreach ($collections as $id => $name) {
     if ($id != 1)
-      $batch_actions[] = array('label'=>Yii::t('ui','Assign to image set: ' . $name),'url'=>array('batch', 'op' => 'image-set-add', 'isid' => $id)); 
+      $batch_actions[] = array('label'=>Yii::t('ui','Assign to collection: ' . $name),'url'=>array('batch', 'op' => 'collection-add', 'isid' => $id));
   }
-  foreach ($image_sets as $id => $name) {
+  foreach ($collections as $id => $name) {
     if ($id != 1)
-      $batch_actions[] = array('label'=>Yii::t('ui','Remove from image set: ' . $name),'url'=>array('batch', 'op' => 'image-set-remove', 'isid' => $id)); 
+      $batch_actions[] = array('label'=>Yii::t('ui','Remove from collection: ' . $name),'url'=>array('batch', 'op' => 'collection-remove', 'isid' => $id));
   }
 }
 
 $this->widget('ext.gridbatchaction.GridBatchAction', array(
-      'formId'=>'image-form',
-      'checkBoxId'=>'image-ids',
-      'ajaxGridId'=>'image-grid', 
+      'formId'=>'media-form',
+      'checkBoxId'=>'media-ids',
+      'ajaxGridId'=>'media-grid',
       'items'=> $batch_actions,
       'htmlOptions'=>array('class'=>'batchActions'),
   ));

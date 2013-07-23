@@ -106,7 +106,7 @@ EOD;
       $model->setAttributes($_POST['Mobile']);
       
       $relatedData = array(
-        'imageSets' => $_POST['Mobile']['imageSets'] === '' ? null : $_POST['Mobile']['imageSets'],
+        'collections' => $_POST['Mobile']['collections'] === '' ? null : $_POST['Mobile']['collections'],
         'plugins' => $_POST['Mobile']['plugins'] === '' ? null : $_POST['Mobile']['plugins'],
         );
       

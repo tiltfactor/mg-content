@@ -30,12 +30,12 @@ class ZenTag extends MGGameModel implements MGGameModelInterface
   public function attributeLabels() {
     return array(
       'name' => Yii::t('app', 'Name'),
-      'arcade_image' => Yii::t('app', 'Game Image Location'),
+      'arcade_image' => Yii::t('app', 'Game Media Location'),
       'description' => Yii::t('app', 'Description'),
       'play_once_and_move_on' => Yii::t('app', 'Play Once and Move On'),
       'play_once_and_move_on_url' => Yii::t('app', 'Play Once/Move On Forward to URL'),
-      'image_width' => Yii::t('app', 'Maximum Image Width'),
-      'image_height' => Yii::t('app', 'Maximum Image Height'),
+      'image_width' => Yii::t('app', 'Maximum Media Width'),
+      'image_height' => Yii::t('app', 'Maximum Media Height'),
       'turns' => Yii::t('app', 'Turns'),
     );
   }

@@ -106,7 +106,7 @@ EOD;
       $model->setAttributes($_POST['GuessWhat']);
       
       $relatedData = array(
-        'imageSets' => $_POST['GuessWhat']['imageSets'] === '' ? null : $_POST['GuessWhat']['imageSets'],
+        'collections' => $_POST['GuessWhat']['collections'] === '' ? null : $_POST['GuessWhat']['collections'],
         'plugins' => $_POST['GuessWhat']['plugins'] === '' ? null : $_POST['GuessWhat']['plugins'],
         );
       

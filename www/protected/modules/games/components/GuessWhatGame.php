@@ -33,7 +33,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         if (  isset($submission["mode"]) &&
               isset($submission["hints"]) &&
               isset($submission["guesses"]) &&
-              isset($submission["image_id"])) {
+              isset($submission["media_id"])) {
                 
           if (!isset($submission['tags']))
             $submission['tags'] = array();
@@ -79,13 +79,13 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
    * players client and there rendered. It will most likely involve the follwoing 
    * tasks. 
    * 
-   * + Retrive a new image list for the next turn
+   * + Retrive a new media list for the next turn
    * + Call the wordstoavoid method of the dictionary plugins
    * + retrieve licence info
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return Array the turn information that will be sent to the players client
    */
   public function getTurn(&$game, &$game_model, $tags=array()) {
@@ -142,7 +142,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return Array the turn information that will be sent to the players client
    */
   private function _createTurn(&$game, &$game_model, $tags=array()) {
@@ -155,120 +155,120 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
     // check if the game is not actually over
     if ($game->turn < $game->turns) {
       
-      //retrieve the image sets that are active for this game
-      $imageSets = $this->getImageSets($game, $game_model);
+      //retrieve the collections that are active for this game
+      $collections = $this->getCollections($game, $game_model);
     
-      $data["images"] = array(
+      $data["medias"] = array(
         "guess" => array(),
         "describe" => array(),
       );
       
-      $used_images = array();
+      $used_medias = array();
       
-      // get twelve images that are active for the game
-      $images = $this->getImages($imageSets, $game, $game_model, 36);
+      // get twelve medias that are active for the game
+      $medias = $this->getMedias($collections, $game, $game_model, 36);
       
-      if ($images && count($images) >= 12) {
+      if ($medias && count($medias) >= 12) {
         $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
         
-        $turn_images = array_rand($images, 12);
-        $describe_image_id = 0; // one image will be identified as the one to be described
-        $image_tags = array();
+        $turn_medias = array_rand($medias, 12);
+        $describe_media_id = 0; // one media will be identified as the one to be described
+        $media_tags = array();
         
-        foreach ($turn_images as $i) {
-          $used_images[] = (int)$images[$i]["id"];
+        foreach ($turn_medias as $i) {
+          $used_medias[] = (int)$medias[$i]["id"];
         }
         
         // if played against the computer we have to make sure that at least 
-        // one of the images has got more than 10 tags to give hints on.
+        // one of the medias has got more than 10 tags to give hints on.
         if ($game->played_against_computer) {  
           $attempts = 10; // we want not to waste too much time checking for tags so do it only ten times.
-          $number_of_tag_needed = 1; // how many tags have to be available for an image
-          $available_images = array();  
+          $number_of_tag_needed = 1; // how many tags have to be available for an media
+          $available_medias = array();
           
           while ($attempts > 0) {
-            // get tags for the selection of 12 images
-            $image_tags = MGTags::getTags($used_images);
+            // get tags for the selection of 12 medias
+            $media_tags = MGTags::getTags($used_medias);
             $found_one = false;
-            $available_images = array();
+            $available_medias = array();
             
-            // check if one of the images has the needed tags for the play against the computer mode
-            foreach ($image_tags as $image_id => $tags) {
+            // check if one of the medias has the needed tags for the play against the computer mode
+            foreach ($media_tags as $media_id => $tags) {
               if (count($tags) >= $number_of_tag_needed) {
-                $available_images[] = $image_id;
+                $available_medias[] = $media_id;
                 break;
               } 
             }
             
-            if (count($available_images)) {
+            if (count($available_medias)) {
               // found one with more than 1 tags
               break;
             } else {
               // haven't found one with >= $number_of_tag_needed tag.
-              // select 12 other random images out of the available one
-              $used_images = array();
-              $turn_images = array_rand($images, 12);
-              foreach ($turn_images as $i) {
-                $used_images[] = (int)$images[$i]["id"];
+              // select 12 other random medias out of the available one
+              $used_medias = array();
+              $turn_medias = array_rand($medias, 12);
+              foreach ($turn_medias as $i) {
+                $used_medias[] = (int)$medias[$i]["id"];
               }
             }
             $attempts--; 
           }  
           
           if ($attempts == 0)
-            throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough tagged images available to play in computer mode'));
+            throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough tagged medias available to play in computer mode'));
           
-          // select one of the images as $describe_image_id
-          $describe_image_id = $available_images[array_rand($available_images, 1)];
+          // select one of the medias as $describe_media_id
+          $describe_media_id = $available_medias[array_rand($available_medias, 1)];
         }   
           
         
-        $image_licences = array();
+        $media_licences = array();
         $arr_licence_ids = array();
         
-        // the needed information for the image.
-        // make sure the image is present in all versions. rescale image if not 
-        // by calling MGHelper::createScaledImage(...)
-        foreach ($turn_images as $i) {
-          $data["images"]["guess"][] = array(
-            "image_id" => $images[$i]["id"],
-            "full_size" => $path . "/images/". $images[$i]["name"],
-            "thumbnail" => $path . "/thumbs/". $images[$i]["name"],
-            "guess" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_grid_width, $game->image_grid_height, 80, 10),
-            "scaled" => $path . "/scaled/". MGHelper::createScaledImage($images[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
-            "licences" => $images[$i]["licences"],
+        // the needed information for the media.
+        // make sure the media is present in all versions. rescale media if not
+        // by calling MGHelper::createScaledMedia(...)
+        foreach ($turn_medias as $i) {
+          $data["medias"]["guess"][] = array(
+            "media_id" => $medias[$i]["id"],
+            "full_size" => $path . "/medias/". $medias[$i]["name"],
+            "thumbnail" => $path . "/thumbs/". $medias[$i]["name"],
+            "guess" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", $game->image_grid_width, $game->image_grid_height, 80, 10),
+            "scaled" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+            "licences" => $medias[$i]["licences"],
           );
-          // add the image's licence info to the licence info array
-          $image_licences = array_merge($image_licences, $images[$i]["licences"]);
-          $used_images[] = (int)$images[$i]["id"];
+          // add the media's licence info to the licence info array
+          $media_licences = array_merge($media_licences, $medias[$i]["licences"]);
+          $used_medias[] = (int)$medias[$i]["id"];
         }
         
-        shuffle($data["images"]["guess"]); // mix the images up
+        shuffle($data["medias"]["guess"]); // mix the medias up
         
-        // one of the images has to be selected as image to be described
-        $data["images"]["describe"] = array();
+        // one of the medias has to be selected as media to be described
+        $data["medias"]["describe"] = array();
         if ($game->played_against_computer) {
-          // if played against the computer prepare guess images
-          foreach ($data["images"]["guess"] as $desc_image) {
-            if ($desc_image["image_id"] == $describe_image_id) {
-              $data["images"]["describe"] = $desc_image;
+          // if played against the computer prepare guess medias
+          foreach ($data["medias"]["guess"] as $desc_media) {
+            if ($desc_media["media_id"] == $describe_media_id) {
+              $data["medias"]["describe"] = $desc_media;
               break;
             }
           }
-          shuffle($image_tags[$describe_image_id]); // mix them up
-          $data["images"]["describe"]["hints"] = $image_tags[$describe_image_id];
-          $describe_image_id = array($describe_image_id); // wrap it in array for words to avoid plugin(s) call
+          shuffle($media_tags[$describe_media_id]); // mix them up
+          $data["medias"]["describe"]["hints"] = $media_tags[$describe_media_id];
+          $describe_media_id = array($describe_media_id); // wrap it in array for words to avoid plugin(s) call
         } else {
           // select out of the twelve one that will be shown to the describing user
-          $data["images"]["describe"] = $data["images"]["guess"][array_rand($turn_images, 1)];
-          $describe_image_id = array((int)$data["images"]["describe"]["image_id"]); // wrap it in array for words to avoid plugin(s) call
+          $data["medias"]["describe"] = $data["medias"]["guess"][array_rand($turn_medias, 1)];
+          $describe_media_id = array((int)$data["medias"]["describe"]["media_id"]); // wrap it in array for words to avoid plugin(s) call
         }
         
         // extract needed licence info
-        $data["licences"] = $this->getLicenceInfo($image_licences);
+        $data["licences"] = $this->getLicenceInfo($media_licences);
         
-        // save the used image data.
-        $this->setUsedImages($used_images, $game, $game_model);
+        // save the used media data.
+        $this->setUsedMedias($used_medias, $game, $game_model);
         
         // in the first turn this field is empty in further turns it contains the 
         // previous turns weightened tags
@@ -283,13 +283,13 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
           foreach ($plugins as $plugin) {
             if (method_exists($plugin->component, "wordsToAvoid")) {
               // this method gets all elements by reference. $data["wordstoavoid"] might be changed
-              $plugin->component->wordsToAvoid($data["wordstoavoid"], $describe_image_id, $game, $game_model, $tags);
+              $plugin->component->wordsToAvoid($data["wordstoavoid"], $describe_media_id, $game, $game_model, $tags);
             }
           }
         }
         
       } else 
-        throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough images available'));
+        throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough medias available'));
       
     } else {
       
@@ -307,7 +307,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return Array the tags (with additional weight information)
    */
   public function setWeights(&$game, &$game_model, $tags) {
@@ -342,7 +342,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return int the score for this turn
    */
   public function getScore(&$game, &$game_model, &$tags) {
@@ -363,27 +363,27 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
   }
   
   /**
-   * Take the information from the submission and extract the tags for each image
+   * Take the information from the submission and extract the tags for each media
    * involved in the current turn.
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @return Array the tags for each image
+   * @return Array the tags for each media
    */
   public function parseTags(&$game, &$game_model) {
     $data = array();
-    $image_ids = array();
+    $media_ids = array();
     
     // go through all submissions 
     foreach ($game->request->submissions as $submission) {
       if ($submission['mode'] == 'describe') { // GuessWhat generates tags only on the describing mode
-        // extract the image id
-        $image_ids[] = $submission["image_id"];
-        $image_tags = array();
+        // extract the media id
+        $media_ids[] = $submission["media_id"];
+        $media_tags = array();
         if (is_array($submission["tags"])) {
           // attempt to parse the tags. 
           foreach (MGTags::parseTags($submission["tags"]) as $tag) {
-            $image_tags[strtolower($tag)] = array(
+            $media_tags[strtolower($tag)] = array(
               'tag' => $tag,
               'weight' => 1,
               'type' => 'new',
@@ -391,33 +391,33 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
             );
           }  
         }
-        $data[$submission["image_id"]] = $image_tags;
+        $data[$submission["media_id"]] = $media_tags;
       }
     }
     
-    if (count($image_ids)) { // if images are subitted
+    if (count($media_ids)) { // if medias are subitted
       
-      // retrieve all tags for the tagged image
-      $image_tags = MGTags::getTags($image_ids);
+      // retrieve all tags for the tagged media
+      $media_tags = MGTags::getTags($media_ids);
       
-      // loop through all the submitted images
-      foreach ($data as $submitted_image_id => $submitted_image_tags) {
+      // loop through all the submitted medias
+      foreach ($data as $submitted_media_id => $submitted_media_tags) {
         
         // loop through all the submitted tags
-        foreach ($submitted_image_tags as $submitted_tag => $sval) {
+        foreach ($submitted_media_tags as $submitted_tag => $sval) {
           
-          // has the submitted image already tags
-          if (isset($image_tags[$submitted_image_id])) {
+          // has the submitted media already tags
+          if (isset($media_tags[$submitted_media_id])) {
             
-            // if the submitted image has tags loop through all of them
-            foreach ($image_tags[$submitted_image_id] as $image_tag_id => $ival) {
+            // if the submitted media has tags loop through all of them
+            foreach ($media_tags[$submitted_media_id] as $media_tag_id => $ival) {
               
-              // if the submitted image has been tag with a tag that already exists 
+              // if the submitted media has been tag with a tag that already exists
               if ($submitted_tag == strtolower($ival["tag"])) {
                 
                 // set the tag type to match
-                $data[$submitted_image_id][$submitted_tag]['type'] = 'match';
-                $data[$submitted_image_id][$submitted_tag]['tag_id'] = $image_tag_id;
+                $data[$submitted_media_id][$submitted_tag]['type'] = 'match';
+                $data[$submitted_media_id][$submitted_tag]['tag_id'] = $media_tag_id;
                 break;
               }
             }          

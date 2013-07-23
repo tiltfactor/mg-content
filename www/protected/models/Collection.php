@@ -1,8 +1,8 @@
 <?php
 
-Yii::import('application.models._base.BaseImageSet');
+Yii::import('application.models._base.BaseCollection');
 
-class ImageSet extends BaseImageSet
+class Collection extends BaseCollection
 {
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

@@ -2,7 +2,7 @@
 
 
 <?php $form = $this->beginWidget('GxActiveForm', array(
-	'id' => 'image-form',
+	'id' => 'media-form',
 	'enableAjaxValidation' => true,
     'clientOptions'=>array('validateOnSubmit'=>true),
 ));
@@ -53,9 +53,9 @@
     <?php endif; ?>
     </div><!-- row -->
 
-		<h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
+		<h2><?php echo GxHtml::encode($model->getRelationLabel('collections')); ?></h2>
 		<div class="row clearfix">
-		<?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
+		<?php echo $form->checkBoxList($model, 'collections', GxHtml::encodeEx(GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true)), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
 		</div><!-- row -->
 		<?php /*
 		<h2><?php echo GxHtml::encode($model->getRelationLabel('tagUses')); ?></h2>

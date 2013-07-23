@@ -1,6 +1,6 @@
 <?php
 
-class ImageController extends GxController {
+class MediaController extends GxController {
   public $defaultAction = 'admin';
   
   public function filters() {
@@ -38,26 +38,26 @@ EOD;
       Yii::app()->clientScript->registerScript(__CLASS__.'#game', $js, CClientScript::POS_READY);
     
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'Image'),
+			'model' => $this->loadModel($id, 'Media'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new Image;
+		$model = new Media;
 		$model->created = date('Y-m-d H:i:s'); 
     $model->modified = date('Y-m-d H:i:s'); 
     
-		$this->performAjaxValidation($model, 'image-form');
+		$this->performAjaxValidation($model, 'media-form');
 
-		if (isset($_POST['Image'])) {
-			$model->setAttributes($_POST['Image']);
+		if (isset($_POST['Media'])) {
+			$model->setAttributes($_POST['Media']);
 			$relatedData = array(
-				'imageSets' => $_POST['Image']['imageSets'] === '' ? null : $_POST['Image']['imageSets'],
+				'collections' => $_POST['Media']['collections'] === '' ? null : $_POST['Media']['collections'],
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
-        MGHelper::log('create', 'Created Image with ID(' . $model->id . ')');
-				Flash::add('success', Yii::t('app', "Image created"));
+        MGHelper::log('create', 'Created Media with ID(' . $model->id . ')');
+				Flash::add('success', Yii::t('app', "Media created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
 					Yii::app()->end();
 				else 
@@ -69,19 +69,19 @@ EOD;
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'Image');
+		$model = $this->loadModel($id, 'Media');
     $model->modified = date('Y-m-d H:i:s');
-		$this->performAjaxValidation($model, 'image-form');
+		$this->performAjaxValidation($model, 'media-form');
 
-		if (isset($_POST['Image'])) {
-			$model->setAttributes($_POST['Image']);
+		if (isset($_POST['Media'])) {
+			$model->setAttributes($_POST['Media']);
 			$relatedData = array(
-				'imageSets' => $_POST['Image']['imageSets'] === '' ? null : $_POST['Image']['imageSets'],
+				'collections' => $_POST['Media']['collections'] === '' ? null : $_POST['Media']['collections'],
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
-        MGHelper::log('update', 'Updated Image with ID(' . $id . ')');
-        Flash::add('success', Yii::t('app', "Image updated"));
+        MGHelper::log('update', 'Updated Media with ID(' . $id . ')');
+        Flash::add('success', Yii::t('app', "Media updated"));
 				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
@@ -93,14 +93,14 @@ EOD;
 
 	public function actionDelete($id) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
-			$model = $this->loadModel($id, 'Image');
+			$model = $this->loadModel($id, 'Media');
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
 			  $model->delete();
-			  MGHelper::log('delete', 'Deleted Image with ID(' . $id . ')');
+			  MGHelper::log('delete', 'Deleted Media with ID(' . $id . ')');
         
-        Flash::add('success', Yii::t('app', "Image deleted"));
+        Flash::add('success', Yii::t('app', "Media deleted"));
 
 			  if (!Yii::app()->getRequest()->getIsAjaxRequest())
 				  $this->redirect(array('admin'));
@@ -112,11 +112,11 @@ EOD;
 	public function actionAdmin() {
 	  $this->layout = '//layouts/column1';
     
-		$model = new Image('search');
+		$model = new Media('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['Image']))
-			$model->setAttributes($_GET['Image']);
+		if (isset($_GET['Media']))
+			$model->setAttributes($_GET['Media']);
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -126,11 +126,11 @@ EOD;
   public function actionBatch($op) {
     if (Yii::app()->getRequest()->getIsPostRequest()) {
       switch ($op) {
-        case "image-set-add":
-          $this->_batchAddImageSet("add");
+        case "collection-add":
+          $this->_batchAddCollection("add");
           break;
-        case "image-set-remove":
-          $this->_batchAddImageSet("remove");
+        case "collection-remove":
+          $this->_batchAddCollection("remove");
           break;
       }
       if (!Yii::app()->getRequest()->getIsAjaxRequest())
@@ -140,34 +140,34 @@ EOD;
     
   }
   
-  private function _batchAddImageSet($action) {
-    if (isset($_POST['image-ids']) && isset($_GET['isid']) && (int)$_GET['isid'] > 0) {
-      $images = Image::model()->findAllByPk($_POST['image-ids']);
-      $image_set = ImageSet::model()->findByPk($_GET['isid']);
-      if ($images && $image_set) {
-        foreach ($images as $image) {
-          $imageImageSet = array();
-          foreach ($image->imageSets as $is) {
-            $imageImageSet[] = $is->id;
+  private function _batchAddCollection($action) {
+    if (isset($_POST['media-ids']) && isset($_GET['isid']) && (int)$_GET['isid'] > 0) {
+      $medias = Media::model()->findAllByPk($_POST['media-ids']);
+      $collection = Collection::model()->findByPk($_GET['isid']);
+      if ($medias && $collection) {
+        foreach ($medias as $media) {
+          $mediaCollection = array();
+          foreach ($media->collections as $is) {
+            $mediaCollection[] = $is->id;
           }
           
           switch ($action) {
             case "add":
-              $imageImageSet = array_merge($imageImageSet, array((int)$_GET['isid'] ));
+              $mediaCollection = array_merge($mediaCollection, array((int)$_GET['isid'] ));
               break;
               
             case "remove":
-              $imageImageSet = array_diff($imageImageSet, array((int)$_GET['isid'] ));
+              $mediaCollection = array_diff($mediaCollection, array((int)$_GET['isid'] ));
               break;
           }
           
           $relatedData = array(
-            'imageSets' => $imageImageSet
+            'collections' => $mediaCollection
           );
-          $image->saveWithRelated($relatedData); 
+          $media->saveWithRelated($relatedData);
         }
       }
-      MGHelper::log('batch-addimage-set', 'Batch assigned Images with IDs(' . implode(',', $_POST['image-ids']) . ') to image set with the ID(' . $_GET['isid'] . ')');
+      MGHelper::log('batch-addcollection', 'Batch assigned Medias with IDs(' . implode(',', $_POST['media-ids']) . ') to collection with the ID(' . $_GET['isid'] . ')');
     } 
   }
   

@@ -275,19 +275,19 @@ class User extends BaseUser
   }
   
   /**
-   * Provide an CArrayDataProvider to allow to browse all users that tagged an image.
+   * Provide an CArrayDataProvider to allow to browse all users that tagged an media.
    * 
-   * @param int $image_id The id of the image for which the tagging users should be listed
+   * @param int $media_id The id of the media for which the tagging users should be listed
    * @return CArrayDataProvider The data provider to display the users
    */
-  public function searchImageUsers($image_id) {
+  public function searchMediaUsers($media_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('count(u.id) as counted, count(DISTINCT tu.tag_id) as tag_counted, u.id, u.username')
                   ->from('{{user}} u')
                   ->join('{{session}} s', 's.user_id=u.id')
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')
                   ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
-                  ->where(array('and', 'tu.weight > 0', 'tu.image_id=:imageID'), array(":imageID" => $image_id))
+                  ->where(array('and', 'tu.weight > 0', 'tu.media_id=:mediaID'), array(":mediaID" => $media_id))
                   ->group('u.id, u.username')
                   ->order('gs.created DESC');
     $command->distinct = true;          
@@ -313,7 +313,7 @@ class User extends BaseUser
    */
   public function searchTagUsers($tag_id) {
     $command = Yii::app()->db->createCommand()
-                  ->select('count(u.id) as counted, count(DISTINCT tu.image_id) as image_counted, u.id, u.username')
+                  ->select('count(u.id) as counted, count(DISTINCT tu.media_id) as media_counted, u.id, u.username')
                   ->from('{{user}} u')
                   ->join('{{session}} s', 's.user_id=u.id')
                   ->join('{{game_submission}} gs', 'gs.session_id=s.id')

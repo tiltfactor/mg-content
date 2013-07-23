@@ -25,12 +25,12 @@
         'template' => '<div class="inline-radio">{input} {label}</div>',
         'separator' => '',
         )) ?>
-    <?php echo Yii::t('app', "(show images that have at least one (OR) or all (AND) of the given tags)"); ?>
+    <?php echo Yii::t('app', "(show medias that have at least one (OR) or all (AND) of the given tags)"); ?>
   </div><!-- row -->
   
   <div class="row">
-    <?php echo CHtml::label(Yii::t('app', "Image Sets(s)"), "Custom_imagesets") ?>
-    <?php echo CHtml::checkBoxList("Custom[imagesets]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["imagesets"]))? $_GET["Custom"]["imagesets"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array(
+    <?php echo CHtml::label(Yii::t('app', "Collections(s)"), "Custom_collections") ?>
+    <?php echo CHtml::checkBoxList("Custom[collections]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["collections"]))? $_GET["Custom"]["collections"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true)), false, true), array(
         'template' => '<div class="checkbox">{input} {label}</div>',
         'separator' => '',
         )); ?>

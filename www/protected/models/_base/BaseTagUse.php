@@ -10,7 +10,7 @@
  * followed by relations of table "tag_use" available as properties of the model.
  *
  * @property integer $id
- * @property integer $image_id
+ * @property integer $media_id
  * @property integer $tag_id
  * @property integer $weight
  * @property string $type
@@ -19,7 +19,7 @@
  *
  * @property TagOriginalVersion[] $tagOriginalVersions
  * @property GameSubmission $gameSubmission
- * @property Image $image
+ * @property Media $media
  * @property Tag $tag
  */
 abstract class BaseTagUse extends GxActiveRecord {
@@ -42,12 +42,12 @@ abstract class BaseTagUse extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('image_id, tag_id, created, game_submission_id', 'required'),
-			array('image_id, tag_id, weight', 'numerical', 'integerOnly'=>true),
+			array('media_id, tag_id, created, game_submission_id', 'required'),
+			array('media_id, tag_id, weight', 'numerical', 'integerOnly'=>true),
 			array('type', 'length', 'max'=>64),
 			array('game_submission_id', 'length', 'max'=>10),
 			array('weight, type', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, image_id, tag_id, weight, type, created, game_submission_id', 'safe', 'on'=>'search'),
+			array('id, media_id, tag_id, weight, type, created, game_submission_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +55,7 @@ abstract class BaseTagUse extends GxActiveRecord {
 		return array(
 			'tagOriginalVersions' => array(self::HAS_MANY, 'TagOriginalVersion', 'tag_use_id'),
 			'gameSubmission' => array(self::BELONGS_TO, 'GameSubmission', 'game_submission_id'),
-			'image' => array(self::BELONGS_TO, 'Image', 'image_id'),
+			'media' => array(self::BELONGS_TO, 'Media', 'media_id'),
 			'tag' => array(self::BELONGS_TO, 'Tag', 'tag_id'),
 		);
 	}
@@ -68,7 +68,7 @@ abstract class BaseTagUse extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'id' => Yii::t('app', 'ID'),
-			'image_id' => null,
+			'media_id' => null,
 			'tag_id' => null,
 			'weight' => Yii::t('app', 'Weight'),
 			'type' => Yii::t('app', 'Type'),
@@ -76,7 +76,7 @@ abstract class BaseTagUse extends GxActiveRecord {
 			'game_submission_id' => null,
 			'tagOriginalVersions' => null,
 			'gameSubmission' => null,
-			'image' => null,
+			'media' => null,
 			'tag' => null,
 		);
 	}
@@ -85,7 +85,7 @@ abstract class BaseTagUse extends GxActiveRecord {
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('image_id', $this->image_id);
+		$criteria->compare('media_id', $this->media_id);
 		$criteria->compare('tag_id', $this->tag_id);
 		$criteria->compare('weight', $this->weight);
 		$criteria->compare('type', $this->type, true);

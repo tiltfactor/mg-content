@@ -7,10 +7,10 @@
 )); 
 ?>
   <?php echo $form->errorSummary($model); ?>
-  <?php if ($count_affected_images > 0) : ?>
+  <?php if ($count_affected_medias > 0) : ?>
   <div class="row">
-      <h4><span><b><?php print $count_affected_images; ?></b> images found for export</span>
-      <?php echo CHtml::button(Yii::t('app', 'Export Images'), array('id' => 'buttonExport')); ?></h4>
+      <h4><span><b><?php print $count_affected_medias; ?></b> medias found for export</span>
+      <?php echo CHtml::button(Yii::t('app', 'Export Medias'), array('id' => 'buttonExport')); ?></h4>
   </div>
   <?php endif; ?>
   
@@ -22,12 +22,12 @@
   </div>
   
   <div class="row">
-    <?php echo $form->label($model, 'imageSets'); ?>
-    <?php echo CHtml::checkBoxList("ExportForm[imageSets]", ((isset($_POST["ExportForm"]) && isset($_POST["ExportForm"]["imageSets"]))? $_POST["ExportForm"]["imageSets"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), array(
+    <?php echo $form->label($model, 'collections'); ?>
+    <?php echo CHtml::checkBoxList("ExportForm[collections]", ((isset($_POST["ExportForm"]) && isset($_POST["ExportForm"]["collections"]))? $_POST["ExportForm"]["collections"] : ''), GxHtml::encodeEx(GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true)), false, true), array(
         'template' => '<div class="checkbox">{input} {label}</div>',
         'separator' => '',
         )); ?>
-    <?php echo $form->error($model,'imagesets'); ?>
+    <?php echo $form->error($model,'collections'); ?>
   </div><!-- row -->
   
   <div class="row">
@@ -62,7 +62,7 @@
     $this->widget('MGJuiAutoCompleteMultiple', array(
         'name'=>'ExportForm[players]',
         'value'=> ((isset($_POST["ExportForm"]) && isset($_POST["ExportForm"]["players"]))? $_POST["ExportForm"]["players"] : ''),
-        'source'=>$this->createUrl('/admin/image/searchUser'),
+        'source'=>$this->createUrl('/admin/media/searchUser'),
         'options'=>array(
                 'showAnim'=>'fold',
         ),
@@ -144,8 +144,8 @@
     } catch (Exception $e) {}
   }
   ?>
-  <?php echo CHtml::hiddenField('ExportForm[affected_images][]', implode(',', $model->affected_images)); ?>
-  <?php echo CHtml::hiddenField('ExportForm[active_image]', ''); ?>
+  <?php echo CHtml::hiddenField('ExportForm[affected_medias][]', implode(',', $model->affected_medias)); ?>
+  <?php echo CHtml::hiddenField('ExportForm[active_media]', ''); ?>
   <div class="row buttons">
     <?php echo GxHtml::submitButton(Yii::t('app', 'Check')); ?>
   </div>
@@ -156,22 +156,22 @@
 <script type="text/javascript">
 ;(function () {
   var active = false;
-  var images_total = <?php echo $count_affected_images ?>;
-  var images_processed = 0;
-  var affected_images = '';
+  var medias_total = <?php echo $count_affected_medias ?>;
+  var medias_processed = 0;
+  var affected_medias = '';
   
   var onresponse = function (data, textStatus, jqXHR) {
         
       switch (data.status) {
         case "retry":
-          images_processed++;
+          medias_processed++;
           
-          $('#found').text(images_total);
-          $('#processed').text(images_processed);
-          $('#left').text(images_total - images_processed);
+          $('#found').text(medias_total);
+          $('#processed').text(medias_processed);
+          $('#left').text(medias_total - medias_processed);
           
           if (active) {
-            setActiveImage();
+            setActiveMedia();
             $.post("<?php echo Yii::app()->createUrl('/admin/export/queueProcess'); ?>/action/export", $("#export-form").serialize(), onresponse);  
           }
           break;
@@ -188,24 +188,24 @@
       }
   };
   
-  var setActiveImage = function () {
-    log(affected_images);
-    if (affected_images.length > 0) {
-      $('#ExportForm_active_image').val(affected_images.pop());
+  var setActiveMedia = function () {
+    log(affected_medias);
+    if (affected_medias.length > 0) {
+      $('#ExportForm_active_media').val(affected_medias.pop());
     } else {
-      $('#ExportForm_active_image').val(-1);
+      $('#ExportForm_active_media').val(-1);
     }
-    log($('#ExportForm_active_image').val());
+    log($('#ExportForm_active_media').val());
   }
   
   var onexport = function() {
     if (!active) {
       $(window).bind('beforeunload', function () {return 'Leaving the page might disturb the exporting process.';});
-      MG_API.popup('<h1>Processing Export</h1><p><span id="found">' + images_total + '</span> images, <span id="processed">0</span> processed, <span id="left">0</span> left</p><p>Please do not leave the page or close the browser\'s tab, or window.', {
+      MG_API.popup('<h1>Processing Export</h1><p><span id="found">' + medias_total + '</span> medias, <span id="processed">0</span> processed, <span id="left">0</span> left</p><p>Please do not leave the page or close the browser\'s tab, or window.', {
         showCloseButton : false,
         onClosed : function () {active = false;$(window).unbind('beforeunload');}
       })
-      setActiveImage();
+      setActiveMedia();
       active = true;
       $.post("<?php echo Yii::app()->createUrl('/admin/export/queueProcess'); ?>/action/export", $("#export-form").serialize(), onresponse);
     }
@@ -219,17 +219,17 @@
   });
   
   $(window).load(function () {
-    affected_images = $.trim($('#ExportForm_affected_images').val());
+    affected_medias = $.trim($('#ExportForm_affected_medias').val());
     
-    if (affected_images.length > 0) {
-      if (affected_images.indexOf(',') > -1) {
-        affected_images = affected_images.split(',');
+    if (affected_medias.length > 0) {
+      if (affected_medias.indexOf(',') > -1) {
+        affected_medias = affected_medias.split(',');
       } else {
-        affected_images = [affected_images];
+        affected_medias = [affected_medias];
       }
     }
     
-    if (affected_images.length > 0) {
+    if (affected_medias.length > 0) {
       $('#buttonExport').show();
     }
   });

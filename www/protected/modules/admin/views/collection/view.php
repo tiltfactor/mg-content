@@ -39,9 +39,9 @@ $this->menu=array(
   'modified',
   'last_access_interval',
   array (
-    'name' => Yii::t('app', 'Images'),
+    'name' => Yii::t('app', 'Medias'),
     'type' => 'html',
-    'value' => '<b>' . Yii::t('app', 'This image set contains {count} images: ', array("{count}" => count($model->images))) . CHtml::link(Yii::t('app', 'view'), array('/admin/image/?Custom[imagesets][]=' . $model->id)) . '</b>',
+    'value' => '<b>' . Yii::t('app', 'This collection contains {count} medias: ', array("{count}" => count($model->medias))) . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . $model->id)) . '</b>',
   )
 	),
 )); ?>

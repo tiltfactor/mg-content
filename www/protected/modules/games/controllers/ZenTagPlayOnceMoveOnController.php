@@ -109,7 +109,7 @@ EOD;
       $model->setAttributes($_POST['ZenTagPlayOnceMoveOn']);
       
       $relatedData = array(
-        'imageSets' => $_POST['ZenTagPlayOnceMoveOn']['imageSets'] === '' ? null : $_POST['ZenTagPlayOnceMoveOn']['imageSets'],
+        'collections' => $_POST['ZenTagPlayOnceMoveOn']['collections'] === '' ? null : $_POST['ZenTagPlayOnceMoveOn']['collections'],
         'plugins' => $_POST['ZenTagPlayOnceMoveOn']['plugins'] === '' ? null : $_POST['ZenTagPlayOnceMoveOn']['plugins'],
         );
       

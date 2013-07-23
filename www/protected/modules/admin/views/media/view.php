@@ -9,7 +9,7 @@ $this->breadcrumbs = array(
 $this->menu=array(
 	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
 	array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id)),
-	array('label'=>Yii::t('app', 'View Tag Uses for ') . ' "' . $model->name. '"', 'url'=>array('/admin/tagUse', 'TagUse[image_id]' => $model->id))
+	array('label'=>Yii::t('app', 'View Tag Uses for ') . ' "' . $model->name. '"', 'url'=>array('/admin/tagUse', 'TagUse[media_id]' => $model->id))
   /*
 	array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 
     'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?'),
@@ -20,18 +20,18 @@ $this->menu=array(
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
 
 <?php 
-  $image_sets = array();
-  if (count($model->imageSets) == 0) {
-    $image_sets[] = "<li>no item(s) assigned</li>";
+  $collections = array();
+  if (count($model->collections) == 0) {
+    $collections[] = "<li>no item(s) assigned</li>";
   }
   
-  foreach($model->imageSets as $relatedModel) {
-    $image_sets[] = GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
+  foreach($model->collections as $relatedModel) {
+    $collections[] = GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('collection/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
   }
 
-$image = CHtml::link(
+$media = CHtml::link(
   CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name) . ' [' . Yii::t('app', 'zoom') . ']',
-  Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/images/'. $model->name,
+  Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/medias/'. $model->name,
   array('rel'=>'zoom', 'class'=>'zoom'));
 
 $this->widget('zii.widgets.CDetailView', array(
@@ -40,9 +40,9 @@ $this->widget('zii.widgets.CDetailView', array(
   'attributes' => array(
   'id',
 		 array(
-          'name' => 'Image',
+          'name' => 'Media',
           'type' => 'html',
-          'value' => $image
+          'value' => $media
         ),
   'size',
   'mime_type',
@@ -56,20 +56,20 @@ $this->widget('zii.widgets.CDetailView', array(
     'created',
     'modified',
     array(
-        'name' => Yii::t('app', 'Image Set(s)'),
+        'name' => Yii::t('app', 'Media Set(s)'),
         'type' => 'raw',
-        'value' => join(", ", $image_sets),
+        'value' => join(", ", $collections),
       ),
 	),
 )); ?>
 <div class="span-16 clearfix">
-  <h2><?php echo Yii::t('app', 'Image is tagged with'); ?></h2>  
+  <h2><?php echo Yii::t('app', 'Media is tagged with'); ?></h2>
   <p><b><?php echo Yii::t('app', 'TAG (COUNTED/AVG WEIGHT)'); ?></b></p>
 <?php 
 $tagDialog = $this->widget('MGTagJuiDialog');
 $this->widget('zii.widgets.CListView', array(
     'id' => 'user-tags-listview',
-    'dataProvider'=> Tag::model()->searchImageTags($model->id),
+    'dataProvider'=> Tag::model()->searchMediaTags($model->id),
     'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
     'itemView'=>'_viewTagListItem',
     'afterAjaxUpdate' => $tagDialog->gridViewUpdate(),
@@ -87,8 +87,8 @@ $this->widget('zii.widgets.CListView', array(
   <p><b><?php echo Yii::t('app', 'USER NAME (TIMES TAGGED/# OF DIFFERENT TAGS)'); ?></b></p>
 <?php 
 $this->widget('zii.widgets.CListView', array(
-    'id' => 'image-user-listview',
-    'dataProvider'=> User::model()->searchImageUsers($model->id),
+    'id' => 'media-user-listview',
+    'dataProvider'=> User::model()->searchMediaUsers($model->id),
     'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
     'itemView'=>'_viewUserListItem',
     'sortableAttributes'=>array(

@@ -62,7 +62,7 @@ class TagsByGameExportPlugin extends MGExportPlugin {
                       '<div class="row">' . $label . $buttons .
                       '<div class="description">' .
                       Yii::t('app',
-                             "Export image tags in a tab-separated CSV file, separated by game.") .
+                             "Export media tags in a tab-separated CSV file, separated by game.") .
                       '</div></div>');
   }
   
@@ -71,7 +71,7 @@ class TagsByGameExportPlugin extends MGExportPlugin {
    * and the statistics for each game in the file.
    * 
    * @param object $model the ExportForm instance
-   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the medias' data
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
@@ -102,43 +102,43 @@ class TagsByGameExportPlugin extends MGExportPlugin {
 EOT;
 
     // Column labels.
-    $labels = array("Game", "Image Sets", "Image Name", "Image ID", "Tags");
+    $labels = array("Game", "Collections", "Media Name", "Media ID", "Tags");
     $labels = join("\t", $labels);
     
     file_put_contents ($filepath, $header . $labels . "\n");
 
-    // If particular image sets are specified, only query those sets.
-    $image_sets_filter = "";
-    if ($model->imageSets) {
-      $image_sets_filter = "AND image_set.id IN (" . join($model->imageSets, ", ") . ") ";
+    // If particular collections are specified, only query those sets.
+    $collections_filter = "";
+    if ($model->collections) {
+      $collections_filter = "AND collection.id IN (" . join($model->collections, ", ") . ") ";
     }
 
     $sql = <<<EOT
 SELECT game.unique_id AS 'game.uid',
-GROUP_CONCAT(DISTINCT image_set.name
-             ORDER BY image_set.name SEPARATOR ', ') AS 'Image Sets',
-image.name,
-tag_use.image_id,
+GROUP_CONCAT(DISTINCT collection.name
+             ORDER BY collection.name SEPARATOR ', ') AS 'Collections',
+media.name,
+tag_use.media_id,
 GROUP_CONCAT(DISTINCT tag
              ORDER BY tag SEPARATOR ', ') AS Tags
-FROM game, game_submission, played_game, image_set, image_set_to_image,
-     tag_use, image, tag
+FROM game, game_submission, played_game, collection, collection_to_media,
+     tag_use, media, tag
 WHERE game_submission.played_game_id = played_game.id
 AND played_game.game_id = game.id
 AND tag_use.game_submission_id = game_submission.id
-AND tag_use.image_id = image.id
+AND tag_use.media_id = media.id
 AND tag_use.tag_id = tag.id
-AND image_set_to_image.image_set_id = image_set.id
-AND image_set_to_image.image_id = image.id
-$image_sets_filter
-GROUP BY image.name
+AND collection_to_media.collection_id = collection.id
+AND collection_to_media.media_id = media.id
+$collections_filter
+GROUP BY media.name
 ORDER BY game.unique_id;
 
 EOT;
 
     // Because we want to sort our output by Game name, we'll need to
     // do our processing in preProcess() instead of in process(),
-    // which iterates by image.
+    // which iterates by media.
     $cmd = Yii::app()->db->createCommand($sql);
         
     $tags_by_game = $cmd->queryAll();
@@ -151,15 +151,15 @@ EOT;
    * @param object $model the ExportForm instance
    *
    * @param object $command the CDbCommand instance holding all
-   * information needed to retrieve the images' data
+   * information needed to retrieve the medias' data
    *
    * @param string $tmp_folder the full path to the temporary folder
    *
-   * @param int $image_id the id of the image that should be exported
+   * @param int $media_id the id of the media that should be exported
    */
-  function process(&$model, &$command, $tmp_folder, $image_id) {
+  function process(&$model, &$command, $tmp_folder, $media_id) {
 
-    // NOTE: We won't process images during the process step because
+    // NOTE: We won't process medias during the process step because
     // of how we order by game.
 
   }

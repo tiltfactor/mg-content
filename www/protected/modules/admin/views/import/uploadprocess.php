@@ -3,12 +3,12 @@
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
   Yii::t('app', 'Import') => array('index'),
-  Yii::t('app', 'Process Imported Images'),
+  Yii::t('app', 'Process Imported Medias'),
 );
 
 ?>
 
-<h1><?php echo Yii::t('app', 'Process Imported Images'); ?></h1>
+<h1><?php echo Yii::t('app', 'Process Imported Medias'); ?></h1>
 <p>
 You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&gt; or =) at the beginning of each of your filter values to specify how the comparison should be done.
 </p>
@@ -17,7 +17,7 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 
 $form = $this->beginWidget('GxActiveForm', array(
   'action' => CHtml::normalizeUrl(array('batch', 'op' => 'process')),
-  'id' => 'image-form',
+  'id' => 'media-form',
 ));
 
 echo $form->errorSummary($model);
@@ -35,7 +35,7 @@ if (count($plugins) > 0) {
 }
 
 $this->widget('zii.widgets.grid.CGridView', array(
-  'id' => 'image-grid',
+  'id' => 'media-grid',
   'dataProvider' => $model->unprocessed(),
   'filter' => $model,
   'cssFile' => Yii::app()->request->baseUrl . "/css/yii/gridview/styles.css",
@@ -45,11 +45,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
   'columns' => array(
     array(
       'class'=>'CCheckBoxColumn',
-      'id'=>'image-ids',
+      'id'=>'media-ids',
     ),
     array(
         'name' => 'name',
-        'cssClassExpression' => '"image"',
+        'cssClassExpression' => '"media"',
         'type'=>'html',
         'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
       ),
@@ -66,11 +66,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 )  ),
 )); 
 
-  echo CHtml::tag('button', array('id' => "import-process"), Yii::t('app', 'Process images')); ?>
+  echo CHtml::tag('button', array('id' => "import-process"), Yii::t('app', 'Process medias')); ?>
   <div style="float: right; margin-right: 15px"?>
     
   <?php 
-    echo Yii::t('app','Selected images:');
+    echo Yii::t('app','Selected medias:');
     echo " ";
     echo CHtml::dropDownList('massProcess', 0, array(0=>Yii::t('app', "manually (with the checkboxes in the table above)"),  50=> Yii::t('app', "first ")  . 50, 100=> Yii::t('app', "first ")  . 100, 150=> Yii::t('app', "first ")  . 150, 175=> Yii::t('app', "first ")  . 175, 200=> Yii::t('app', "first ")  . 200, 225=> Yii::t('app', "first ")  . 225, 250=> Yii::t('app', "first ")  . 250, 275=> Yii::t('app', "first ")  . 275, 300=> Yii::t('app', "first ")  . 300));
     ?>
@@ -80,18 +80,18 @@ $this->widget('zii.widgets.grid.CGridView', array(
   $this->endWidget();
 
   $url = CHtml::normalizeUrl(array('batch', 'op' => 'process'));
-  $select_info = Yii::t('app','Please check at least one image you would like to process!');
-  $process_info = Yii::t('app','Process the selected image(s)?');
+  $select_info = Yii::t('app','Please check at least one media you would like to process!');
+  $process_info = Yii::t('app','Process the selected media(s)?');
   
   $javascript = <<<EOD
    jQuery('#import-process').click(function() {
-    if(\$("input[name='image-ids\[\]']:checked").length==0 && \$("select#massProcess").val() == 0) {
+    if(\$("input[name='media-ids\[\]']:checked").length==0 && \$("select#massProcess").val() == 0) {
       alert('{$select_info}');
       return false;
     }
     
     if(confirm('{$process_info}')) {
-      \$('#image-form').submit();
+      \$('#media-form').submit();
       return true;
     } else {
       return false;
@@ -103,9 +103,9 @@ EOD;
   $cs->registerScript('#import_batch_processs', $javascript, CClientScript::POS_END);
   
   $this->widget('ext.gridbatchaction.GridBatchAction', array(
-    'formId'=>'image-form',
-    'checkBoxId'=>'image-ids',
-    'ajaxGridId'=>'image-grid', 
+    'formId'=>'media-form',
+    'checkBoxId'=>'media-ids',
+    'ajaxGridId'=>'media-grid',
     'items'=>array(
         array('label'=>Yii::t('ui','Delete selected items'),'url'=>array('batch', 'op' => 'delete'))
     ),

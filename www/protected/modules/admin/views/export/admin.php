@@ -10,13 +10,13 @@ $this->menu = array(
   );
 ?>
 
-<h1><?php echo Yii::t('app', 'Export Tags, Tag Uses, or Images'); ?></h1>
+<h1><?php echo Yii::t('app', 'Export Tags, Tag Uses, or Medias'); ?></h1>
 
-<p>Please define export file name and the images and their information that should be exported with help of the form below</p>
+<p>Please define export file name and the medias and their information that should be exported with help of the form below</p>
 
 <div class="export-form show">
 <?php $this->renderPartial('_form', array(
   'model' => $model,
-  'count_affected_images' => $count_affected_images
+  'count_affected_medias' => $count_affected_medias
 )); ?>
 </div><!-- search-form -->

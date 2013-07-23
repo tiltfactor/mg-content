@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-//@require 'Swift/Image.php';
+//@require 'Swift/Media.php';
 //@require 'Swift/ByteStream/FileByteStream.php';
 
 /**

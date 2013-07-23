@@ -2,7 +2,7 @@
 
 
 <?php $form = $this->beginWidget('GxActiveForm', array(
-	'id' => 'image-set-form',
+	'id' => 'collection-form',
 	'enableAjaxValidation' => true,
     'clientOptions'=>array('validateOnSubmit'=>true),
 ));
@@ -38,7 +38,7 @@
     <div class="row">
     <?php echo $form->labelEx($model,'last_access_interval'); ?>
     <?php echo $form->textField ($model, 'last_access_interval'); ?>
-    <?php echo $form->error($model,'last_access_interval'); ?>Time in seconds to pass before an image can be used again. Set to 0 to deactivate
+    <?php echo $form->error($model,'last_access_interval'); ?>Time in seconds to pass before an media can be used again. Set to 0 to deactivate
     </div><!-- row -->
     <div class="row">
     <?php if($model->created != 0) : ?>

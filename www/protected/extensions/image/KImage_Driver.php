@@ -2,7 +2,7 @@
 /**
  * Image API driver.
  *
- * $Id: Image.php 3769 2008-12-15 00:48:56Z zombor $
+ * $Id: Media.php 3769 2008-12-15 00:48:56Z zombor $
  *
  * @package    Image
  * @author     Kohana Team

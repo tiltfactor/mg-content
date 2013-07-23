@@ -102,7 +102,7 @@ EOD;
       $model->setAttributes($_POST['ZenTag']);
       
       $relatedData = array(
-        'imageSets' => $_POST['ZenTag']['imageSets'] === '' ? null : $_POST['ZenTag']['imageSets'],
+        'collections' => $_POST['ZenTag']['collections'] === '' ? null : $_POST['ZenTag']['collections'],
         'plugins' => $_POST['ZenTag']['plugins'] === '' ? null : $_POST['ZenTag']['plugins'],
         );
       
