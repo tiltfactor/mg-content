@@ -106,8 +106,8 @@ MG_GAME_NEXTAG = function ($) {
       $("#template-licence").tmpl(licence_info).appendTo($("#licences"));
       
       $("#more_info").html("");
-      
-      if (more_info.hasOwnProperty("url"))
+
+      if ((typeof more_info != 'undefined') && more_info.hasOwnProperty("url"))
         $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
       
       
@@ -176,7 +176,7 @@ MG_GAME_NEXTAG = function ($) {
           'tags_matched' : {
             tags : [],
             score: 0
-          },
+          }
         };
         
         // prepare needed data for the final screen

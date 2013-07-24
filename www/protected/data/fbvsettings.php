@@ -1,7 +1,7 @@
 <?php
 return array (
   'api_id' => 'MG_API',
-  'installed' => false,
+  'installed' => true,
   'frontend_theme' => 'metadatagames',
   'arcade' => 
   array (
@@ -203,6 +203,42 @@ return array (
       'number_hints' => '1',
       'partner_wait_threshold' => '30',
       'play_against_computer' => '1',
+    ),
+    'Mobile' => 
+    array (
+      'name' => 'Mobile',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'mobile_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'play_once_and_move_on_url' => '',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
+    ),
+    'NexTag' => 
+    array (
+      'name' => 'NexTag',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'nextag_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'play_once_and_move_on_url' => '',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
+    ),
+    'Pyramid' => 
+    array (
+      'name' => 'Pyramid',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'pyramid_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => 0,
+      'play_once_and_move_on_url' => '',
+      'turns' => 4,
+      'image_width' => 450,
+      'image_height' => 450,
     ),
   ),
   'settings' => 

@@ -12,73 +12,74 @@
  */
 
 class MGTags {
-  
-  /**
-   * This method gets the tags that have been used for the images identified by $images_ids.
-   * Only tag uses with a weight >=1 will be regarded.
-   * <pre>
-   * It will return an array of arrays
-   * 
-   * array(
-   *  image_id = array(
-   *    tag_id => array(
-   *      "tag" => "tag.tag" // the value of the tag column in the database
-   *    )
-   *    ...
-   *  )
-   *  ...
-   * )
-   * </pre>
-   * 
-   * @param array $image_ids array of the image(s) which tags shall be retrieved
-   * @param int $user_id if set only tag that have been used by the user will be shown
-   * @return array the found tags for the image(s)
-   */ 
-  public static function getTags($image_ids, $user_id=null) {
-    $tags = array();
-    $used_tags = array();
-      
-    $builder = Yii::app()->db->getCommandBuilder();
-    
-    if ($user_id) {
-      
-      $used_tags = Yii::app()->db->createCommand()
-                    ->select('tu.image_id, t.id as tag_id, t.tag')
-                    ->from('{{tag_use}} tu')
-                    ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                    ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
-                    ->leftJoin('{{session}} s', 's.id = gs.session_id')
-                    ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array(  'in', 'tu.image_id', array_values($image_ids))), 
-                                                                      array(':userID' => $user_id)) 
-                    ->queryAll();
-                    
-    } else {
-      
-      $used_tags = Yii::app()->db->createCommand()
-                    ->select('tu.image_id, t.id as tag_id, t.tag')
-                    ->from('{{tag_use}} tu')
-                    ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                    ->where(array('and', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids)))) 
-                    ->queryAll();
-                    
-    }
-    foreach($used_tags as $tag) {
-      // PASSING: In most cases, we don't want to see any of the
-      // so-called PASS tags, so we will filter them out here.
-      if(strcasecmp($tag["tag"], "PASSONTHISTURN") == 0) {
-	// DEBUG
-	//Yii::log("FOUND a PASS tag.", "Error");
-	continue;
-      }
 
-      if (!isset($tags[$tag["image_id"]]))
-        $tags[$tag["image_id"]] = array();
-        
-      $tags[$tag["image_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"]); 
+    /**
+     * This method gets the tags that have been used for the images identified by $images_ids.
+     * Only tag uses with a weight >=1 will be regarded.
+     * <pre>
+     * It will return an array of arrays
+     *
+     * array(
+     *  image_id = array(
+     *    tag_id => array(
+     *      "tag" => "tag.tag" // the value of the tag column in the database
+     *    )
+     *    ...
+     *  )
+     *  ...
+     * )
+     * </pre>
+     *
+     * @param array $image_ids array of the image(s) which tags shall be retrieved
+     * @param int $user_id if set only tag that have been used by the user will be shown
+     * @return array the found tags for the image(s)
+     */
+    public static function getTags($image_ids, $user_id = null)
+    {
+        $tags = array();
+        $used_tags = array();
+
+        $builder = Yii::app()->db->getCommandBuilder();
+
+        if ($user_id) {
+
+            $used_tags = Yii::app()->db->createCommand()
+                ->select('tu.image_id, t.id as tag_id, t.tag')
+                ->from('{{tag_use}} tu')
+                ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
+                ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
+                ->leftJoin('{{session}} s', 's.id = gs.session_id')
+                ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))),
+                array(':userID' => $user_id))
+                ->queryAll();
+
+        } else {
+
+            $used_tags = Yii::app()->db->createCommand()
+                ->select('tu.image_id, t.id as tag_id, t.tag')
+                ->from('{{tag_use}} tu')
+                ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
+                ->where(array('and', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))))
+                ->queryAll();
+
+        }
+        foreach ($used_tags as $tag) {
+            // PASSING: In most cases, we don't want to see any of the
+            // so-called PASS tags, so we will filter them out here.
+            if (strcasecmp($tag["tag"], "PASSONTHISTURN") == 0) {
+                // DEBUG
+                //Yii::log("FOUND a PASS tag.", "Error");
+                continue;
+            }
+
+            if (!isset($tags[$tag["image_id"]]))
+                $tags[$tag["image_id"]] = array();
+
+            $tags[$tag["image_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"]);
+        }
+
+        return $tags;
     }
-    
-    return $tags;
-  }
   
   /**
    * This method gets the tags that have been used for the images identified by $images_ids.
@@ -319,4 +320,49 @@ class MGTags {
     $item = preg_replace("/[^\pL\pN\p{Zs}'-]/u", "", $item);
     $item = substr(trim($item), 0, 64); //we enforce the tags to have a maximum length of 64 characters after we've trimmed white spaces
   }
+
+    /**
+     * This method gets the tags that have been used for the image identified by $imageId and the correct length.
+     * <pre>
+     * It will return an array of array
+     *
+     * array(
+     *   array(
+     *      "tag" => "tag.tag" // the value of the tag column in the database
+     *      "tag_id"=> "id";
+     *    )
+     *    ...
+     *  )
+     * </pre>
+     *
+     * @param int $imageId tag id
+     * @param int $lenght tag length
+     * @return array the found tags for the image
+     */
+    public static function getTagsByLength($imageId,$lenght=3) {
+        $tags = array();
+        $used_tags = array();
+        $used_tags = Yii::app()->db->createCommand()
+                    ->select('t.id as tag_id, t.tag')
+                    ->from('{{tag_use}} tu')
+                    ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
+                    ->where('tu.weight > 0 and tu.image_id=:id and length(t.tag)=:l', array(':id'=>$imageId,':l'=>$lenght))
+                    ->group('tag_id')
+                    ->queryAll();
+
+
+        foreach($used_tags as $tag) {
+            // PASSING: In most cases, we don't want to see any of the
+            // so-called PASS tags, so we will filter them out here.
+            if(strcasecmp($tag["tag"], "PASSONTHISTURN") == 0) {
+                // DEBUG
+                //Yii::log("FOUND a PASS tag.", "Error");
+                continue;
+            }
+
+            $tags[] = array("tag" => $tag["tag"],
+                            "tag_id"=> $tag["image_id"]);
+        }
+        return $tags;
+    }
 }
