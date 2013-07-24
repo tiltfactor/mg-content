@@ -147,13 +147,15 @@ class PyramidGame extends NexTagGame
 
             // the following lines call the wordsToAvoid methods of the activated dictionary
             // plugin this generates a words to avoid list
+            $used_images = array();
+            array_push($used_images,$image['id']);
             $data["wordstoavoid"] = array();
             $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
             if (count($plugins) > 0) {
                 foreach ($plugins as $plugin) {
                     if (method_exists($plugin->component, "wordsToAvoid")) {
                         // this method gets all elements by reference. $data["wordstoavoid"] might be changed
-                        $plugin->component->wordsToAvoid($data["wordstoavoid"], array($image['id']), $game, $game_model, $tags);
+                        $plugin->component->wordsToAvoid($data["wordstoavoid"], $used_images, $game, $game_model, $tags);
                     }
                 }
             }
