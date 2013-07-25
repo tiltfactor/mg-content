@@ -1,7 +1,7 @@
 <?php
 return array (
   'api_id' => 'MG_API',
-  'installed' => false,
+  'installed' => true,
   'frontend_theme' => 'metadatagames',
   'arcade' => 
   array (
@@ -31,11 +31,11 @@ return array (
   array (
     'tool-image' => 
     array (
-      'name' => 'Images',
-      'description' => 'Manage images that have been imported and processed.',
-      'url' => '/admin/image',
+      'name' => 'Medias',
+      'description' => 'Manage medias that have been imported and processed.',
+      'url' => '/admin/media',
       'role' => 'editor',
-      'group' => 'Images & Tags',
+      'group' => 'Medias & Tags',
     ),
     'tool-tag' => 
     array (
@@ -43,39 +43,39 @@ return array (
       'description' => 'Manage tags that have been created by players.',
       'url' => '/admin/tag',
       'role' => 'editor',
-      'group' => 'Images & Tags',
+      'group' => 'Medias & Tags',
     ),
     'tool-import' => 
     array (
       'name' => 'Import',
-      'description' => 'Import and process images into the system.',
+      'description' => 'Import and process medias into the system.',
       'url' => '/admin/import',
       'role' => 'editor',
-      'group' => 'Images & Tags',
+      'group' => 'Medias & Tags',
     ),
     'tool-image-set' => 
     array (
-      'name' => 'Image Sets',
-      'description' => 'Group images and apply applicable licences.',
-      'url' => '/admin/imageSet',
+      'name' => 'Collections',
+      'description' => 'Group medias and apply applicable licences.',
+      'url' => '/admin/collection',
       'role' => 'editor',
-      'group' => 'Images & Tags',
+      'group' => 'Medias & Tags',
     ),
     'tool-licence' => 
     array (
       'name' => 'Licences',
-      'description' => 'Create licences under which images can be published in the system.',
+      'description' => 'Create licences under which medias can be published in the system.',
       'url' => '/admin/licence',
       'role' => 'editor',
-      'group' => 'Images & Tags',
+      'group' => 'Medias & Tags',
     ),
     'tool-export' => 
     array (
       'name' => 'Export',
-      'description' => 'Export tags, tag uses, and tagged images.',
+      'description' => 'Export tags, tag uses, and tagged medias.',
       'url' => '/admin/export',
       'role' => 'editor',
-      'group' => 'Images & Tags',
+      'group' => 'Medias & Tags',
     ),
     'tool-user' => 
     array (
@@ -88,7 +88,7 @@ return array (
     'tool-subject-matter' => 
     array (
       'name' => 'Subject Matters',
-      'description' => 'Manage subject matter categories in which players can express interest. These values are used to influence image selection and tag weights.',
+      'description' => 'Manage subject matter categories in which players can express interest. These values are used to influence media selection and tag weights.',
       'url' => '/admin/subjectMatter',
       'role' => 'editor',
       'group' => 'Players',
@@ -191,7 +191,7 @@ return array (
     'GuessWhat' => 
     array (
       'name' => 'Guess What!',
-      'description' => 'Can you guess what the other player\'s image is?',
+      'description' => 'Can you guess what the other player\'s media is?',
       'arcade_image' => 'guesswhat_arcade.png',
       'more_info_url' => '',
       'turns' => '4',
@@ -203,6 +203,31 @@ return array (
       'number_hints' => '1',
       'partner_wait_threshold' => '30',
       'play_against_computer' => '1',
+      'hint_time_out' => '15',
+    ),
+    'NexTag' => 
+    array (
+      'name' => 'NexTag',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'nextag_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'play_once_and_move_on_url' => '',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
+    ),
+    'Mobile' => 
+    array (
+      'name' => 'Mobile',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'mobile_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'play_once_and_move_on_url' => '',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
     ),
   ),
   'settings' => 
