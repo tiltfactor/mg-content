@@ -188,8 +188,8 @@ class MGGame extends CComponent {
    * @param Game $game_model The current game's model
    */
   protected function setUsedMedias($usedMedias, $game, &$game_model) {
-    $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-    
+     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+
     $arr_img = array();
     if (!isset(Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'])) {
       Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'] = $arr_img;
