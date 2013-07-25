@@ -17,11 +17,11 @@ $this->menu=array(
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
 
 <?php 
-if ($model->image) {
-  $image_html = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->image))  . ' <span>' . GxHtml::valueEx($model->image) . '</span>';
-  $image = GxHtml::link($image_html, array('image/view', 'id' => GxActiveRecord::extractPkValue($model->image, true)), array('class' => 'image'));
+if ($model->media) {
+  $image_html = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->media))  . ' <span>' . GxHtml::valueEx($model->media) . '</span>';
+  $media = GxHtml::link($image_html, array('image/view', 'id' => GxActiveRecord::extractPkValue($model->media, true)), array('class' => 'image'));
 } else {
-  $image = null;
+  $media = null;
 }
 
 
@@ -33,7 +33,7 @@ $this->widget('zii.widgets.CDetailView', array(
 array(
 			'name' => 'image',
 			'type' => 'raw',
-			'value' => $image,
+			'value' => $media,
 			),
 array(
 			'name' => 'tag',

@@ -203,7 +203,7 @@ MG_API = function ($) {
         success : callback,
         statusCode : {
           420 : MG_API.enhanceYourCalm,
-          600 : MG_API.exitGame,
+          600 : MG_API.exitGame
         },
         complete : function(response, status_code) {
           switch(status_code) {
@@ -278,4 +278,4 @@ window.log = function(){
   if(this.console) console.log( Array.prototype.slice.call(arguments) );
 };
 (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();)b[a]=b[a]||c})(window.console=window.console||{});
-
+
