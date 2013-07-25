@@ -107,7 +107,7 @@ class MGGame extends CComponent {
     if ($medias && count($medias) >= $num_medias) {
       $arr_media = array();
       $blocked_by_last_access = array();
-      
+
       foreach ($medias as $media) {
         if (!array_key_exists($media["id"], $blocked_by_last_access)) {
           if (!array_key_exists($media["id"], $arr_media)) {
@@ -119,7 +119,7 @@ class MGGame extends CComponent {
           } else {
             $arr_media[$media["id"]]["licences"][] = (int)$media["licence_id"];
           }
-          
+
           if (!$media["last_access_ok"]) {
             unset($arr_media[$media["id"]]);
             $blocked_by_last_access[$media["id"]] = true;
@@ -140,7 +140,8 @@ class MGGame extends CComponent {
         $this->resetUsedMedias($game, $game_model);
         return $this->getMedias($collections, $game, $game_model, $num_medias, true);
       }
-    } else if ($second_attempt) {
+    }
+    else if ($second_attempt) {
       return null;
     } else {
       // no medias available could it be that the user has already seen all in this session?

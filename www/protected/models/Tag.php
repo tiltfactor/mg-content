@@ -45,7 +45,6 @@ class Tag extends BaseTag
       }
       
       if (isset($_GET["Custom"]["collections"]) && is_array($_GET["Custom"]["collections"])) {
-        var_dump($_GET["Custom"]["collections"]);
         $criteria->join .= "  LEFT JOIN {{media}} i ON i.id=tu.media_id
                               LEFT JOIN {{collection_to_media}} isi ON isi.media_id=i.id";
         $criteria->addInCondition('isi.collection_id', array_values($_GET["Custom"]["collections"]));
