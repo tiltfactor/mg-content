@@ -121,7 +121,7 @@ EOD;
             $model->setAttributes($_POST['Pyramid']);
 
             $relatedData = array(
-                'imageSets' => $_POST['Pyramid']['imageSets'] === '' ? null : $_POST['Pyramid']['imageSets'],
+                'collections' => $_POST['Pyramid']['collections'] === '' ? null : $_POST['Pyramid']['collections'],
                 'plugins' => $_POST['Pyramid']['plugins'] === '' ? null : $_POST['Pyramid']['plugins'],
             );
 

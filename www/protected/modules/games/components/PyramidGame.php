@@ -11,15 +11,15 @@ class PyramidGame extends NexTagGame
     public function parseTags(&$game, &$game_model)
     {
         $data = array();
-        $imageId = 0;
+        $mediaId = 0;
         $currentTag = "";
         // loop through all submissions for this turn and set ONLY THE FIRST TAG
         foreach ($game->request->submissions as $submission) {
-            $imageId = $submission["image_id"];
-            $imageTags = array();
+            $mediaId = $submission["media_id"];
+            $mediaTags = array();
             // Attempt to extract these
             foreach (MGTags::parseTags($submission["tags"]) as $tag) {
-                $imageTags[strtolower($tag)] = array(
+                $mediaTags[strtolower($tag)] = array(
                     'tag' => $tag,
                     'weight' => 1,
                     'type' => 'new',
@@ -28,8 +28,8 @@ class PyramidGame extends NexTagGame
                 $currentTag = $tag;
                 break;
             }
-            // add the extracted tags to the image info
-            $data[$submission["image_id"]] = $imageTags;
+            // add the extracted tags to the media info
+            $data[$submission["media_id"]] = $mediaTags;
             break;
         }
 
@@ -46,20 +46,20 @@ class PyramidGame extends NexTagGame
             $level->countTags = 0;
             $level->tag = "";
         }
-        if ($imageId > 0) {
+        if ($mediaId > 0) {
             $found = false;
-            $imageTags = MGTags::getTagsByLength($imageId,($level->level+2));
-            foreach ($imageTags as $val) {
+            $mediaTags = MGTags::getTagsByLength($mediaId,($level->level+2));
+            foreach ($mediaTags as $val) {
                 if ($currentTag == strtolower($val['tag'])) {
-                    $data[$imageId][$currentTag]['type'] = 'match';
-                    $data[$imageId][$currentTag]['tag_id'] = $val['tag_id'];
+                    $data[$mediaId][$currentTag]['type'] = 'match';
+                    $data[$mediaId][$currentTag]['tag_id'] = $val['tag_id'];
                     $found = true;
                     break;
                 }
             }
 
             if ($level->countTags == 0) {
-                $level->countTags = count($imageTags);
+                $level->countTags = count($mediaTags);
             }
 
             //the answer is incorrect. Player can submit another word
@@ -89,7 +89,7 @@ class PyramidGame extends NexTagGame
      *
      * @param object $game The game object
      * @param object $game_model The game model
-     * @param Array the tags submitted by the player for each image
+     * @param Array the tags submitted by the player for each media
      * @return Array the turn information that will be sent to the players client
      */
     public function getTurn(&$game, &$game_model, $tags = array())
@@ -103,17 +103,17 @@ class PyramidGame extends NexTagGame
         // check if the game is not actually over
         if (($now - $startTime) < $timeToPlay) {
 
-            $image = $this->getImage();
-            if (empty($image)) {
-                $imageSets = $this->getImageSets($game, $game_model);
-                $data["images"] = array();
-                $images = $this->getImages($imageSets, $game, $game_model);
-                if ($images && count($images) > 0) {
-                    $i = array_rand($images, 1); // select one random item out of the images
-                    $image = $images[$i];
-                    $this->setImage($image);
+            $media = $this->getMedia();
+            if (empty($media)) {
+                $collections = $this->getCollections($game, $game_model);
+                $data["medias"] = array();
+                $medias = $this->getMedias($collections, $game, $game_model);
+                if ($medias && count($medias) > 0) {
+                    $i = array_rand($medias, 1); // select one random item out of the medias
+                    $media = $medias[$i];
+                    $this->setMedia($media);
                 } else
-                    throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough images available'));
+                    throw new CHttpException(600, $game->name . Yii::t('app', ': Not enough medias available'));
             }
 
             $lastLevel = $this->getLevel();
@@ -125,19 +125,19 @@ class PyramidGame extends NexTagGame
             }
 
             $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
-            $data["images"][] = array(
-                "image_id" => $image["id"],
-                "full_size" => $path . "/images/" . $image["name"],
-                "thumbnail" => $path . "/thumbs/" . $image["name"],
-                "final_screen" => $path . "/scaled/" . MGHelper::createScaledImage($image["name"], "", "scaled", 212, 171, 80, 10),
-                "scaled" => $path . "/scaled/" . MGHelper::createScaledImage($image["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
-                "licences" => $image["licences"],
+            $data["medias"][] = array(
+                "media_id" => $media["id"],
+                "full_size" => $path . "/medias/" . $media["name"],
+                "thumbnail" => $path . "/thumbs/" . $media["name"],
+                "final_screen" => $path . "/scaled/" . MGHelper::createScaledMedia($media["name"], "", "scaled", 212, 171, 80, 10),
+                "scaled" => $path . "/scaled/" . MGHelper::createScaledMedia($media["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
+                "licences" => $media["licences"],
                 "level" => $lastLevel->level,
                 "tag_accepted" => $lastLevel->isAccepted
             );
 
             // extract needed licence info
-            $data["licences"] = $this->getLicenceInfo($image["licences"]);
+            $data["licences"] = $this->getLicenceInfo($media["licences"]);
 
             // prepare further data
             $data["tags"] = array();
@@ -147,15 +147,15 @@ class PyramidGame extends NexTagGame
 
             // the following lines call the wordsToAvoid methods of the activated dictionary
             // plugin this generates a words to avoid list
-            $used_images = array();
-            array_push($used_images,$image['id']);
+            $used_medias = array();
+            array_push($used_medias,$media['id']);
             $data["wordstoavoid"] = array();
             $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
             if (count($plugins) > 0) {
                 foreach ($plugins as $plugin) {
                     if (method_exists($plugin->component, "wordsToAvoid")) {
                         // this method gets all elements by reference. $data["wordstoavoid"] might be changed
-                        $plugin->component->wordsToAvoid($data["wordstoavoid"], $used_images, $game, $game_model, $tags);
+                        $plugin->component->wordsToAvoid($data["wordstoavoid"], $used_medias, $game, $game_model, $tags);
                     }
                 }
             }
@@ -187,32 +187,32 @@ class PyramidGame extends NexTagGame
     }
 
     /**
-     * Retrieve the IDs of all images that have been seen/used by the current user
+     * Retrieve the IDs of all medias that have been seen/used by the current user
      * on a per game and per session basis.
      *
-     * @return ArrayObject of the current image
+     * @return ArrayObject of the current media
      */
-    protected function getImage()
+    protected function getMedia()
     {
-        $image = array();
+        $media = array();
         $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
         if (isset(Yii::app()->session[$api_id . '_PYRAMID_IMAGE'])) {
-            $image = Yii::app()->session[$api_id . '_PYRAMID_IMAGE'];
+            $media = Yii::app()->session[$api_id . '_PYRAMID_IMAGE'];
         }
-        return $image;
+        return $media;
     }
 
     /**
-     * Add image stored in the current session for the currently
+     * Add media stored in the current session for the currently
      * played game
      *
-     * @param ArrayObject $image the image that have been shown to the user
+     * @param ArrayObject $media the media that have been shown to the user
      */
-    protected function setImage($image)
+    protected function setMedia($media)
     {
         $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-        Image::model()->setLastAccess(array($image['id']));
-        Yii::app()->session[$api_id . '_PYRAMID_IMAGE'] = $image;
+        Media::model()->setLastAccess(array($media['id']));
+        Yii::app()->session[$api_id . '_PYRAMID_IMAGE'] = $media;
     }
 
     public static function reset()
