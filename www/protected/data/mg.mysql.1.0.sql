@@ -15,7 +15,7 @@ CREATE  TABLE IF NOT EXISTS `stop_word` (
   `counter` INT UNSIGNED NOT NULL DEFAULT 0 ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -30,7 +30,7 @@ CREATE  TABLE IF NOT EXISTS `licence` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -54,7 +54,7 @@ CREATE  TABLE IF NOT EXISTS `image_set` (
     REFERENCES `licence` (`id` )
     ON DELETE SET NULL
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -69,7 +69,7 @@ CREATE  TABLE IF NOT EXISTS `subject_matter` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -93,7 +93,7 @@ CREATE  TABLE IF NOT EXISTS `user` (
   UNIQUE INDEX `username` (`username` ASC) ,
   UNIQUE INDEX `email` (`email` ASC) ,
   INDEX `status` (`status` ASC) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -120,7 +120,7 @@ CREATE  TABLE IF NOT EXISTS `user_to_subject_matter` (
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -137,7 +137,7 @@ CREATE  TABLE IF NOT EXISTS `game` (
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_id_UNIQUE` (`unique_id` ASC) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -163,7 +163,7 @@ CREATE  TABLE IF NOT EXISTS `user_to_game` (
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -176,7 +176,7 @@ CREATE  TABLE IF NOT EXISTS `badge` (
   `title` VARCHAR(45) NOT NULL ,
   `points` INT(11) NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -195,7 +195,7 @@ CREATE  TABLE IF NOT EXISTS `image` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -216,7 +216,7 @@ CREATE  TABLE IF NOT EXISTS `log` (
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -240,7 +240,7 @@ CREATE  TABLE IF NOT EXISTS `session` (
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -264,7 +264,7 @@ CREATE  TABLE IF NOT EXISTS `image_set_to_image` (
     REFERENCES `image` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -288,7 +288,7 @@ CREATE  TABLE IF NOT EXISTS `image_set_to_subject_matter` (
     REFERENCES `subject_matter` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -305,7 +305,7 @@ CREATE  TABLE IF NOT EXISTS `plugin` (
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_id_UNIQUE` (`unique_id` ASC) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -320,7 +320,7 @@ CREATE  TABLE IF NOT EXISTS `tag` (
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `tag_UNIQUE` (`tag` ASC) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -357,7 +357,7 @@ CREATE  TABLE IF NOT EXISTS `played_game` (
     REFERENCES `session` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -385,7 +385,7 @@ CREATE  TABLE IF NOT EXISTS `game_submission` (
     REFERENCES `played_game` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -420,7 +420,7 @@ CREATE  TABLE IF NOT EXISTS `tag_use` (
     REFERENCES `game_submission` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -444,7 +444,7 @@ CREATE  TABLE IF NOT EXISTS `message` (
     REFERENCES `played_game` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -459,7 +459,7 @@ CREATE  TABLE IF NOT EXISTS `blocked_ip` (
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -483,7 +483,7 @@ CREATE  TABLE IF NOT EXISTS `game_to_image_set` (
     REFERENCES `image_set` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -511,7 +511,7 @@ CREATE  TABLE IF NOT EXISTS `tag_original_version` (
     REFERENCES `user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -538,7 +538,7 @@ CREATE  TABLE IF NOT EXISTS `profile_field` (
   `visible` INT(1) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`id`) ,
   INDEX `varname` (`varname` ASC, `widget` ASC, `visible` ASC) )
-ENGINE = InnoDB
+ENGINE=InnoDB DEFAULT CHARSET=UTF8
 AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
@@ -557,7 +557,7 @@ CREATE  TABLE IF NOT EXISTS `profile` (
     REFERENCES `user` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -597,7 +597,7 @@ CREATE  TABLE IF NOT EXISTS `game_partner` (
     REFERENCES `played_game` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -612,7 +612,7 @@ CREATE  TABLE IF NOT EXISTS `AuthItem` (
   `bizrule` TEXT NULL DEFAULT NULL ,
   `data` TEXT NULL DEFAULT NULL ,
   PRIMARY KEY (`name`) )
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -635,7 +635,7 @@ CREATE  TABLE IF NOT EXISTS `AuthItemChild` (
     REFERENCES `AuthItem` (`name` )
     ON DELETE cascade
     ON UPDATE cascade)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -654,7 +654,7 @@ CREATE  TABLE IF NOT EXISTS `AuthAssignment` (
     REFERENCES `AuthItem` (`name` )
     ON DELETE cascade
     ON UPDATE cascade)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -678,7 +678,7 @@ CREATE  TABLE IF NOT EXISTS `game_to_plugin` (
     REFERENCES `plugin` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
@@ -703,7 +703,7 @@ CREATE  TABLE IF NOT EXISTS `played_game_turn_info` (
     REFERENCES `session` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE=InnoDB DEFAULT CHARSET=UTF8
 COMMENT = 'used in multiplayer games';
 
 
