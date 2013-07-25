@@ -26,7 +26,7 @@
 <div id="input_area">
   <form action="#">
     <!-- user text field -->
-    <input type="text" name="words" id="words" placeholder="List what is in this image, separated by commas" />
+    <input type="text" name="words" id="words" placeholder="List what is in this media, separated by commas" />
     <a href="#" id="button-play" class="ir"></a> 
   </form> 
 </div>
@@ -46,11 +46,11 @@
       
       <p>NexTag is part of the Metadata Games suite.</p>
       
-      <p>Enter words that are relevant to the image. Separate words with a comma.</p>
+      <p>Enter words that are relevant to the media. Separate words with a comma.</p>
       <br />
       <br />
       <br />
-      <p>Metadata Games is an online game system for gathering useful data on photo, audio, and moving image artifacts.</p>
+      <p>Metadata Games is an online game system for gathering useful data on photo, audio, and moving media artifacts.</p>
       <div id="more_info"></div>
       
       <br />
@@ -97,7 +97,7 @@
 </script> 
 <script id="template-turn" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
-    <img src="${url}" alt="game image" id="image_to_tag" />
+    <img src="${url}" alt="game media" id="media_to_tag" />
   </div>
 </script>
 <script id="template-final-summary" type="text/x-jquery-tmpl">
@@ -106,14 +106,14 @@
       <td>
         <div class="smallholder_left"> 
           <a href="${url_full_size_1}" rel="zoom" title="${licence_info_1}">
-            <img class="scoreimages" src="${url_1}" alt="game image" />
+            <img class="scoreimages" src="${url_1}" alt="game media" />
           </a>
         </div>
       </td>
       <td>
         <div class="smallholder_right"> 
           <a href="${url_full_size_2}" rel="zoom" title="${licence_info_2}">
-            <img class="scoreimages" src="${url_2}" alt="game image" />
+            <img class="scoreimages" src="${url_2}" alt="game media" />
           </a>
         </div> 
       </td>
@@ -122,14 +122,14 @@
       <td>
         <div class="smallholder_left"> 
           <a href="${url_full_size_3}" rel="zoom" title="${licence_info_3}">
-            <img class="scoreimages" src="${url_3}" alt="game image" />
+            <img class="scoreimages" src="${url_3}" alt="game media" />
           </a>
         </div> 
       </td>
       <td>
         <div class="smallholder_right"> 
           <a href="${url_full_size_4}" rel="zoom" title="${licence_info_4}">
-            <img class="scoreimages" src="${url_4}" alt="game image" />
+            <img class="scoreimages" src="${url_4}" alt="game media" />
           </a>
         </div>
       </td>
@@ -138,7 +138,7 @@
 </script>
 <script id="template-final-summary-play-once" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
-    <a href="${url_full_size}" rel="zoom" title="${licence_info}"><img src="${url}" alt="game image" /></a>
+    <a href="${url_full_size}" rel="zoom" title="${licence_info}"><img src="${url}" alt="game media" /></a>
   </div>
 </script>
 <script id="template-more-info" type="text/x-jquery-tmpl">

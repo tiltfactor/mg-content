@@ -26,7 +26,7 @@
 <div id="input_area">
   <form action="#">
     <!-- user text field -->
-    <input type="text" name="words" id="words" placeholder="List what is in this image, separated by commas" />
+    <input type="text" name="words" id="words" placeholder="List what is in this media, separated by commas" />
     <a href="#" id="button-play" class="ir"></a> 
   </form> 
 </div>

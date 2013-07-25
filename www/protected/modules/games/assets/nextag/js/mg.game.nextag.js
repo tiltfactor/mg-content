@@ -107,7 +107,7 @@ MG_GAME_NEXTAG = function ($) {
       
       $("#more_info").html("");
       
-      if (more_info.hasOwnProperty("url"))
+      if (typeof more_info !== 'undefined' && more_info.hasOwnProperty("url"))
         $("#template-more-info").tmpl(more_info).appendTo($("#more_info"));
       
       
@@ -176,7 +176,7 @@ MG_GAME_NEXTAG = function ($) {
           'tags_matched' : {
             tags : [],
             score: 0
-          },
+          }
         };
         
         // prepare needed data for the final screen
@@ -184,13 +184,13 @@ MG_GAME_NEXTAG = function ($) {
           for (i_turn in MG_GAME_NEXTAG.turns) {
             var turn = MG_GAME_NEXTAG.turns[i_turn];
             for (i_img in turn.tags.user) { //scores
-              var image = turn.tags.user[i_img];
-              for (i_tag in image) {
+              var media = turn.tags.user[i_img];
+              for (i_tag in media) {
                 // PASSING: If we find the passing tag, we just skip it.
                 if(i_tag == MG_GAME_NEXTAG.passStringFiltered) {
                   continue;
                 }
-                var tag = image[i_tag];
+                var tag = media[i_tag];
                 switch (tag.type) {
                   case "new":
                     taginfo.tags_new.tags.push(i_tag);
@@ -256,7 +256,7 @@ MG_GAME_NEXTAG = function ($) {
           tags_new : taginfo.tags_new.scoreinfo,
           tags_new_score : taginfo.tags_new.score,
           tags_matched : taginfo.tags_matched.scoreinfo,
-          tags_matched_score : taginfo.tags_matched.score,
+          tags_matched_score : taginfo.tags_matched.score
         };
         
         if (MG_GAME_NEXTAG.game.play_once_and_move_on == 1) {
@@ -266,28 +266,28 @@ MG_GAME_NEXTAG = function ($) {
           score_info.remainingTime = (MG_GAME_NEXTAG.playOnceMoveOnFinalScreenWaitingTime / 1000);
           score_info.play_once_and_move_on_url = MG_GAME_NEXTAG.game.play_once_and_move_on_url;
           
-          // turn info == image 
+          // turn info == media
           var turn_info = {
-            //url : MG_GAME_NEXTAG.turns[0].images[0].scaled,
-            url : response.turn.images[0].full_size,
-            url_full_size : MG_GAME_NEXTAG.turns[0].images[0].full_size,
-            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences),
+            //url : MG_GAME_NEXTAG.turns[0].medias[0].scaled,
+            url : response.turn.medias[0].full_size,
+            url_full_size : MG_GAME_NEXTAG.turns[0].medias[0].full_size,
+            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences)
           };
           
         } else {
-          // turn info == image 
+          // turn info == media
           var turn_info = {
-            url_1 : MG_GAME_NEXTAG.turns[0].images[0].final_screen,
-            url_full_size_1 : MG_GAME_NEXTAG.turns[0].images[0].full_size,
+            url_1 : MG_GAME_NEXTAG.turns[0].medias[0].final_screen,
+            url_full_size_1 : MG_GAME_NEXTAG.turns[0].medias[0].full_size,
             licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences),
-            url_2 : MG_GAME_NEXTAG.turns[1].images[0].final_screen,
-            url_full_size_2 : MG_GAME_NEXTAG.turns[1].images[0].full_size,
+            url_2 : MG_GAME_NEXTAG.turns[1].medias[0].final_screen,
+            url_full_size_2 : MG_GAME_NEXTAG.turns[1].medias[0].full_size,
             licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[1].licences),
-            url_3 : MG_GAME_NEXTAG.turns[2].images[0].final_screen,
-            url_full_size_3 : MG_GAME_NEXTAG.turns[2].images[0].full_size,
+            url_3 : MG_GAME_NEXTAG.turns[2].medias[0].final_screen,
+            url_full_size_3 : MG_GAME_NEXTAG.turns[2].medias[0].full_size,
             licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[2].licences),
-            url_4 : MG_GAME_NEXTAG.turns[3].images[0].final_screen,
-            url_full_size_4 : MG_GAME_NEXTAG.turns[3].images[0].full_size,
+            url_4 : MG_GAME_NEXTAG.turns[3].medias[0].final_screen,
+            url_full_size_4 : MG_GAME_NEXTAG.turns[3].medias[0].full_size,
             licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[3].licences)
           }
         }
@@ -309,11 +309,11 @@ MG_GAME_NEXTAG = function ($) {
         
         var licence_info = response.turn.licences;
         
-        // turn info == image 
+        // turn info == media
         var turn_info = {
-          //url : response.turn.images[0].scaled,
-          url : response.turn.images[0].full_size,
-          url_full_size : response.turn.images[0].full_size,
+          //url : response.turn.medias[0].scaled,
+          url : response.turn.medias[0].full_size,
+          url_full_size : response.turn.medias[0].full_size,
           licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
         
@@ -350,7 +350,7 @@ MG_GAME_NEXTAG = function ($) {
               turn:MG_GAME_NEXTAG.turn,
               played_game_id:MG_GAME_NEXTAG.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_NEXTAG.turns[MG_GAME_NEXTAG.turn-1].images[0].image_id,
+                media_id : MG_GAME_NEXTAG.turns[MG_GAME_NEXTAG.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
@@ -385,7 +385,7 @@ MG_GAME_NEXTAG = function ($) {
               turn:MG_GAME_NEXTAG.turn,
               played_game_id:MG_GAME_NEXTAG.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_NEXTAG.turns[MG_GAME_NEXTAG.turn-1].images[0].image_id,
+                media_id : MG_GAME_NEXTAG.turns[MG_GAME_NEXTAG.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
@@ -413,7 +413,7 @@ MG_GAME_NEXTAG = function ($) {
      */
     ongameinit : function (response) {
       MG_GAME_NEXTAG.onresponse(response);
-    },
+    }
   });
 }(jQuery);
 

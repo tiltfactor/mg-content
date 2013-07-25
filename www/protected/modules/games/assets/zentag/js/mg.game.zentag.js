@@ -240,25 +240,25 @@ MG_GAME_ZENTAG = function ($) {
           
           // turn info == image 
           var turn_info = {
-            url : MG_GAME_ZENTAG.turns[0].images[0].scaled,
-            url_full_size : MG_GAME_ZENTAG.turns[0].images[0].full_size,
+            url : MG_GAME_ZENTAG.turns[0].medias[0].scaled,
+            url_full_size : MG_GAME_ZENTAG.turns[0].medias[0].full_size,
             licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
           };
           
         } else {
           // turn info == image 
           var turn_info = {
-            url_1 : MG_GAME_ZENTAG.turns[0].images[0].final_screen,
-            url_full_size_1 : MG_GAME_ZENTAG.turns[0].images[0].full_size,
+            url_1 : MG_GAME_ZENTAG.turns[0].medias[0].final_screen,
+            url_full_size_1 : MG_GAME_ZENTAG.turns[0].medias[0].full_size,
             licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[0].licences),
-            url_2 : MG_GAME_ZENTAG.turns[1].images[0].final_screen,
-            url_full_size_2 : MG_GAME_ZENTAG.turns[1].images[0].full_size,
+            url_2 : MG_GAME_ZENTAG.turns[1].medias[0].final_screen,
+            url_full_size_2 : MG_GAME_ZENTAG.turns[1].medias[0].full_size,
             licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[1].licences),
-            url_3 : MG_GAME_ZENTAG.turns[2].images[0].final_screen,
-            url_full_size_3 : MG_GAME_ZENTAG.turns[2].images[0].full_size,
+            url_3 : MG_GAME_ZENTAG.turns[2].medias[0].final_screen,
+            url_full_size_3 : MG_GAME_ZENTAG.turns[2].medias[0].full_size,
             licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[2].licences),
-            url_4 : MG_GAME_ZENTAG.turns[3].images[0].final_screen,
-            url_full_size_4 : MG_GAME_ZENTAG.turns[3].images[0].full_size,
+            url_4 : MG_GAME_ZENTAG.turns[3].medias[0].final_screen,
+            url_full_size_4 : MG_GAME_ZENTAG.turns[3].medias[0].full_size,
             licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG.turns[3].licences)
           }
         }
@@ -283,9 +283,9 @@ MG_GAME_ZENTAG = function ($) {
         $("#words_to_avoid").hide(); 
         var words_to_avoid = []
         if (response.turn.wordstoavoid) {
-          for (image in response.turn.wordstoavoid) {
-            for (tag in response.turn.wordstoavoid[image]) {
-              words_to_avoid.push(response.turn.wordstoavoid[image][tag]);
+          for (media in response.turn.wordstoavoid) {
+            for (tag in response.turn.wordstoavoid[media]) {
+              words_to_avoid.push(response.turn.wordstoavoid[media][tag]);
             }
           }
           if (words_to_avoid.length) 
@@ -294,8 +294,8 @@ MG_GAME_ZENTAG = function ($) {
         
         // turn info == image 
         var turn_info = {
-          url : response.turn.images[0].scaled,
-          url_full_size : response.turn.images[0].full_size,
+          url : response.turn.medias[0].scaled,
+          url_full_size : response.turn.medias[0].full_size,
           licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
         
@@ -333,7 +333,7 @@ MG_GAME_ZENTAG = function ($) {
               wordstoavoid: MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].wordstoavoid,
               played_game_id:MG_GAME_ZENTAG.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
+                  media_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
@@ -369,7 +369,7 @@ MG_GAME_ZENTAG = function ($) {
               wordstoavoid: MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].wordstoavoid,
               played_game_id:MG_GAME_ZENTAG.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].images[0].image_id,
+                media_id : MG_GAME_ZENTAG.turns[MG_GAME_ZENTAG.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }

@@ -329,7 +329,6 @@ class GamesController extends ApiController {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     
     if($game && $game->game_model) {
-        
       $game_engine = GamesModule::getGameEngine($gid);
       if (is_null($game_engine)) {
         throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
@@ -337,14 +336,14 @@ class GamesController extends ApiController {
       
       $game_model = $game->game_model; // we need the current games model in the game engine but don't want to risk to send it on to the user
       unset($game->game_model);
-      
+
       $game->played_game_id = null; // at the moment we don't know the played game id. it should be present in the POST request
-      
+
       if ($game_engine->two_player_game) { // we're dealing with a two player game 
-        
+
         if (Yii::app()->getRequest()->getIsPostRequest()) {
           $game->request = new stdClass(); // all request parameter will be stored in this object
-          
+
           if (isset($_POST["played_game_id"])) {
             $game->played_game_id = (int)$_POST["played_game_id"]; 
             
@@ -357,7 +356,7 @@ class GamesController extends ApiController {
           if (isset($_POST["turn"])) {
             $game->turn = (int)$_POST["turn"]; 
           }
-          
+
           $submission_valid = $game_engine->parseSubmission($game, $game_model);
           if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $submission_valid) {
             $this->_playTwoPlayerPost($game, $game_model, $game_engine);  
@@ -368,7 +367,8 @@ class GamesController extends ApiController {
               throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));  
             }
           }
-        } else {
+        }
+        else {
           // a GET request mean's that the user is about to start a new game
           // this means she has first to find a partner.
           $attempt = $game->partner_wait_threshold;
@@ -387,7 +387,8 @@ class GamesController extends ApiController {
           if ($partner_session_id) {
             Yii::app()->session[$api_id .'_WATING_GAME_' . $game->played_game_id] = false;
             $this->_playTwoPlayerGet($game, $game_model, $game_engine);  
-          } else {
+          }
+          else {
             if ($attempt == 0 && $game->play_against_computer) {
               $user_session_id = (int)Yii::app()->session[$api_id .'_SESSION_ID'];
               
@@ -414,39 +415,41 @@ class GamesController extends ApiController {
               } else {
                 throw new CHttpException(500, Yii::t('app', 'Could not initialize game.'));
               }
-            } else {
+            }
+            else {
               $data = array();
               $data['status'] = "retry";
               $data['game'] = $game;
               unset($data['game']->game_id);
               unset($data['game']->arcade_image);
-              $this->sendResponse($data);  
+              $this->sendResponse($data);
+
             }
           }
         }
-      } else {
+      }
+      else {
         // if the game is configured to be play once move on then set turns to 1
         // sometimes play_once_and_move_on might not be set at all
         if (isset($game->play_once_and_move_on) && (int)$game->play_once_and_move_on == 1) {
           $game->turns = 1;
         }
-        
+
         if (Yii::app()->getRequest()->getIsPostRequest()) {
           $game->request = new stdClass(); // all request parameter will be stored in this object
           
           if (isset($_POST["played_game_id"])) {
             $game->played_game_id = (int)$_POST["played_game_id"]; 
           }
-          
+
           if (isset($_POST["turn"])) {
             $game->turn = (int)$_POST["turn"]; 
           }
           if ($game->played_game_id != 0 && $game->turn != 0 && $game->turn <= $game->turns && $game_engine->parseSubmission($game, $game_model)) {
-            $this->_playSinglePost($game, $game_model, $game_engine);  
+            $this->_playSinglePost($game, $game_model, $game_engine);
           } else {
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
           }
-        
         } else {
           $game->turn = 0;
           $this->_playSingleGet($game, $game_model, $game_engine); 
@@ -803,15 +806,14 @@ class GamesController extends ApiController {
       $tags = $game_engine->parseTags($game, $game_model);
       
       $tags = $game_engine->setWeights($game, $game_model, $tags); // in there you can use weighting functions
-      
+
       $data['turn']['score'] = 0; 
       $turn_score = $game_engine->getScore($game, $game_model, $tags);
-      
+
       $data['turn'] = $game_engine->getTurn($game, $game_model, $tags);
-      
+
       MGTags::saveTags($tags, $game->submission_id);
-    
-      
+
       // update played_game
       $played_game = PlayedGame::model()->findByPk($game->played_game_id);
       if ($played_game) {

@@ -148,7 +148,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
           'tags_matched' : {
             tags : [],
             score: 0
-          },
+          }
         };
         
         // prepare needed data for the final screen
@@ -156,13 +156,13 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
           for (i_turn in MG_GAME_ZENTAG_PLAYONCE.turns) {
             var turn = MG_GAME_ZENTAG_PLAYONCE.turns[i_turn];
             for (i_img in turn.tags.user) { //scores
-              var image = turn.tags.user[i_img];
-              for (i_tag in image) {
+              var media = turn.tags.user[i_img];
+              for (i_tag in media) {
                 // PASSING: If we find the passing tag, we just skip it.
                 if(i_tag == MG_GAME_ZENTAG_PLAYONCE.passStringFiltered) {
                   continue;
                 }
-                var tag = image[i_tag];
+                var tag = media[i_tag];
                 switch (tag.type) {
                   case "new":
                     taginfo.tags_new.tags.push(i_tag);
@@ -176,7 +176,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
                 }
               }
             }
-            
+
             for (var scope in taginfo) {
               var o_scope = taginfo[scope];
               var tmp = {};
@@ -216,7 +216,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
             }
           }
         }
-        
+
         //score box
         var score_info = {
           user_name : MG_GAME_ZENTAG_PLAYONCE.game.user_name,
@@ -228,7 +228,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
           tags_new : taginfo.tags_new.scoreinfo,
           tags_new_score : taginfo.tags_new.score,
           tags_matched : taginfo.tags_matched.scoreinfo,
-          tags_matched_score : taginfo.tags_matched.score,
+          tags_matched_score : taginfo.tags_matched.score
         };
         
         if (MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on == 1) {
@@ -238,27 +238,27 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
           score_info.remainingTime = (MG_GAME_ZENTAG_PLAYONCE.playOnceMoveOnFinalScreenWaitingTime / 1000);
           score_info.play_once_and_move_on_url = MG_GAME_ZENTAG_PLAYONCE.game.play_once_and_move_on_url;
           
-          // turn info == image 
+          // turn info == media
           var turn_info = {
-            url : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].scaled,
-            url_full_size : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].full_size,
+            url : MG_GAME_ZENTAG_PLAYONCE.turns[0].medias[0].scaled,
+            url_full_size : MG_GAME_ZENTAG_PLAYONCE.turns[0].medias[0].full_size,
             licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[0].licences),
           };
           
         } else {
-          // turn info == image 
+          // turn info == media
           var turn_info = {
-            url_1 : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].final_screen,
-            url_full_size_1 : MG_GAME_ZENTAG_PLAYONCE.turns[0].images[0].full_size,
+            url_1 : MG_GAME_ZENTAG_PLAYONCE.turns[0].medias[0].final_screen,
+            url_full_size_1 : MG_GAME_ZENTAG_PLAYONCE.turns[0].medias[0].full_size,
             licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[0].licences),
-            url_2 : MG_GAME_ZENTAG_PLAYONCE.turns[1].images[0].final_screen,
-            url_full_size_2 : MG_GAME_ZENTAG_PLAYONCE.turns[1].images[0].full_size,
+            url_2 : MG_GAME_ZENTAG_PLAYONCE.turns[1].medias[0].final_screen,
+            url_full_size_2 : MG_GAME_ZENTAG_PLAYONCE.turns[1].medias[0].full_size,
             licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[1].licences),
-            url_3 : MG_GAME_ZENTAG_PLAYONCE.turns[2].images[0].final_screen,
-            url_full_size_3 : MG_GAME_ZENTAG_PLAYONCE.turns[2].images[0].full_size,
+            url_3 : MG_GAME_ZENTAG_PLAYONCE.turns[2].medias[0].final_screen,
+            url_full_size_3 : MG_GAME_ZENTAG_PLAYONCE.turns[2].medias[0].full_size,
             licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[2].licences),
-            url_4 : MG_GAME_ZENTAG_PLAYONCE.turns[3].images[0].final_screen,
-            url_full_size_4 : MG_GAME_ZENTAG_PLAYONCE.turns[3].images[0].full_size,
+            url_4 : MG_GAME_ZENTAG_PLAYONCE.turns[3].medias[0].final_screen,
+            url_full_size_4 : MG_GAME_ZENTAG_PLAYONCE.turns[3].medias[0].full_size,
             licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_ZENTAG_PLAYONCE.turns[3].licences)
           }
         }
@@ -283,19 +283,19 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
         $("#words_to_avoid").hide(); 
         var words_to_avoid = []
         if (response.turn.wordstoavoid) {
-          for (image in response.turn.wordstoavoid) {
-            for (tag in response.turn.wordstoavoid[image]) {
-              words_to_avoid.push(response.turn.wordstoavoid[image][tag]);
+          for (media in response.turn.wordstoavoid) {
+            for (tag in response.turn.wordstoavoid[media]) {
+              words_to_avoid.push(response.turn.wordstoavoid[media][tag]);
             }
           }
           if (words_to_avoid.length) 
             $("#words_to_avoid").show();
         }
         
-        // turn info == image 
+        // turn info == media
         var turn_info = {
-          url : response.turn.images[0].scaled,
-          url_full_size : response.turn.images[0].full_size,
+          url : response.turn.medias[0].scaled,
+          url_full_size : response.turn.medias[0].full_size,
           licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
         
@@ -333,7 +333,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
               wordstoavoid: MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].wordstoavoid,
               played_game_id:MG_GAME_ZENTAG_PLAYONCE.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].images[0].image_id,
+                media_id : MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
@@ -376,7 +376,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
               wordstoavoid: MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].wordstoavoid,
               played_game_id:MG_GAME_ZENTAG_PLAYONCE.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].images[0].image_id,
+                media_id : MG_GAME_ZENTAG_PLAYONCE.turns[MG_GAME_ZENTAG_PLAYONCE.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
@@ -404,7 +404,7 @@ MG_GAME_ZENTAG_PLAYONCE = function ($) {
      */
     ongameinit : function (response) {
       MG_GAME_ZENTAG_PLAYONCE.onresponse(response);
-    },
+    }
   });
 }(jQuery);
 

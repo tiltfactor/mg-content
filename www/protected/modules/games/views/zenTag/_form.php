@@ -34,7 +34,7 @@
     <?php echo $form->textField($model,'more_info_url'); ?>
     <?php echo $form->error($model,'more_info_url'); ?>
   </div>
-  
+
   <div class="row">
     <?php echo $form->labelEx($model,'arcade_image'); ?>
     <?php echo $form->textField($model,'arcade_image'); ?>
@@ -46,7 +46,7 @@
     <?php echo $form->dropDownList($model,'play_once_and_move_on', MGHelper::itemAlias('yes-no')); ?>
     <?php echo $form->error($model,'play_once_and_move_on'); ?>
   </div>
-  
+
   <div class="row">
     <?php echo $form->labelEx($model,'play_once_and_move_on_url'); ?>
     <?php echo $form->textField($model,'play_once_and_move_on_url'); ?>
@@ -58,7 +58,7 @@
     <?php echo $form->textField($model,'turns'); ?>
     <?php echo $form->error($model,'turns'); ?>
   </div>
-  
+
   <div class="row">
     <?php echo $form->labelEx($model,'image_width'); ?>
     <?php echo $form->textField($model,'image_width'); ?>
@@ -72,14 +72,15 @@
   </div>
   <div class="row clearfix">
   <h2><?php echo GxHtml::encode($model->getRelationLabel('collections')); ?></h2>
-  <?php echo $form->checkBoxList($model, 'collection', GxHtml::encodeEx(GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true)), false, true),
+  <?php echo $form->checkBoxList($model, 'collections', GxHtml::encodeEx(GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true)), false, true),
         array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
-  </div> 
+  </div>
   <h2><?php echo GxHtml::encode($model->getRelationLabel('plugins')); ?></h2>
   <div class="row clearfix">
   <?php echo $form->checkBoxList($model, 'plugins', GxHtml::encodeEx(GxHtml::listDataEx(Plugin::listActivePluginsForGames()), false, true), array('template' => '<div class="checkbox">{input} {label}</div>', 'separator' => '')); ?>
   </div><!-- row -->
 <?php
+
 echo GxHtml::submitButton($buttons);
 $this->endWidget();
 ?>
