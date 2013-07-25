@@ -29,7 +29,7 @@ class PyramidGame extends NexTagGame
                 break;
             }
             // add the extracted tags to the image info
-            $data[$submission["image_id"]] = $imageTags;
+            $data[$imageId] = $imageTags;
             break;
         }
 
