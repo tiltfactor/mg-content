@@ -55,7 +55,7 @@ MG_GAME_MOBILE = function ($) {
       $("#image_container").html("");
       $("#template-turn").tmpl(turn_info).appendTo($("#image_container"));
 
-      // Resize the height of the image to fit in the height of the window.
+      // Resize the height of the media to fit in the height of the window.
       // From the total window height, subtract the top bar (30px), bottom bar (60px)
       // and the padding.
       // NOTE: we may want to change the total padding here, but can tweak CSS as well.
@@ -188,13 +188,13 @@ MG_GAME_MOBILE = function ($) {
           for (i_turn in MG_GAME_MOBILE.turns) {
             var turn = MG_GAME_MOBILE.turns[i_turn];
             for (i_img in turn.tags.user) { //scores
-              var image = turn.tags.user[i_img];
-              for (i_tag in image) {
+              var media = turn.tags.user[i_img];
+              for (i_tag in media) {
                 // PASSING: If we find the passing tag, we just skip it.
                 if(i_tag == MG_GAME_MOBILE.passStringFiltered) {
                   continue;
                 }
-                var tag = image[i_tag];
+                var tag = media[i_tag];
                 switch (tag.type) {
                   case "new":
                     taginfo.tags_new.tags.push(i_tag);
@@ -270,28 +270,28 @@ MG_GAME_MOBILE = function ($) {
           score_info.remainingTime = (MG_GAME_MOBILE.playOnceMoveOnFinalScreenWaitingTime / 1000);
           score_info.play_once_and_move_on_url = MG_GAME_MOBILE.game.play_once_and_move_on_url;
           
-          // turn info == image 
+          // turn info == media
           var turn_info = {
-            //url : MG_GAME_MOBILE.turns[0].images[0].scaled,
-            url : response.turn.images[0].full_size,
-            url_full_size : MG_GAME_MOBILE.turns[0].images[0].full_size,
+            //url : MG_GAME_MOBILE.turns[0].medias[0].scaled,
+            url : response.turn.medias[0].full_size,
+            url_full_size : MG_GAME_MOBILE.turns[0].medias[0].full_size,
             licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[0].licences),
           };
           
         } else {
-          // turn info == image 
+          // turn info == media
           var turn_info = {
-            url_1 : MG_GAME_MOBILE.turns[0].images[0].final_screen,
-            url_full_size_1 : MG_GAME_MOBILE.turns[0].images[0].full_size,
+            url_1 : MG_GAME_MOBILE.turns[0].medias[0].final_screen,
+            url_full_size_1 : MG_GAME_MOBILE.turns[0].medias[0].full_size,
             licence_info_1 : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[0].licences),
-            url_2 : MG_GAME_MOBILE.turns[1].images[0].final_screen,
-            url_full_size_2 : MG_GAME_MOBILE.turns[1].images[0].full_size,
+            url_2 : MG_GAME_MOBILE.turns[1].medias[0].final_screen,
+            url_full_size_2 : MG_GAME_MOBILE.turns[1].medias[0].full_size,
             licence_info_2 : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[1].licences),
-            url_3 : MG_GAME_MOBILE.turns[2].images[0].final_screen,
-            url_full_size_3 : MG_GAME_MOBILE.turns[2].images[0].full_size,
+            url_3 : MG_GAME_MOBILE.turns[2].medias[0].final_screen,
+            url_full_size_3 : MG_GAME_MOBILE.turns[2].medias[0].full_size,
             licence_info_3 : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[2].licences),
-            url_4 : MG_GAME_MOBILE.turns[3].images[0].final_screen,
-            url_full_size_4 : MG_GAME_MOBILE.turns[3].images[0].full_size,
+            url_4 : MG_GAME_MOBILE.turns[3].medias[0].final_screen,
+            url_full_size_4 : MG_GAME_MOBILE.turns[3].medias[0].full_size,
             licence_info_4 : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[3].licences)
           }
         }
@@ -313,11 +313,11 @@ MG_GAME_MOBILE = function ($) {
         
         var licence_info = response.turn.licences;
         
-        // turn info == image 
+        // turn info == media
         var turn_info = {
-          //url : response.turn.images[0].scaled,
-          url : response.turn.images[0].full_size,
-          url_full_size : response.turn.images[0].full_size,
+          //url : response.turn.medias[0].scaled,
+          url : response.turn.medias[0].full_size,
+          url_full_size : response.turn.medias[0].full_size,
           licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
         }
         
@@ -354,7 +354,7 @@ MG_GAME_MOBILE = function ($) {
               turn:MG_GAME_MOBILE.turn,
               played_game_id:MG_GAME_MOBILE.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_MOBILE.turns[MG_GAME_MOBILE.turn-1].images[0].image_id,
+                media_id : MG_GAME_MOBILE.turns[MG_GAME_MOBILE.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
@@ -389,7 +389,7 @@ MG_GAME_MOBILE = function ($) {
               turn:MG_GAME_MOBILE.turn,
               played_game_id:MG_GAME_MOBILE.game.played_game_id,
               'submissions': [{
-                image_id : MG_GAME_MOBILE.turns[MG_GAME_MOBILE.turn-1].images[0].image_id,
+                media_id : MG_GAME_MOBILE.turns[MG_GAME_MOBILE.turn-1].medias[0].media_id,
                 tags: tags
               }]
             }
