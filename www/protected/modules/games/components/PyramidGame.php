@@ -8,6 +8,9 @@
  */
 class PyramidGame extends NexTagGame
 {
+    private static $TIME_TO_PLAY = 120;
+    private static $LETTERS_STEP = 2;
+
     public function parseTags(&$game, &$game_model)
     {
         $data = array();
@@ -48,7 +51,7 @@ class PyramidGame extends NexTagGame
         }
         if ($imageId > 0) {
             $found = false;
-            $imageTags = MGTags::getTagsByLength($imageId,($level->level+2));
+            $imageTags = $this->getImageTags($level, $imageId);
             foreach ($imageTags as $val) {
                 if ($currentTag == strtolower($val['tag'])) {
                     $data[$imageId][$currentTag]['type'] = 'match';
@@ -67,10 +70,10 @@ class PyramidGame extends NexTagGame
             $level->isAccepted = false;
             $level->tag = $currentTag;
 
-            if ($found && ($level->level + 2) == strlen($currentTag)) {
+            if ($found && ($level->level + PyramidGame::$LETTERS_STEP) == strlen($currentTag)) {
                 //the answer is marked as correct and the player moves on to the next length tag
                 $level->isAccepted = true;
-            } else if (($level->level + 2) == strlen($currentTag)) {
+            } else if (($level->level + PyramidGame::$LETTERS_STEP) == strlen($currentTag)) {
                 //run the “freebie” algorithm to determine whether or not we lie to the players
                 $chance = pow($level->levelTurn, 2) / (10 * ($level->countTags + 1));
                 if ($chance > 0.5) $chance = 0.5;
@@ -98,10 +101,9 @@ class PyramidGame extends NexTagGame
 
         $startTime = $this->getStartTime();
         $now = time();
-        $timeToPlay = 2 * 60; // 2 minutes
 
         // check if the game is not actually over
-        if (($now - $startTime) < $timeToPlay) {
+        if (($now - $startTime) < PyramidGame::$TIME_TO_PLAY) {
 
             $image = $this->getImage();
             if (empty($image)) {
@@ -148,7 +150,7 @@ class PyramidGame extends NexTagGame
             // the following lines call the wordsToAvoid methods of the activated dictionary
             // plugin this generates a words to avoid list
             $used_images = array();
-            array_push($used_images,$image['id']);
+            array_push($used_images, $image['id']);
             $data["wordstoavoid"] = array();
             $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
             if (count($plugins) > 0) {
@@ -221,7 +223,7 @@ class PyramidGame extends NexTagGame
         unset(Yii::app()->session[$api_id . '_PYRAMID_IMAGE']);
         unset(Yii::app()->session[$api_id . '_PYRAMID_LEVELS']);
         unset(Yii::app()->session[$api_id . '_PYRAMID_START_TIME']);
-        unset(Yii::app()->session[$api_id . '_PYRAMID_IMAGE']);
+        unset(Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS']);
     }
 
     /**
@@ -254,6 +256,30 @@ class PyramidGame extends NexTagGame
         }
         array_push($levels, serialize($level));
         Yii::app()->session[$api_id . '_PYRAMID_LEVELS'] = $levels;
+    }
+
+    /**
+     * @param PyramidDTO $level
+     * @param int $imageId
+     * @return array
+     */
+    private function getImageTags(PyramidDTO $level, $imageId)
+    {
+        $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
+        $imageTags = Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS'];
+
+        if (!is_null($imageTags) && ($level->level + PyramidGame::$LETTERS_STEP) == strlen($imageTags[0]["tag"])) {
+            return $imageTags;
+        } else {
+            $imageTags = MGTags::getTagsByLength($imageId, ($level->level + PyramidGame::$LETTERS_STEP));
+            if(empty($imageTags)){
+                $tag = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0,$level->level + PyramidGame::$LETTERS_STEP);
+                $imageTags[0]["tag"] = $tag;
+                $imageTags[0]["tag_id"] = -1;
+            }
+            Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS'] = $imageTags;
+            return $imageTags;
+        }
     }
 }
 
