@@ -1,6 +1,6 @@
 <?php $this->beginContent('//layouts/page'); ?>
 <div id="header">
-  <a id="page_title" class="ir" href="<?php echo MGHelper::bu("/"); ?>"><?php echo CHtml::encode(Yii::app()->fbvStorage->get("settings.app_name")); ?></a>
+  <a id="page_title" class="ir" href="<?php echo MGHelper::bu("/"); ?>"><?php  CHtml::encode(Yii::app()->fbvStorage->get("settings.app_name")); ?></a>
   <div id="mainmenu">
   <?php $this->widget('application.components.MGMenu',array(
     'items'=>array(
@@ -30,7 +30,7 @@
   </div><!-- usersonline -->
 </div>
 
-<div class="container" id="page">
+<div id="page">
   
   <?php if(isset($this->breadcrumbs)):?>
     <?php $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -44,16 +44,14 @@
   )); ?><!-- flashes -->
 
   <?php echo $content; ?>
-
-  <div id="footer">
-    &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
-    <div id="footerLogos">
-      <a href="http://www.dartmouth.edu" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" /></a>
-      <a href="http://www.neh.gov" target="_blank">
-        <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_horizontal_252x62.jpg" /></a>
-      <a href="http://www.acls.org/" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" height="88" width="88" /></a>
-    </div>
-  </div><!-- footer -->
-
 </div><!-- page -->
+    <footer id="footer">
+        &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
+        <div id="footerLogos">
+            <a href="http://www.dartmouth.edu" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" /></a>
+            <a href="http://www.neh.gov" target="_blank">
+                <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_horizontal_252x62.jpg" /></a>
+            <a href="http://www.acls.org/" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" height="88" width="88" /></a>
+        </div>
+    </footer><!-- footer -->
 <?php $this->endContent(); ?>

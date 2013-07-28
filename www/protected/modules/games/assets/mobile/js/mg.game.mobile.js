@@ -180,7 +180,7 @@ MG_GAME_MOBILE = function ($) {
           'tags_matched' : {
             tags : [],
             score: 0
-          },
+          }
         };
         
         // prepare needed data for the final screen
@@ -260,7 +260,7 @@ MG_GAME_MOBILE = function ($) {
           tags_new : taginfo.tags_new.scoreinfo,
           tags_new_score : taginfo.tags_new.score,
           tags_matched : taginfo.tags_matched.scoreinfo,
-          tags_matched_score : taginfo.tags_matched.score,
+          tags_matched_score : taginfo.tags_matched.score
         };
         
         if (MG_GAME_MOBILE.game.play_once_and_move_on == 1) {
@@ -275,7 +275,7 @@ MG_GAME_MOBILE = function ($) {
             //url : MG_GAME_MOBILE.turns[0].medias[0].scaled,
             url : response.turn.medias[0].full_size,
             url_full_size : MG_GAME_MOBILE.turns[0].medias[0].full_size,
-            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[0].licences),
+            licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_MOBILE.turns[0].licences)
           };
           
         } else {
@@ -417,7 +417,7 @@ MG_GAME_MOBILE = function ($) {
      */
     ongameinit : function (response) {
       MG_GAME_MOBILE.onresponse(response);
-    },
+    }
   });
 }(jQuery);
 

@@ -465,7 +465,7 @@ class ImportController extends GxController {
         
         $model->file->saveAs($path . $model->name);
         
-        if ($this->_checkMedia($path . $model->name)) {
+        if ($this->_checkMedia($path . $model->name, $model->mime_type)) {
           $this->createMedia($model->name, $model->size, $_POST["batch_id"], $model->mime_type);
           $info[] = array(
             'tmp_name' => $model->file->getName(),
@@ -519,12 +519,40 @@ class ImportController extends GxController {
    * @param string $path the full path to the media
    * @return boolean true if the file is a valid media file
    */
-  private function _checkMedia($path) {
+  private function _checkMedia($path, $mime_type) {
     // Disable error reporting, to prevent PHP warnings
     $ER = error_reporting(0);
 
-    // Fetch the media size and mime type
-    $media_info = getimagesize($path);
+    list($media_type, $extention) = explode('/', $mime_type);
+
+      //var_dump("TODO");
+      if ($media_type == 'image') {
+          // Fetch the media size and mime type
+          $media_info = getimagesize($path);
+      }
+      else if ($media_type == 'video') {
+          /*
+           * "tmp_name":"loginPage.mp4","name":"loginPage_3.mp4","size":95612,"type":"video\/mp4"
+           */
+          $media_info = array(
+              'tmp_name' => 'loginPage.mp4',
+              'name' => 'loginPage.mp4',
+              'size' => '95612',
+              'type' => 'video\/mp4',
+              'thumbnail_url' => 'loginPage.mp4',
+              'error' => null
+          );
+      }
+      else if ($media_type == 'audio') {
+          $media_info = array(
+              'tmp_name' => $path,
+              'name' => $path,
+              'size' => '200',
+              'type' => $mime_type,
+              'thumbnail_url' => '',
+              'error' => null
+          );
+      }
 
     // Turn on error reporting again
     error_reporting($ER);
@@ -581,7 +609,19 @@ class ImportController extends GxController {
         "sharpen" => FALSE, // set to integer 0 ... 100 to activate sharpen
       ));
 
-    MGHelper::createScaledMedia($file_name, $file_name, 'thumbs', $format["width"], $format["height"], $format["quality"], $format["sharpen"]);
+      list($media_type, $ext_) = explode('/', $mime_type);
+
+      //var_dump("TODO create thumbnail");
+      if($media_type == 'image') {
+          MGHelper::createScaledMedia($file_name, $file_name, 'thumbs', $format["width"], $format["height"], $format["quality"], $format["sharpen"]);
+      }
+      else if($media_type == 'video') {
+
+      }
+      else if($media_type == 'audio') {
+
+      }
+
   }
   
   private function checkUploadFolder() {

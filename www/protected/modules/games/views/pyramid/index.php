@@ -1,29 +1,38 @@
-<div id="gamearea">
-    <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your
-        browser.
-    </div>
-    <!-- Images from the database appear here -->
-    <div id="stage">
-        <div id="countdown"
-             style="height:45px;width:200px;margin:5px auto;background-color:#EEEEEE;border:1px solid #CCCCCC;"></div>
-        <div id="holder">
-            <div id="image_container" class="clearfix"></div>
-        </div>
-
-    </div>
-</div>
-
 <!-- The bounding-box around the text input and the button -->
-<div id="input_area">
-    <form action="#">
-        <!-- user text field -->
-        <input type="text" name="word" id="word" placeholder="Enter a 3 letter word"/>
-        <a href="#" id="button-play" class="ir"></a>
-    </form>
+<div class="wrap group">
+    <header align="center">
+        <div class="center">
+            <div id="input_area">
+                <form action="#">
+                    <!-- user text field -->
+                    <input type="text" name="word" id="word" placeholder="Enter a 3 letter word"/>
+                    <a href="#" id="button-play" class="ir hidden"></a>
+                </form>
+            </div>
+            <div id="countdown"></div>
+        </div>
+    </header>
+
+    <div id="gamearea" class="group">
+        <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your
+            browser.
+        </div>
+        <!-- Images from the database appear here -->
+        <div id="stage">
+            <div id="holder">
+                <div id="image_container"></div>
+            </div>
+        </div>
+    </div>
+    <div id="fieldholder" class="group">
+    </div>
 </div>
 
-<div id="fieldholder" class="clearfix">
-</div>
+<footer class="group">
+    <div>
+        Level 1
+    </div>
+</footer>
 
 <!-- New slide-out panel -->
 <div id="sidepanel">
@@ -92,7 +101,7 @@
     <p>${description}</p>
 </script>
 <script id="template-turn" type="text/x-jquery-tmpl">
-    <div style="text-align:center" class="clearfix">
+    <div style="text-align:center">
         <img src="${url}" alt="game image" id="image_to_tag"/>
     </div>
 </script>
@@ -100,7 +109,7 @@
     <div style="margin:5px auto;background-color:#EEEEEE;border:1px solid #CCCCCC;width:${width}px;">${tag}</div>
 </script>
 <script id="template-final-summary-play-once" type="text/x-jquery-tmpl">
-    <div style="text-align:center" class="clearfix">
+    <div style="text-align:center" class="group">
         <a href="${url_full_size}" rel="zoom" title="${licence_info}"><img src="${url}" alt="game image"/></a>
     </div>
 </script>
@@ -108,8 +117,17 @@
     <a href="${url}">Click here to learn more about ${name}</a>
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
-    <p class="final">${finalMsg}</p>
-    <a href="#" id="button-play-again" class="ir"><span>Play Again</span></a>
+    <div class="final">${finalMsg}</div>
+    <div class="word_level_9 pyramid"></div>
+    <div class="word_level_8 pyramid"></div>
+    <div class="word_level_7 pyramid"></div>
+    <div class="word_level_6 pyramid"></div>
+    <div class="word_level_5 pyramid"></div>
+    <div class="word_level_4 pyramid"></div>
+    <div class="word_level_3 pyramid"></div>
+    <div class="word_level_2 pyramid"></div>
+    <div class="word_level_1 pyramid"></div>
+    <div class="new_game"><a href="#" id="button-play-again"><span></span></a></div>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
     You'll be redirected in <span id="remainingTime">${remainingTime}</span> seconds. <a

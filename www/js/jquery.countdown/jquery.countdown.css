@@ -1,7 +1,6 @@
 /* jQuery Countdown styles 1.6.2. */
 .hasCountdown {
-	border: 1px solid #ccc;
-	background-color: #eee;
+    float: left;
 }
 .countdown_rtl {
 	direction: rtl;
@@ -43,7 +42,7 @@
 	text-align: center;
 }
 .countdown_amount {
-	font-size: 200%;
+	font-size: 40px;
 }
 .countdown_descr {
 	display: block;
