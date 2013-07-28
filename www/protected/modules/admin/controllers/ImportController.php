@@ -129,8 +129,11 @@ class ImportController extends GxController {
                 
                 if (!$file["folder"] && strpos($file['stored_filename'], "__MACOSX") === false) { // we don't want to process folder and MACOSX meta data file mirrors as the mirrored files also return the image/jpg mime type
                   $mime_type = CFileHelper::getMimeType($file['filename']);
-                  $file_ok = $this->_checkMedia($file['filename']);
-                  if ($mime_type == "image/jpeg" && $file_ok) {
+                  $file_ok = $this->_checkMedia($file['filename'], $mime_type);
+                  //var_dump("TODO");
+                  list($media_type, $extention) = explode('/', $mime_type);
+                  //if ($media_type == "image" && $file_ok) {
+                  if (($media_type == "image" || $media_type == "video" || $media_type == "audio") && $file_ok) {
                     $cnt_added++;
                     
                     $file['stored_filename'] = $this->checkFileName($path, $file_info["basename"]);
@@ -249,10 +252,13 @@ class ImportController extends GxController {
               if ($import_per_request > 0) {
                 $file_info = pathinfo($file);
                 $mime_type = CFileHelper::getMimeType($file);
-                $file_ok = $this->_checkMedia($file);
+                $file_ok = $this->_checkMedia($file, $mime_type);
                 
                 if ($file_info['basename'] != '.gitignore') {
-                  if ($mime_type == "image/jpeg" && $file_ok) {
+                  //var_dump("TODO");
+                  list($media_type, $extention) = explode('/', $mime_type);
+                  //if ($media_type == "image" && $file_ok) {
+                  if (($media_type == "image" || $media_type == "video" || $media_type == "audio") && $file_ok) {
                     $model->import_processed++;
                     $file_name = $this->checkFileName($path, $file_info["basename"]);
                     rename(str_replace('//', '/', $file), $path . $file_name);
