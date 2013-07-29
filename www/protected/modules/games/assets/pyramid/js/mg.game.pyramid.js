@@ -105,12 +105,10 @@ MG_GAME_PYRAMID = function ($) {
             var fix = $("#fieldholder");
             for (var i in MG_GAME_PYRAMID.levels) {
                 var level = MG_GAME_PYRAMID.levels[i];
-                fix.find(".word_level_" + level.level).html(level.tag.tag);
+                fix.find(".level_" + level.level).html(level.tag);
+                fix.find(".level_" + level.level).removeClass("level_" + level.level).addClass("word_level_" + level.level);
             }
 
-            for (var i= MG_GAME_PYRAMID.level; i < 10; i++) {
-                fix.find(".word_level_" + i).hide();
-            }
             $("#licences").html("");
             $("#template-licence").tmpl(MG_GAME_PYRAMID.licence_info).appendTo($("#licences"));
 
@@ -257,6 +255,7 @@ MG_GAME_PYRAMID = function ($) {
                             MG_GAME_PYRAMID.wordField.val("");
                             MG_GAME_PYRAMID.onresponse(response);
                         }
+                        return false;
                     }, {
                         type:'post',
                         data:{ // this is the data needed for the turn
