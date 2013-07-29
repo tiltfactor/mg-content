@@ -107,6 +107,7 @@ class CDbCommand extends CComponent
 		}
 		else
 			$this->setText($query);
+        //var_dump($this);
 	}
 
 	/**
