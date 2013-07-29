@@ -238,8 +238,34 @@ input:-ms-input-placeholder {
 #content footer {
   margin: 0 auto;
   height: 123px !important;
-  background-image: url('../images/level_1.png');
   background-repeat: repeat-x;
+}
+#content footer.footer_level_1 {
+  background-image: url('../images/level_1.png');
+}
+#content footer.footer_level_2 {
+  background-image: url('../images/level_2.png');
+}
+#content footer.footer_level_3 {
+  background-image: url('../images/level_3.png');
+}
+#content footer.footer_level_4 {
+  background-image: url('../images/level_4.png');
+}
+#content footer.footer_level_5 {
+  background-image: url('../images/level_5.png');
+}
+#content footer.footer_level_6 {
+  background-image: url('../images/level_6.png');
+}
+#content footer.footer_level_7 {
+  background-image: url('../images/level_7.png');
+}
+#content footer.footer_level_8 {
+  background-image: url('../images/level_8.png');
+}
+#content footer.footer_level_9 {
+  background-image: url('../images/level_9.png');
 }
 #content footer div {
   position: relative;
@@ -545,4 +571,7 @@ body.touch_device #gamearea {
 }
 body.touch_device #fieldholder .final {
   padding: 0 !important;
+}
+body.touch_device #sidepanel {
+  display: none;
 }

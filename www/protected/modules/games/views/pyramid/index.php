@@ -40,7 +40,7 @@
 
 </div>
 
-<footer class="group">
+<footer class="group footer_level_1">
     <div>
         4 Letters!
     </div>
@@ -114,7 +114,7 @@
 </script>
 <script id="template-turn" type="text/x-jquery-tmpl">
     <div style="text-align:center">
-        <img src="${url}" alt="game image" id="image_to_tag"/>
+        <img src="${url}" alt="game image" id="image_to_tag" style="width: auto !important; height: auto !important; "/>
     </div>
 </script>
 <script id="template-pyramid-step" type="text/x-jquery-tmpl">
