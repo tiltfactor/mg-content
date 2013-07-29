@@ -17,7 +17,7 @@
 <div id="input_area">
     <form action="#">
         <!-- user text field -->
-        <input type="text" name="word" id="word" placeholder="Enter a 3 letter word"/>
+        <input type="text" name="word" id="word" placeholder="Enter a 4 letter word"/>
         <a href="#" id="button-play" class="ir"></a>
     </form>
 </div>

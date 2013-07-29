@@ -9,7 +9,7 @@
 class PyramidGame extends NexTagGame
 {
     private static $TIME_TO_PLAY = 120;
-    private static $LETTERS_STEP = 2;
+    private static $LETTERS_STEP = 3;
 
     public function parseTags(&$game, &$game_model)
     {
