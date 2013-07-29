@@ -157,7 +157,7 @@ MG_GAME_PYRAMID = function ($) {
             MG_GAME_API.releaseOnBeforeUnload();
 
             $("#button-play-again").click(function () {
-                $(this).next('audio').get(0).play();
+                $('#next_level')[0].play();
                 location.reload();
             });
 
@@ -204,6 +204,7 @@ MG_GAME_PYRAMID = function ($) {
                             position:"middle-center",
                             type:"notice"
                         });
+                        $('#try_again')[0].play();
                     }
                 }
             }
@@ -238,21 +239,21 @@ MG_GAME_PYRAMID = function ($) {
                         position:"middle-center",
                         type:"notice"
                     });
-                    $(this).next('audio').get(1).play();
+                    $('#try_again')[0].play();
                 } else if (tags.length != (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step)) {
                     $().toastmessage("showToast", {
                         text:"That wasn't a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word!",
                         position:"middle-center",
                         type:"notice"
                     });
-                    $('.try_again').play();
+                    $('#try_again')[0].play();
                 } else if($.inArray(tags,MG_GAME_PYRAMID.words) !== -1){
                     $().toastmessage("showToast", {
                         text:"You already submitted this word!",
                         position:"middle-center",
                         type:"notice"
                     });
-                    $(this).next('audio').get(1).play();
+                    $('#try_again')[0].play();
                 } else {
                     MG_GAME_PYRAMID.words.push(tags);
                     // text entered
@@ -312,7 +313,7 @@ MG_GAME_PYRAMID = function ($) {
             MG_GAME_PYRAMID.wordField.attr("placeholder", "Enter a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word");
             $("#container").find("footer div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " Letters!");
             $("#container").find("footer").css("background-image", "url(../images/level_" + MG_GAME_PYRAMID.level + ".png)");
-            $(this).next('audio').get(0).play();
+            $('#next_level')[0].play();
         }
     });
 }(jQuery);
