@@ -39,6 +39,9 @@ body {
 body {
   height: 100%;
 }
+html.touch #header {
+  display: none;
+}
 #content,
 #header {
   padding: 0;
@@ -96,7 +99,6 @@ body {
   width: inherit;
   /* let width be variable */
 
-  height: 100%;
 }
 a:link,
 a:hover,
@@ -124,7 +126,9 @@ h4 {
 #fieldholder {
   font-size: 14px;
   margin: 0;
-  min-height: 300px;
+}
+#gamearea {
+  padding: 41px 0;
 }
 #stage {
   display: none;
@@ -166,7 +170,6 @@ h4 {
   height: auto;
   border: 0;
 }
-/* Don't need this for the text input field, etc.. anymore */
 header {
   background: #fefefe;
   /* Old browsers */
