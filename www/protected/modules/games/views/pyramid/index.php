@@ -2,10 +2,11 @@
 <div class="wrap group">
     <header align="center">
         <div class="center">
-            <div id="input_area">
+            <!-- The bounding-box around the text input and the button -->
+           <div id="input_area">
                 <form action="#">
                     <!-- user text field -->
-                    <input type="text" name="word" id="word" placeholder="Enter a 3 letter word"/>
+                    <input type="text" name="word" id="word" placeholder="Enter a 4 letters word"/>
                     <a href="#" id="button-play" class="ir hidden"></a>
                 </form>
             </div>
@@ -30,7 +31,7 @@
 
 <footer class="group">
     <div>
-        Level 1
+        4 Letters!
     </div>
 </footer>
 
