@@ -39,9 +39,6 @@ body {
 body {
   height: 100%;
 }
-html.touch #header {
-  display: none;
-}
 #content,
 #header {
   padding: 0;
@@ -523,23 +520,32 @@ input:-ms-input-placeholder {
 /* iPhone 4 - 4S  in portrait & landscape */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   /* STYLES GO HERE */
-  #input_area input {
-    height: 38px;
-    margin: 0 0 0 20px;
-  }
-  #input_area form {
-    height: 48px;
-  }
-  #button-play {
-    margin-top: -38px;
-  }
-  #sidepanel #tab {
-    width: 30px;
-    height: 46px;
-    left: -10px;
-  }
-  .tab_closed,
-  .tab_open {
-    background-size: 30px 46px;
-  }
+}
+body.touch_device #header {
+  display: none;
+}
+body.touch_device #input_area input {
+  margin: 0 40px 0 40px;
+  width: 170px;
+}
+body.touch_device #content footer {
+  height: 85px !important;
+}
+body.touch_device #content footer div {
+  position: relative;
+  top: 45px;
+  font-size: 20px;
+}
+body.touch_device header {
+  height: 80px;
+}
+body.touch_device header .center {
+  top: 14px;
+  margin-left: -100px;
+}
+body.touch_device #gamearea {
+  padding: 20px 0;
+}
+body.touch_device #fieldholder .final {
+  padding: 0 !important;
 }
