@@ -3,7 +3,7 @@
     <header align="center">
         <div class="center">
             <!-- The bounding-box around the text input and the button -->
-           <div id="input_area">
+           <span id="input_area">
                <audio id="next_level">
                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.ogg'?>" type="audio/ogg">
                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.mp3'?>" type="audio/mpeg">
@@ -19,8 +19,8 @@
                     <input type="text" name="word" id="word" placeholder="Enter a 4 letters word"/>
                     <a href="#" id="button-play" class="ir hidden"></a>
                 </form>
-            </div>
-            <div id="countdown" class="countdown_amount"></div>
+            </span>
+            <span id="countdown" class="countdown_amount"></span>
         </div>
     </header>
 

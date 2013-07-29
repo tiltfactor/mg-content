@@ -199,11 +199,8 @@ header {
 }
 header .center {
   display: block;
-  left: 50%;
-  margin-left: -250px;
   position: relative;
   top: 34px;
-  width: 500px;
 }
 .countdown_amount {
   font-size: 30px;
@@ -525,7 +522,7 @@ body.touch_device #header {
   display: none;
 }
 body.touch_device #input_area input {
-  margin: 0 40px 0 40px;
+  margin: 0 20px 0 20px;
   width: 170px;
 }
 body.touch_device #content footer {
@@ -537,11 +534,11 @@ body.touch_device #content footer div {
   font-size: 20px;
 }
 body.touch_device header {
-  height: 80px;
+  height: 60px;
 }
 body.touch_device header .center {
-  top: 14px;
-  margin-left: -100px;
+  top: 4px;
+  min-width: 350px;
 }
 body.touch_device #gamearea {
   padding: 20px 0;
