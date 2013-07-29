@@ -119,16 +119,16 @@
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
     <div class="final">${finalMsg}</div>
-    <div class="word_level_9 pyramid"></div>
-    <div class="word_level_8 pyramid"></div>
-    <div class="word_level_7 pyramid"></div>
-    <div class="word_level_6 pyramid"></div>
-    <div class="word_level_5 pyramid"></div>
-    <div class="word_level_4 pyramid"></div>
-    <div class="word_level_3 pyramid"></div>
-    <div class="word_level_2 pyramid"></div>
+    <div class="level_9 pyramid">&nbsp;</div>
+    <div class="level_8 pyramid">&nbsp;</div>
+    <div class="level_7 pyramid">&nbsp;</div>
+    <div class="level_6 pyramid">&nbsp;</div>
+    <div class="level_5 pyramid">&nbsp;</div>
+    <div class="level_4 pyramid">&nbsp;</div>
+    <div class="level_3 pyramid">&nbsp;</div>
+    <div class="level_2 pyramid">&nbsp;</div>
     <div class="word_level_1 pyramid"></div>
-    <div class="new_game"><a href="#" id="button-play-again"><span></span></a></div>
+    <div class="new_game"><a href="#" id="button-play-again"><span>&nbsp;</span></a></div>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
     You'll be redirected in <span id="remainingTime">${remainingTime}</span> seconds. <a
