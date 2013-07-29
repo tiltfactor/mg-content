@@ -23,69 +23,62 @@
     body {  }
 }
  */
-html,
-body {
-  height: 100%;
-  /* Override mg default from metadatagames.css */
 
+html, body {
+  height: 100%; /* Override mg default from metadatagames.css */
 }
+
 body {
   font-family: Helvetica, Verdana, Arial, Sans-Serif;
   color: black;
   text-align: center;
   list-style: none;
-  background: url(../images/pyramid-background.jpg) 0px 0px #ffffff;
+  background: url(../images/pyramid-background.jpg) 0px 0px #FFFFFF;
 }
+
 body {
   height: 100%;
 }
-#content,
-#header {
+
+#content, #header {
   padding: 0;
   margin: 0;
 }
+
+#content {
+}
+
 .container {
   width: 100%;
 }
+
 .wrap {
   height: auto !important;
+  //margin: 0 auto -123px;
 }
+
 .gradient_container {
-  background: #fefefe;
-  /* Old browsers */
-
+  background: rgb(254,254,254); /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZlZmVmZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOWU5ZTkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-  background: -moz-linear-gradient(top, #fefefe 0%, #e9e9e9 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #e9e9e9));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(top, #fefefe 0%, #e9e9e9 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(top, #fefefe 0%, #e9e9e9 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(top, #fefefe 0%, #e9e9e9 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to bottom, #fefefe 0%, #e9e9e9 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefefe', endColorstr='#e9e9e9', GradientType=0);
-  /* IE6-8 */
-
+  background: -moz-linear-gradient(top,  rgba(254,254,254,1) 0%, rgba(233,233,233,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,254,254,1)), color-stop(100%,rgba(233,233,233,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(254,254,254,1) 0%,rgba(233,233,233,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#e9e9e9',GradientType=0 ); /* IE6-8 */
 }
+
 .arrow-left {
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid blue;
+
+  border-right:10px solid blue;
 }
+
 /* Override main metadatagames screen.css style
  *
  * Have all images left align and fill browser window up to width of
@@ -93,118 +86,120 @@ body {
  */
 #page {
   margin: 0 !important;
-  width: inherit;
-  /* let width be variable */
-
+  width: inherit;  /* let width be variable */
   height: 100%;
 }
-a:link,
-a:hover,
-a:visited {
+
+a:link, a:hover, a:visited {
   font-weight: 600;
   color: #f3611a;
   text-decoration: none;
 }
+
 h2 {
   color: #000;
   font-size: 18px;
   margin-bottom: 10px;
 }
+
 h4 {
   font-size: 11px;
   font-weight: bold;
   color: #666;
   margin-bottom: 5px;
 }
+
 /* game related styles */
 .ir:before {
   height: auto;
 }
-#gamearea,
-#fieldholder {
+
+.hidden {
+  //display: none;
+}
+
+#gamearea, #fieldholder {
   font-size: 14px;
   margin: 0;
   min-height: 300px;
 }
+
+
 #stage {
-  display: none;
+  display:none;
 }
+
 #image_to_tag {
   max-width: 90%;
 }
+
 #holder {
   margin: 0px auto;
   text-align: center;
 }
+
 #holder img {
   /* border: thin solid #9AA699; */
-
 }
+
 /* Table to hold our images during the final score/review screen */
 #image_review {
   width: 80%;
   height: 80%;
   margin: 0px auto;
 }
+
 #image_review tbody tr td {
   background: none;
   padding: 2px;
 }
+
 /* Classes for all of the smallholder image divs */
 .smallholder_left {
   float: right;
   text-align: center;
   vertical-align: middle;
 }
+
 .smallholder_right {
   float: left;
   text-align: center;
   vertical-align: middle;
 }
+
 #image_review img {
   max-width: 100%;
   height: auto;
   border: 0;
 }
+
 /* Don't need this for the text input field, etc.. anymore */
+#fieldholder {
+}
+
 header {
-  background: #fefefe;
-  /* Old browsers */
-
+  background: rgb(254,254,254); /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZlZmVmZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlN2U3ZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-  background: -moz-linear-gradient(top, #fefefe 0%, #e7e7e8 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #e7e7e8));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(top, #fefefe 0%, #e7e7e8 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(top, #fefefe 0%, #e7e7e8 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(top, #fefefe 0%, #e7e7e8 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to bottom, #fefefe 0%, #e7e7e8 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefefe', endColorstr='#e7e7e8', GradientType=0);
-  /* IE6-8 */
-
+  background: -moz-linear-gradient(top,  rgba(254,254,254,1) 0%, rgba(231,231,232,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,254,254,1)), color-stop(100%,rgba(231,231,232,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(231,231,232,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(231,231,232,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(231,231,232,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(254,254,254,1) 0%,rgba(231,231,232,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#e7e7e8',GradientType=0 ); /* IE6-8 */
   height: 131px;
+
+  .center {
+    display: block;
+    left: 50%;
+    margin-left: -250px;
+    position: relative;
+    top: 34px;
+    width: 500px;
+  }
 }
-header .center {
-  display: block;
-  left: 50%;
-  margin-left: -250px;
-  position: relative;
-  top: 34px;
-  width: 500px;
-}
+
 .countdown_amount {
   font-size: 30px;
   color: #000000;
@@ -212,103 +207,120 @@ header .center {
   -webkit-text-stroke-color: #ff5b13;
   text-shadow: 1px 0 0 #ff5b13, -1px 0 0 #ff5b13, 0 0px 0 #ff5b13, 0 -1px 0 #ff5b13, 0px 0px #ff5b13, -1px -1px 0 #ff5b13, 1px -1px 0 #ff5b13, -1px 1px 0 #ff5b13;
 }
+
 .hasCountdown {
   width: 120px;
 }
-input:-ms-input-placeholder {
-  font-style: italic;
+
+input:-ms-input-placeholder /* placeholder only style */
+{
+  font-style:italic;
   color: gray;
 }
+
 #input_area {
   left: 0px;
   bottom: 0px;
   height: 60px;
   float: left;
 }
+
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
-  width: 350px;
-  /* 550 - 20px margin */
 
-  height: 60px;
-  /* Should be 40px, but seems to be taller than the form? */
-
+  width: 350px;  /* 550 - 20px margin */
+  height: 60px; /* Should be 40px, but seems to be taller than the form? */
   font-size: 14pt;
   border: none;
   background: transparent;
   margin: 0px 0px 0px 20px;
 }
+
 #content footer {
   margin: 0 auto;
   height: 123px !important;
   background-image: url('../images/level_1.png');
   background-repeat: repeat-x;
+
+
+  div {
+    position: relative;
+    top: 60px;
+    font-size: 30px;
+    text-shadow: 1px 1px 1px #fff, 3px 3px 5px #464a4d;
+    color: #464a4d;
+  }
 }
-#content footer div {
-  position: relative;
-  top: 60px;
-  font-size: 30px;
-  text-shadow: 1px 1px 1px #fff, 3px 3px 5px #464a4d;
-  color: #464a4d;
-}
+
 #footer {
   margin: 0;
   padding: 0 !important;
 }
+
+#input_area form {
+
+}
+
 #nextag {
   width: 290px;
   height: 58px;
   margin: 0px auto;
   text-align: center;
 }
+
 #button-play-again {
   width: 220px;
   line-height: 167px;
   margin: 0 auto;
+  span {
+    line-height: 167px;
+    height: 167px;
+  }
 }
-#button-play-again span {
-  line-height: 167px;
-  height: 167px;
-}
+
 #scores {
-  font-size: 14px;
-  font-weight: bold;
-  height: 200px;
-  padding: 15px 0 1px 15px;
-  position: absolute;
-  right: -30px;
-  text-align: left;
-  top: 100px;
-  width: 200px;
+	font-size: 14px;
+	font-weight: bold;
+	height: 200px;
+	padding: 15px 0 1px 15px;
+	position: absolute;
+	right: -30px;
+	text-align: left;
+	top: 100px;
+	width: 200px;
 }
+
 #scores span {
   font-size: 18px;
   color: #F3611A;
   font-weight: bold;
 }
+
 #scores div.total_turns span {
-  color: #fff;
+	color:  #fff;
 }
 #scores div.total_turns {
-  background-color: #FF1F57;
-  padding: 2px 20px;
-  margin: 10px 0 0 0;
-  border-radius: 10px;
-  width: 70px;
+	background-color: #FF1F57;
+	padding: 2px 20px;
+	margin: 10px 0 0 0;
+	border-radius: 10px;
+	width: 70px;
 }
+
 #passing {
-  font-size: 14px;
-  font-weight: bold;
-  height: 200px;
-  padding: 150px 0 0px 15px;
-  position: absolute;
-  right: -30px;
-  text-align: left;
-  top: 100px;
-  width: 200px;
+	font-size: 14px;
+	font-weight: bold;
+	height: 200px;
+	padding: 150px 0 0px 15px;
+	position: absolute;
+	right: -30px;
+	text-align: left;
+	top: 100px;
+	width: 200px;
 }
+
 #licences {
-  /*
+/*
 	bottom: 0px;
 	color: #666666;
 	font-size: 10px;
@@ -316,28 +328,30 @@ input:-ms-input-placeholder {
 	left: -30px;
 	position: absolute;
 	width: 200px; */
-
   color: black;
 }
+
 #more_info {
-  /*  position: relative;
+/*  position: relative;
   top:50%;
   margin-top: -25px;
   left: 50px;
   width:200px;
   height: 50px; */
-
   color: black;
 }
+
 /* error modal window content */
 #mg_error {
   text-align: left;
 }
+
 #mg_error h1 {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom:10px;
 }
+
 #fieldholder .final {
   font-size: 14px;
   color: #464a4d;
@@ -346,157 +360,171 @@ input:-ms-input-placeholder {
   margin: 0px;
   padding: 0 0 0 400px;
 }
+
 .new_game {
-  background-image: url('../images/new_game.png');
-  background-repeat: no-repeat;
-  background-position: center;
+  background-image:url('../images/new_game.png');
+  background-repeat:no-repeat;
+  background-position:center;
   height: 167px;
   margin-left: 12px;
 }
+
 .pyramid {
-  background-repeat: no-repeat;
-  background-position: center;
+  background-repeat:no-repeat;
+  background-position:center;
 }
+
 .word_level_1 {
-  background-image: url('../images/pyramid-1.png');
+  background-image:url('../images/pyramid-1.png');
   height: 144px;
   line-height: 70px;
 }
+
 .word_level_2 {
-  background-image: url('../images/pyramid-2.png');
+  background-image:url('../images/pyramid-2.png');
   line-height: 70px;
 }
+
 .word_level_3 {
-  background-image: url('../images/pyramid-3.png');
+  background-image:url('../images/pyramid-3.png');
   line-height: 70px;
 }
+
 .word_level_4 {
-  background-image: url('../images/pyramid-4.png');
+  background-image:url('../images/pyramid-4.png');
   line-height: 69px;
 }
+
 .word_level_5 {
-  background-image: url('../images/pyramid-5.png');
+  background-image:url('../images/pyramid-5.png');
   line-height: 69px;
 }
+
 .word_level_6 {
-  background-image: url('../images/pyramid-6.png');
+  background-image:url('../images/pyramid-6.png');
   line-height: 70px;
 }
+
 .word_level_7 {
-  background-image: url('../images/pyramid-7.png');
+  background-image:url('../images/pyramid-7.png');
   line-height: 70px;
 }
+
 .word_level_8 {
-  background-image: url('../images/pyramid-8.png');
+  background-image:url('../images/pyramid-8.png');
   line-height: 70px;
 }
+
 .word_level_9 {
-  background-image: url('../images/pyramid-9.png');
+  background-image:url('../images/pyramid-9.png');
   line-height: 70px;
 }
+
 #game_description {
-  font-size: 14px;
-  left: -10px;
-  margin: 0;
-  padding: 15px 0 1px 15px;
-  position: absolute;
-  text-align: left;
-  top: 100px;
-  width: 180px;
+	font-size: 14px;
+	left: -10px;
+	margin: 0;
+	padding: 15px 0 1px 15px;
+	position: absolute;
+	text-align: left;
+	top: 100px;
+	width: 180px;
 }
+
 #game_description ul li {
   margin: 8px 0;
 }
+
 #game_description p {
   margin: 16px 0;
 }
+
 /* Side Panel to display copyright, etc.. info */
 #sidepanel {
   position: fixed;
   right: -300px;
-  top: 30px;
-  /* offset per our header bar */
-
-  width: 330px;
-  /* width of panel + width of tab image */
-
-  height: 100%;
-  /* Tried calc(100% - 30px); didn't work properly */
-
+  top: 30px; /* offset per our header bar */
+  width: 330px; /* width of panel + width of tab image */
+  height: 100%;  /* Tried calc(100% - 30px); didn't work properly */
 }
+
 #sidepanel .content {
-  background: #b8b8b8;
+  background:#b8b8b8; 
   position: absolute;
-  left: 30px;
-  /* move over by the width of the tab image */
-
+  left: 30px;  /* move over by the width of the tab image */
   top: 0px;
-  width: 300px;
-  height: inherit;
+  width:300px;
+  height:inherit;
 }
+
 #sidepanel #tab {
   cursor: pointer;
   position: absolute;
   left: 0px;
   top: 50%;
-  width: 30px;
-  /* was 19px */
-
-  height: 56px;
-  /* was 26px */
-
+  width: 30px;  /* was 19px */
+  height: 56px; /* was 26px */
 }
+
 .tab_closed {
   background: url(../images/pyramid_sidebar_btn_open.png) 0px 0px no-repeat transparent;
 }
+
 .tab_open {
   background: url(../images/pyramid_sidebar_btn_close.png) 0px 0px no-repeat transparent;
 }
+
 #sidepanel .skinny {
   position: relative;
   /* Let's just bring in the sides a bit */
-
   width: 270px;
-  left: 15px;
-  /* Why can't this center? */
-
+  left: 15px; /* Why can't this center? */
   text-align: left;
 }
+
 /* The smallfooter is scaled significantly smaller than the default
  * page footer
  */
 #smallfooter {
   position: absolute;
-  bottom: 30px;
-  /* hack to push images up -- should be fixed in parent */
-
+  bottom: 30px;  /* hack to push images up -- should be fixed in parent */
   text-align: center;
   width: 100%;
 }
+
 #footerLogos img {
   max-height: 50px;
   max-width: 250px;
 }
+
+
 /* iPhone 4 - 4S  in portrait & landscape */
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
   /* STYLES GO HERE */
+  
   #input_area input {
     height: 38px;
-    margin: 0 0 0 20px;
+    margin: 0 0 0 20px;  
   }
+  
   #input_area form {
     height: 48px;
   }
+
   #button-play {
-    margin-top: -38px;
-  }
+    margin-top: -38px; 
+  } 
+  
   #sidepanel #tab {
     width: 30px;
     height: 46px;
     left: -10px;
   }
-  .tab_closed,
-  .tab_open {
+  
+  .tab_closed, .tab_open {
     background-size: 30px 46px;
   }
+
 }

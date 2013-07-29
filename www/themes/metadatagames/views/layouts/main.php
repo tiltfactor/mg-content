@@ -1,6 +1,6 @@
 <?php $this->beginContent('//layouts/page'); ?>
 <div id="header">
-  <a id="page_title" class="ir" href="<?php echo MGHelper::bu("/"); ?>"><?php echo CHtml::encode(Yii::app()->fbvStorage->get("settings.app_name")); ?></a>
+  <a id="page_title" class="ir" href="<?php echo MGHelper::bu("/"); ?>"><?php CHtml::encode(Yii::app()->fbvStorage->get("settings.app_name")); ?></a>
   <div id="mainmenu">
   <?php $this->widget('application.components.MGMenu',array(
     'items'=>array(

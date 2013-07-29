@@ -51,9 +51,12 @@ class PyramidController extends GxController
             $cs = Yii::app()->clientScript;
             $cs->registerCoreScript('jquery');
             $cs->registerCssFile(Yii::app()->baseUrl . '/css/jquery.fancybox-1.3.4.css');
+            $cs->registerCssFile(GamesModule::getAssetsUrl() . '/pyramid/css/normalize.css');
+            $cs->registerCssFile(GamesModule::getAssetsUrl() . '/pyramid/css/main.css');
             $cs->registerCssFile(GamesModule::getAssetsUrl() . '/pyramid/css/style.css');
             $cs->registerCssFile(Yii::app()->baseUrl . '/js/jquery.countdown/jquery.countdown.css');
             $cs->registerCssFile(Yii::app()->baseUrl . '/js/jquery.toastmessage/css/jquery.toastmessage-min.css');
+            $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/pyramid/js/modernizr.custom.js', CClientScript::POS_HEAD);
             $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
             $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.tmpl.min.js', CClientScript::POS_END);
             $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);

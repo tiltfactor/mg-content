@@ -16,9 +16,9 @@ function Countdown() {
 	this.regional = []; // Available regional settings, indexed by language code
 	this.regional[''] = { // Default regional settings
 		// The display texts for the counters
-		labels: ['Years', 'Months', 'Weeks', 'Days', 'Hours', 'Minutes', 'Seconds'],
+		labels: ['Years', 'Months', 'Weeks', 'Days', 'Hours', '', ''],
 		// The display texts for the counters if only one
-		labels1: ['Year', 'Month', 'Week', 'Day', 'Hour', 'Minute', 'Second'],
+		labels1: ['Year', 'Month', 'Week', 'Day', 'Hour', '', ''],
 		compactLabels: ['y', 'm', 'w', 'd'], // The compact texts for the counters
 		whichLabels: null, // Function to determine which labels to use
 		digits: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], // The digits to display
@@ -523,7 +523,7 @@ $.extend(Countdown.prototype, {
 				(inst.options.significant && showSignificant[period]) ?
 				'<span class="' + plugin._sectionClass + '">' +
 				'<span class="' + plugin._amountClass + '">' +
-				self._translateDigits(inst, inst._periods[period]) + '</span><br/>' +
+				self._translateDigits(inst, inst._periods[period]) + '</span> ' +
 				(labelsNum ? labelsNum[period] : labels[period]) + '</span>' : '');
 		};
 		return (inst.options.layout ? this._buildLayout(inst, show, inst.options.layout,
@@ -539,9 +539,9 @@ $.extend(Countdown.prototype, {
 			this._minDigits(inst, inst._periods[S], 2) : '') :
 			// Full version
 			'<span class="' + this._rowClass + ' ' + this._showClass + (inst.options.significant || showCount) +
-			(inst._hold ? ' ' + this._holdingClass : '') + '">' +
+			(inst._hold ? ' ' + this._holdingClass : '') + '"> ' +
 			showFull(Y) + showFull(O) + showFull(W) + showFull(D) +
-			showFull(H) + showFull(M) + showFull(S)) + '</span>' +
+			showFull(H) + showFull(M) + showFull(S)) + '</span> ' +
 			(inst.options.description ? '<span class="' + this._rowClass + ' ' + this._descrClass + '">' +
 			inst.options.description + '</span>' : '')));
 	},
