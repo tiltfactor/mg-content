@@ -76,11 +76,24 @@ class m111119_234450_install_v1_0 extends CDbMigration
         }
       }
     }
+
+        $this->createTable('cron_jobs', array(
+            'id' => 'pk',
+            'execute_after' => 'timestamp',
+            'executed_started' => 'timestamp NULL',
+            'executed_finished' => 'timestamp NULL',
+            'succeeded' => 'boolean',
+            'action' => 'string NOT NULL',
+            'parameters' => 'text',
+            'execution_result' => 'text'
+        ));
 	}
 
 	public function down()
 	{
-		return false;
+        $this->truncateTable('cron_jobs');
+        $this->dropTable('cron_jobs');
+
 	}
 
 	/*

@@ -1,5 +1,5 @@
 <?php
-
+Yii::import('application.extensions.runner.BConsoleRunner');
 class UpdateController extends GxController {
   /**
    * Full path of the main uploading folder.
@@ -44,7 +44,7 @@ class UpdateController extends GxController {
     ob_start();
     $runner->run($args);
     
-    $status = htmlentities(ob_get_clean(), null, Yii::app()->charset);  
+    $status = htmlentities(ob_get_clean(), null, Yii::app()->charset);
       
     $this->render('update', array(
       'status' => $status

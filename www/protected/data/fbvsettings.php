@@ -3,22 +3,22 @@ return array (
   'api_id' => 'MG_API',
   'installed' => true,
   'frontend_theme' => 'metadatagames',
-  'arcade' => 
+  'arcade' =>
   array (
     'description' => 'This is a short description of the project',
   ),
-  'image' => 
+  'image' =>
   array (
-    'formats' => 
+    'formats' =>
     array (
-      'thumbnail' => 
+      'thumbnail' =>
       array (
         'width' => 100,
         'height' => 60,
         'quality' => false,
         'sharpen' => false,
       ),
-      'large' => 
+      'large' =>
       array (
         'width' => 750,
         'height' => 750,
@@ -27,57 +27,57 @@ return array (
       ),
     ),
   ),
-  'admin-tools' => 
+  'admin-tools' =>
   array (
-    'tool-image' => 
+    'tool-image' =>
     array (
-      'name' => 'Medias',
-      'description' => 'Manage medias that have been imported and processed.',
-      'url' => '/admin/media',
+      'name' => 'Images',
+      'description' => 'Manage images that have been imported and processed.',
+      'url' => '/admin/image',
       'role' => 'editor',
-      'group' => 'Medias & Tags',
+      'group' => 'Images & Tags',
     ),
-    'tool-tag' => 
+    'tool-tag' =>
     array (
       'name' => 'Tags',
       'description' => 'Manage tags that have been created by players.',
       'url' => '/admin/tag',
       'role' => 'editor',
-      'group' => 'Medias & Tags',
+      'group' => 'Images & Tags',
     ),
-    'tool-import' => 
+    'tool-import' =>
     array (
       'name' => 'Import',
-      'description' => 'Import and process medias into the system.',
+      'description' => 'Import and process images into the system.',
       'url' => '/admin/import',
       'role' => 'editor',
-      'group' => 'Medias & Tags',
+      'group' => 'Images & Tags',
     ),
-    'tool-image-set' => 
+    'tool-image-set' =>
     array (
-      'name' => 'Collections',
-      'description' => 'Group medias and apply applicable licences.',
-      'url' => '/admin/collection',
+      'name' => 'Image Sets',
+      'description' => 'Group images and apply applicable licences.',
+      'url' => '/admin/imageSet',
       'role' => 'editor',
-      'group' => 'Medias & Tags',
+      'group' => 'Images & Tags',
     ),
-    'tool-licence' => 
+    'tool-licence' =>
     array (
       'name' => 'Licences',
-      'description' => 'Create licences under which medias can be published in the system.',
+      'description' => 'Create licences under which images can be published in the system.',
       'url' => '/admin/licence',
       'role' => 'editor',
-      'group' => 'Medias & Tags',
+      'group' => 'Images & Tags',
     ),
-    'tool-export' => 
+    'tool-export' =>
     array (
       'name' => 'Export',
-      'description' => 'Export tags, tag uses, and tagged medias.',
+      'description' => 'Export tags, tag uses, and tagged images.',
       'url' => '/admin/export',
       'role' => 'editor',
-      'group' => 'Medias & Tags',
+      'group' => 'Images & Tags',
     ),
-    'tool-user' => 
+    'tool-user' =>
     array (
       'name' => 'Players',
       'description' => 'Manage registered players and the tags they have created.',
@@ -85,15 +85,15 @@ return array (
       'role' => 'dbmanager',
       'group' => 'Players',
     ),
-    'tool-subject-matter' => 
+    'tool-subject-matter' =>
     array (
       'name' => 'Subject Matters',
-      'description' => 'Manage subject matter categories in which players can express interest. These values are used to influence media selection and tag weights.',
+      'description' => 'Manage subject matter categories in which players can express interest. These values are used to influence image selection and tag weights.',
       'url' => '/admin/subjectMatter',
       'role' => 'editor',
       'group' => 'Players',
     ),
-    'tool-plugins' => 
+    'tool-plugins' =>
     array (
       'name' => 'Plugins',
       'description' => 'Plugins allow the flexible extension of functionality and can be managed here.',
@@ -101,7 +101,7 @@ return array (
       'role' => 'editor',
       'group' => 'Games & Plugins',
     ),
-    'tool-games' => 
+    'tool-games' =>
     array (
       'name' => 'Games',
       'description' => 'Manage games.',
@@ -109,7 +109,7 @@ return array (
       'role' => 'dbmanager',
       'group' => 'Games & Plugins',
     ),
-    'tool-bages' => 
+    'tool-bages' =>
     array (
       'name' => 'Badges',
       'description' => 'Manage badges that can be achieved by players.',
@@ -117,7 +117,7 @@ return array (
       'role' => 'editor',
       'group' => 'Games & Plugins',
     ),
-    'tool-ip' => 
+    'tool-ip' =>
     array (
       'name' => 'IP Blacklist',
       'description' => 'Restrict access to Metadata Games by whitelisting or blacklisting IP addresses.',
@@ -125,7 +125,7 @@ return array (
       'role' => 'editor',
       'group' => 'Other',
     ),
-    'tool-settings' => 
+    'tool-settings' =>
     array (
       'name' => 'Global Settings',
       'description' => 'Configure settings that are used globally in the system.',
@@ -133,7 +133,7 @@ return array (
       'role' => 'dbmanager',
       'group' => 'Other',
     ),
-    'tool-logs' => 
+    'tool-logs' =>
     array (
       'name' => 'Admin Log',
       'description' => 'Access records of changes made using admin tools.',
@@ -141,7 +141,7 @@ return array (
       'role' => 'dbmanager',
       'group' => 'Other',
     ),
-    'update-code' => 
+    'update-code' =>
     array (
       'name' => 'Update DB',
       'description' => 'Please visit this tool after an update of the code base to make sure the database structure is up-to date.',
@@ -150,9 +150,9 @@ return array (
       'group' => 'Other',
     ),
   ),
-  'games' => 
+  'games' =>
   array (
-    'ZenTag' => 
+    'ZenTag' =>
     array (
       'name' => 'Zen Tag',
       'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
@@ -164,7 +164,7 @@ return array (
       'image_width' => '450',
       'image_height' => '450',
     ),
-    'ZenTagPlayOnceMoveOn' => 
+    'ZenTagPlayOnceMoveOn' =>
     array (
       'name' => 'Zen Tag (Play Once Move On)',
       'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
@@ -176,7 +176,7 @@ return array (
       'image_width' => '450',
       'image_height' => '450',
     ),
-    'ZenPond' => 
+    'ZenPond' =>
     array (
       'name' => 'Zen Pond',
       'description' => 'Clear your mind with a partner and you will hear the voices of the serene taggers within you. Ohm.',
@@ -188,10 +188,10 @@ return array (
       'partner_wait_threshold' => '30',
       'play_against_computer' => '1',
     ),
-    'GuessWhat' => 
+    'GuessWhat' =>
     array (
       'name' => 'Guess What!',
-      'description' => 'Can you guess what the other player\'s media is?',
+      'description' => 'Can you guess what the other player\'s image is?',
       'arcade_image' => 'guesswhat_arcade.png',
       'more_info_url' => '',
       'turns' => '4',
@@ -203,21 +203,8 @@ return array (
       'number_hints' => '1',
       'partner_wait_threshold' => '30',
       'play_against_computer' => '1',
-      'hint_time_out' => '15',
     ),
-    'NexTag' => 
-    array (
-      'name' => 'NexTag',
-      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
-      'arcade_image' => 'nextag_arcade.png',
-      'more_info_url' => '',
-      'play_once_and_move_on' => '0',
-      'play_once_and_move_on_url' => '',
-      'turns' => '4',
-      'image_width' => '450',
-      'image_height' => '450',
-    ),
-    'Mobile' => 
+    'Mobile' =>
     array (
       'name' => 'Mobile',
       'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
@@ -229,8 +216,32 @@ return array (
       'image_width' => '450',
       'image_height' => '450',
     ),
+    'NexTag' =>
+    array (
+      'name' => 'NexTag',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'nextag_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => '0',
+      'play_once_and_move_on_url' => '',
+      'turns' => '4',
+      'image_width' => '450',
+      'image_height' => '450',
+    ),
+    'Pyramid' =>
+    array (
+      'name' => 'Pyramid',
+      'description' => 'Clear your mind and you will hear the voice of the serene tagger within you. Ohm.',
+      'arcade_image' => 'pyramid_arcade.png',
+      'more_info_url' => '',
+      'play_once_and_move_on' => 0,
+      'play_once_and_move_on_url' => '',
+      'turns' => 4,
+      'image_width' => 450,
+      'image_height' => 450,
+    ),
   ),
-  'settings' => 
+  'settings' =>
   array (
     'app_name' => 'Metadata Games',
     'throttle_interval' => '500',
@@ -240,18 +251,18 @@ return array (
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
   ),
-  'plugins' => 
+  'plugins' =>
   array (
-    'dictionary' => 
+    'dictionary' =>
     array (
-      'WordsToAvoid' => 
+      'WordsToAvoid' =>
       array (
         'words_to_avoid_threshold' => 10,
       ),
     ),
-    'weighting' => 
+    'weighting' =>
     array (
-      'ScoreBySubjectMatter' => 
+      'ScoreBySubjectMatter' =>
       array (
         'score_new' => 2,
         'score_match' => 1,
@@ -260,17 +271,17 @@ return array (
         'score_match_expert' => 3,
         'score_match_trusted' => 3,
       ),
-      'ScoreNewMatch' => 
+      'ScoreNewMatch' =>
       array (
         'score_new' => 2,
         'score_match' => 1,
       ),
-      'TwoPlayerBonus' => 
+      'TwoPlayerBonus' =>
       array (
         'score_new' => '2',
         'score_match' => '1',
       ),
-      'GuessWhatScoring' => 
+      'GuessWhatScoring' =>
       array (
         'score_new' => 2,
         'score_match' => 1,
