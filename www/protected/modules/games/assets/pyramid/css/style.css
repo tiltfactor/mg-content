@@ -201,6 +201,8 @@ header .center {
   display: block;
   position: relative;
   top: 34px;
+  margin: 0 auto;
+  width: 500px;
 }
 .countdown_amount {
   font-size: 30px;
@@ -217,14 +219,13 @@ input:-ms-input-placeholder {
   color: gray;
 }
 #input_area {
-  left: 0px;
   bottom: 0px;
   height: 60px;
   float: left;
 }
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
-  width: 350px;
+  max-width: 350px;
   /* 550 - 20px margin */
 
   height: 60px;
@@ -547,31 +548,58 @@ input:-ms-input-placeholder {
 body.touch_device #header {
   display: none;
 }
-body.touch_device #input_area input {
-  margin: 0 20px 0 20px;
-  width: 170px;
-}
-body.touch_device #content footer {
-  height: 85px !important;
-}
-body.touch_device #content footer div {
-  position: relative;
-  top: 45px;
-  font-size: 20px;
-}
-body.touch_device header {
-  height: 60px;
-}
-body.touch_device header .center {
-  top: 4px;
-  min-width: 350px;
-}
-body.touch_device #gamearea {
-  padding: 20px 0;
-}
-body.touch_device #fieldholder .final {
-  padding: 0 !important;
-}
 body.touch_device #sidepanel {
   display: none;
+}
+@media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-height: 550px), only screen and (max--moz-device-pixel-ratio: 2) and (max-height: 550px), only screen and (-o-max-device-pixel-ratio: 2/1) and (max-height: 550px), only screen and (max-device-pixel-ratio: 2) and (max-height: 550px), only screen and (max-resolution: 192dpi) and (max-height: 550px), only screen and (max-resolution: 2dppx) and (max-height: 550px) {
+  #input_area input {
+    margin: 0 20px 0 20px;
+    max-width: 170px !important;
+    height: 30px;
+    font-size: 15px;
+  }
+  #countdown {
+    font-size: 25px ;
+  }
+  #countdown,
+  #input_area {
+    top: 10px;
+    position: relative;
+    height: 30px;
+  }
+  #content footer {
+    height: 85px !important;
+  }
+  #content footer div {
+    position: relative;
+    top: 45px;
+    font-size: 20px;
+  }
+  header {
+    height: 60px;
+  }
+  header .center {
+    top: 4px;
+    min-width: 350px;
+  }
+  #gamearea {
+    padding: 20px 0;
+  }
+  #fieldholder .final {
+    padding: 0 !important;
+  }
+}
+.splash_logo {
+  background-color: #eaeaea;
+  background-image: url('../images/splash_bg.png');
+  background-repeat: repeat-x;
+  min-height: 150px;
+}
+#splash_home {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.text_left {
+  text-align: left;
 }

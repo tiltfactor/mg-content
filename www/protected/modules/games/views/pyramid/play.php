@@ -1,26 +1,17 @@
 <!-- The bounding-box around the text input and the button -->
 <div class="wrap group">
-    <header align="center">
-        <div class="center">
+    <header>
+        <div class="center" align="center">
             <!-- The bounding-box around the text input and the button -->
-            <div id="input_area">
-                <audio id="next_level">
-                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.ogg'?>" type="audio/ogg">
-                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.mp3'?>" type="audio/mpeg">
-                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.wav'?>" type="audio/wav">
-                </audio>
-                <audio id='try_again'>
-                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.ogg'?>" type="audio/ogg">
-                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.mp3'?>" type="audio/mpeg">
-                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.wav'?>" type="audio/wav">
-                </audio>
+           <span id="input_area">
+
                 <form action="#">
                     <!-- user text field -->
                     <input type="text" name="word" id="word" placeholder="Enter a 4 letters word"/>
                     <a href="#" id="button-play" class="ir hidden"></a>
                 </form>
-            </div>
-            <div id="countdown" class="countdown_amount"></div>
+            </span>
+            <span id="countdown" class="countdown_amount"></span>
         </div>
     </header>
 
@@ -40,7 +31,7 @@
 
 </div>
 
-<footer class="group">
+<footer class="group footer_level_1">
     <div>
         4 Letters!
     </div>
@@ -114,7 +105,7 @@
 </script>
 <script id="template-turn" type="text/x-jquery-tmpl">
     <div style="text-align:center">
-        <img src="${url}" alt="game image" id="image_to_tag"/>
+        <img src="${url}" alt="game image" id="image_to_tag" style="width: auto !important; height: auto !important; "/>
     </div>
 </script>
 <script id="template-pyramid-step" type="text/x-jquery-tmpl">
@@ -130,20 +121,20 @@
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
     <div class="final">${finalMsg}</div>
-    <div class="word_level_9 pyramid"></div>
-    <div class="word_level_8 pyramid"></div>
-    <div class="word_level_7 pyramid"></div>
-    <div class="word_level_6 pyramid"></div>
-    <div class="word_level_5 pyramid"></div>
-    <div class="word_level_4 pyramid"></div>
-    <div class="word_level_3 pyramid"></div>
-    <div class="word_level_2 pyramid"></div>
+    <div class="level_9 pyramid">&nbsp;</div>
+    <div class="level_8 pyramid">&nbsp;</div>
+    <div class="level_7 pyramid">&nbsp;</div>
+    <div class="level_6 pyramid">&nbsp;</div>
+    <div class="level_5 pyramid">&nbsp;</div>
+    <div class="level_4 pyramid">&nbsp;</div>
+    <div class="level_3 pyramid">&nbsp;</div>
+    <div class="level_2 pyramid">&nbsp;</div>
     <div class="word_level_1 pyramid"></div>
-    <div class="new_game"><a href="#" id="button-play-again"><span></span></a></div>
+    <div class="new_game"><a href="#" id="button-play-again"><span>&nbsp;</span></a></div>
 </script>
 <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
     You'll be redirected in <span id="remainingTime">${remainingTime}</span> seconds. <a
-    href="${play_once_and_move_on_url}">Click here to proceed right away.</a></p>
+        href="${play_once_and_move_on_url}">Click here to proceed right away.</a></p>
 </script>
 <script id="template-info-modal-critical-error" type="text/x-jquery-tmpl">
     ${error} <p>Return to the <a href="${arcade_url}">arcade</a>.</p>

@@ -191,6 +191,8 @@ header {
     display: block;
     position: relative;
     top: 34px;
+    margin: 0 auto;
+    width: 500px;
   }
 }
 
@@ -213,16 +215,21 @@ input:-ms-input-placeholder /* placeholder only style */
 }
 
 #input_area {
-  left: 0px;
+  //left: 0px;
   bottom: 0px;
   height: 60px;
   float: left;
 }
 
+#countdown, #input_area {
+//  top: 30px;
+//  position: relative;
+}
+
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
 
-  width: 350px;  /* 550 - 20px margin */
+  max-width: 350px;  /* 550 - 20px margin */
   height: 60px; /* Should be 40px, but seems to be taller than the form? */
   font-size: 14pt;
   border: none;
@@ -580,9 +587,35 @@ body.touch_device {
   #header {
     display: none;
   }
+
+  #sidepanel {
+    display: none;
+  }
+}
+
+@media
+only screen and (-webkit-max-device-pixel-ratio: 2)      and (max-height: 550px),
+only screen and (   max--moz-device-pixel-ratio: 2)      and (max-height: 550px),
+only screen and (     -o-max-device-pixel-ratio: 2/1)    and (max-height: 550px),
+only screen and (        max-device-pixel-ratio: 2)      and (max-height: 550px),
+only screen and (           max-resolution: 192dpi)      and (max-height: 550px),
+only screen and (            max-resolution: 2dppx)      and (max-height: 550px) {
   #input_area input {
     margin: 0 20px 0 20px;
-    width: 170px;
+    max-width: 170px !important;
+//    border: 1px solid pink;
+    height: 30px;
+    font-size: 15px;
+  }
+
+  #countdown {
+    font-size: 25px ;
+  }
+
+  #countdown, #input_area {
+    top: 10px;
+    position: relative;
+    height: 30px;
   }
 
   #content footer {
@@ -611,8 +644,20 @@ body.touch_device {
   #fieldholder .final {
     padding: 0 !important;
   }
+}
 
-  #sidepanel {
-    display: none;
-  }
+// Splash screen
+.splash_logo {
+  background-color: #eaeaea;
+  background-image: url('../images/splash_bg.png');
+  background-repeat: repeat-x;
+  min-height: 150px;
+}
+
+#splash_home {
+  position:absolute; bottom: 0px; width: 100%;
+}
+
+.text_left {
+  text-align: left;
 }

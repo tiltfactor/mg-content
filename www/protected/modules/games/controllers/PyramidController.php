@@ -67,7 +67,7 @@ class PyramidController extends GxController
             $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);
             $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.countdown/jquery.countdown.js', CClientScript::POS_END);
             $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.toastmessage/jquery.toastmessage-min.js', CClientScript::POS_END);
-            $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/pyramid/js/mg.game.pyramid.js', CClientScript::POS_END);
+            $cs->registerScriptFile(GamesModule::getAssetsUrl() . '/pyramid/js/mg.game.pyramid_splash.js', CClientScript::POS_END);
             $throttleInterval = (int)Yii::app()->fbvStorage->get("settings.throttle_interval", 1500);
             $asset_url = Yii::app()->baseUrl;
             $arcade_url = Yii::app()->getRequest()->getHostInfo() . Yii::app()->createUrl('/');
@@ -94,6 +94,8 @@ EOD;
             }
             $this->render('index', array(
                 'game' => $game,
+                'asset_url' => GamesModule::getAssetsUrl()."/pyramid",
+                'game_url' => $game->game_base_url
             ));
         } else {
             throw new CHttpException(403, Yii::t('app', 'The game is not active.'));
@@ -149,6 +151,8 @@ EOD;
             }
             $this->render('play', array(
                 'game' => $game,
+                'asset_url' => GamesModule::getAssetsUrl()."/pyramid",
+                'game_url' => $game->api_base_url
             ));
         } else {
             throw new CHttpException(403, Yii::t('app', 'The game is not active.'));
