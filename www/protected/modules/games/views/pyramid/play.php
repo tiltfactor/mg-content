@@ -4,7 +4,16 @@
         <div class="center" align="center">
             <!-- The bounding-box around the text input and the button -->
            <span id="input_area">
-
+                <audio id="next_level">
+                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.ogg'?>" type="audio/ogg">
+                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.mp3'?>" type="audio/mpeg">
+                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/nextlevel.wav'?>" type="audio/wav">
+                </audio>
+                <audio id='try_again'>
+                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.ogg'?>" type="audio/ogg">
+                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.mp3'?>" type="audio/mpeg">
+                    <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.wav'?>" type="audio/wav">
+                </audio>
                 <form action="#">
                     <!-- user text field -->
                     <input type="text" name="word" id="word" placeholder="Enter a 4 letters word"/>
