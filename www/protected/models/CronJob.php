@@ -8,7 +8,7 @@
  * @property string $executed_started
  * @property string $executed_finished
  * @property string $action
- * @property string $parameters
+ * @property string $parameters JSON representation of MediaParameters
  * @property string $execution_result
  *
  * @package
