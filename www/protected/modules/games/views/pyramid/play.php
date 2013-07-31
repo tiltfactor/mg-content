@@ -32,7 +32,7 @@
 
 <footer class="group footer_level_1">
     <div>
-        4 Letters!
+        4 letters!
     </div>
 </footer>
 <audio id="next_level" style="height: 0px;">

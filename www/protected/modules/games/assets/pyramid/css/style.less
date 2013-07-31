@@ -1,31 +1,27 @@
-/** -*- Mode: css; css-indent-offset: 2; indent-tabs-mode: nil -*-
- *
- * Metadata Games - A FOSS Electronic Game for Archival Data Systems
- * Copyright (C) 2010 Mary Flanagan, Tiltfactor Laboratory
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
-@media screen and (orientation: portrait) {
-    body {  }
+.at2x(@path, @w: auto, @h: auto) {
+  background-image: url(@path);
+  @at2x_path: ~`"@{path}".split('.').slice(0, "@{path}".split('.').length - 1).join(".") + "@2x" + "." + "@{path}".split('.')["@{path}".split('.').length - 1]`;
+
+  @media all and (-webkit-min-device-pixel-ratio : 1.5) {
+    background-image: url(@at2x_path);
+    background-size: @w @h;
+  }
 }
-@media screen and (orientation: landscape) {
-    body {  }
-}
- */
 
 html, body {
   height: 100%; /* Override mg default from metadatagames.css */
+}
+
+@font-face {
+  font-family: Afbatterse;
+  font-weight: normal;
+  src: url("afbatterse.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Afbatterse;
+  font-weight: bold;
+  src: url("afbattersebold.otf") format("opentype");
 }
 
 body {
@@ -33,7 +29,8 @@ body {
   color: black;
   text-align: center;
   list-style: none;
-  background: url(../images/pyramid-background.jpg) 0px 0px #FFFFFF;
+  background-color: #FFFFFF;
+  .at2x('../images/pyramid-background.jpg');
 }
 
 body {
@@ -241,6 +238,7 @@ input:-ms-input-placeholder /* placeholder only style */
   margin: 0 auto;
   height: 123px !important;
   background-repeat: repeat-x;
+  font-family: Afbatterse;
 
   &.footer_level_1 {
     background-image: url('../images/level_1.png');
@@ -272,11 +270,47 @@ input:-ms-input-placeholder /* placeholder only style */
 
   div {
     position: relative;
-    top: 60px;
-    font-size: 30px;
+    top: 23px;
+    margin-top: 0;
+    font-size: 78px;
+    font-family: Afbatterse;
     text-shadow: 1px 1px 1px #fff, 3px 3px 5px #464a4d;
     color: #464a4d;
   }
+}
+
+.spacial_font {
+  font-family: Afbatterse;
+
+  &.size_20 {
+    font-size: 20px;
+  }
+
+  &.with_borders {
+    color: #000000;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #ff5b13;
+    text-shadow: 1px 0 0 #ff5b13, -1px 0 0 #ff5b13, 0 0px 0 #ff5b13, 0 -1px 0 #ff5b13, 0px 0px #ff5b13, -1px -1px 0 #ff5b13, 1px -1px 0 #ff5b13, -1px 1px 0 #ff5b13;
+  }
+
+  &.logo_text {
+    font-size: 124px;
+    white-space: nowrap;
+    margin-bottom: -35px;
+  }
+
+  &.logo_subtext {
+    width: 576px;
+  }
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.splash_logo {
+  padding-bottom: 35px;
+  margin: auto 0;
 }
 
 #footer {
@@ -593,6 +627,43 @@ body.touch_device {
   }
 }
 
+// For retina display
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx) {
+
+  #header {
+    display: none;
+  }
+
+  .spacial_font {
+    &.size_20 {
+      font-size: 17px;
+    }
+
+    &.logo_text {
+      font-size: 62px;
+      white-space: nowrap;
+      margin-bottom: -17px;
+    }
+
+    &.logo_subtext {
+      width: 284px;
+      text-align: justify;
+    }
+  }
+
+  .splash_logo {
+    padding-bottom: 10px;
+  }
+
+}
+
+//
 @media
 only screen and (-webkit-max-device-pixel-ratio: 2)      and (max-height: 550px),
 only screen and (   max--moz-device-pixel-ratio: 2)      and (max-height: 550px),
@@ -603,9 +674,28 @@ only screen and (            max-resolution: 2dppx)      and (max-height: 550px)
   #input_area input {
     margin: 0 20px 0 20px;
     max-width: 170px !important;
-//    border: 1px solid pink;
     height: 30px;
     font-size: 15px;
+  }
+
+  .spacial_font {
+    &.size_20 {
+      font-size: 20px;
+    }
+
+    &.logo_text {
+      font-size: 62px;
+      white-space: nowrap;
+      margin-bottom: -17px;
+    }
+
+    &.logo_subtext {
+      width: 300px;
+    }
+  }
+
+  .splash_logo {
+    padding-bottom: 10px;
   }
 
   #countdown {
