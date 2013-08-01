@@ -316,7 +316,7 @@ MG_GAME_PYRAMID = function ($) {
 
         nextlevel:function () {
             MG_GAME_PYRAMID.level++;
-            MG_GAME_PYRAMID.wordField.attr("placeholder", "Enter a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word");
+            MG_GAME_PYRAMID.wordField.attr("placeholder", "Enter a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letter word");
             $("#content").find("footer").removeClass("footer_level_" + MG_GAME_PYRAMID.level -1).addClass("footer_level_" + MG_GAME_PYRAMID.level).find("div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " letters!");
             //$("#content").find("footer").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
             $('#next_level')[0].play();

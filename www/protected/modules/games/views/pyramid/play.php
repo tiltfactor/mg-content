@@ -6,7 +6,7 @@
            <span id="input_area">
                 <form action="javascript: return false;">
                     <!-- user text field -->
-                    <input type="text" name="word" id="word" placeholder="Enter a 4 letters word"/>
+                    <input type="text" name="word" id="word" placeholder="Enter a 4 letter word"/>
                     <a href="#" id="button-play" class="ir hidden"></a>
                 </form>
             </span>
