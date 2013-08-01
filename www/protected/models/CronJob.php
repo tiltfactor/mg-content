@@ -2,7 +2,7 @@
 /**
  * This is the model class for table "cron_jobs".
  *
- * The followings are the available columns in table 'tbl_cron_jobs':
+ * The followings are the available columns in table 'cron_jobs':
  * @property integer $id
  * @property string $execute_after
  * @property string $executed_started

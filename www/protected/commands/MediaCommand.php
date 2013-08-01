@@ -13,6 +13,40 @@ class MediaCommand extends CConsoleCommand
 
     public function actionHelp()
     {
+        echo <<<EOD
+
+
+Usage: yiic media index
+
+Note:
+Uploaded files must be located in `settings.app_upload_path`
+The process will use `settings.app_upload_path` as base path
+and will add video files in `videos` subfolder and audio files
+in `audios` subfolder
+
+Create record for each audio and video by using CronJob model
+The followings are the available columns in table 'cron_jobs':
+ * @property integer id
+ * @property string execute_after
+ * @property string executed_started
+ * @property string executed_finished
+ * @property string action
+ * @property string parameters
+ * @property string execution_result
+
+ Set follow fields:
+ execute_after - time after the file should be process
+ action - available options are audioTranscode and videoTranscode
+ parameters - json string of object MediaParameters
+
+ Run the command from yii web application:
+ \$runner = new BConsoleRunner();
+ \$runner->run("media",array("index"));
+
+
+
+
+EOD;
     }
 
     /**

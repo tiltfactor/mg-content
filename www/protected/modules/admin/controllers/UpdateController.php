@@ -1,5 +1,5 @@
 <?php
-Yii::import('application.extensions.runner.BConsoleRunner');
+
 class UpdateController extends GxController {
   /**
    * Full path of the main uploading folder.
