@@ -258,7 +258,7 @@ body .pyramid.word_level_3 {
 }
 body .pyramid.word_level_4 {
   background-image: url('../images/pyramid-4.png');
-  height: 70px;
+  height: 69px;
   line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
@@ -619,8 +619,8 @@ input:-ms-input-placeholder {
   background-image: url('../images/new_game.png');
   background-repeat: no-repeat;
   background-position: center;
-  height: 84px;
-  margin-left: 7px;
+  height: 167px;
+  margin-left: 12px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   .new_game {
@@ -820,8 +820,8 @@ body.touch_device #sidepanel {
     padding-bottom: 10px;
   }
   .new_game {
-    height: 167px;
-    margin-left: 12px;
+    height: 84px;
+    margin-left: 7px;
   }
   #fieldholder .final {
     font-size: 16px;
