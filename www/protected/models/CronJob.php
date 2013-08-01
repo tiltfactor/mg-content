@@ -8,7 +8,7 @@
  * @property string $executed_started
  * @property string $executed_finished
  * @property string $action
- * @property string $parameters JSON representation of MediaParameters
+ * @property string $parameters
  * @property string $execution_result
  *
  * @package
@@ -16,7 +16,7 @@
  */
 class CronJob extends CActiveRecord
 {
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -33,41 +33,45 @@ class CronJob extends CActiveRecord
     {
         return array(
             array('execute_after, action', 'required'),
-            array('succeeded', 'numerical', 'integerOnly'=>true),
-            array('action', 'length', 'max'=>255),
-            array('executed_finished, parameters, execution_result', 'safe'),
+            array('succeeded', 'numerical', 'integerOnly' => true),
+            array('action', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, execute_after, executed_started, executed_finished, succeeded, action, parameters, execution_result', 'safe', 'on'=>'search')
+            array('id, execute_after, executed_started, executed_finished, succeeded, action, parameters, execution_result', 'safe', 'on' => 'search')
         );
     }
 
-    public function relations(){ return array();}
-    public function attributeLabels(){ return array(); }
+    public function relations()
+    {
+        return array();
+    }
 
-    public function beforeValidate(){
-        if(gettype($this->parameters) !== "string"){
-            $this->parameters = serialize($this->parameters);
-        }
+    public function attributeLabels()
+    {
+        return array();
+    }
+
+    public function beforeValidate()
+    {
         return parent::beforeValidate();
     }
 
-    public function afterFind(){
-        $this->parameters = unserialize($this->parameters);
+    public function afterFind()
+    {
         return parent::afterFind();
     }
 
     public function search()
     {
-        $criteria=new CDbCriteria;
-        $criteria->compare('id',$this->id);
-        $criteria->compare('execute_after',$this->execute_after,true);
-        $criteria->compare('executed_at',$this->executed_at,true);
-        $criteria->compare('action',$this->action,true);
-        $criteria->compare('parameters',$this->parameters,true);
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('execute_after', $this->execute_after, true);
+        $criteria->compare('executed_at', $this->executed_at, true);
+        $criteria->compare('action', $this->action, true);
+        $criteria->compare('parameters', $this->parameters, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 }

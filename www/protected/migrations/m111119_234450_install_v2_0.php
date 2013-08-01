@@ -1,20 +1,21 @@
 <?php
 /**
- * This is the initial migration executed by the installer via the Yii Migration functionality. 
- * It loads the mg.mysql.1.0.sql in the data folder and parses it for SQL statements. Which will 
- * be executed against the database. For further MG version create new migration files and add 
- * them to this folder. 
- * 
+ * This is the initial migration executed by the installer via the Yii Migration functionality.
+ * It loads the mg.mysql.1.0.sql in the data folder and parses it for SQL statements. Which will
+ * be executed against the database. For further MG version create new migration files and add
+ * them to this folder.
+ *
  * @author Vincent Van Uffelen <novazembla@gmail.com>
  * @link http://www.metadatagames.com/
  * @copyright Copyright &copy; 2008-2012 Tiltfactor
  * @license http://www.metadatagames.com/license/
  * @package MG
  */
-class m111119_234450_install_v1_0 extends CDbMigration
+class m111119_234450_install_v2_0 extends CDbMigration
 {
-	public function up() {
-	  $script = "
+    public function up()
+    {
+        $script = "
         RENAME TABLE `image_set` TO `collection` ;
         RENAME TABLE `image` TO `media` ;
         RENAME TABLE `image_set_to_image` TO `collection_to_media` ;
@@ -64,46 +65,47 @@ class m111119_234450_install_v1_0 extends CDbMigration
         ALTER TABLE `tag_use` ADD FOREIGN KEY ( `media_id` ) REFERENCES `media` (
         `id`
         ) ON DELETE CASCADE ON UPDATE NO ACTION ;
+
+        CREATE TABLE IF NOT EXISTS `cron_jobs` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `execute_after` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          `executed_started` timestamp NULL DEFAULT NULL,
+          `executed_finished` timestamp NULL DEFAULT NULL,
+          `succeeded` tinyint(1) DEFAULT NULL,
+          `action` varchar(255) NOT NULL,
+          `parameters` text,
+          `execution_result` text,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB CHARACTER SET = utf8;
 	  ";
 
-    if (trim($script) != "") {
-      $statements = explode(";\n", $script);
-      
-      if (count($statements) > 0) {
-        foreach ($statements as $statement) {
-          if (trim($statement) != "")
-            $this->execute($statement);
+        if (trim($script) != "") {
+            $statements = explode(";\n", $script);
+
+            if (count($statements) > 0) {
+                foreach ($statements as $statement) {
+                    if (trim($statement) != "")
+                        $this->execute($statement);
+                }
+            }
         }
-      }
     }
 
-        $this->createTable('cron_jobs', array(
-            'id' => 'pk',
-            'execute_after' => 'timestamp',
-            'executed_started' => 'timestamp NULL',
-            'executed_finished' => 'timestamp NULL',
-            'succeeded' => 'boolean',
-            'action' => 'string NOT NULL',
-            'parameters' => 'text',
-            'execution_result' => 'text'
-        ));
-	}
-
-	public function down()
-	{
+    public function down()
+    {
         $this->truncateTable('cron_jobs');
         $this->dropTable('cron_jobs');
 
-	}
+    }
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
+    /*
+     // Use safeUp/safeDown to do migration with transaction
+     public function safeUp()
+     {
+     }
 
-	public function safeDown()
-	{
-	}
-	*/
+     public function safeDown()
+     {
+     }
+     */
 }

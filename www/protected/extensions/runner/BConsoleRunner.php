@@ -13,15 +13,17 @@ class BConsoleRunner extends CComponent
      * @param array $args refers to the extra parameters given in the command line
      * @return boolean
      */
-    public function run($cmd,$args)
+    public function run($cmd, $args)
     {
-        $consoleFile = Yii::app()->basePath.'/yiic.php';
-        $cmd="php ".$consoleFile." ".$cmd;
-        foreach($args as $arg){
-            $cmd .= " ".$arg;
+        $consoleFile = Yii::app()->basePath . '/yiic.php';
+        $cmd = "php " . $consoleFile . " " . $cmd;
+        if (is_array($args)) {
+            foreach ($args as $arg) {
+                $cmd .= " " . $arg;
+            }
         }
 
-        if (substr(php_uname(), 0, 7) == "Windows"){
+        if (substr(php_uname(), 0, 7) == "Windows") {
             $WshShell = new COM("WScript.Shell");
             $oExec = $WshShell->Run("cmd /C " . $cmd, 0, false);
         } else {

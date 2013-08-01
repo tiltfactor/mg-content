@@ -7,26 +7,26 @@
 class MediaCommand extends CConsoleCommand
 {
 
-    private $uploadPath;
-    private $audioPath;
-    /**
-     * @var
-     */
-    private $videoPath;
+    public $uploadPath;
+    public $audioPath;
+    public $videoPath;
 
     public function actionHelp()
     {
     }
 
+    /**
+     *
+     */
     public function actionIndex()
     {
         if ($this->isLocked()) die("Already running.\n");
         //$start = $this->getMicrotime();
 
-        $now = new DateTime('now', new DateTimeZone('GMT'));
+        $now = new DateTime('now');
         $now = $now->format("Y-m-d H:i:s");
 
-        $jobs = CronJob::model()->findAll('execute_after <:now AND executed_started IS NULL ORDER BY id ASC', array(':now' => $now));
+        $jobs = CronJob::model()->findAll('execute_after <:now AND executed_finished IS NULL ORDER BY id ASC', array(':now' => $now));
 
         $this->initFolders();
 
@@ -38,17 +38,18 @@ class MediaCommand extends CConsoleCommand
                 $executed_at = new DateTime('now', new DateTimeZone('GMT'));
                 $job->executed_started = $executed_at->format('Y-m-d H:i:s');
                 $job->save();
-                $params = MediaParameters::createFromJson($job->parameters);
-                $result = $this->{$job->action}($params);
-
-                if ($result === false) {
-                    // do nothing, let the next cycle pick it up
-                    continue;
-                } else {
+                try {
+                    $params = MediaParameters::createFromJson($job->parameters);
+                    $this->{$job->action}($params);
                     $executed_at = new DateTime('now', new DateTimeZone('GMT'));
-                    $job->succeeded = $result['succeeded'] ? 1 : 0;
-                    $job->execution_result = array_key_exists('execution_result', $result) ? $result['execution_result'] : "";
+                    $job->succeeded = 1;
+                    $job->execution_result = "Done";
                     $job->executed_finished = $executed_at->format('Y-m-d H:i:s');
+                    $job->save();
+                } catch (CException $e) {
+                    $job->succeeded = 0;
+                    $job->executed_finished = $executed_at->format('Y-m-d H:i:s');
+                    $job->execution_result = $e->getMessage();
                     $job->save();
                 }
             } else {
@@ -59,10 +60,8 @@ class MediaCommand extends CConsoleCommand
                 $job->save();
             }
         }
-
         $this->releaseLock();
     }
-
 
     /**
      *
@@ -80,22 +79,28 @@ class MediaCommand extends CConsoleCommand
         $isMpeg4 = false;
         $resolution = "640x480";
         $duration = 0;
+        $size = 0;
+        $ext = pathinfo($this->uploadPath . "/" . $params->filename, PATHINFO_EXTENSION);
+        $file = basename($params->filename, "." . $ext);
 
         if (isset($info) && isset($info->streams[0])) {
-            if ($info->streams[0]["codec_name"] == "vp8" && $info->streams[0]["width"] == 640) {
+            if ($info->streams[0]->codec_name == "vp8" && $info->streams[0]->width == 640) {
                 copy($this->uploadPath . "/" . $params->filename, $this->videoPath . "/" . $params->filename);
                 $isWebm = true;
             }
-            if ($info->streams[0]["codec_name"] == "h264" && $info->streams[0]["width"] == 640) {
+            if ($info->streams[0]->codec_name == "h264" && $info->streams[0]->width == 640) {
                 copy($this->uploadPath . "/" . $params->filename, $this->videoPath . "/" . $params->filename);
                 $isMpeg4 = true;
             }
-            if ($info->streams[0]["display_aspect_ratio"] == "16:9") {
+            if ($info->streams[0]->display_aspect_ratio == "16:9") {
                 $resolution = "640x360";
-            } else if ($info->streams[0]["display_aspect_ratio"] == "4:3") {
+            } else if ($info->streams[0]->display_aspect_ratio == "4:3") {
                 $resolution = "640x480";
             }
-            $duration = $info->streams[0]["duration"];
+            $duration = $info->format->duration;
+            $size = $info->format->size;
+        } else {
+            throw new CException(" Invalid data found when processing input: " . $this->uploadPath . "/" . $params->filename);
         }
 
         if (!$isWebm) {
@@ -113,37 +118,110 @@ class MediaCommand extends CConsoleCommand
         if ($params->chunk) {
             // filename_#__hh-mm-ss_hh-mm-ss.mp4
             $start = 0;
-            $ext = pathinfo($this->uploadPath . "/" . $params->filename, PATHINFO_EXTENSION);
-            $file = basename($params->filename, "." . $ext);
             $i = 1;
-            if ($params->chunkOffset < 6) $params->chunkOffset = 20;
+            $offset = $params->chunkOffset;
+            if ($params->chunkOffset < 20) $offset = 20;
             while ($start < $duration) {
                 $ss = sprintf('%02d-%02d-%02d', ($start / 3600), ($start / 60 % 60), $start % 60);
-                $s0 = sprintf('%02d-%02d-%02d', (($start + $params->chunkOffset) / 3600), (($start + $params->chunkOffset) / 60 % 60), ($start + $params->chunkOffset) % 60);
+                $s0 = sprintf('%02d-%02d-%02d', (($start + $offset) / 3600), (($start + $offset) / 60 % 60), ($start + $offset) % 60);
                 $destFile = $file . "_#" . $i . "__" . $ss . "_" . $s0;
 
                 $filename = $file . ".mp4";
                 $destFilename = $destFile . ".mp4";
-                $this->createChunk($this->videoPath, $filename, $destFilename, $start, $params->chunkOffset);
+                $this->createChunk($this->videoPath, $filename, $destFilename, $start, $offset);
 
                 $filename = $file . ".webm";
                 $destFilename = $destFile . ".webm";
-                $this->createChunk($this->videoPath, $filename, $destFilename, $start, $params->chunkOffset);
+                $this->createChunk($this->videoPath, $filename, $destFilename, $start, $offset);
 
                 $this->createVideoThumb($this->videoPath, $destFilename, 5);
 
-                $start += $params->chunkOffset;
+                $this->createMedia($destFilename, filesize($this->videoPath . "/" . $destFilename), "video/webm");
+
+                $start += $offset;
+                if ($start < $duration && ($duration - $start) < ($offset + ($offset / 2))) {
+                    $offset = $duration - $start;
+                }
                 $i++;
             }
+        } else {
+            $this->createMedia($file . ".webm", $size, "video/webm");
         }
-
     }
 
     public function audioTranscode($params)
     {
+        if (!is_file($this->uploadPath . "/" . $params->filename)) {
+            throw new CException("File not exists: " . $this->uploadPath . "/" . $params->filename);
+        }
 
+        $info = $this->getInfo($params->filename);
+        $isMp3 = false;
+        $isOgg = false;
+        $duration = 0;
+        $size = 0;
+        $ext = pathinfo($this->uploadPath . "/" . $params->filename, PATHINFO_EXTENSION);
+        $file = basename($params->filename, "." . $ext);
+
+        if (isset($info) && isset($info->streams[0])) {
+            if ($info->streams[0]->codec_name == "mp3") {
+                copy($this->uploadPath . "/" . $params->filename, $this->audioPath . "/" . $params->filename);
+                $isMp3 = true;
+            }
+            if ($info->streams[0]->codec_name == "vorbis") {
+                copy($this->uploadPath . "/" . $params->filename, $this->audioPath . "/" . $params->filename);
+                $isOgg = true;
+            }
+            $duration = $info->format->duration;
+            $size = $info->format->size;
+        }
+
+        if (!$isMp3) {
+            $this->convertToMp3($this->uploadPath, $params->filename, $this->audioPath);
+        }
+
+        if (!$isOgg) {
+            $this->convertToOgg($this->uploadPath, $params->filename, $this->audioPath);
+        }
+
+        //Create chunks
+        if ($params->chunk) {
+            // filename_#__hh-mm-ss_hh-mm-ss.mp4
+            $start = 0;
+            $i = 1;
+            $offset = $params->chunkOffset;
+            if ($params->chunkOffset < 20) $offset = 20;
+            while ($start < $duration) {
+                $ss = sprintf('%02d-%02d-%02d', ($start / 3600), ($start / 60 % 60), $start % 60);
+                $s0 = sprintf('%02d-%02d-%02d', (($start + $offset) / 3600), (($start + $offset) / 60 % 60), ($start + $offset) % 60);
+                $destFile = $file . "_#" . $i . "__" . $ss . "_" . $s0;
+
+                $filename = $file . ".mp3";
+                $destFilename = $destFile . ".mp3";
+                $this->createChunk($this->audioPath, $filename, $destFilename, $start, $offset);
+
+                $this->createMedia($destFilename, filesize($this->audioPath . "/" . $destFilename), "audio/mpeg");
+
+                $filename = $file . ".ogg";
+                $destFilename = $destFile . ".ogg";
+                $this->createChunk($this->audioPath, $filename, $destFilename, $start, $offset);
+
+
+                $start += $offset;
+                if ($start < $duration && ($duration - $start) < ($offset + ($offset / 2))) {
+                    $offset = $duration - $start;
+                }
+                $i++;
+            }
+        } else {
+            $this->createMedia($file . ".mp3", $size, "audio/mpeg");
+        }
     }
 
+    /**
+     * Set paths for audio and video
+     *
+     */
     private function initFolders()
     {
         $path = realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
@@ -168,12 +246,18 @@ class MediaCommand extends CConsoleCommand
     private function getInfo($filename)
     {
         $ffprobe = dirname(__FILE__) . "/ffmpeg/ffprobe";
-        exec($ffprobe . " -print_format json -show_format -show_streams " . $filename, $output);
+        exec($ffprobe . " -print_format json -show_format -show_streams " . $this->uploadPath . "/" . $filename, $output);
         $output = implode("", $output);
         $json = json_decode($output);
         return $json;
     }
 
+    /**
+     * @param string $path
+     * @param string $filename
+     * @param string $dest
+     * @param string $resolution format WIDTHxHEIGHT
+     */
     private function convertToWebm($path, $filename, $dest, $resolution)
     {
         $path = $path . "/" . $filename;
@@ -199,6 +283,12 @@ class MediaCommand extends CConsoleCommand
         exec($ffmpeg . " -i " . $path . "/" . $filename . " -ss $offset -f image2 -vframes 1 " . $path . "/" . $file . ".jpeg");
     }
 
+    /**
+     * @param string $path
+     * @param string $filename
+     * @param string $dest
+     * @param string $resolution format WIDTHxHEIGHT
+     */
     private function convertToMpeg4($path, $filename, $dest, $resolution)
     {
         $ext = pathinfo($path . "/" . $filename, PATHINFO_EXTENSION);
@@ -208,12 +298,40 @@ class MediaCommand extends CConsoleCommand
         exec($ffmpeg . " -i " . $path . "/" . $filename . " -b:v 500k -b:a 128k -vcodec libx264 -g 30 -s " . $resolution . " " . $dest . "/" . $file . ".mp4");
     }
 
+    private function convertToMp3($path, $filename, $dest)
+    {
+        $ext = pathinfo($path . "/" . $filename, PATHINFO_EXTENSION);
+        $file = basename($filename, "." . $ext);
+
+        $ffmpeg = dirname(__FILE__) . "/ffmpeg/ffmpeg";
+        exec($ffmpeg . " -i " . $path . "/" . $filename . " -b:a 128k " . $dest . "/" . $file . ".mp3");
+    }
+
+    private function convertToOgg($path, $filename, $dest)
+    {
+        $ext = pathinfo($path . "/" . $filename, PATHINFO_EXTENSION);
+        $file = basename($filename, "." . $ext);
+
+        $ffmpeg = dirname(__FILE__) . "/ffmpeg/ffmpeg";
+        exec($ffmpeg . " -i " . $path . "/" . $filename . " -f ogg -acodec libvorbis -aq 6 " . $dest . "/" . $file . ".ogg");
+    }
+
+    /**
+     * @param string $path
+     * @param string $filename
+     * @param string $destFilename
+     * @param int $from
+     * @param int $offset
+     */
     private function createChunk($path, $filename, $destFilename, $from, $offset)
     {
         $ffmpeg = dirname(__FILE__) . "/ffmpeg/ffmpeg";
         exec($ffmpeg . " -i " . $path . "/" . $filename . " -ss $from -t $offset " . $path . "/" . $destFilename);
     }
 
+    /**
+     * @return array|mixed
+     */
     private function getMicrotime()
     {
         $time = microtime();
@@ -228,7 +346,27 @@ class MediaCommand extends CConsoleCommand
         return round(($finish - $start), 4);
     }
 
+    private function createMedia($file_name, $size, $mime_type)
+    {
+        $media = new Media;
+        $media->name = $file_name;
+        $media->size = $size;
+        $media->batch_id = "B-" . date('Y-m-d-H:i:s');
+        $media->mime_type = $mime_type;
+        $media->created = date('Y-m-d H:i:s');
+        $media->modified = date('Y-m-d H:i:s');
+        $media->locked = 0;
 
+        $relatedData = array(
+            'collections' => array(1),
+        );
+        $media->saveWithRelated($relatedData);
+    }
+
+
+    /**
+     * @return bool
+     */
     private function isLocked()
     {
         $lockFile = Yii::app()->getRuntimePath() . DIRECTORY_SEPARATOR . 'media.lock';

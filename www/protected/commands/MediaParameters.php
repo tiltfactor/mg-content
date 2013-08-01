@@ -14,12 +14,12 @@ class MediaParameters
     /**
      * @var bool
      */
-    public $chunk=true;
+    public $chunk = true;
 
     /**
      * @var int
      */
-    public $chunkOffset=20;
+    public $chunkOffset = 20;
 
 
     /**
@@ -27,14 +27,15 @@ class MediaParameters
      * @param string $json
      * @return MediaParameters
      */
-    static public function createFromJson($json){
+    static public function createFromJson($json)
+    {
         $json = json_decode($json);
-        foreach($json as $key=>$value){
+        if (is_object($json)) {
             $object = new self();
-            $object->{$key} = $value;
+            foreach ($json as $key => $value) {
+                $object->{$key} = $value;
+            }
         }
-
         return $object;
     }
-
 }
