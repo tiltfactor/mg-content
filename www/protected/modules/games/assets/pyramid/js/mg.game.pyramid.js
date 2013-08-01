@@ -21,7 +21,7 @@ MG_GAME_PYRAMID = function ($) {
 //            alert("height" + $(window).height());
 //            alert("width" + $(window).width());
 
-            $('#countdown').countdown({until:'+2m', layout: '{mnn}{sep}{snn}', onExpiry:MG_GAME_PYRAMID.liftOff});
+            $('#countdown').countdown({until:'+10s', layout: '{mnn}{sep}{snn}', onExpiry:MG_GAME_PYRAMID.liftOff});
             var settings = $.extend(options, {
                 ongameinit:MG_GAME_PYRAMID.ongameinit
             });
@@ -44,7 +44,7 @@ MG_GAME_PYRAMID = function ($) {
             $("#footer").html("");
             MG_GAME_API.game_init(settings);
 
-            $("#container").find("footer div").html("4 Letters!");
+            $("#container").find("footer div").html("4 letters!");
         },
 
         /*
@@ -317,7 +317,7 @@ MG_GAME_PYRAMID = function ($) {
         nextlevel:function () {
             MG_GAME_PYRAMID.level++;
             MG_GAME_PYRAMID.wordField.attr("placeholder", "Enter a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word");
-            $("#content").find("footer").removeClass("footer_level_" + MG_GAME_PYRAMID.level -1).addClass("footer_level_" + MG_GAME_PYRAMID.level).find("div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " Letters!");
+            $("#content").find("footer").removeClass("footer_level_" + MG_GAME_PYRAMID.level -1).addClass("footer_level_" + MG_GAME_PYRAMID.level).find("div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " letters!");
             //$("#content").find("footer").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
             $('#next_level')[0].play();
         }
@@ -345,13 +345,13 @@ function onResize () {
     //$("#input_area input").css('cssText', "width: " + $(window).width()-150 + "px !important, border: 1px solid pink !important" );
     $("#content").css("min-height", device_ratio*($(window).height() + 20 - ($("#header").height() + $("#content footer").height())));
 
-    $("#container").css("height", device_ratio*($(window).height() - 200));
+    $("#container").css("height", device_ratio*($(window).height() - 190));
     if (is_touch_device) {
         max_height = $(window).height() - $("#content header").height() - $("#content footer").height() - parseInt(gamearea.css('padding-top'), 10) - parseInt(gamearea.css('padding-bottom'), 10);
         $("#image_to_tag").css({'max-height': max_height, 'max-width': $(window).width() - 20});
         $("#gamearea").css("height", max_height);
     } else {
-        max_height = $(window).height() - $("#header").height() - $("#content header").height() - $("#content footer").height() - parseInt(gamearea.css('padding-top'), 10) - parseInt(gamearea.css('padding-bottom'), 10);
+        max_height = $(window).height() - $("#header").height() -1 - $("#content header").height() - $("#content footer").height() - parseInt(gamearea.css('padding-top'), 10) - parseInt(gamearea.css('padding-bottom'), 10);
         $("#image_to_tag").css({'max-height': max_height, 'max-width': $(window).width() - 20});
         $("#gamearea").css("height", max_height);
     }
