@@ -128,11 +128,11 @@ body #content footer {
   font-family: Afbatterse;
 }
 body #content footer.footer_level_1 {
-  background-image: url('../images/level1.png');
+  background-image: url('../images/level_1.png');
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_1 {
-    background-image: url('../images/level1@2x.png');
+    background-image: url('../images/level_1@2x.png');
     background-size: auto auto;
   }
 }
@@ -225,7 +225,7 @@ body .pyramid {
 }
 body .pyramid.word_level_1 {
   background-image: url('../images/pyramid-1.png');
-  height: 72px;
+  height: 144px;
   line-height: 35px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
@@ -236,7 +236,8 @@ body .pyramid.word_level_1 {
 }
 body .pyramid.word_level_2 {
   background-image: url('../images/pyramid-2.png');
-  line-height: 35px;
+  height: 70px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_2 {
@@ -246,7 +247,8 @@ body .pyramid.word_level_2 {
 }
 body .pyramid.word_level_3 {
   background-image: url('../images/pyramid-3.png');
-  line-height: 35px;
+  height: 70px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_3 {
@@ -256,7 +258,8 @@ body .pyramid.word_level_3 {
 }
 body .pyramid.word_level_4 {
   background-image: url('../images/pyramid-4.png');
-  line-height: 35px;
+  height: 70px;
+  line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_4 {
@@ -266,7 +269,8 @@ body .pyramid.word_level_4 {
 }
 body .pyramid.word_level_5 {
   background-image: url('../images/pyramid-5.png');
-  line-height: 35px;
+  height: 70px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_5 {
@@ -276,7 +280,7 @@ body .pyramid.word_level_5 {
 }
 body .pyramid.word_level_6 {
   background-image: url('../images/pyramid-6.png');
-  line-height: 35px;
+  line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_6 {
@@ -286,7 +290,7 @@ body .pyramid.word_level_6 {
 }
 body .pyramid.word_level_7 {
   background-image: url('../images/pyramid-7.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_7 {
@@ -296,7 +300,7 @@ body .pyramid.word_level_7 {
 }
 body .pyramid.word_level_8 {
   background-image: url('../images/pyramid-8.png');
-  line-height: 34px;
+  line-height: 67px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_8 {
@@ -306,7 +310,7 @@ body .pyramid.word_level_8 {
 }
 body .pyramid.word_level_9 {
   background-image: url('../images/pyramid-9.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_9 {
@@ -316,8 +320,8 @@ body .pyramid.word_level_9 {
 }
 body .pyramid.level_1 {
   background-image: url('../images/pyramid-1.png');
-  height: 72px;
-  line-height: 35px;
+  height: 144px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_1 {
@@ -327,7 +331,7 @@ body .pyramid.level_1 {
 }
 body .pyramid.level_2 {
   background-image: url('../images/pyramid_NA-2.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_2 {
@@ -337,7 +341,7 @@ body .pyramid.level_2 {
 }
 body .pyramid.level_3 {
   background-image: url('../images/pyramid_NA-3.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_3 {
@@ -347,7 +351,7 @@ body .pyramid.level_3 {
 }
 body .pyramid.level_4 {
   background-image: url('../images/pyramid_NA-4.png');
-  line-height: 35px;
+  line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_4 {
@@ -357,7 +361,7 @@ body .pyramid.level_4 {
 }
 body .pyramid.level_5 {
   background-image: url('../images/pyramid_NA-5.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_5 {
@@ -367,7 +371,7 @@ body .pyramid.level_5 {
 }
 body .pyramid.level_6 {
   background-image: url('../images/pyramid_NA-6.png');
-  line-height: 35px;
+  line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_6 {
@@ -377,7 +381,7 @@ body .pyramid.level_6 {
 }
 body .pyramid.level_7 {
   background-image: url('../images/pyramid_NA-7.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_7 {
@@ -387,7 +391,7 @@ body .pyramid.level_7 {
 }
 body .pyramid.level_8 {
   background-image: url('../images/pyramid_NA-8.png');
-  line-height: 34px;
+  line-height: 67px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_8 {
@@ -397,7 +401,7 @@ body .pyramid.level_8 {
 }
 body .pyramid.level_9 {
   background-image: url('../images/pyramid_NA-9.png');
-  line-height: 35px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_9 {
@@ -742,60 +746,60 @@ body.touch_device #sidepanel {
     font-size: 20px;
   }
   body .pyramid.word_level_1 {
-    height: 144px;
-    line-height: 70px;
+    height: 72px;
+    line-height: 35px;
   }
   body .pyramid.word_level_2 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.word_level_3 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.word_level_4 {
-    line-height: 69px;
+    line-height: 35px;
   }
   body .pyramid.word_level_5 {
-    line-height: 69px;
+    line-height: 35px;
   }
   body .pyramid.word_level_6 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.word_level_7 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.word_level_8 {
-    line-height: 67px;
+    line-height: 34px;
   }
   body .pyramid.word_level_9 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.level_1 {
-    height: 144px;
-    line-height: 70px;
+    height: 72px;
+    line-height: 35px;
   }
   body .pyramid.level_2 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.level_3 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.level_4 {
-    line-height: 69px;
+    line-height: 35px;
   }
   body .pyramid.level_5 {
-    line-height: 69px;
+    line-height: 35px;
   }
   body .pyramid.level_6 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.level_7 {
-    line-height: 70px;
+    line-height: 35px;
   }
   body .pyramid.level_8 {
-    line-height: 67px;
+    line-height: 34px;
   }
   body .pyramid.level_9 {
-    line-height: 70px;
+    line-height: 35px;
   }
   #header {
     display: none;

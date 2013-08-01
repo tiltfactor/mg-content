@@ -77,7 +77,7 @@
         <div class="level_4 pyramid">&nbsp;</div>
         <div class="level_3 pyramid">&nbsp;</div>
         <div class="level_2 pyramid">&nbsp;</div>
-        <div class="word_level_1 pyramid"></div>
+        <div class="level_1 pyramid"></div>
         <div class="new_game"><a href="#" id="button-play-again"><span>&nbsp;</span></a></div>
     </script>
     <script id="template-final-info-play-once" type="text/x-jquery-tmpl">
