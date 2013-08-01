@@ -21,7 +21,7 @@ MG_GAME_PYRAMID = function ($) {
 //            alert("height" + $(window).height());
 //            alert("width" + $(window).width());
 
-            $('#countdown').countdown({until:'+10s', layout: '{mnn}{sep}{snn}', onExpiry:MG_GAME_PYRAMID.liftOff});
+            $('#countdown').countdown({until:'+2m', layout: '{mnn}{sep}{snn}', onExpiry:MG_GAME_PYRAMID.liftOff});
             var settings = $.extend(options, {
                 ongameinit:MG_GAME_PYRAMID.ongameinit
             });
