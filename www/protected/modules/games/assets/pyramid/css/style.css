@@ -224,188 +224,188 @@ body .pyramid {
   font-size: 20px;
 }
 body .pyramid.word_level_1 {
-  background-image: url('../images/pyramid-1.png');
+  background-image: url('../images/pyramid_1.png');
   height: 144px;
   line-height: 35px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_1 {
-    background-image: url('../images/pyramid-1@2x.png');
+    background-image: url('../images/pyramid_1@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_2 {
-  background-image: url('../images/pyramid-2.png');
+  background-image: url('../images/pyramid_2.png');
   height: 70px;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_2 {
-    background-image: url('../images/pyramid-2@2x.png');
+    background-image: url('../images/pyramid_2@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_3 {
-  background-image: url('../images/pyramid-3.png');
+  background-image: url('../images/pyramid_3.png');
   height: 70px;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_3 {
-    background-image: url('../images/pyramid-3@2x.png');
+    background-image: url('../images/pyramid_3@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_4 {
-  background-image: url('../images/pyramid-4.png');
+  background-image: url('../images/pyramid_4.png');
   height: 69px;
   line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_4 {
-    background-image: url('../images/pyramid-4@2x.png');
+    background-image: url('../images/pyramid_4@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_5 {
-  background-image: url('../images/pyramid-5.png');
+  background-image: url('../images/pyramid_5.png');
   height: 70px;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_5 {
-    background-image: url('../images/pyramid-5@2x.png');
+    background-image: url('../images/pyramid_5@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_6 {
-  background-image: url('../images/pyramid-6.png');
+  background-image: url('../images/pyramid_6.png');
   line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_6 {
-    background-image: url('../images/pyramid-6@2x.png');
+    background-image: url('../images/pyramid_6@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_7 {
-  background-image: url('../images/pyramid-7.png');
+  background-image: url('../images/pyramid_7.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_7 {
-    background-image: url('../images/pyramid-7@2x.png');
+    background-image: url('../images/pyramid_7@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_8 {
-  background-image: url('../images/pyramid-8.png');
+  background-image: url('../images/pyramid_8.png');
   line-height: 67px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_8 {
-    background-image: url('../images/pyramid-8@2x.png');
+    background-image: url('../images/pyramid_8@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.word_level_9 {
-  background-image: url('../images/pyramid-9.png');
+  background-image: url('../images/pyramid_9.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_9 {
-    background-image: url('../images/pyramid-9@2x.png');
+    background-image: url('../images/pyramid_9@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_1 {
-  background-image: url('../images/pyramid-1.png');
+  background-image: url('../images/pyramid_1.png');
   height: 144px;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_1 {
-    background-image: url('../images/pyramid-1@2x.png');
+    background-image: url('../images/pyramid_1@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_2 {
-  background-image: url('../images/pyramid_NA-2.png');
+  background-image: url('../images/pyramid_NA_2.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_2 {
-    background-image: url('../images/pyramid_NA-2@2x.png');
+    background-image: url('../images/pyramid_NA_2@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_3 {
-  background-image: url('../images/pyramid_NA-3.png');
+  background-image: url('../images/pyramid_NA_3.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_3 {
-    background-image: url('../images/pyramid_NA-3@2x.png');
+    background-image: url('../images/pyramid_NA_3@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_4 {
-  background-image: url('../images/pyramid_NA-4.png');
+  background-image: url('../images/pyramid_NA_4.png');
   line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_4 {
-    background-image: url('../images/pyramid_NA-4@2x.png');
+    background-image: url('../images/pyramid_NA_4@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_5 {
-  background-image: url('../images/pyramid_NA-5.png');
+  background-image: url('../images/pyramid_NA_5.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_5 {
-    background-image: url('../images/pyramid_NA-5@2x.png');
+    background-image: url('../images/pyramid_NA_5@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_6 {
-  background-image: url('../images/pyramid_NA-6.png');
+  background-image: url('../images/pyramid_NA_6.png');
   line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_6 {
-    background-image: url('../images/pyramid_NA-6@2x.png');
+    background-image: url('../images/pyramid_NA_6@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_7 {
-  background-image: url('../images/pyramid_NA-7.png');
+  background-image: url('../images/pyramid_NA_7.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_7 {
-    background-image: url('../images/pyramid_NA-7@2x.png');
+    background-image: url('../images/pyramid_NA_7@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_8 {
-  background-image: url('../images/pyramid_NA-8.png');
+  background-image: url('../images/pyramid_NA_8.png');
   line-height: 67px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_8 {
-    background-image: url('../images/pyramid_NA-8@2x.png');
+    background-image: url('../images/pyramid_NA_8@2x.png');
     background-size: auto auto;
   }
 }
 body .pyramid.level_9 {
-  background-image: url('../images/pyramid_NA-9.png');
+  background-image: url('../images/pyramid_NA_9.png');
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_9 {
-    background-image: url('../images/pyramid_NA-9@2x.png');
+    background-image: url('../images/pyramid_NA_9@2x.png');
     background-size: auto auto;
   }
 }
@@ -751,27 +751,35 @@ body.touch_device #sidepanel {
   }
   body .pyramid.word_level_2 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.word_level_3 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.word_level_4 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.word_level_5 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.word_level_6 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.word_level_7 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.word_level_8 {
     line-height: 34px;
+    height: 35px;
   }
   body .pyramid.word_level_9 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_1 {
     height: 72px;
@@ -779,27 +787,35 @@ body.touch_device #sidepanel {
   }
   body .pyramid.level_2 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_3 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_4 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_5 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_6 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_7 {
     line-height: 35px;
+    height: 35px;
   }
   body .pyramid.level_8 {
     line-height: 34px;
+    height: 35px;
   }
   body .pyramid.level_9 {
     line-height: 35px;
+    height: 35px;
   }
   #header {
     display: none;
