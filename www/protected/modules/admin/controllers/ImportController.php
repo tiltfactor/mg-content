@@ -43,9 +43,6 @@ class ImportController extends GxController
 
     public function actionIndex()
     {
-        $runner = new BConsoleRunner();
-        $runner->run("media", array("index"));
-
         $this->layout = '//layouts/column1';
 
         if (Yii::app()->user->checkAccess('editor')) {
