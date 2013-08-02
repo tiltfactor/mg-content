@@ -219,7 +219,7 @@ body #content footer div {
 }
 body .pyramid {
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
   color: white;
   font-size: 20px;
 }
@@ -247,8 +247,8 @@ body .pyramid.word_level_2 {
 }
 body .pyramid.word_level_3 {
   background-image: url('../images/pyramid_3.png');
-  height: 70px;
-  line-height: 70px;
+  height: 71px;
+  line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_3 {
@@ -258,8 +258,8 @@ body .pyramid.word_level_3 {
 }
 body .pyramid.word_level_4 {
   background-image: url('../images/pyramid_4.png');
-  height: 69px;
-  line-height: 69px;
+  height: 70px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_4 {
@@ -269,8 +269,8 @@ body .pyramid.word_level_4 {
 }
 body .pyramid.word_level_5 {
   background-image: url('../images/pyramid_5.png');
-  height: 69px;
-  line-height: 69px;
+  height: 68px;
+  line-height: 68px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_5 {
@@ -280,7 +280,7 @@ body .pyramid.word_level_5 {
 }
 body .pyramid.word_level_6 {
   background-image: url('../images/pyramid_6.png');
-  line-height: 69px;
+  line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_6 {
@@ -341,7 +341,7 @@ body .pyramid.level_2 {
 }
 body .pyramid.level_3 {
   background-image: url('../images/pyramid_NA_3.png');
-  line-height: 70px;
+  line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_3 {
@@ -351,7 +351,7 @@ body .pyramid.level_3 {
 }
 body .pyramid.level_4 {
   background-image: url('../images/pyramid_NA_4.png');
-  line-height: 69px;
+  line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_4 {
@@ -361,7 +361,7 @@ body .pyramid.level_4 {
 }
 body .pyramid.level_5 {
   background-image: url('../images/pyramid_NA_5.png');
-  line-height: 70px;
+  line-height: 68px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_5 {
@@ -371,7 +371,7 @@ body .pyramid.level_5 {
 }
 body .pyramid.level_6 {
   background-image: url('../images/pyramid_NA_6.png');
-  line-height: 69px;
+  line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_6 {
@@ -391,7 +391,7 @@ body .pyramid.level_7 {
 }
 body .pyramid.level_8 {
   background-image: url('../images/pyramid_NA_8.png');
-  line-height: 67px;
+  line-height: 68px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_8 {
@@ -620,7 +620,7 @@ input:-ms-input-placeholder {
   background-repeat: no-repeat;
   background-position: center;
   height: 167px;
-  margin-left: 12px;
+  margin-left: 0px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   .new_game {
