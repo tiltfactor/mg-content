@@ -133,7 +133,7 @@ class XUploadWidget extends CJuiInputWidget {
     $output = <<<EOD
     // Initialize the jQuery File Upload widget:
     \$('#$id').fileupload({
-      acceptFileTypes :/^(image\\/(jpg|jpeg|gif|png|tiff|bmp)|video\\/(mp4|ogv|webm)|audio\\/(mp3|ogg|wav))\$/,
+      acceptFileTypes :/^(image\\/(jpg|jpeg|gif|png|tiff|bmp)|video\\/.*|audio\\/.*)\$/,
       send : function () {if (\$('#batch_id').val().trim() == "") {return false;}},
       maxFileSize : $int_size
     });
