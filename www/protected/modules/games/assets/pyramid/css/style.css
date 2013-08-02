@@ -269,8 +269,8 @@ body .pyramid.word_level_4 {
 }
 body .pyramid.word_level_5 {
   background-image: url('../images/pyramid_5.png');
-  height: 70px;
-  line-height: 70px;
+  height: 69px;
+  line-height: 69px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_5 {
@@ -775,11 +775,11 @@ body.touch_device #sidepanel {
   }
   body .pyramid.word_level_8 {
     line-height: 34px;
-    height: 35px;
+    height: 34px;
   }
   body .pyramid.word_level_9 {
     line-height: 35px;
-    height: 35px;
+    height: 34px;
   }
   body .pyramid.level_1 {
     height: 72px;
@@ -814,8 +814,8 @@ body.touch_device #sidepanel {
     height: 35px;
   }
   body .pyramid.level_9 {
-    line-height: 35px;
-    height: 35px;
+    line-height: 34px;
+    height: 34px;
   }
   #header {
     display: none;
