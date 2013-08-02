@@ -96,7 +96,7 @@ MG_GAME_PYRAMID = function ($) {
             $("#input_area").hide();
 
             var final_info = {
-                finalMsg:"You got to " + (MG_GAME_PYRAMID.level+MG_GAME_PYRAMID.level_step-1) + " letters! Amazing!"
+                finalMsg:"You got to " + (MG_GAME_PYRAMID.level+MG_GAME_PYRAMID.level_step) + " letters! Amazing!"
             }
 
             $("#template-final-info").tmpl(final_info).appendTo($("#fieldholder"));
