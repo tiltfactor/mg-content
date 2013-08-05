@@ -639,11 +639,11 @@ input:-ms-input-placeholder {
     background-size: auto auto;
   }
 }
-.new_game.active {
+.new_game:active {
   background-image: url('../images/new_game_on.png');
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
-  .new_game.active {
+  .new_game:active {
     background-image: url('../images/new_game_on@2x.png');
     background-size: auto auto;
   }
