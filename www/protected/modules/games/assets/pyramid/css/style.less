@@ -498,8 +498,12 @@ input:-ms-input-placeholder /* placeholder only style */
   height: 167px;
   margin-left: 0px;
 
-  &:hover {
-    .at2x('../images/new_game_a.png');
+  &:hover, &:focus {
+    .at2x('../images/new_game_on.png');
+  }
+
+  &:active {
+    .at2x('../images/new_game_on.png');
   }
 }
 

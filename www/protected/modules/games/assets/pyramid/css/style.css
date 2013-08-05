@@ -628,12 +628,23 @@ input:-ms-input-placeholder {
     background-size: auto auto;
   }
 }
-.new_game:hover {
-  background-image: url('../images/new_game_a.png');
+.new_game:hover,
+.new_game:focus {
+  background-image: url('../images/new_game_on.png');
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
-  .new_game:hover {
-    background-image: url('../images/new_game_a@2x.png');
+  .new_game:hover,
+  .new_game:focus {
+    background-image: url('../images/new_game_on@2x.png');
+    background-size: auto auto;
+  }
+}
+.new_game.active {
+  background-image: url('../images/new_game_on.png');
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  .new_game.active {
+    background-image: url('../images/new_game_on@2x.png');
     background-size: auto auto;
   }
 }

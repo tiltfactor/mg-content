@@ -7,7 +7,11 @@ $( document ).ready(function() {
         }, function() {
             this.src = this.src.replace("_on","_off");
         }
-    )
+    );
+
+    $(".hover_btn").click(function () {
+        this.src = this.src.replace("_off","_on");
+    });
 });
 $(window).resize(function() {
     onResize ();
