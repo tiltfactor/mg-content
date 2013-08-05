@@ -637,6 +637,12 @@ input:-ms-input-placeholder {
     background-size: auto auto;
   }
 }
+.toast-item-image {
+  top: -8px;
+}
+.toast-item p {
+  color: white;
+}
 #game_description {
   font-size: 14px;
   left: -10px;
