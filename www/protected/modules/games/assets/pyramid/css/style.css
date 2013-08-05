@@ -628,6 +628,15 @@ input:-ms-input-placeholder {
     background-size: auto auto;
   }
 }
+.new_game:hover {
+  background-image: url('../images/new_game_a.png');
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  .new_game:hover {
+    background-image: url('../images/new_game_a@2x.png');
+    background-size: auto auto;
+  }
+}
 #game_description {
   font-size: 14px;
   left: -10px;
