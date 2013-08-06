@@ -7,9 +7,8 @@
     )); ?><!-- breadcrumbs -->
   <?php endif?>
   <?php echo $content; ?>
-
-</div><!-- page -->
-<footer id="footer">
+  <div id="footer">
     © <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
-</footer><!-- footer -->
+  </div><!-- footer -->
+</div><!-- page -->
 <?php $this->endContent(); ?>

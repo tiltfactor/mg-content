@@ -31,9 +31,8 @@ class PyramidGame extends NexTagGame
                 $currentTag = $tag;
                 break;
             }
-            // add the extracted tags to the image info
+            // add the extracted tags to the media info
             $data[$mediaId] = $mediaTags;
-
             break;
         }
 
@@ -52,13 +51,8 @@ class PyramidGame extends NexTagGame
         }
         if ($mediaId > 0) {
             $found = false;
-/*
-            $mediaTags = MGTags::getTagsByLength($mediaId,($level->level+2));
-            foreach ($mediaTags as $val) {
-*/
             $mediaTags = $this->getMediaTags($level, $mediaId);
             foreach ($mediaTags as $val) {
-
                 if ($currentTag == strtolower($val['tag'])) {
                     $data[$mediaId][$currentTag]['type'] = 'match';
                     $data[$mediaId][$currentTag]['tag_id'] = $val['tag_id'];
@@ -135,7 +129,7 @@ class PyramidGame extends NexTagGame
             $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
             $data["medias"][] = array(
                 "media_id" => $media["id"],
-                "full_size" => $path . "/medias/" . $media["name"],
+                "full_size" => $path . "/images/" . $media["name"],
                 "thumbnail" => $path . "/thumbs/" . $media["name"],
                 "final_screen" => $path . "/scaled/" . MGHelper::createScaledMedia($media["name"], "", "scaled", 212, 171, 80, 10),
                 "scaled" => $path . "/scaled/" . MGHelper::createScaledMedia($media["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),
@@ -155,10 +149,8 @@ class PyramidGame extends NexTagGame
 
             // the following lines call the wordsToAvoid methods of the activated dictionary
             // plugin this generates a words to avoid list
-
             $used_medias = array();
-            array_push($used_medias,$media['id']);
-
+            array_push($used_medias, $media['id']);
             $data["wordstoavoid"] = array();
             $plugins = PluginsModule::getActiveGamePlugins($game->game_id, "dictionary");
             if (count($plugins) > 0) {
@@ -268,25 +260,25 @@ class PyramidGame extends NexTagGame
 
     /**
      * @param PyramidDTO $level
-     * @param int $imageId
+     * @param int $mediaId
      * @return array
      */
-    private function getImageTags(PyramidDTO $level, $imageId)
+    private function getMediaTags(PyramidDTO $level, $mediaId)
     {
         $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-        $imageTags = Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS'];
+        $mediaTags = Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS'];
 
-        if (!is_null($imageTags) && ($level->level + PyramidGame::$LETTERS_STEP) == strlen($imageTags[0]["tag"])) {
-            return $imageTags;
+        if (!is_null($mediaTags) && ($level->level + PyramidGame::$LETTERS_STEP) == strlen($mediaTags[0]["tag"])) {
+            return $mediaTags;
         } else {
-            $imageTags = MGTags::getTagsByLength($imageId, ($level->level + PyramidGame::$LETTERS_STEP));
-            if(empty($imageTags)){
+            $mediaTags = MGTags::getTagsByLength($mediaId, ($level->level + PyramidGame::$LETTERS_STEP));
+            if(empty($mediaTags)){
                 $tag = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0,$level->level + PyramidGame::$LETTERS_STEP);
-                $imageTags[0]["tag"] = $tag;
-                $imageTags[0]["tag_id"] = -1;
+                $mediaTags[0]["tag"] = $tag;
+                $mediaTags[0]["tag_id"] = -1;
             }
-            Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS'] = $imageTags;
-            return $imageTags;
+            Yii::app()->session[$api_id . '_PYRAMID_IMAGE_TAGS'] = $mediaTags;
+            return $mediaTags;
         }
     }
 }

@@ -128,7 +128,7 @@ class MGHelper {
       $new_name = $file_info["filename"] . ".mg-scaled." . $width . "_" . $height . "." . $file_info["extension"];
     }
     if (!file_exists($path. '/' . $folder . '/' . $new_name)) {
-      $imgCPNT = Yii::app()->image->load($path . "/medias/" . $name);
+      $imgCPNT = Yii::app()->image->load($path . "/images/" . $name);
       if ($imgCPNT) {
         $imgCPNT->resize($width, $height, KImage::AUTO);
         if ($quality && (int)$quality != 0)  
