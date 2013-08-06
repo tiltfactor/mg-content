@@ -1,6 +1,7 @@
 <?php
 Yii::import("ext.xupload.models.XUploadForm");
 Yii::import("ext.runner.BConsoleRunner");
+Yii::import("application.commands.MediaParameters");
 
 class ImportController extends GxController
 {
@@ -109,6 +110,7 @@ class ImportController extends GxController
             $model->setAttributes($_POST['ImportZipForm']);
 
             if ($model->validate()) {
+
                 $file_media = CUploadedFile::getInstance($model, 'zipfile');
 
                 if ((is_object($file_media) && get_class($file_media) === 'CUploadedFile')) {
@@ -122,6 +124,7 @@ class ImportController extends GxController
 
                     if (is_dir($tmp_path)) {
                         $list = $pclzip->extractZip($file_media->tempName, $tmp_path);
+
                         if ($list) {
                             $cnt_added = 0;
                             $cnt_skipped = 0;
@@ -500,7 +503,8 @@ class ImportController extends GxController
                         $thumbUrl = Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . "/thumbs/" . $model->name;
                         $isMedia = true;
                     }
-                } elseif ($media_type == "video" || $media_type == "audio") {
+                }
+                elseif ($media_type == "video" || $media_type == "audio") {
                     $path = $this->path . "/";
                     $model->name = $this->checkFileName($path, $model->name);
                     $model->file->saveAs($path . $model->name);
