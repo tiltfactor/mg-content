@@ -29,11 +29,27 @@ $this->menu=array(
     $collections[] = GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('collection/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
   }
 
-$media = CHtml::link(
-  CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name) . ' [' . Yii::t('app', 'zoom') . ']',
-  Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/medias/'. $model->name,
-  array('rel'=>'zoom', 'class'=>'zoom'));
+$media_type = substr($model->mime_type, 0, 5);
 
+if($media_type === 'image') {
+    $media = CHtml::link(
+        CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name) . ' [' . Yii::t('app', 'zoom') . ']',
+        Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/images/'. $model->name,
+        array('rel'=>'zoom', 'media_type'=> $media_type, 'class'=>'zoom'));
+} else if($media_type === 'video') {
+    $media = CHtml::link(
+        CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/videos/'. urlencode(substr($model->name, 0, -4)). 'jpeg') . ' [' . Yii::t('app', 'zoom') . ']',
+        Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/videos/'. $model->name,
+        array('rel'=>'zoom', 'media_type'=> $media_type, 'class'=>'zoom'));
+} else {
+    //TODO
+    $media = CHtml::link(
+        CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $model->name) . ' [' . Yii::t('app', 'zoom') . ']',
+        Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/audios/'. $model->name,
+        array('rel'=>'zoom', 'media_type'=> $media_type, 'class'=>'zoom'));
+}
+
+//admin/media/update/id/xx
 $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,
 	'cssFile' => Yii::app()->request->baseUrl . "/css/yii/detailview/styles.css",
@@ -61,7 +77,9 @@ $this->widget('zii.widgets.CDetailView', array(
         'value' => join(", ", $collections),
       ),
 	),
-)); ?>
+));
+
+?>
 <div class="span-16 clearfix">
   <h2><?php echo Yii::t('app', 'Media is tagged with'); ?></h2>
   <p><b><?php echo Yii::t('app', 'TAG (COUNTED/AVG WEIGHT)'); ?></b></p>

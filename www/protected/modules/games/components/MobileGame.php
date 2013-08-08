@@ -110,7 +110,7 @@ class MobileGame extends MGGame implements MGGameInterface {
         $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
         $data["medias"][] = array(
           "media_id" => $medias[$i]["id"],
-          "full_size" => $path . "/medias/". $medias[$i]["name"],
+          "full_size" => $path . "/images/". $medias[$i]["name"],
           "thumbnail" => $path . "/thumbs/". $medias[$i]["name"],
 	  // We might want larger medias on the Final Screen...
           //"final_screen" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", 212, 171, 80, 10),

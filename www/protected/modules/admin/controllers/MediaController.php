@@ -111,7 +111,6 @@ EOD;
 
 	public function actionAdmin() {
 	  $this->layout = '//layouts/column1';
-    
 		$model = new Media('search');
 		$model->unsetAttributes();
 

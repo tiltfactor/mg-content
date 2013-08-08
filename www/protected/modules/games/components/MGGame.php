@@ -70,7 +70,7 @@ class MGGame extends CComponent {
    * @param boolean $second_attempt used to indicate that the seen medias in the session have been cleared an the system tries a second time to load medias
    * @return array Array of Array: array(array("id", "name"), ...)
    */
-  protected function getMedias($collections, $game, &$game_model, $num_medias=1, $second_attempt=false) {
+  protected function getMedias($collections, $game, &$game_model, $num_medias=1, $second_attempt=false, $accept_types=array("image")) {
     
     $used_medias = $this->getUsedMedias($game, $game_model);
     
@@ -79,25 +79,56 @@ class MGGame extends CComponent {
     
     
     if (Yii::app()->user->isGuest) {
+        $where = array('and', 'i.locked=1', array('in', 'is2i.collection_id', $collections), array('not in', 'i.id', $used_medias));
+        if (is_array($accept_types) && count($accept_types) > 0) {
+            $where_add = '(';
+            $num_types = count($accept_types);
+            $i = 0;
+            foreach ($accept_types as $mime_type) {
+                if ($i < $num_types && $i > 0) {
+                    $where_add.= " or ";
+                }
+                $where_add.= "LEFT( i.mime_type, 5) = '$mime_type'";
+                $i++;
+            }
+            $where_add.= ')';
+            $where[] = $where_add;
+        }
       $medias = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
+                  ->selectDistinct('i.id, i.name, i.mime_type, is.licence_id, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
                   ->from('{{collection_to_media}} is2i')
                   ->join('{{media}} i', 'i.id=is2i.media_id')
                   ->join('{{collection}} is', 'is.id=is2i.collection_id')
-                  ->where(array('and', 'i.locked=1', array('in', 'is2i.collection_id', $collections), array('not in', 'i.id', $used_medias)))
+                  ->where($where)
                   ->order('i.last_access ASC')
                   ->limit($limit)
                   ->queryAll();  
     } else {
       // if a player is logged in the medias should be weight by interest
+        $where = array('and', '(usm.user_id IS NULL OR usm.user_id=:userID)', 'i.locked=1', array('in', 'is2i.collection_id', $collections), array('not in', 'i.id', $used_medias));
+
+        if (is_array($accept_types) && count($accept_types) > 0) {
+            $where_add = '(';
+            $num_types = count($accept_types);
+            $i = 0;
+            foreach ($accept_types as $mime_type) {
+                if ($i < $num_types && $i > 0) {
+                    $where_add.= " or ";
+                }
+                $where_add.= "LEFT( i.mime_type, 5) = '$mime_type'";
+                $i++;
+            }
+            $where_add.= ')';
+            $where[] = $where_add;
+        }
       $medias = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
+                  ->selectDistinct('i.id, i.name, i.mime_type, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
                   ->from('{{collection_to_media}} is2i')
                   ->join('{{media}} i', 'i.id=is2i.media_id')
                   ->join('{{collection}} is', 'is.id=is2i.collection_id')
                   ->leftJoin('{{collection_to_subject_matter}} is2sm', 'is2sm.collection_id=is2i.collection_id')
                   ->leftJoin('{{user_to_subject_matter}} usm', 'usm.subject_matter_id=is2sm.subject_matter_id')
-                  ->where(array('and', '(usm.user_id IS NULL OR usm.user_id=:userID)', 'i.locked=1', array('in', 'is2i.collection_id', $collections), array('not in', 'i.id', $used_medias)), array(':userID' => Yii::app()->user->id))
+                  ->where($where, array(':userID' => Yii::app()->user->id))
                   ->group('i.id, i.name, is.licence_id')
                   ->order('max_interest DESC, i.last_access ASC')
                   ->limit($limit)
@@ -114,6 +145,7 @@ class MGGame extends CComponent {
             $arr_media[$media["id"]] = array(
               "id" => $media["id"],
               "name" => $media["name"],
+              "mime_type" => $media["mime_type"],
               "licences" => array((int)$media["licence_id"])
             );
           } else {
@@ -138,7 +170,7 @@ class MGGame extends CComponent {
         return null;
       } else {
         $this->resetUsedMedias($game, $game_model);
-        return $this->getMedias($collections, $game, $game_model, $num_medias, true);
+        return $this->getMedias($collections, $game, $game_model, $num_medias, true, $accept_types);
       }
     }
     else if ($second_attempt) {
@@ -147,7 +179,7 @@ class MGGame extends CComponent {
       // no medias available could it be that the user has already seen all in this session?
       // reset session medias and try again
       $this->resetUsedMedias($game, $game_model);
-      return $this->getMedias($collections, $game, $game_model, $num_medias, true);
+      return $this->getMedias($collections, $game, $game_model, $num_medias, true, $accept_types);
     }
   } 
  

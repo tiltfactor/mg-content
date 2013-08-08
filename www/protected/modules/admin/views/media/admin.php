@@ -38,6 +38,20 @@ $tagDialog = $this->widget('MGTagJuiDialog');
 // Maximum number of tags to show in the 'Top Tags' column.
 $max_toptags = 15;
 
+function generateImage ($data) {
+    $media_type = substr($data->mime_type, 0, 5);
+
+    if($media_type === 'image') {
+        $media = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $data->name, $data->name) . " <span>" . $data->name . "</span>";
+    } else if($media_type === 'video') {
+        $media = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/videos/'. urlencode(substr($data->name, 0, -4)).'jpeg', $data->name) . " <span>" . $data->name . "</span>";
+    } else {
+        $media = CHtml::image(Yii::app()->getBaseUrl() . '/images/audio_ico.png', $data->name) . " <span>".$data->name."</span>";
+    }
+
+    return $media;
+}
+
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'media-grid',
 	'dataProvider' => $model->search(),
@@ -56,7 +70,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'name' => 'name',
         'cssClassExpression' => '"media"',
         'type'=>'html',
-        'value'=>'CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. $data->name, $data->name) . " <span>" . $data->name . "</span>"',
+        'value'=>'generateImage($data)',
       ),
     'tag_count',
     array(

@@ -232,7 +232,7 @@ class GuessWhatGame extends MGGame implements MGGameInterface {
         foreach ($turn_medias as $i) {
           $data["medias"]["guess"][] = array(
             "media_id" => $medias[$i]["id"],
-            "full_size" => $path . "/medias/". $medias[$i]["name"],
+            "full_size" => $path . "/images/". $medias[$i]["name"],
             "thumbnail" => $path . "/thumbs/". $medias[$i]["name"],
             "guess" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", $game->image_grid_width, $game->image_grid_height, 80, 10),
             "scaled" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", $game->image_width, $game->image_height, 80, 10),

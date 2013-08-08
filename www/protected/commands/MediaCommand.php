@@ -1,4 +1,5 @@
 <?php
+Yii::import("application.commands.MediaParameters");
 /**
  *
  * @package
