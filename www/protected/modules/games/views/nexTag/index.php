@@ -95,24 +95,42 @@
   <h4>${name}</h4>
   <p>${description}</p>
 </script> 
-<script id="template-turn" type="text/x-jquery-tmpl">
+<script id="template-turn-image" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
     <img src="${url}" alt="game media" id="media_to_tag" />
   </div>
+</script>
+<script id="template-turn-video" type="text/x-jquery-tmpl">
+    <div style="text-align:center" class="clearfix">
+        <video width="${width}" height="${height}" controls autoplay  id="media_to_tag">
+            <source src="${url_mp4}" type="video/mp4">
+            <source src="${url_webm}" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</script>
+<script id="template-turn-audio" type="text/x-jquery-tmpl">
+    <div style="text-align:center" class="clearfix">
+        <audio controls autoplay  id="media_to_tag">
+            <source src="${url_mp3}" type="audio/mp3">
+            <source src="${url_ogg}" type="audio/ogg">
+            Your browser does not support the video tag.
+        </audio>
+    </div>
 </script>
 <script id="template-final-summary" type="text/x-jquery-tmpl">
   <table id="image_review">
     <tr>
       <td>
         <div class="smallholder_left"> 
-          <a href="${url_full_size_1}" rel="zoom" title="${licence_info_1}">
+          <a href="${url_full_size_1}" rel="zoom" media_type="${media_type_1}" title="${licence_info_1}">
             <img class="scoreimages" src="${url_1}" alt="game media" />
           </a>
         </div>
       </td>
       <td>
         <div class="smallholder_right"> 
-          <a href="${url_full_size_2}" rel="zoom" title="${licence_info_2}">
+          <a href="${url_full_size_2}" rel="zoom" media_type="${media_type_2}" title="${licence_info_2}">
             <img class="scoreimages" src="${url_2}" alt="game media" />
           </a>
         </div> 
@@ -121,14 +139,14 @@
    <tr>
       <td>
         <div class="smallholder_left"> 
-          <a href="${url_full_size_3}" rel="zoom" title="${licence_info_3}">
+          <a href="${url_full_size_3}" rel="zoom" media_type="${media_type_3}" title="${licence_info_3}">
             <img class="scoreimages" src="${url_3}" alt="game media" />
           </a>
         </div> 
       </td>
       <td>
         <div class="smallholder_right"> 
-          <a href="${url_full_size_4}" rel="zoom" title="${licence_info_4}">
+          <a href="${url_full_size_4}" rel="zoom" media_type="${media_type_4}" title="${licence_info_4}">
             <img class="scoreimages" src="${url_4}" alt="game media" />
           </a>
         </div>

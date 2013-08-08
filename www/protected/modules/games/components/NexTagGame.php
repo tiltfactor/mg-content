@@ -98,27 +98,50 @@ class NexTagGame extends MGGame implements MGGameInterface {
       $used_medias = array();
       
       // get a one medias that is active for the game
-      $medias = $this->getMedias($collections, $game, $game_model);
-      
-      
+      $medias = $this->getMedias($collections, $game, $game_model, 1, false, array("image", "video", "audio"));
+
       if ($medias && count($medias) > 0) {
         $i = array_rand($medias, 1); // select one random item out of the medias
-      
+        list($media_type, $type_2)  = explode("/", $medias[$i]["mime_type"]);
+        $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
+
+          $url_webm = $url_mp4 = $url_mp3 = $url_ogg = "";
+
+          if ($media_type === "image") {
+            $thumb = $path . "/thumbs/".$medias[$i]["name"];
+            $full_size = $path . "/images/". $medias[$i]["name"];
+            $scaled = $final_screen = $path . "/images/". urlencode($medias[$i]["name"]);
+        } else if ($media_type === "video") {
+            $thumb = $full_size = $scaled = $final_screen = $path . "/videos/". urlencode(substr($medias[$i]["name"], 0, -4)."jpeg");
+            $url_webm = $path . "/videos/". urlencode($medias[$i]["name"]);
+            $url_mp4 = $path . "/videos/". urlencode(substr($medias[$i]["name"], 0, -4)."mp4");
+        } else if ($media_type === "audio") {
+              $thumb = $full_size = $scaled = $final_screen = Yii::app()->getBaseUrl(true) . "/images/audio.png";
+              $url_mp3 = $path . "/audios/". urlencode($medias[$i]["name"]);
+              $url_ogg = $path . "/audios/". urlencode(substr($medias[$i]["name"], 0, -3)."ogg");
+        }
         // the needed information for the media.
         // make sure the media is present in all versions. rescale media if not
         // by calling MGHelper::createScaledMedia(...)
-        $path = Yii::app()->getBaseUrl(true) . Yii::app()->fbvStorage->get('settings.app_upload_url');
+
         $data["medias"][] = array(
-          "media_id" => $medias[$i]["id"],
-          "full_size" => $path . "/medias/". $medias[$i]["name"],
-          "thumbnail" => $path . "/thumbs/". $medias[$i]["name"],
-	  // For reskin of NexTag, we might want larger medias on the Final Screen...
-          //"final_screen" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", 212, 171, 80, 10),
-	  "final_screen" => $path . "/medias/". $medias[$i]["name"],
-	  // RESKIN: For our "scaled" media, use the full size media instead.
-          //"scaled" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", $game->media_width, $game->media_height, 80, 10),
-	  "scaled" => $path . "/medias/". $medias[$i]["name"],
-          "licences" => $medias[$i]["licences"],
+            "media_id" => $medias[$i]["id"],
+            "media_type" => $media_type,
+            "media_width" => '640',
+            "media_height" => '360',
+            "full_size" => $full_size,
+            "url_webm" => $url_webm,
+            "url_mp4" => $url_mp4,
+            "url_mp3" => $url_mp3,
+            "url_ogg" => $url_ogg,
+            "thumbnail" => $thumb,
+            // For reskin of NexTag, we might want larger medias on the Final Screen...
+            //"final_screen" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", 212, 171, 80, 10),
+            "final_screen" => $final_screen,
+            // RESKIN: For our "scaled" media, use the full size media instead.
+            //"scaled" => $path . "/scaled/". MGHelper::createScaledMedia($medias[$i]["name"], "", "scaled", $game->media_width, $game->media_height, 80, 10),
+            "scaled" => $scaled,
+            "licences" => $medias[$i]["licences"],
         );
         
         // add the media to the list of medias that will be saved in the session so the

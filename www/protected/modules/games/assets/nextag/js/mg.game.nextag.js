@@ -147,7 +147,8 @@ MG_GAME_NEXTAG = function ($) {
             // subtract padding, and then divide by two to set image height.
             $("#image_review img").height(($(window).height() - 30 - 89 - 100 - 40) / 2);
 
-            $("a[rel='zoom']").fancybox({overlayColor: '#000'});
+            $("a[rel='zoom'][media_type='image']").fancybox({overlayColor: '#000'});
+            //$("a[rel='zoom']").fancybox({overlayColor: '#000'});
 
             MG_GAME_API.releaseOnBeforeUnload();
 
@@ -279,7 +280,8 @@ MG_GAME_NEXTAG = function ($) {
                         //url : MG_GAME_NEXTAG.turns[0].medias[0].scaled,
                         url: response.turn.medias[0].full_size,
                         url_full_size: MG_GAME_NEXTAG.turns[0].medias[0].full_size,
-                        licence_info: MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences)
+                        licence_info: MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences),
+                        media_type: MG_GAME_NEXTAG.turns[0].medias[0].media_type
                     };
 
                 } else {
@@ -287,14 +289,18 @@ MG_GAME_NEXTAG = function ($) {
                     var turn_info = {
                         url_1: MG_GAME_NEXTAG.turns[0].medias[0].final_screen,
                         url_full_size_1: MG_GAME_NEXTAG.turns[0].medias[0].full_size,
+                        media_type_1: MG_GAME_NEXTAG.turns[0].medias[0].media_type,
                         licence_info_1: MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[0].licences),
                         url_2: MG_GAME_NEXTAG.turns[1].medias[0].final_screen,
+                        media_type_2: MG_GAME_NEXTAG.turns[1].medias[0].media_type,
                         url_full_size_2: MG_GAME_NEXTAG.turns[1].medias[0].full_size,
                         licence_info_2: MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[1].licences),
                         url_3: MG_GAME_NEXTAG.turns[2].medias[0].final_screen,
+                        media_type_3: MG_GAME_NEXTAG.turns[2].medias[0].media_type,
                         url_full_size_3: MG_GAME_NEXTAG.turns[2].medias[0].full_size,
                         licence_info_3: MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[2].licences),
                         url_4: MG_GAME_NEXTAG.turns[3].medias[0].final_screen,
+                        media_type_4: MG_GAME_NEXTAG.turns[3].medias[0].media_type,
                         url_full_size_4: MG_GAME_NEXTAG.turns[3].medias[0].full_size,
                         licence_info_4: MG_GAME_API.parseLicenceInfo(MG_GAME_NEXTAG.turns[3].licences)
                     }
@@ -321,8 +327,15 @@ MG_GAME_NEXTAG = function ($) {
                 var turn_info = {
                     //url : response.turn.medias[0].scaled,
                     url: response.turn.medias[0].full_size,
+                    media_type: response.turn.medias[0].media_type,
                     url_full_size: response.turn.medias[0].full_size,
-                    licence_info: MG_GAME_API.parseLicenceInfo(licence_info)
+                    licence_info: MG_GAME_API.parseLicenceInfo(licence_info),
+                    url_webm: response.turn.medias[0].url_webm,
+                    url_mp4: response.turn.medias[0].url_mp4,
+                    url_mp3: response.turn.medias[0].url_mp3,
+                    url_ogg: response.turn.medias[0].url_ogg,
+                    width: response.turn.medias[0].media_width,
+                    height: response.turn.medias[0].media_height
                 }
 
                 MG_GAME_API.renderTurn(response, score_info, turn_info, licence_info, more_info);
