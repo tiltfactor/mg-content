@@ -56,9 +56,11 @@ MG_GAME_NEXTAG = function ($) {
 
             $("#template-turn-" + turn_info.media_type).tmpl(turn_info).appendTo($("#image_container"));
 
-            html5media();
-            html5media.forceFallback = function(tagName, element) {
-                return true;
+            if (!$("body").hasClass("audio")) {
+                html5media();
+                html5media.forceFallback = function(tagName, element) {
+                    return true;
+                }
             }
 
             // Resize the height of the image to fit in the height of the window.

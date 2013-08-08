@@ -103,16 +103,16 @@
 <script id="template-turn-video" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
         <video width="${width}" height="${height}" class="video" controls autoplay  id="media_to_tag">
-            <source src="${url_mp4}" type="video/mp4" />
-            <source src="${url_webm}" type="video/webm" />
+            <source src="${url_mp4}"></source>
+            <source src="${url_webm}"></source>
         </video>
     </div>
 </script>
 <script id="template-turn-audio" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
-        <audio controls autoplay class="audio"  id="media_to_tag">
-            <source src="${url_mp3}" type="audio/mp3" />
-            <source src="${url_ogg}" type="audio/ogg" />
+        <audio class="audio" controls preload autoplay>
+            <source src="${url_mp3}"></source>
+            <source src="${url_ogg}"></source>
         </audio>
     </div>
 </script>
