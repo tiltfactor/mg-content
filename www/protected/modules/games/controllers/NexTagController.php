@@ -41,6 +41,7 @@ class NexTagController extends GxController
       $cs->registerCssFile(Yii::app()->baseUrl . '/css/jquery.fancybox-1.3.4.css');
       $cs->registerCssFile(GamesModule::getAssetsUrl() . '/nextag/css/style.css');
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
+      $cs->registerScriptFile(Yii::app()->baseUrl . '/js/html5_api/html5media.min.js', CClientScript::POS_HEAD);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.tmpl.min.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.api.js', CClientScript::POS_END);
       $cs->registerScriptFile(Yii::app()->baseUrl . '/js/mg.game.api.js', CClientScript::POS_END);

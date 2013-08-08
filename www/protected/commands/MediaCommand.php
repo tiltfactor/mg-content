@@ -159,7 +159,7 @@ EOD;
             while ($start < $duration) {
                 $ss = sprintf('%02d-%02d-%02d', ($start / 3600), ($start / 60 % 60), $start % 60);
                 $s0 = sprintf('%02d-%02d-%02d', (($start + $offset) / 3600), (($start + $offset) / 60 % 60), ($start + $offset) % 60);
-                $destFile = $file . "_#" . $i . "__" . $ss . "_" . $s0;
+                $destFile = $file . "_" . str_pad($i, 3, 0, STR_PAD_LEFT) . "_" . $ss . "_" . $s0;
 
                 $filename = $file . ".mp4";
                 $destFilename = $destFile . ".mp4";
@@ -229,7 +229,7 @@ EOD;
             while ($start < $duration) {
                 $ss = sprintf('%02d-%02d-%02d', ($start / 3600), ($start / 60 % 60), $start % 60);
                 $s0 = sprintf('%02d-%02d-%02d', (($start + $offset) / 3600), (($start + $offset) / 60 % 60), ($start + $offset) % 60);
-                $destFile = $file . "_#" . $i . "__" . $ss . "_" . $s0;
+                $destFile = $file . "_" . str_pad($i, 3, 0, STR_PAD_LEFT) . "_" . $ss . "_" . $s0;
 
                 $filename = $file . ".mp3";
                 $destFilename = $destFile . ".mp3";

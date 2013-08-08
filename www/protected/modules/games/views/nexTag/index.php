@@ -1,6 +1,6 @@
 <div id="gamearea">
   <div id="no_js">Unfortunately we can't show the game as it relies on JavaScript which appears to be disabled on your browser.</div>
-  <!-- Images from the database appear here --> 
+  <!-- Images from the database appear here -->
   <div id="stage">
     <!-- The #holder div contains both the primary image for tagging
          as well as the set of all images displayed at the end of the
@@ -19,7 +19,7 @@
       <br />
     </div>
 
-  </div> 
+  </div>
 </div>
 
 <!-- The bounding-box around the text input and the button -->
@@ -27,12 +27,12 @@
   <form action="#">
     <!-- user text field -->
     <input type="text" name="words" id="words" placeholder="List what is in this media, separated by commas" />
-    <a href="#" id="button-play" class="ir"></a> 
-  </form> 
+    <a href="#" id="button-play" class="ir"></a>
+  </form>
 </div>
 
 <div id="fieldholder" class="clearfix">
-</div>  
+</div>
 
 <!-- New slide-out panel -->
 <div id="sidepanel">
@@ -43,16 +43,16 @@
     <div class="skinny">
       <br />
       <br />
-      
+
       <p>NexTag is part of the Metadata Games suite.</p>
-      
+
       <p>Enter words that are relevant to the media. Separate words with a comma.</p>
       <br />
       <br />
       <br />
       <p>Metadata Games is an online game system for gathering useful data on photo, audio, and moving media artifacts.</p>
       <div id="more_info"></div>
-      
+
       <br />
       <div id="licences"></div>
     </div>
@@ -79,7 +79,7 @@
       </div>
       <p>software developed by tiltfactor</p>
     </div> <!-- smallfooter -->
-    
+
   </div>
 </div>
 
@@ -94,7 +94,7 @@
 <script id="template-licence" type="text/x-jquery-tmpl">
   <h4>${name}</h4>
   <p>${description}</p>
-</script> 
+</script>
 <script id="template-turn-image" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
     <img src="${url}" alt="game media" id="media_to_tag" />
@@ -102,19 +102,17 @@
 </script>
 <script id="template-turn-video" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
-        <video width="${width}" height="${height}" controls autoplay  id="media_to_tag">
-            <source src="${url_mp4}" type="video/mp4">
-            <source src="${url_webm}" type="video/webm">
-            Your browser does not support the video tag.
+        <video width="${width}" height="${height}" class="video" controls autoplay  id="media_to_tag">
+            <source src="${url_mp4}" type="video/mp4" />
+            <source src="${url_webm}" type="video/webm" />
         </video>
     </div>
 </script>
 <script id="template-turn-audio" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
-        <audio controls autoplay  id="media_to_tag">
-            <source src="${url_mp3}" type="audio/mp3">
-            <source src="${url_ogg}" type="audio/ogg">
-            Your browser does not support the video tag.
+        <audio controls autoplay class="audio"  id="media_to_tag">
+            <source src="${url_mp3}" type="audio/mp3" />
+            <source src="${url_ogg}" type="audio/ogg" />
         </audio>
     </div>
 </script>
@@ -122,30 +120,30 @@
   <table id="image_review">
     <tr>
       <td>
-        <div class="smallholder_left"> 
+        <div class="smallholder_left">
           <a href="${url_full_size_1}" rel="zoom" media_type="${media_type_1}" title="${licence_info_1}">
             <img class="scoreimages" src="${url_1}" alt="game media" />
           </a>
         </div>
       </td>
       <td>
-        <div class="smallholder_right"> 
+        <div class="smallholder_right">
           <a href="${url_full_size_2}" rel="zoom" media_type="${media_type_2}" title="${licence_info_2}">
             <img class="scoreimages" src="${url_2}" alt="game media" />
           </a>
-        </div> 
+        </div>
       </td>
    </tr>
    <tr>
       <td>
-        <div class="smallholder_left"> 
+        <div class="smallholder_left">
           <a href="${url_full_size_3}" rel="zoom" media_type="${media_type_3}" title="${licence_info_3}">
             <img class="scoreimages" src="${url_3}" alt="game media" />
           </a>
-        </div> 
+        </div>
       </td>
       <td>
-        <div class="smallholder_right"> 
+        <div class="smallholder_right">
           <a href="${url_full_size_4}" rel="zoom" media_type="${media_type_4}" title="${licence_info_4}">
             <img class="scoreimages" src="${url_4}" alt="game media" />
           </a>
@@ -164,7 +162,7 @@
 </script>
 <script id="template-final-info" type="text/x-jquery-tmpl">
   <p class="final">You have earned ${current_score} point(s)! Thank you for playing.</p>
-  <a href="#" id="button-play-again" class="ir"><span>Play Again</span></a> 
+  <a href="#" id="button-play-again" class="ir"><span>Play Again</span></a>
 </script>
 <script id="template-final-tags-new" type="text/x-jquery-tmpl">
   <p class="tag-info"><!-- No tags displayed in NexTag --></p>

@@ -53,7 +53,13 @@ MG_GAME_NEXTAG = function ($) {
             }
 
             $("#image_container").html("");
-            $("#template-turn").tmpl(turn_info).appendTo($("#image_container"));
+
+            $("#template-turn-" + turn_info.media_type).tmpl(turn_info).appendTo($("#image_container"));
+
+            html5media();
+            html5media.forceFallback = function(tagName, element) {
+                return true;
+            }
 
             // Resize the height of the image to fit in the height of the window.
             // From the total window height, subtract the top bar (30px), bottom bar (60px)
