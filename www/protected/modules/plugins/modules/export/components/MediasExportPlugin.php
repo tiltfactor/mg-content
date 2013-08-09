@@ -40,7 +40,7 @@ function debug_log($message) {
  *  End Debugging/Logging Functions
  ************************************************************************/
 
-class ImagesExportPlugin extends MGExportPlugin {
+class MediasExportPlugin extends MGExportPlugin {
   public $enableOnInstall = true;
 
   private $output_directory = NULL;
@@ -58,14 +58,14 @@ class ImagesExportPlugin extends MGExportPlugin {
    */
   function form(&$form, &$model) {
     $legend = CHtml::tag("legend", array(),
-                         Yii::t('app', 'Plugin: Images Export'));
+                         Yii::t('app', 'Plugin: Medias Export'));
 
     $value = $this->is_active() ? 1 : 0;
     $label = CHtml::label(Yii::t('app', 'Active'),
-                          'ExportForm_ImagesExportPlugin_active');
+                          'ExportForm_MediasExportPlugin_active');
     
     $buttons= CHtml::radioButtonList( 
-      "ExportForm[ImagesExportPlugin][active]", 
+      "ExportForm[MediasExportPlugin][active]",
       $value, 
       MGHelper::itemAlias("yes-no"), 
       array("template" => '<div class="checkbox">{input} {label}</div>',
@@ -76,12 +76,12 @@ class ImagesExportPlugin extends MGExportPlugin {
                       '<div class="row">' . $label . $buttons .
                       '<div class="description">' .
                       Yii::t('app',
-                             "Export images in a zipped-up directory.") .
+                             "Export medias in a zipped-up directory.") .
                       '</div></div>');
   }
   
   // Provide pieces of information about the install for embedding
-  // into files and images.
+  // into files and medias.
   function systemInformation() {
    	return array(// version
                  Yii::app()->params['version'],
@@ -101,7 +101,7 @@ class ImagesExportPlugin extends MGExportPlugin {
    * temporary folder
    * 
    * @param object $model the ExportForm instance
-   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the medias' data
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
@@ -109,7 +109,7 @@ class ImagesExportPlugin extends MGExportPlugin {
       return 0;
     }
 
-    // Create the output directory for the images.
+    // Create the output directory for the medias.
     $d = $tmp_folder . "images/";
     if(mkdir($d)) {
       $this->output_directory = $d;
@@ -152,19 +152,19 @@ EOT;
    * @param string $tmp_folder the full path to the temporary folder
    * @param int $image_id the id of the image that should be exported
    */
-  function process(&$model, &$command, $tmp_folder, $image_id) {
+  function process(&$model, &$command, $tmp_folder, $media_id) {
     if(!$this->is_active()) {
       return 0;
     }
 
     // These are the values we'll embed into the XMP metadata of each
-    // exported image.
+    // exported media.
     list($version, $format, $date, $system) = $this->systemInformation();
     
-    // Query the database to get the information about each image we
+    // Query the database to get the information about each media we
     // will be including in our export.
     $sql = "
-tu.image_id,
+tu.media_id,
 COUNT(tu.id) tu_count,
 MIN(tu.weight) w_min,
 MAX(tu.weight) w_max,
@@ -176,9 +176,9 @@ i.name
     
     $command->selectDistinct($sql);
 
-    $command->where(array('and', $command->where, 'tu.image_id = :imageID'),
-                    array(":imageID" => $image_id));
-    $command->order('tu.image_id, t.tag');
+    $command->where(array('and', $command->where, 'tu.media_id = :mediaID'),
+                    array(":mediaID" => $media_id));
+    $command->order('tu.media_id, t.tag');
     
     $info = $command->queryAll();
     $c = count($info);
@@ -190,10 +190,10 @@ i.name
       $tags[] = $info[$i]['tag'];
     }
     
-    // Extract the filename of the image from the query results array.
+    // Extract the filename of the media from the query results array.
     $filename = $info[0]['name'];
     
-    // Copy this image into our output directory.
+    // Copy this media into our output directory.
       
     // TODO: Consider factoring-out even MORE of the reference to the
     // directory structure, so that this code will continue to work
@@ -202,7 +202,7 @@ i.name
     $base = Yii::app()->getBasePath();
     $upload_path = Yii::app()->fbvStorage->get("settings.app_upload_path");
     
-    // Note that the 'images' portion of the path is not inside the
+    // Note that the 'medias' portion of the path is not inside the
     // call to realpath() as that directory _does not exist yet_ !
     $source_directory = realpath($base . $upload_path) . "/images";
     
