@@ -33,7 +33,7 @@ class ImportController extends GxController
                 'roles' => array('*'),
             ),
             array('allow',
-                'actions' => array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'uploadprocess', 'xuploadmedia', 'batch', 'delete'),
+                'actions' => array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'transcodingprocess', 'uploadprocess', 'xuploadmedia', 'batch', 'delete'),
                 'roles' => array('editor', 'dbmanager', 'admin'),
             ),
             array('deny',
@@ -65,6 +65,12 @@ class ImportController extends GxController
                 "name" => Yii::t('app', "Import medias in a ZIP file from your computer"),
                 "description" => Yii::t('app', "Import .zip compressed archives of medias. Currently has a filesize limit of 32 MB."),
                 "url" => $this->createUrl('/admin/import/uploadzip'),
+            );
+
+            $tools["transcoding-process"] = array(
+                "name" => Yii::t('app', "Transcoding process of imported medias"),
+                "description" => Yii::t('app', "Once you have imported upload audio and video files into the system, here you will see the transcoding progress."),
+                "url" => $this->createUrl('/admin/import/transcodingprocess'),
             );
 
             $tools["process"] = array(
@@ -336,6 +342,16 @@ class ImportController extends GxController
 
         $this->render('uploadprocess', array(
             'model' => $model,
+        ));
+    }
+
+    public function actionTranscodingProcess () {
+        $this->layout = '//layouts/column1';
+
+        $dataProvider=new CActiveDataProvider('CronJob');
+
+        $this->render('transcodingprocess', array(
+            'dataProvider' => $dataProvider,
         ));
     }
 

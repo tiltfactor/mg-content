@@ -48,7 +48,11 @@ class CronJob extends CActiveRecord
 
     public function attributeLabels()
     {
-        return array();
+        return array(
+            'action' => 'Action',
+            'parameters' => 'Parameters',
+            'execution_result' => 'Execution Result'
+        );
     }
 
     public function beforeValidate()
@@ -69,6 +73,7 @@ class CronJob extends CActiveRecord
         $criteria->compare('executed_at', $this->executed_at, true);
         $criteria->compare('action', $this->action, true);
         $criteria->compare('parameters', $this->parameters, true);
+        $criteria->compare('execution_result', $this->parameters, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

@@ -78,7 +78,8 @@ class m111119_234450_install_v2_0 extends CDbMigration
           PRIMARY KEY (`id`)
         ) ENGINE=InnoDB CHARACTER SET = utf8;
 
-        UPDATE `newmg`.`plugin` SET `unique_id` = 'import-CollectionAtImportPlugin' WHERE `plugin`.`id` =8;
+        UPDATE `plugin` SET `unique_id` = 'import-CollectionAtImportPlugin' WHERE `plugin`.`unique_id` ='import-ImageSetAtImportPlugin';
+        UPDATE `plugin` SET `unique_id` = 'export-MediasExportPlugin' WHERE `plugin`.`unique_id` ='export-ImagesExportPlugin';
 	  ";
 
         if (trim($script) != "") {
