@@ -150,7 +150,7 @@ class ImportController extends GxController
                                     if ($media_type == "image") {
                                         $item_path = $path . "/" . $this->subfolder ."/";
                                     } else {
-                                        $item_path = $path . "/uploads/";
+                                        $item_path = $path . "/";
                                     }
 
                                     if (!is_dir($item_path)) {
@@ -309,7 +309,7 @@ class ImportController extends GxController
                                         if ($media_type == "image") {
                                             $item_path = $path . "/" . $this->subfolder ."/";
                                         } else {
-                                            $item_path = $path . "/uploads/";
+                                            $item_path = $path."/";
                                         }
 
                                         if (!is_dir($item_path)) {
@@ -319,7 +319,6 @@ class ImportController extends GxController
 
                                         $model->import_processed++;
                                         $file_name = $this->checkFileName($item_path, $file_info["basename"]);
-
                                         rename(str_replace('//', '/', $file), $item_path . $file_name);
 
                                         if ($media_type == "image") {
