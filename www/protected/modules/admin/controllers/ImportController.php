@@ -147,9 +147,8 @@ class ImportController extends GxController
                                 if (!$file["folder"] && strpos($file['stored_filename'], "__MACOSX") === false) { // we don't want to process folder and MACOSX meta data file mirrors as the mirrored files also return the image/jpg mime type
                                     $mime_type = CFileHelper::getMimeType($file['filename']);
                                     $file_ok = $this->_checkMedia($file['filename'], $mime_type);
-                                    //var_dump("TODO");
+
                                     list($media_type, $extention) = explode('/', $mime_type);
-                                    //if ($media_type == "image" && $file_ok) {
                                     if (($media_type == "image" || $media_type == "video" || $media_type == "audio") && $file_ok) {
                                         $cnt_added++;
 
@@ -237,11 +236,7 @@ class ImportController extends GxController
 
         $this->checkUploadFolder();
 
-        $path = $this->path . "/" . $this->subfolder . "/";
-        if (!is_dir($path)) {
-            mkdir($path);
-            chmod($path, 0777);
-        }
+        $path = $this->path;
 
         $model = new ImportFtpForm;
         $count_files = 0;
@@ -270,18 +265,54 @@ class ImportController extends GxController
                         foreach ($list as $file) {
                             if ($import_per_request > 0) {
                                 $file_info = pathinfo($file);
-                                $mime_type = CFileHelper::getMimeType($file);
-                                $file_ok = $this->_checkMedia($file, $mime_type);
 
                                 if ($file_info['basename'] != '.gitignore') {
-                                    //var_dump("TODO");
+                                    $mime_type = CFileHelper::getMimeType($file);
+
+                                    $file_ok = $this->_checkMedia($file, $mime_type);
+
                                     list($media_type, $extention) = explode('/', $mime_type);
-                                    //if ($media_type == "image" && $file_ok) {
+
                                     if (($media_type == "image" || $media_type == "video" || $media_type == "audio") && $file_ok) {
+                                        if ($media_type == "image") {
+                                            $item_path = $path . "/" . $this->subfolder ."/";
+                                        } else {
+                                            $item_path = $path . "/uploads/";
+                                        }
+
+                                        if (!is_dir($item_path)) {
+                                            mkdir($item_path);
+                                            chmod($item_path, 0777);
+                                        }
+
                                         $model->import_processed++;
-                                        $file_name = $this->checkFileName($path, $file_info["basename"]);
-                                        rename(str_replace('//', '/', $file), $path . $file_name);
-                                        $this->createMedia($file_name, filesize($path . $file_name), $_POST['ImportFtpForm']["batch_id"], $mime_type);
+                                        $file_name = $this->checkFileName($item_path, $file_info["basename"]);
+
+                                        rename(str_replace('//', '/', $file), $item_path . $file_name);
+
+                                        if ($media_type == "image") {
+                                            $this->createMedia($file_name, filesize($item_path . $file_name), $_POST['ImportFtpForm']["batch_id"], $mime_type);
+                                        } elseif ($media_type == "video" || $media_type == "audio") {
+
+                                            $params = new MediaParameters();
+                                            $params->chunk = true;
+                                            $params->chunkOffset = 20;
+                                            $params->filename = $file_name;
+
+                                            $cronJob = new CronJob();
+                                            $cronJob->execute_after = date('Y-m-d H:i:s');
+                                            if ($media_type == "audio") {
+                                                $cronJob->action = "audioTranscode";
+                                            } elseif ($media_type == "video") {
+                                                $cronJob->action = "videoTranscode";
+                                            }
+                                            $cronJob->parameters = json_encode($params);
+                                            $cronJob->save();
+
+                                            $runner = new BConsoleRunner();
+                                            $runner->run("media", array("index"));
+                                        }
+
                                         $import_per_request--;
                                     } else {
                                         if (!$file_ok)
@@ -496,10 +527,10 @@ class ImportController extends GxController
             $model->name = trim(basename(stripslashes($model->file->getName())), ".\x00..\x20");
             $isMedia = false;
             $thumbUrl = "";
+
             if ($model->validate()) {
                 list($media_type, $extention) = explode('/', $model->mime_type);
 
-                //var_dump("TODO");
                 if ($media_type == 'image') {
                     $path = $this->path . "/" . $this->subfolder . "/";
                     if (!is_dir($path)) {
