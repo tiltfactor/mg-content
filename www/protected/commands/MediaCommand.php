@@ -56,46 +56,50 @@ EOD;
     public function actionIndex()
     {
         if ($this->isLocked()) die("Already running.\n");
-        //$start = $this->getMicrotime();
-
-        $now = new DateTime('now');
-        $now = $now->format("Y-m-d H:i:s");
-
-        $jobs = CronJob::model()->findAll('execute_after <:now AND executed_finished IS NULL ORDER BY id ASC', array(':now' => $now));
-
         $this->initFolders();
 
-        for ($i = 0; $i < count($jobs); $i++) {
-            $job = $jobs[$i];
-            echo "Processing Job " . $job->id . "\r\n";
 
-            if (method_exists($this, $job->action)) {
-                $executed_at = new DateTime('now', new DateTimeZone('GMT'));
-                $job->executed_started = $executed_at->format('Y-m-d H:i:s');
-                $job->save();
-                try {
-                    $params = MediaParameters::createFromJson($job->parameters);
-                    $this->{$job->action}($params);
-                    $executed_at = new DateTime('now', new DateTimeZone('GMT'));
-                    $job->succeeded = 1;
-                    $job->execution_result = "Done";
-                    $job->executed_finished = $executed_at->format('Y-m-d H:i:s');
+        $jobs = $this->getJobs();
+        while(count($jobs)>0){
+            for ($i = 0; $i < count($jobs); $i++) {
+                $job = $jobs[$i];
+                echo "Processing Job " . $job->id . "\r\n";
+
+                if (method_exists($this, $job->action)) {
+                    $executed_at = date("Y-m-d H:i:s");
+                    $job->executed_started = $executed_at;
                     $job->save();
-                } catch (CException $e) {
+                    try {
+                        $params = MediaParameters::createFromJson($job->parameters);
+                        $this->{$job->action}($params);
+                        $executed_at = date("Y-m-d H:i:s");
+                        $job->succeeded = 1;
+                        $job->execution_result = "Done";
+                        $job->executed_finished = $executed_at;
+                        $job->save();
+                    } catch (CException $e) {
+                        $job->succeeded = 0;
+                        $job->executed_finished = $executed_at;
+                        $job->execution_result = $e->getMessage();
+                        $job->save();
+                    }
+                } else {
+                    $executed_at = date("Y-m-d H:i:s");
+                    $job->executed_finished = $executed_at;
                     $job->succeeded = 0;
-                    $job->executed_finished = $executed_at->format('Y-m-d H:i:s');
-                    $job->execution_result = $e->getMessage();
+                    $job->execution_result = 'Action does not exist.';
                     $job->save();
                 }
-            } else {
-                $executed_at = new DateTime('now', new DateTimeZone('GMT'));
-                $job->executed_finished = $executed_at->format('Y-m-d H:i:s');
-                $job->succeeded = 0;
-                $job->execution_result = 'Action does not exist.';
-                $job->save();
             }
+            $jobs = $this->getJobs();
         }
         $this->releaseLock();
+    }
+
+    private function getJobs(){
+        $now = date("Y-m-d H:i:s");
+        echo "Get jobs at: " . $now . "\r\n";
+        return CronJob::model()->findAll('execute_after <:now AND executed_finished IS NULL ORDER BY id ASC', array(':now' => $now));
     }
 
     /**

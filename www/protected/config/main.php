@@ -17,6 +17,7 @@ return array(
 
     // autoloading model and component classes
     'import'=>array(
+        'application.commands.*',
         'application.models.*',
         'application.components.*',
         'ext.giix-components.*',
@@ -59,7 +60,7 @@ return array(
         ),
 
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=metadatagames',
+            'connectionString' => 'mysql:host=localhost;dbname=metadatagames2',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => 'niki1234',
