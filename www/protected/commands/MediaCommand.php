@@ -295,7 +295,6 @@ EOD;
      */
     private function convertToWebm($path, $filename, $dest, $resolution)
     {
-        $path = $path . "/" . $filename;
         $ext = pathinfo($path . "/" . $filename, PATHINFO_EXTENSION);
         $file = basename($filename, "." . $ext);
 
