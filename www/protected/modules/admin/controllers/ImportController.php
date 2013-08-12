@@ -63,7 +63,7 @@ class ImportController extends GxController
 
             $tools["import-zip"] = array(
                 "name" => Yii::t('app', "Import medias in a ZIP file from your computer"),
-                "description" => Yii::t('app', "Import .zip compressed archives of medias. Currently has a filesize limit of 32 MB."),
+                "description" => Yii::t('app', "Import .zip compressed archives of medias. Currently has a filesize limit of ".(int)(ini_get('upload_max_filesize'))." MB."),
                 "url" => $this->createUrl('/admin/import/uploadzip'),
             );
 
@@ -135,26 +135,58 @@ class ImportController extends GxController
                             $cnt_added = 0;
                             $cnt_skipped = 0;
 
-                            $path = $this->path . "/" . $this->subfolder . "/";
-                            if (!is_dir($path)) {
-                                mkdir($path);
-                                chmod($path, 0777);
-                            }
+                            $path = $this->path;
 
                             foreach ($list as $file) {
                                 $file_info = pathinfo($file['stored_filename']);
+
 
                                 if (!$file["folder"] && strpos($file['stored_filename'], "__MACOSX") === false) { // we don't want to process folder and MACOSX meta data file mirrors as the mirrored files also return the image/jpg mime type
                                     $mime_type = CFileHelper::getMimeType($file['filename']);
                                     $file_ok = $this->_checkMedia($file['filename'], $mime_type);
 
                                     list($media_type, $extention) = explode('/', $mime_type);
+
+                                    if ($media_type == "image") {
+                                        $item_path = $path . "/" . $this->subfolder ."/";
+                                    } else {
+                                        $item_path = $path . "/uploads/";
+                                    }
+
+                                    if (!is_dir($item_path)) {
+                                        mkdir($item_path);
+                                        chmod($item_path, 0777);
+                                    }
+
                                     if (($media_type == "image" || $media_type == "video" || $media_type == "audio") && $file_ok) {
                                         $cnt_added++;
 
-                                        $file['stored_filename'] = $this->checkFileName($path, $file_info["basename"]);
-                                        rename($file['filename'], $path . $file['stored_filename']);
-                                        $this->createMedia($file['stored_filename'], $file['size'], $_POST['ImportZipForm']["batch_id"], $mime_type);
+                                        $file['stored_filename'] = $this->checkFileName($item_path, $file_info["basename"]);
+                                        rename($file['filename'], $item_path . $file['stored_filename']);
+
+                                        if ($media_type == "image") {
+                                            $this->createMedia($file['stored_filename'], $file['size'], $_POST['ImportZipForm']["batch_id"], $mime_type);
+                                        } elseif ($media_type == "video" || $media_type == "audio") {
+
+                                            $params = new MediaParameters();
+                                            $params->chunk = true;
+                                            $params->chunkOffset = 20;
+                                            $params->filename = $file['stored_filename'];
+
+                                            $cronJob = new CronJob();
+                                            $cronJob->execute_after = date('Y-m-d H:i:s');
+                                            if ($media_type == "audio") {
+                                                $cronJob->action = "audioTranscode";
+                                            } elseif ($media_type == "video") {
+                                                $cronJob->action = "videoTranscode";
+                                            }
+                                            $cronJob->parameters = json_encode($params);
+                                            $cronJob->save();
+
+                                            $runner = new BConsoleRunner();
+                                            $runner->run("media", array("index"));
+                                        }
+
 
                                     } else {
                                         if (!$file_ok)
