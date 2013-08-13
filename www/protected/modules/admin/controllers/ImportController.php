@@ -550,6 +550,7 @@ class ImportController extends GxController
 
         if (isset($model->file) && isset($_POST["batch_id"]) && trim($_POST["batch_id"]) != "") {
             $model->mime_type = $model->file->getType();
+
             $model->size = $model->file->getSize();
 
             // Remove path information and dots around the filename, to prevent uploading
@@ -559,7 +560,8 @@ class ImportController extends GxController
             $isMedia = false;
             $thumbUrl = "";
 
-            if ($model->validate()) {
+            //if ($model->validate()) {
+            if($this->_checkMedia($model->file, $model->mime_type)) {
                 list($media_type, $extention) = explode('/', $model->mime_type);
 
                 if ($media_type == 'image') {
@@ -657,6 +659,7 @@ class ImportController extends GxController
      * and not corrupted
      *
      * @param string $path the full path to the media
+     * @param string $mime_type the mime type of the media file
      * @return boolean true if the file is a valid media file
      */
     private function _checkMedia($path, $mime_type)
@@ -666,30 +669,21 @@ class ImportController extends GxController
 
         list($media_type, $extention) = explode('/', $mime_type);
 
-        //var_dump("TODO");
+        //TODO better audio/video validation
         if ($media_type == 'image') {
             // Fetch the media size and mime type
             $media_info = getimagesize($path);
         } else if ($media_type == 'video') {
-            /*
-            * "tmp_name":"loginPage.mp4","name":"loginPage_3.mp4","size":95612,"type":"video\/mp4"
-            */
             $media_info = array(
-                'tmp_name' => 'loginPage.mp4',
-                'name' => 'loginPage.mp4',
-                'size' => '95612',
-                'type' => 'video\/mp4',
-                'thumbnail_url' => 'loginPage.mp4',
-                'error' => null
+                'tmp_name' => $path,
+                'name' => $path,
+                'type' => $mime_type,
             );
         } else if ($media_type == 'audio') {
             $media_info = array(
                 'tmp_name' => $path,
                 'name' => $path,
-                'size' => '200',
                 'type' => $mime_type,
-                'thumbnail_url' => '',
-                'error' => null
             );
         }
 

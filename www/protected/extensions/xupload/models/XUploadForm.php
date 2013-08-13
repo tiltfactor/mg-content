@@ -13,7 +13,7 @@ class XUploadForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('file', 'file', 'minSize'=>1000, 'maxSize'=>10000000, 'types'=>'jpg,jpeg,png,tiff,avi,mp4,ogv,webm,mp3,ogg,wav,wmv'),
+			array('file', 'file', 'minSize'=>1000, 'maxSize'=>10000000, 'types'=>'jpg,jpeg,png,tiff,avi,mp4,ogv,webm,mp3,ogg,wav,wmv,flac,x-flac'),
 		);
 	}
     //acceptFileTypes :/^(image\\/(jpg|jpeg|gif|png|tiff)|video\\/(mp4|ogv|webm)|audio\\/(mp3|ogg|wav))\$/,

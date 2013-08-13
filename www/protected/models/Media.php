@@ -188,8 +188,8 @@ class Media extends BaseMedia
     $path_parts = pathinfo($this->name);
     
     //remove file from .../uploads/medias
-    if (file_exists($path . "/medias/" . $this->name) && is_writable($path . "/medias/" . $this->name))
-      unlink($path . "/medias/" . $this->name);
+    if (file_exists($path . "/images/" . $this->name) && is_writable($path . "/images/" . $this->name))
+      unlink($path . "/images/" . $this->name);
     
     //remove file from .../uploads/medias
     if (file_exists($path . "/thumbs/" . $this->name) && is_writable($path . "/thumbs/" . $this->name)) 
