@@ -39,128 +39,161 @@ class MGGame extends CComponent {
   }
   
   /**
-   * Retrieves the active image sets for the current game. 
+   * Retrieves the active media sets for the current game.
    * In future this method could be expanded to disable one or more of the 
-   * active image set by dynamic criteria (e.g. the users ip address range)
+   * active media set by dynamic criteria (e.g. the users ip address range)
    * 
    * @param Object $game the current game object
    * @param Game $game_model The current game's model
-   * @return Array the ids of the active image sets
+   * @return Array the ids of the active media sets
    */
-  protected function getImageSets($game, &$game_model) {
-    $imageSets = array();
+  protected function getCollections($game, &$game_model) {
+    $collections = array();
     
-    foreach ($game_model->imageSets as $imageSet) {
-      //TODO: here could be the image set access filter magic
-      $imageSets[] = $imageSet->id;
+    foreach ($game_model->collections as $collection) {
+      //TODO: here could be the media set access filter magic
+      $collections[] = $collection->id;
     }
     
-    return $imageSets;
+    return $collections;
   }
   
   /**
-   * This method retrieves images that are available for the user. It looks in the database 
-   * for all images that belong to the games image sets and returns the full list of these images
+   * This method retrieves medias that are available for the user. It looks in the database
+   * for all medias that belong to the games media sets and returns the full list of these medias
    * minus the ones the user has already used in this session.
    * 
-   * @param array $imageSets The id's of the image sets assigned to the game
+   * @param array $collections The id's of the media sets assigned to the game
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param int $num_images how many images have to be found at least, if not enough images are found the system clears the seen images in the session and recalls this method
-   * @param boolean $second_attempt used to indicate that the seen images in the session have been cleared an the system tries a second time to load images
+   * @param int $num_medias how many medias have to be found at least, if not enough medias are found the system clears the seen medias in the session and recalls this method
+   * @param boolean $second_attempt used to indicate that the seen medias in the session have been cleared an the system tries a second time to load medias
    * @return array Array of Array: array(array("id", "name"), ...)
    */
-  protected function getImages($imageSets, $game, &$game_model, $num_images=1, $second_attempt=false) {
+  protected function getMedias($collections, $game, &$game_model, $num_medias=1, $second_attempt=false, $accept_types=array("image")) {
     
-    $used_images = $this->getUsedImages($game, $game_model);
+    $used_medias = $this->getUsedMedias($game, $game_model);
     
-    $limit = $num_images * 5;
+    $limit = $num_medias * 5;
     $limit = ($limit < 50)? 50 : $limit;
     
     
     if (Yii::app()->user->isGuest) {
-      $images = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
-                  ->from('{{image_set_to_image}} is2i')
-                  ->join('{{image}} i', 'i.id=is2i.image_id')
-                  ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
-                  ->where(array('and', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images))) 
+        $where = array('and', 'i.locked=1', array('in', 'is2i.collection_id', $collections), array('not in', 'i.id', $used_medias));
+        if (is_array($accept_types) && count($accept_types) > 0) {
+            $where_add = '(';
+            $num_types = count($accept_types);
+            $i = 0;
+            foreach ($accept_types as $mime_type) {
+                if ($i < $num_types && $i > 0) {
+                    $where_add.= " or ";
+                }
+                $where_add.= "LEFT( i.mime_type, 5) = '$mime_type'";
+                $i++;
+            }
+            $where_add.= ')';
+            $where[] = $where_add;
+        }
+      $medias = Yii::app()->db->createCommand()
+                  ->selectDistinct('i.id, i.name, i.mime_type, is.licence_id, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
+                  ->from('{{collection_to_media}} is2i')
+                  ->join('{{media}} i', 'i.id=is2i.media_id')
+                  ->join('{{collection}} is', 'is.id=is2i.collection_id')
+                  ->where($where)
                   ->order('i.last_access ASC')
                   ->limit($limit)
                   ->queryAll();  
     } else {
-      // if a player is logged in the images should be weight by interest
-      $images = Yii::app()->db->createCommand()
-                  ->selectDistinct('i.id, i.name, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
-                  ->from('{{image_set_to_image}} is2i')
-                  ->join('{{image}} i', 'i.id=is2i.image_id')
-                  ->join('{{image_set}} is', 'is.id=is2i.image_set_id')
-                  ->leftJoin('{{image_set_to_subject_matter}} is2sm', 'is2sm.image_set_id=is2i.image_set_id')
+      // if a player is logged in the medias should be weight by interest
+        $where = array('and', '(usm.user_id IS NULL OR usm.user_id=:userID)', 'i.locked=1', array('in', 'is2i.collection_id', $collections), array('not in', 'i.id', $used_medias));
+
+        if (is_array($accept_types) && count($accept_types) > 0) {
+            $where_add = '(';
+            $num_types = count($accept_types);
+            $i = 0;
+            foreach ($accept_types as $mime_type) {
+                if ($i < $num_types && $i > 0) {
+                    $where_add.= " or ";
+                }
+                $where_add.= "LEFT( i.mime_type, 5) = '$mime_type'";
+                $i++;
+            }
+            $where_add.= ')';
+            $where[] = $where_add;
+        }
+      $medias = Yii::app()->db->createCommand()
+                  ->selectDistinct('i.id, i.name, i.mime_type, is.licence_id, MAX(usm.interest) as max_interest, (i.last_access IS NULL OR i.last_access <= now()-is.last_access_interval) as last_access_ok')
+                  ->from('{{collection_to_media}} is2i')
+                  ->join('{{media}} i', 'i.id=is2i.media_id')
+                  ->join('{{collection}} is', 'is.id=is2i.collection_id')
+                  ->leftJoin('{{collection_to_subject_matter}} is2sm', 'is2sm.collection_id=is2i.collection_id')
                   ->leftJoin('{{user_to_subject_matter}} usm', 'usm.subject_matter_id=is2sm.subject_matter_id')
-                  ->where(array('and', '(usm.user_id IS NULL OR usm.user_id=:userID)', 'i.locked=1', array('in', 'is2i.image_set_id', $imageSets), array('not in', 'i.id', $used_images)), array(':userID' => Yii::app()->user->id))
+                  ->where($where, array(':userID' => Yii::app()->user->id))
                   ->group('i.id, i.name, is.licence_id')
                   ->order('max_interest DESC, i.last_access ASC')
                   ->limit($limit)
                   ->queryAll();  
     }
     
-    if ($images && count($images) >= $num_images) {
-      $arr_image = array();
+    if ($medias && count($medias) >= $num_medias) {
+      $arr_media = array();
       $blocked_by_last_access = array();
-      
-      foreach ($images as $image) {
-        if (!array_key_exists($image["id"], $blocked_by_last_access)) {
-          if (!array_key_exists($image["id"], $arr_image)) {
-            $arr_image[$image["id"]] = array(
-              "id" => $image["id"],
-              "name" => $image["name"],
-              "licences" => array((int)$image["licence_id"])
+
+      foreach ($medias as $media) {
+        if (!array_key_exists($media["id"], $blocked_by_last_access)) {
+          if (!array_key_exists($media["id"], $arr_media)) {
+            $arr_media[$media["id"]] = array(
+              "id" => $media["id"],
+              "name" => $media["name"],
+              "mime_type" => $media["mime_type"],
+              "licences" => array((int)$media["licence_id"])
             );
           } else {
-            $arr_image[$image["id"]]["licences"][] = (int)$image["licence_id"];
+            $arr_media[$media["id"]]["licences"][] = (int)$media["licence_id"];
           }
-          
-          if (!$image["last_access_ok"]) {
-            unset($arr_image[$image["id"]]);
-            $blocked_by_last_access[$image["id"]] = true;
+
+          if (!$media["last_access_ok"]) {
+            unset($arr_media[$media["id"]]);
+            $blocked_by_last_access[$media["id"]] = true;
           }
         }
       }
       
-      if (count($arr_image) >= $num_images) {
-        foreach ($arr_image as $key => $image) { // we want to hide the default licence if the image has got another licence
-          if (count($arr_image[$key]["licences"]) > 1) {
-            $arr_image[$key]["licences"] = array_diff($arr_image[$key]["licences"], array(1));
+      if (count($arr_media) >= $num_medias) {
+        foreach ($arr_media as $key => $media) { // we want to hide the default licence if the media has got another licence
+          if (count($arr_media[$key]["licences"]) > 1) {
+            $arr_media[$key]["licences"] = array_diff($arr_media[$key]["licences"], array(1));
           }
         }
-        return array_values($arr_image);
+        return array_values($arr_media);
       } else if ($second_attempt) {
         return null;
       } else {
-        $this->resetUsedImages($game, $game_model);
-        return $this->getImages($imageSets, $game, $game_model, $num_images, true);
+        $this->resetUsedMedias($game, $game_model);
+        return $this->getMedias($collections, $game, $game_model, $num_medias, true, $accept_types);
       }
-    } else if ($second_attempt) {
+    }
+    else if ($second_attempt) {
       return null;
     } else {
-      // no images available could it be that the user has already seen all in this session?
-      // reset session images and try again
-      $this->resetUsedImages($game, $game_model);
-      return $this->getImages($imageSets, $game, $game_model, $num_images, true);
+      // no medias available could it be that the user has already seen all in this session?
+      // reset session medias and try again
+      $this->resetUsedMedias($game, $game_model);
+      return $this->getMedias($collections, $game, $game_model, $num_medias, true, $accept_types);
     }
   } 
  
   /**
-   * Retrieve the IDs of all images that have been seen/used by the current user 
+   * Retrieve the IDs of all medias that have been seen/used by the current user
    * on a per game and per session basis.
    * 
    * @param Object $game the current game object
    * @param Game $game_model The current game's model
-   * @return Array the ids of the images that have been already seen by the current user in this session
+   * @return Array the ids of the medias that have been already seen by the current user in this session
    */
-  protected function getUsedImages($game, &$game_model) {
+  protected function getUsedMedias($game, &$game_model) {
     
-    $used_images = array();
+    $used_medias = array();
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     if (!isset(Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'])) {
       Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'] = array();
@@ -170,25 +203,25 @@ class MGGame extends CComponent {
         $arr_img[$game->gid] = array();
         Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'] = $arr_img;
       } else {
-        $used_images = $arr_img[$game->gid];
+        $used_medias = $arr_img[$game->gid];
       }
     }
           
-    // TODO: we could add a data base driven version (a.k.a) retrieve the images the user has tagged and add them to the list
-    return $used_images;    
+    // TODO: we could add a data base driven version (a.k.a) retrieve the medias the user has tagged and add them to the list
+    return $used_medias;
   }
   
   /**
-   * Add images to the used images list stored in the current session for the currently 
+   * Add medias to the used medias list stored in the current session for the currently
    * played game
    * 
-   * @param Array $usedImages the images that have been shown to the user
+   * @param Array $usedMedias the medias that have been shown to the user
    * @param Object $game the current game object
    * @param Game $game_model The current game's model
    */
-  protected function setUsedImages($usedImages, $game, &$game_model) {
+  protected function setUsedMedias($usedMedias, $game, &$game_model) {
      $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
-    
+
     $arr_img = array();
     if (!isset(Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'])) {
       Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'] = $arr_img;
@@ -198,20 +231,20 @@ class MGGame extends CComponent {
         $arr_img[$game->gid] = array();
       }
     }
-    $arr_img[$game->gid] = array_unique(array_merge($arr_img[$game->gid], $usedImages));
+    $arr_img[$game->gid] = array_unique(array_merge($arr_img[$game->gid], $usedMedias));
     
-    Image::model()->setLastAccess($usedImages);
+    Media::model()->setLastAccess($usedMedias);
     
     Yii::app()->session[$api_id .'_GAMES_USED_IMAGES'] = $arr_img;
   }
   
   /**
-   * Clears the used images in the session for the current game.
+   * Clears the used medias in the session for the current game.
    * 
    * @param Object $game the current game object
    * @param Game $game_model The current game's model
    */
-  protected function resetUsedImages($game, &$game_model) {
+  protected function resetUsedMedias($game, &$game_model) {
     $api_id = Yii::app()->fbvStorage->get("api_id", "MG_API");
     
     $arr_img = array();
@@ -231,7 +264,7 @@ class MGGame extends CComponent {
   /**
    * Returns the full distinct info about licences used on this turn.
    * 
-   * @param Array the licence IDs of the images of this turn
+   * @param Array the licence IDs of the medias of this turn
    * @return Array the aggregated licence info. Empty array if no info could be found
    */
   protected function getLicenceInfo($licenceIDs) {
@@ -333,12 +366,12 @@ interface MGGameInterface
   public function parseSubmission(&$game, &$game_model);
   
   /**
-   * Take the information from the submission and extract the tags for each image
+   * Take the information from the submission and extract the tags for each media
    * involved in the current turn.
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @return Array the tags for each image
+   * @return Array the tags for each media
    */
   public function parseTags(&$game, &$game_model);
   
@@ -348,7 +381,7 @@ interface MGGameInterface
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return Array the tags (with additional weight information)
    */
   public function setWeights(&$game, &$game_model, $tags);
@@ -358,7 +391,7 @@ interface MGGameInterface
    * players client and there rendered. It will most likely involve the follwoing 
    * tasks. 
    * 
-   * + Retrive a new image list for the next turn
+   * + Retrive a new media list for the next turn
    * + Call the wordstoavoid method of the dictionary plugins
    * 
    * If two player game 
@@ -367,7 +400,7 @@ interface MGGameInterface
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return Array the turn information that will be sent to the players client
    */
   public function getTurn(&$game, &$game_model, $tags=array());
@@ -379,7 +412,7 @@ interface MGGameInterface
    * 
    * @param object $game The game object
    * @param object $game_model The game model
-   * @param Array the tags submitted by the player for each image
+   * @param Array the tags submitted by the player for each media
    * @return int the score for this turn
    */
   public function getScore(&$game, &$game_model, &$tags);

@@ -71,8 +71,8 @@
     <?php echo $form->error($model,'image_height'); ?>
   </div>
   <div class="row clearfix">
-  <h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
-  <?php echo $form->checkBoxList($model, 'imageSets', GxHtml::encodeEx(GxHtml::listDataEx(ImageSet::model()->findAllAttributes(null, true)), false, true), 
+  <h2><?php echo GxHtml::encode($model->getRelationLabel('collections')); ?></h2>
+  <?php echo $form->checkBoxList($model, 'collections', GxHtml::encodeEx(GxHtml::listDataEx(Collection::model()->findAllAttributes(null, true)), false, true),
         array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
   </div> 
   <h2><?php echo GxHtml::encode($model->getRelationLabel('plugins')); ?></h2>

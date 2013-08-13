@@ -67,7 +67,7 @@
 </script>
 
 <script id="template-guess-image" type="text/x-jquery-tmpl">
- <div><a href="#" id="guess-me-${image_id}" class="guessthis" title="click to send this image as guess"><img src="${url}" alt="game image" /></a><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a><span class="wrong"></span></div>
+ <div><a href="#" id="guess-me-${media_id}" class="guessthis" title="click to send this media as guess"><img src="${url}" alt="game image" /></a><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a><span class="wrong"></span></div>
 </script>
 
 <script id="template-wrong-guess-image" type="text/x-jquery-tmpl">
@@ -82,7 +82,7 @@
 
 <script id="template-final-screen-turn-image" type="text/x-jquery-tmpl">
   <div class="finalImage clearfix{{if num_points == 0}} failedToGuess{{/if}}">
-  <div><img src="${url}" alt="game image" /><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
+  <div><img src="${url}" alt="game media" /><a href="${url_full_size}" rel="zoom" title="${licence_info}" class="zoom">zoom</a></div>
   <p><b>${num_guesses}</b> Guess(es), <b>${num_hints}</b> Hint(s) [${hints}], <b>${num_points}</b> Point(s)</p>
   </div>
 </script>

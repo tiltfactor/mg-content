@@ -2,11 +2,15 @@
 /**
  * $tools = {name, url, description}
  */
-
-$this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name"). " - " . Yii::t('app', 'Admin'); 
+$this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name"). " - " . Yii::t('app', 'Admin');
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')
 );
+try {
+    $now = new DateTime('now');
+} catch (Exception $e) {
+    echo 'Since PHP 5.1.0 (when the date/time functions were rewritten). Update your php.ini file and restart.';
+}
 ?>
 
 <p>This is the Admin Overview. It lists all tools you have access to.</p>

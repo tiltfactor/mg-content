@@ -7,27 +7,27 @@ class TagUse extends BaseTagUse
   public $username;
   public $user_id;
   public $ip_address;
-  
+
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
   
   public function rules() {
     return array(
-      array('image_id, tag_id, created, game_submission_id', 'required'),
-      array('image_id, tag_id', 'numerical', 'integerOnly'=>true),
+      array('media_id, tag_id, created, game_submission_id', 'required'),
+      array('media_id, tag_id', 'numerical', 'integerOnly'=>true),
       array('weight', 'numerical', 'min'=>0, 'max'=>10000),
       array('type', 'length', 'max'=>64),
       array('game_submission_id', 'length', 'max'=>10),
       array('weight, type', 'default', 'setOnEmpty' => true, 'value' => null),
-      array('id, image_id, tag_id, weight, type, created, game_submission_id, username, user_id, ip_address', 'safe', 'on'=>'search'),
+      array('id, media_id, tag_id, weight, type, created, game_submission_id, username, user_id, ip_address', 'safe', 'on'=>'search'),
     );
   }
   
   public function attributeLabels() {
     return array(
       'id' => Yii::t('app', 'ID'),
-      'image_id' => null,
+      'media_id' => null,
       'tag_id' => null,
       'weight' => Yii::t('app', 'Weight'),
       'type' => Yii::t('app', 'Type'),
@@ -35,7 +35,7 @@ class TagUse extends BaseTagUse
       'game_submission_id' => null,
       'tagOriginalVersions' => null,
       'gameSubmission' => null,
-      'image' => null,
+      'media' => null,
       'tag' => null,
       'ip_address' => Yii::t('app', 'Submitters IP address')
     );
@@ -110,7 +110,7 @@ class TagUse extends BaseTagUse
                           LEFT JOIN {{session}} s ON s.id=gs.session_id
                           LEFT JOIN {{user}} u ON u.id=s.user_id";
     $criteria->compare('t.id', $this->id);
-    $criteria->compare('t.image_id', $this->image_id);
+    $criteria->compare('t.media_id', $this->media_id);
     $criteria->compare('t.tag_id', $this->tag_id);
     $criteria->compare('t.weight', $this->weight);
     $criteria->compare('t.type', $this->type, true);
@@ -124,7 +124,7 @@ class TagUse extends BaseTagUse
         $criteria->addSearchCondition('u.username', $_GET["TagUse"]["username"]);                    
       }
     }
-    
+
     return new CActiveDataProvider($this, array(
       'criteria' => $criteria,
       'pagination'=>array(

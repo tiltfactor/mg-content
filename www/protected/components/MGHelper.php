@@ -109,15 +109,15 @@ class MGHelper {
    * @param mixed $sharpen if int the system will sharpen the image with this setting. If false the scaled image will not be sharpened
    * @return mixed the file name of the newly generated image or false on error  
    */
-  public static function createScaledImage($name, $new_name, $folder, $width, $height, $quality=FALSE, $sharpen=FALSE) {
+  public static function createScaledMedia($name, $new_name, $folder, $width, $height, $quality=FALSE, $sharpen=FALSE) {
     $path= realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
-    
+
     if(!is_dir($path)){
       throw new CHttpException(500, "{$path} does not exists.");
     }else if(!is_writable($path)){
       throw new CHttpException(500, "{$path} is not writable.");
     }
-    
+
     if(!is_dir($path . "/" . $folder)){
       mkdir($path . "/" . $folder);
     }

@@ -46,7 +46,7 @@ class ExportController extends GxController {
    
 	  $this->_checkExportFolder();
     $this->_checkFilesInExportFolder();
-    $count_affected_images = -1;
+    $count_affected_medias = -1;
     
     $model = new ExportForm;
     
@@ -69,19 +69,19 @@ class ExportController extends GxController {
 
         if (!$model->hasErrors()) {
           $command = $this->_createCommand($model);
-          $model->affected_images = $this->_getAffectedImages($command);
-          $count_affected_images = count($model->affected_images);
+          $model->affected_medias = $this->_getAffectedMedias($command);
+          $count_affected_medias = count($model->affected_medias);
         }
       }
     }
     
-    if ($count_affected_images == 0) {
-      $model->addError('all', Yii::t('app', 'No images found. Please change the form settings and try again.'));
+    if ($count_affected_medias == 0) {
+      $model->addError('all', Yii::t('app', 'No medias found. Please change the form settings and try again.'));
     }
     
 	  $this->render('admin', array(
 	   'model' => $model,
-	   'count_affected_images' => $count_affected_images
+	   'count_affected_medias' => $count_affected_medias
     ));
 	}
   
@@ -98,7 +98,7 @@ class ExportController extends GxController {
     $data['status'] = 'ok';
     
     $this->_checkExportFolder();
-    $count_affected_images = 0;
+    $count_affected_medias = 0;
     
     $model = new ExportForm;
     
@@ -116,12 +116,12 @@ class ExportController extends GxController {
           }
         }
         
-        if ((int)$model->active_image != 0) {
+        if ((int)$model->active_media != 0) {
           $plugins = PluginsModule::getAccessiblePlugins("export");
           $command = $this->_createCommand($model);
           $tmp_folder = $this->tmp_path  . $model->filename . '/';
           
-          if ((int)$model->active_image > 0) {
+          if ((int)$model->active_media > 0) {
 
             if(!is_dir($tmp_folder)){
               mkdir($tmp_folder);
@@ -142,7 +142,7 @@ class ExportController extends GxController {
               try {
                 foreach ($plugins as $plugin) {
                   if (method_exists($plugin->component, "process")) {
-                    $plugin->component->process($model, $command, $tmp_folder, (int)$model->active_image);
+                    $plugin->component->process($model, $command, $tmp_folder, (int)$model->active_media);
                   }      
                 }
               } catch (Exception $e) {}
@@ -199,7 +199,7 @@ class ExportController extends GxController {
     $data['status'] = 'done';
     $data['redirect'] = Yii::app()->createUrl('admin/export/exported');
     
-    Flash::add("success", Yii::t('app', 'Image successfully exported. The export is ready to download as in this {file}', array("{file}" => $filename)));
+    Flash::add("success", Yii::t('app', 'Media successfully exported. The export is ready to download as in this {file}', array("{file}" => $filename)));
     $this->jsonResponse($data);
   }
 
@@ -213,7 +213,7 @@ class ExportController extends GxController {
     $command = Yii::app()->db->createCommand()
                 ->from('{{tag_use}} tu')
                 ->join('{{tag}} t', 't.id=tu.tag_id')
-                ->join('{{image}} i', 'i.id=tu.image_id')
+                ->join('{{media}} i', 'i.id=tu.media_id')
                 ->join('{{game_submission}} gs', 'gs.id=tu.game_submission_id')
                 ->join('{{session}} s', 's.id=gs.session_id')
                 ->leftJoin('{{user}} u', 'u.id=s.user_id');
@@ -222,7 +222,7 @@ class ExportController extends GxController {
       $parsed_tags = MGTags::parseTags($model->tags);
       if (count($parsed_tags) > 0) {
         $cmd =  Yii::app()->db->createCommand();
-        $images = null;
+        $medias = null;
         $subwhere = array('and');
         $subparams = array();
         
@@ -236,29 +236,29 @@ class ExportController extends GxController {
         }
         
         if ($model->tags_search_option == "OR") {
-          $images = $cmd->selectDistinct('tu.image_id')
+          $medias = $cmd->selectDistinct('tu.media_id')
                   ->from('{{tag_use}} tu')
                   ->join('{{tag}} tag', 'tu.tag_id = tag.id')
                   ->where($subwhere, $subparams)
                   ->queryAll();
         } else {
-          $images = $cmd->selectDistinct('tu.image_id, COUNT(DISTINCT tu.tag_id) as counted')
+          $medias = $cmd->selectDistinct('tu.media_id, COUNT(DISTINCT tu.tag_id) as counted')
                   ->from('{{tag_use}} tu')
                   ->join('{{tag}} tag', 'tu.tag_id = tag.id')
                   ->where($subwhere, $subparams)
-                  ->group('tu.image_id')
+                  ->group('tu.media_id')
                   ->having('counted = :counted', array(':counted' => count($parsed_tags)))
                   ->queryAll();
         }
         
-        if ($images) {
+        if ($medias) {
           $ids = array();
-          foreach ($images as $image) {
-            $ids[] = $image["image_id"];
+          foreach ($medias as $media) {
+            $ids[] = $media["media_id"];
           }
-          $where[] = array('in', 'tu.image_id', array_values($ids));
+          $where[] = array('in', 'tu.media_id', array_values($ids));
         } else {
-          $where[] = array('in', 'tu.image_id', array(0));
+          $where[] = array('in', 'tu.media_id', array(0));
         }
       }
     }
@@ -285,13 +285,13 @@ class ExportController extends GxController {
         }
         
         if ($model->tags_search_option == "OR") {
-          $users = $cmd->selectDistinct('tu.image_id')
+          $users = $cmd->selectDistinct('tu.media_id')
                   ->where($subwhere, $subparams)
                   ->queryAll();
         } else {
-          $users = $cmd->selectDistinct('tu.image_id, COUNT(DISTINCT u.username) as counted')
+          $users = $cmd->selectDistinct('tu.media_id, COUNT(DISTINCT u.username) as counted')
                   ->where($subwhere, $subparams)
-                  ->group('tu.image_id')
+                  ->group('tu.media_id')
                   ->having('counted = :counted', array(':counted' => count($parsed_tags)))
                   ->queryAll();
         }
@@ -299,18 +299,18 @@ class ExportController extends GxController {
         if ($users) {
           $ids = array();
           foreach ($users as $user) {
-            $ids[] = $user["image_id"];
+            $ids[] = $user["media_id"];
           }
-          $where[] = array('in', 'tu.image_id', array_values($ids));
+          $where[] = array('in', 'tu.media_id', array_values($ids));
         } else {
-          $where[] = array('in', 'tu.image_id', array_values(0));
+          $where[] = array('in', 'tu.media_id', array_values(0));
         }
       }
     }
     
-    if ($model->imageSets) {
-      $command->join('{{image_set_to_image}} isi', 'isi.image_id=tu.image_id');
-      $where[] = array('in', 'isi.image_set_id', array_values($model->imageSets));
+    if ($model->collections) {
+      $command->join('{{collection_to_media}} isi', 'isi.media_id=tu.media_id');
+      $where[] = array('in', 'isi.collection_id', array_values($model->collections));
     }
     
     if ($model->tag_weight_min && (int)$model->tag_weight_min >= 0) {
@@ -350,13 +350,13 @@ class ExportController extends GxController {
     return $command;
   }
   
-  private function _getAffectedImages(&$command) {
+  private function _getAffectedMedias(&$command) {
     $ids = array();  
-    $image_ids = $command->selectDistinct('tu.image_id as id')->group('tu.tag_id, tu.image_id')->queryAll();
-    if ($image_ids) {
-      $c= count($image_ids);
+    $media_ids = $command->selectDistinct('tu.media_id as id')->group('tu.tag_id, tu.media_id')->queryAll();
+    if ($media_ids) {
+      $c= count($media_ids);
       for($i=0;$i<$c;$i++) {
-        $ids[] = $image_ids[$i]['id'];
+        $ids[] = $media_ids[$i]['id'];
       }
     }
     return $ids;

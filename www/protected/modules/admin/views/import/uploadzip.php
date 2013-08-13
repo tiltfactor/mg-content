@@ -3,11 +3,11 @@
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
 	Yii::t('app', 'Import') => array('index'),
-	Yii::t('app', 'Import Images in a Zip file'),
+	Yii::t('app', 'Import Medias in a Zip file'),
 );
 ?>
 
-<h1><?php echo Yii::t('app', 'Import Images in a Zip file'); ?></h1>
+<h1><?php echo Yii::t('app', 'Import Medias in a Zip file'); ?></h1>
 
 
 <div class="form">
@@ -38,7 +38,7 @@ $this->breadcrumbs = array(
   </div><!-- row -->
     
 <?php
-echo GxHtml::submitButton(Yii::t('app', 'Import Images'));
+echo GxHtml::submitButton(Yii::t('app', 'Import Medias'));
 $this->endWidget();
 ?>
 </div><!-- form -->

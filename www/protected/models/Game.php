@@ -10,7 +10,7 @@ class Game extends BaseGame
   
   public function relations() {
     return array(
-      'imageSets' => array(self::MANY_MANY, 'ImageSet', 'game_to_image_set(game_id, image_set_id)'),
+      'collections' => array(self::MANY_MANY, 'Collection', 'game_to_collection(game_id, collection_id)'),
       'playedGames' => array(self::HAS_MANY, 'PlayedGame', 'game_id'),
       'plugins' => array(self::MANY_MANY, 'Plugin', 'game_to_plugin(game_id, plugin_id)'),
       'users' => array(self::MANY_MANY, 'User', 'user_to_game(game_id, user_id)'),
@@ -25,7 +25,7 @@ class Game extends BaseGame
       'unique_id' => Yii::t('app', 'Game ID'),
       'created' => Yii::t('app', 'Created'),
       'modified' => Yii::t('app', 'Modified'),
-      'imageSets' => null,
+      'collections' => null,
       'plugins' => null,
       'playedGames' => null,
       'users' => null,

@@ -420,7 +420,7 @@ MG_GAME_GUESSWHAT = function ($) {
             for (i=0; i < MG_GAME_GUESSWHAT.turns.length - 1; i++) {
               var turn = MG_GAME_GUESSWHAT.turns[i];
               
-              var secret_image = turn.images.describe;
+              var secret_media = turn.medias.describe;
               
               var score = MG_GAME_GUESSWHAT.turns[i+1].score;
               if (i > 0) {
@@ -434,18 +434,18 @@ MG_GAME_GUESSWHAT = function ($) {
               })
               
               
-              // get turn's describe image info
-              image_licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(turn.licences, secret_image);
-              var image_info = {
-                url : secret_image.guess,
-                url_full_size : secret_image.full_size,
-                licence_info : MG_GAME_API.parseLicenceInfo(image_licence_info),
+              // get turn's describe media info
+              media_licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(turn.licences, secret_media);
+              var media_info = {
+                url : secret_media.guess,
+                url_full_size : secret_media.full_size,
+                licence_info : MG_GAME_API.parseLicenceInfo(media_licence_info),
                 num_guesses : turn.guesses.length,
                 num_hints : turn.hints.length,
                 hints : hints.join(','),
                 num_points : score
               }
-              turn_info.push(image_info);
+              turn_info.push(media_info);
               
               if (turn.licences.length) {
                 for (licence in turn.licences) { // licences
@@ -530,22 +530,22 @@ MG_GAME_GUESSWHAT = function ($) {
             $('.game_description.describe').show();
             
             if (response.turn.wordstoavoid) {
-              for (image in response.turn.wordstoavoid) {
-                for (tag in response.turn.wordstoavoid[image]) {
-                  words_to_avoid.push(response.turn.wordstoavoid[image][tag]);
+              for (media in response.turn.wordstoavoid) {
+                for (tag in response.turn.wordstoavoid[media]) {
+                  words_to_avoid.push(response.turn.wordstoavoid[media][tag]);
                 }
               }
               if (words_to_avoid.length) 
                 $("#words_to_avoid").show();
             }
             
-            if (response.turn.images && response.turn.images['describe'] !== undefined) {
-              licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(response.turn.licences, response.turn.images['describe'])
+            if (response.turn.medias && response.turn.medias['describe'] !== undefined) {
+              licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(response.turn.licences, response.turn.medias['describe'])
               
-              // turn info == image 
+              // turn info == media
               var turn_info = {
-                url : response.turn.images['describe'].scaled,
-                url_full_size : response.turn.images['describe'].full_size,
+                url : response.turn.medias['describe'].scaled,
+                url_full_size : response.turn.medias['describe'].full_size,
                 licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
               }
               
@@ -559,14 +559,14 @@ MG_GAME_GUESSWHAT = function ($) {
             var licence_info = response.turn.licences;
             
             var turn_info = [];
-            if (response.turn.images && response.turn.images['guess'] && response.turn.images['guess'].length) {
-              for (i_image in response.turn.images['guess']) {
-                var image =response.turn.images['guess'][i_image];
+            if (response.turn.medias && response.turn.medias['guess'] && response.turn.medias['guess'].length) {
+              for (i_media in response.turn.medias['guess']) {
+                var media =response.turn.medias['guess'][i_media];
                 turn_info.push({
-                  image_id : image.image_id,
-                  url : image.guess,
-                  url_full_size : image.full_size,
-                  licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_GUESSWHAT.extractImageLicenceInfo(response.turn.licences, image))
+                  media_id : media.media_id,
+                  url : media.guess,
+                  url_full_size : media.full_size,
+                  licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_GUESSWHAT.extractImageLicenceInfo(response.turn.licences, media))
                 });
               }
             }
@@ -663,9 +663,9 @@ MG_GAME_GUESSWHAT = function ($) {
         // let's look if it is a word to avoid
         hint_ok = true;
         if (current_turn.wordstoavoid) {
-          for (image in current_turn.wordstoavoid) {
-            for (tag in current_turn.wordstoavoid[image]) {
-              if (current_turn.wordstoavoid[image][tag].tag.toLowerCase() ==
+          for (media in current_turn.wordstoavoid) {
+            for (tag in current_turn.wordstoavoid[media]) {
+              if (current_turn.wordstoavoid[media][tag].tag.toLowerCase() ==
                   response.response.toLowerCase()) {
                 hint_ok = false;
                 MG_GAME_GUESSWHAT.error($("#template-error-hint-word-to-avoid").tmpl());
@@ -777,7 +777,7 @@ MG_GAME_GUESSWHAT = function ($) {
         MG_GAME_API.curtain.show();
         MG_GAME_GUESSWHAT.busy = true;
         
-        // we have to filter out all TIMED OUT hints as we don't really want to tag images with this
+        // we have to filter out all TIMED OUT hints as we don't really want to tag medias with this
         var hints = []; 
         $(MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints).each(function (index, value) {
           if (value != MG_GAME_GUESSWHAT.hintTimeOutHint)
@@ -804,7 +804,7 @@ MG_GAME_GUESSWHAT = function ($) {
                 mode : MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].mode,
                 hints : MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].hints,
                 guesses : MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].guesses,
-                image_id : MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].images.describe.image_id,
+                media_id : MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1].medias.describe.media_id,
                 tags: tags
               }]
             }
@@ -815,7 +815,7 @@ MG_GAME_GUESSWHAT = function ($) {
     },
     
     /*
-     * callback if the guessing player chooses an image 
+     * callback if the guessing player chooses an media
      */
     onguess : function (event) {
       var link = $(this);
@@ -849,15 +849,15 @@ MG_GAME_GUESSWHAT = function ($) {
     },
     
     /*
-     * helper function to extract the licence infos for the images
+     * helper function to extract the licence infos for the medias
      */
-    extractImageLicenceInfo : function (licences, image) {
+    extractImageLicenceInfo : function (licences, media) {
       var licence_info = [];
-      if (licences.length) { // reduce the licence info only on the licences of the displayed image
+      if (licences.length) { // reduce the licence info only on the licences of the displayed media
         for (i_licence_turn in licences) {
           var licence_id = licences[i_licence_turn]['id'];
-          for (i_licence_image in image.licences) { //scores
-            if (image.licences[i_licence_image] == licence_id) {
+          for (i_licence_media in media.licences) { //scores
+            if (media.licences[i_licence_media] == licence_id) {
               licence_info.push(licences[i_licence_turn]);
             }
           }
@@ -915,29 +915,29 @@ MG_GAME_GUESSWHAT = function ($) {
       $("#partner-waiting").hide();
       
       var current_turn = MG_GAME_GUESSWHAT.turns[MG_GAME_GUESSWHAT.turn-1];
-      var secret_image = current_turn.images.describe;
+      var secret_media = current_turn.medias.describe;
       
-      current_turn.images.describe.image_id
+      current_turn.medias.describe.media_id
 
       // If we're on our last guess...
       if (current_turn.guesses.length >=
           MG_GAME_GUESSWHAT.game.number_guesses) {
         // If we got a correct guess...
-        if (secret_image.image_id == guessedImageID) {
+        if (secret_media.media_id == guessedImageID) {
           MG_AUDIO.play("success");
           MG_GAME_GUESSWHAT.onsubmitTurn();
         } else {
-          // If we failed to pick the correct image within the allowed
+          // If we failed to pick the correct media within the allowed
           // number of guesses, we will show the correct solution in a
           // popup.
           MG_AUDIO.play("fail");
           if (current_turn.mode == "describe") {
-            licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, secret_image);
-            var image_info = {
+            licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, secret_media);
+            var media_info = {
               game_partner_name : MG_GAME_GUESSWHAT.game.game_partner_name,
             }
             
-            MG_API.popup( $("#template-partner-failed-to-guess").tmpl(image_info), 
+            MG_API.popup( $("#template-partner-failed-to-guess").tmpl(media_info),
                               { modal: true, 
                                 onComplete: function () {
                                   $('#loadNextTurn').click(function () {
@@ -946,14 +946,14 @@ MG_GAME_GUESSWHAT = function ($) {
                                   });
                                 }});
           } else {
-            licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, secret_image);
-            var image_info = {
-              url : secret_image.scaled,
-              url_full_size : secret_image.full_size,
+            licence_info = MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, secret_media);
+            var media_info = {
+              url : secret_media.scaled,
+              url_full_size : secret_media.full_size,
               licence_info : MG_GAME_API.parseLicenceInfo(licence_info)
             }
             
-            MG_API.popup( $("#template-failed-to-guess").tmpl(image_info), 
+            MG_API.popup( $("#template-failed-to-guess").tmpl(media_info),
                               { modal: true, 
                                 onComplete: function () {
                                   $('#loadNextTurn').click(function () {
@@ -973,26 +973,26 @@ MG_GAME_GUESSWHAT = function ($) {
       MG_GAME_GUESSWHAT.updateScore();
         
       if (current_turn.mode == "describe") {
-        // If the partner has found the correct image...
-        if (secret_image.image_id == guessedImageID) {
+        // If the partner has found the correct media...
+        if (secret_media.media_id == guessedImageID) {
           MG_AUDIO.play("success");
           MG_GAME_GUESSWHAT.onsubmitTurn();
         } else {
-            // If the partner has chosen an incorrect image...
+            // If the partner has chosen an incorrect media...
             MG_AUDIO.play("fail");
-            if (current_turn.images &&
-                current_turn.images['guess'] &&
-                current_turn.images['guess'].length) {
-              for (i_image in current_turn.images['guess']) {
-                var image = current_turn.images['guess'][i_image];
-                if (image.image_id == guessedImageID) {
-                  image_info = {
-                    image_id : image.image_id,
-                    url : image.guess,
-                    url_full_size : image.full_size,
-                    licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, image))
+            if (current_turn.medias &&
+                current_turn.medias['guess'] &&
+                current_turn.medias['guess'].length) {
+              for (i_media in current_turn.medias['guess']) {
+                var media = current_turn.medias['guess'][i_media];
+                if (media.media_id == guessedImageID) {
+                  media_info = {
+                    media_id : media.media_id,
+                    url : media.guess,
+                    url_full_size : media.full_size,
+                    licence_info : MG_GAME_API.parseLicenceInfo(MG_GAME_GUESSWHAT.extractImageLicenceInfo(current_turn.licences, media))
                   };
-                  $("#template-wrong-guess-image").tmpl(image_info).appendTo($("#wrong-guesses"));
+                  $("#template-wrong-guess-media").tmpl(media_info).appendTo($("#wrong-guesses"));
                   $("a[rel='zoom']").fancybox({overlayColor: '#000'});
                   $("#wrong-guesses").show();
                   break;
@@ -1021,14 +1021,14 @@ MG_GAME_GUESSWHAT = function ($) {
         
        
       } else {
-        // If this player has found the correct image...
-        if (secret_image.image_id == guessedImageID) {
+        // If this player has found the correct media...
+        if (secret_media.media_id == guessedImageID) {
           MG_AUDIO.play("success");
           MG_GAME_GUESSWHAT.onsubmitTurn();
         } else {
-            // If this player has chosen an incorrect image...
+            // If this player has chosen an incorrect media...
             MG_AUDIO.play("fail");
-            // Mark this image as incorrect by adding the "wrong"
+            // Mark this media as incorrect by adding the "wrong"
             // class to it.
             $('#guess-me-' + guessedImageID).unbind('click').click(function () {return false;}).parent().addClass("wrong");
             
@@ -1088,21 +1088,21 @@ MG_GAME_GUESSWHAT = function ($) {
       MG_GAME_API.curtain.show();
       
       if (MG_GAME_GUESSWHAT.game.played_against_computer) { 
-        // played against computer extract hint from decribing images tags
+        // played against computer extract hint from decribing medias tags
         
-        if (current_turn.images.describe.available_hints === undefined) {
-          current_turn.images.describe.available_hints = [];
-          for (var hint in current_turn.images.describe.hints) {
-            current_turn.images.describe.available_hints.push(current_turn.images.describe.hints[hint]);
+        if (current_turn.medias.describe.available_hints === undefined) {
+          current_turn.medias.describe.available_hints = [];
+          for (var hint in current_turn.medias.describe.hints) {
+            current_turn.medias.describe.available_hints.push(current_turn.medias.describe.hints[hint]);
           }
         }
-        var secret_image = current_turn.images.describe;
+        var secret_media = current_turn.medias.describe;
         var next_hint = "";
         
-        if (secret_image.available_hints.length > 0) {
-          pos = MG_GAME_GUESSWHAT.getRandomInt(0, secret_image.available_hints.length - 1);
-          next_hint = secret_image.available_hints[pos].tag;
-          current_turn.images.describe.available_hints.splice(pos,1);
+        if (secret_media.available_hints.length > 0) {
+          pos = MG_GAME_GUESSWHAT.getRandomInt(0, secret_media.available_hints.length - 1);
+          next_hint = secret_media.available_hints[pos].tag;
+          current_turn.medias.describe.available_hints.splice(pos,1);
         }
         
         if (next_hint == "") {
@@ -1141,7 +1141,7 @@ MG_GAME_GUESSWHAT = function ($) {
           // (the "hint-giver") is getting updates about the # of
           // guesses left, etc? I'd assume that such information is
           // getting propagated earlier, when this player (the
-          // "picker") initially chooses an image, but we might need
+          // "picker") initially chooses an media, but we might need
           // to check.
         }
       }

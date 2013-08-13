@@ -19,15 +19,15 @@ $this->menu=array(
 <h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
 
 <?php 
-$used_imagesets = Yii::t('t', 'none');
-if (count($model->imageSets) > 0) {
+$used_collection = Yii::t('t', 'none');
+if (count($model->collections) > 0) {
   $is = array();
   
-  foreach($model->imageSets as $imageSet) {
-    $is[] = $imageSet->name;
+  foreach($model->collections as $collection) {
+    $is[] = $collection->name;
   }
   
-  $used_imagesets = implode(", ", $is);
+  $used_collection = implode(", ", $is);
 }
 
 $this->widget('zii.widgets.CDetailView', array(
@@ -38,9 +38,9 @@ $this->widget('zii.widgets.CDetailView', array(
   'name',
   'description',
   array (
-    'name' => Yii::t('app', 'Used by image set(s)'),
+    'name' => Yii::t('app', 'Used by collection(s)'),
     'type' => 'html',
-    'value' => $used_imagesets,
+    'value' => $used_collection,
   ),
   'created',
   'modified',

@@ -101,16 +101,16 @@ $this->widget('zii.widgets.CListView', array(
 </div>
 
 <div class="span-16 last clearfix">
-  <h2><?php echo Yii::t('app', 'Tagged Images'); ?></h2>
-  <p><b><?php echo Yii::t('app', 'IMAGE NAME (TIMES TAGGED BY USER/WITH NUMBER OF DIFFERENT TAGS)'); ?></b></p>  
+  <h2><?php echo Yii::t('app', 'Tagged Medias'); ?></h2>
+  <p><b><?php echo Yii::t('app', 'MEDIA NAME (TIMES TAGGED BY USER/WITH NUMBER OF DIFFERENT TAGS)'); ?></b></p>
 <?php 
 $this->widget('zii.widgets.CListView', array(
-    'id' => 'user-images-listview',
-    'dataProvider'=>Image::model()->searchUserImages($model->id),
+    'id' => 'user-medias-listview',
+    'dataProvider'=>Media::model()->searchUserMedias($model->id),
     'pager' => array('cssFile' => Yii::app()->request->baseUrl . "/css/yii/pager.css"),
-    'itemView'=>'_viewImageListItem',
+    'itemView'=>'_viewMediaListItem',
     'sortableAttributes'=>array(
-        'name' => Yii::t('app', 'Image name'),
+        'name' => Yii::t('app', 'Media name'),
         'counted' => Yii::t('app', 'Tagged Count'),
     ),
 ));  ?>

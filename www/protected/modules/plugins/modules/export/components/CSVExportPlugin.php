@@ -26,7 +26,7 @@
 
 /**
  * Implentation of the an export plugin. It allows to export the tags, 
- * tag uses for images in a CSV file (tab separated)
+ * tag uses for medias in a CSV file (tab separated)
  */
 Yii::import('ext.CSVExport.CSVExport');
 
@@ -67,7 +67,7 @@ class CSVExportPlugin extends MGExportPlugin {
    * file
    * 
    * @param object $model the ExportForm instance
-   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the medias' data
    * @param string $tmp_folder the full path to the temporary folder
    */
   function preProcess(&$model, &$command, $tmp_folder) {
@@ -83,46 +83,46 @@ class CSVExportPlugin extends MGExportPlugin {
   }
   
   /**
-   * Retrieves the compound use statistics for a image (according to the settings)
+   * Retrieves the compound use statistics for a media (according to the settings)
    * on the export form and adds it to the export file
    * 
    * @param object $model the ExportForm instance
-   * @param object $command the CDbCommand instance holding all information needed to retrieve the images' data
+   * @param object $command the CDbCommand instance holding all information needed to retrieve the medias' data
    * @param string $tmp_folder the full path to the temporary folder
-   * @param int $image_id the id of the image that should be exported
+   * @param int $media_id the id of the media that should be exported
    */
-  function process(&$model, &$command, $tmp_folder, $image_id) {
+  function process(&$model, &$command, $tmp_folder, $media_id) {
     if(!$this->is_active()) {
       return 0;
     }
 
     if ($model->option_list_user == 1) {
-      $command->selectDistinct('tu.image_id, COUNT(tu.id) tu_count, MIN(tu.weight) w_min, MAX(tu.weight) w_max, AVG(tu.weight) w_avg, SUM(tu.weight) as w_sum, t.tag, i.name, u.username');
+      $command->selectDistinct('tu.media_id, COUNT(tu.id) tu_count, MIN(tu.weight) w_min, MAX(tu.weight) w_max, AVG(tu.weight) w_avg, SUM(tu.weight) as w_sum, t.tag, i.name, u.username');
       
       if (trim($command->group) != "") {
         $groups = array();
         foreach (explode(',', $command->group) as $group) {
           $groups[ str_replace('`', '', $group)] = 1;
         }
-        $groups['tu.image_id'] = 1;
+        $groups['tu.media_id'] = 1;
         $groups['tu.tag_id'] = 1;
         $command->group = implode(',', array_keys($groups));
       } else {
-        $command->group = 'tu.image_id, tu.tag_id';
+        $command->group = 'tu.media_id, tu.tag_id';
       }
       
     } else {
-      $command->selectDistinct('tu.image_id, COUNT(tu.id) tu_count, MIN(tu.weight) w_min, MAX(tu.weight) w_max, AVG(tu.weight) w_avg, SUM(tu.weight) as w_sum, t.tag, i.name');
+      $command->selectDistinct('tu.media_id, COUNT(tu.id) tu_count, MIN(tu.weight) w_min, MAX(tu.weight) w_max, AVG(tu.weight) w_avg, SUM(tu.weight) as w_sum, t.tag, i.name');
     }
-    $command->where(array('and', $command->where, 'tu.image_id = :imageID'), array(":imageID" => $image_id));
-    $command->order('tu.image_id, t.tag');
+    $command->where(array('and', $command->where, 'tu.media_id = :mediaID'), array(":mediaID" => $media_id));
+    $command->order('tu.media_id, t.tag');
     
     $info = $command->queryAll();
     $c = count($info);
     $rows = "";
     for($i=0;$i<$c;$i++) {
       $row = "";
-      $row .= $info[$i]['image_id'] . "\t";
+      $row .= $info[$i]['media_id'] . "\t";
       $row .= $info[$i]['tu_count'] . "\t";
       $row .= $info[$i]['w_min'] . "\t";
       $row .= $info[$i]['w_max'] . "\t";

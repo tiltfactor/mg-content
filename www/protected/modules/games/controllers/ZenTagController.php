@@ -96,16 +96,16 @@ EOD;
   public function actionUpdate() {
     $model = $this->loadModel(array("unique_id" => "ZenTag"), 'ZenTag');
     $model->fbvLoad();
-    
+
     $this->performAjaxValidation($model, 'zentag-form');
     if (isset($_POST['ZenTag'])) {
       $model->setAttributes($_POST['ZenTag']);
       
       $relatedData = array(
-        'imageSets' => $_POST['ZenTag']['imageSets'] === '' ? null : $_POST['ZenTag']['imageSets'],
+        'collections' => $_POST['ZenTag']['collections'] === '' ? null : $_POST['ZenTag']['collections'],
         'plugins' => $_POST['ZenTag']['plugins'] === '' ? null : $_POST['ZenTag']['plugins'],
         );
-      
+
       // save the games data in the database
       if ($model->saveWithRelated($relatedData)) {
         $model->fbvSave(); // but also save it in the settings file as each game uses FBVstorage
@@ -117,7 +117,7 @@ EOD;
     }
     
     $this->render('update', array(
-      'model' => $model,
+      'model' => $model
       ));
   }
 }

@@ -48,11 +48,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'afterAjaxUpdate' => $tagDialog->gridViewUpdate(),
 	'columns' => array(
     array(
-        'header' => Yii::t('app', 'Image (Filter with ID)'),
-        'name' => 'image_id',
-        'cssClassExpression' => '"image"',
+        'header' => Yii::t('app', 'Media (Filter with ID)'),
+        'name' => 'media_id',
+        'cssClassExpression' => '"med"',
         'type'=>'html',
-        'value'=>'GxHtml::link(CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. GxHtml::valueEx($data->image), GxHtml::valueEx($data->image)) . " <span>" . GxHtml::valueEx($data->image) . "</span>", array(\'image/view\', \'id\' => GxActiveRecord::extractPkValue($data->image, true)))',
+        'value'=>'GxHtml::link(CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get(\'settings.app_upload_url\') . \'/thumbs/\'. GxHtml::valueEx($data->media), GxHtml::valueEx($data->media)) . " <span>" . GxHtml::valueEx($data->media) . "</span>", array(\'media/view\', \'id\' => GxActiveRecord::extractPkValue($data->media, true)))',
       ),
 		array(
 		    'header' => Yii::t('app', 'Tag (Filter with ID)'),

@@ -55,17 +55,17 @@ $this->menu = array(
 	),
 )); ?>
 
-<h2><?php echo GxHtml::encode($model->getRelationLabel('imageSets')); ?></h2>
+<h2><?php echo GxHtml::encode($model->getRelationLabel('collections')); ?></h2>
 <?php
   echo GxHtml::openTag('ul');
   
-  if (count($model->imageSets) == 0) {
+  if (count($model->collections) == 0) {
     echo "<li>no item(s) assigned</li>";
   }
   
-  foreach($model->imageSets as $relatedModel) {
+  foreach($model->collections as $relatedModel) {
     echo GxHtml::openTag('li');
-    echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('/admin/imageSet/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
+    echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('/admin/collection/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
     echo GxHtml::closeTag('li');
   }
   echo GxHtml::closeTag('ul');
