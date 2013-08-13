@@ -705,10 +705,12 @@ class ImportController extends GxController
 
         $path_parts = pathinfo($file_name);
 
-        if (file_exists($path . $file_name)) {
+        $result = glob (str_replace('.'.$path_parts['extension'], '', $path . $file_name) .".*");
+
+        if (count($result) > 0) {
             $c = 1;
             $name = $path_parts['filename'] . "_" . $c;
-            while (file_exists($path . $name . "." . $path_parts['extension'])) {
+            while (count(glob($path . $name . ".*")) > 0) {
                 $c++;
                 $name = $path_parts['filename'] . "_" . $c;
             }
