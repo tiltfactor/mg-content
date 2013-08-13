@@ -97,12 +97,12 @@
 </script>
 <script id="template-turn-image" type="text/x-jquery-tmpl">
   <div style="text-align:center" class="clearfix">
-    <img src="${url}" alt="game media" id="media_to_tag" />
+    <img src="${url}" alt="game media" id="image_to_tag" />
   </div>
 </script>
 <script id="template-turn-video" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
-        <video width="${width}" height="${height}" class="video" controls autoplay id="media_to_tag">
+        <video width="${width}" height="${height}" class="video" controls autoplay id="image_to_tag">
             <source src="${url_mp4}"></source>
             <source src="${url_webm}"></source>
         </video>
@@ -110,7 +110,7 @@
 </script>
 <script id="template-turn-audio" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
-        <audio class="audio" controls preload autoplay id="media_to_tag">
+        <audio class="audio" controls preload autoplay id="image_to_tag">
             <source src="${url_mp3}"></source>
             <source src="${url_ogg}"></source>
         </audio>
