@@ -17,7 +17,7 @@ class Tag extends BaseTag
   }
   
   /**
-   * Provides the CActiveDataProvider for the image tools grid view filter function
+   * Provides the CActiveDataProvider for the media tools grid view filter function
    * 
    * @return CActiveDataProvider
    */
@@ -44,11 +44,10 @@ class Tag extends BaseTag
         $criteria->compare('tu.weight', "> 0", true);
       }
       
-      if (isset($_GET["Custom"]["imagesets"]) && is_array($_GET["Custom"]["imagesets"])) {
-        var_dump($_GET["Custom"]["imagesets"]);
-        $criteria->join .= "  LEFT JOIN {{image}} i ON i.id=tu.image_id
-                              LEFT JOIN {{image_set_to_image}} isi ON isi.image_id=i.id";
-        $criteria->addInCondition('isi.image_set_id', array_values($_GET["Custom"]["imagesets"]));
+      if (isset($_GET["Custom"]["collections"]) && is_array($_GET["Custom"]["collections"])) {
+        $criteria->join .= "  LEFT JOIN {{media}} i ON i.id=tu.media_id
+                              LEFT JOIN {{collection_to_media}} isi ON isi.media_id=i.id";
+        $criteria->addInCondition('isi.collection_id', array_values($_GET["Custom"]["collections"]));
       }
       
       if (isset($_GET["Custom"]["username"]) && trim($_GET["Custom"]["username"]) != "") {
@@ -109,17 +108,17 @@ class Tag extends BaseTag
   
   /**
    * Provides a CArrayDataProvider of all tags and their compound information (use count, 
-   * average weight) for the given image. 
+   * average weight) for the given media.
    * 
-   * @param int $image_id The id of the image for which the tags should be listed
+   * @param int $media_id The id of the media for which the tags should be listed
    * @return CArrayDataProvider
    */
-  public function searchImageTags($image_id) {
+  public function searchMediaTags($media_id) {
     $tags = Yii::app()->db->createCommand()
                   ->select('count(t.id) as counted, AVG(tu.weight) as weight, t.id, t.tag')
                   ->from('{{tag_use}} tu')
                   ->join('{{tag}} t', 'tu.tag_id = t.id')
-                  ->where(array('and', 'tu.weight > 0', 'tu.image_id=:imageID'), array(":imageID" => $image_id))
+                  ->where(array('and', 'tu.weight > 0', 'tu.media_id=:mediaID'), array(":mediaID" => $media_id))
                   ->group('t.id, t.tag')
                   ->order('counted DESC')
                   ->queryAll();
@@ -138,27 +137,27 @@ class Tag extends BaseTag
   }
   
   /**
-   * Get the top n images used the tag has been used for
+   * Get the top n medias used the tag has been used for
    * 
-   * @param int $num_images The amount of images to be listed
-   * @return string Partial HTML. The linked images or empty string 
+   * @param int $num_medias The amount of medias to be listed
+   * @return string Partial HTML. The linked medias or empty string
    */
-  public function getTopImages($num_images=10) {
-    $images = Yii::app()->db->createCommand()
+  public function getTopMedias($num_medias=10) {
+    $medias = Yii::app()->db->createCommand()
                   ->select('count(i.id) as counted, i.id, i.name')
                   ->from('{{tag_use}} tu')
-                  ->join('{{image}} i', 'tu.image_id = i.id')
+                  ->join('{{media}} i', 'tu.media_id = i.id')
                   ->where(array('and', 'tu.weight > 0', 'i.locked=1', 'tu.tag_id=:tagID'), array(":tagID" => $this->id))
                   ->group('i.id, i.name')
                   ->order('counted DESC')
-                  ->limit($num_images)
+                  ->limit($num_medias)
                   ->queryAll();
       
-    if ($images) {
+    if ($medias) {
       $out = "";
-      foreach ($images as $image) {
-        $html_image = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $image['name'], $image['name']) . " <span>x " . $image['counted'] . "</span>";
-        $out .= CHtml::link( $html_image, array("/admin/image/view", "id" => $image["id"]));  
+      foreach ($medias as $media) {
+        $html_media = CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. $media['name'], $media['name']) . " <span>x " . $media['counted'] . "</span>";
+        $out .= CHtml::link( $html_media, array("/admin/media/view", "id" => $media["id"]));
       }
       return $out;
     } else {
@@ -203,7 +202,7 @@ class Tag extends BaseTag
    */ 
   public function tagUseInfo() {
     return Yii::app()->db->createCommand()
-                  ->select('count(tu.id) as use_count, AVG(tu.weight) as average, MAX(tu.weight) as max_weight, MIN(tu.weight) as min_weight, count(distinct tu.image_id) as image_count')
+                  ->select('count(tu.id) as use_count, AVG(tu.weight) as average, MAX(tu.weight) as max_weight, MIN(tu.weight) as min_weight, count(distinct tu.media_id) as media_count')
                   ->from('{{tag_use}} tu')
                   ->where(array('and', 'tu.weight > 0', 'tu.tag_id=:tagID'), array(":tagID" => $this->id))
                   ->queryRow();
@@ -219,12 +218,12 @@ class Tag extends BaseTag
     if ($tag_info) {
       $params = array(
         '{use_count}' => $tag_info['use_count'],
-        '{image_count}' => $tag_info['image_count'],
+        '{media_count}' => $tag_info['media_count'],
         '{average}' => $tag_info['average'],
         '{min_weight}' => $tag_info['min_weight'],
         '{max_weight}' => $tag_info['max_weight'],
       );
-      return Yii::t('app', '<h5>Used <b>{use_count}</b> time(s) on <b>{image_count}</b> image(s).</h5>Weight: AVG({average}), MIN({min_weight}), MAX({max_weight})', $params);
+      return Yii::t('app', '<h5>Used <b>{use_count}</b> time(s) on <b>{media_count}</b> media(s).</h5>Weight: AVG({average}), MIN({min_weight}), MAX({max_weight})', $params);
     } else {
       return "";
     }

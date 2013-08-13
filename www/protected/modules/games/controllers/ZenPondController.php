@@ -101,7 +101,7 @@ EOD;
       $model->setAttributes($_POST['ZenPond']);
       
       $relatedData = array(
-        'imageSets' => $_POST['ZenPond']['imageSets'] === '' ? null : $_POST['ZenPond']['imageSets'],
+        'collections' => $_POST['ZenPond']['collections'] === '' ? null : $_POST['ZenPond']['collections'],
         'plugins' => $_POST['ZenPond']['plugins'] === '' ? null : $_POST['ZenPond']['plugins'],
         );
       

@@ -649,7 +649,7 @@ input:-ms-input-placeholder {
   }
 }
 .toast-item-image {
-  top: -8px;
+  margin-top: -7px !important;
 }
 .toast-item p {
   color: white;

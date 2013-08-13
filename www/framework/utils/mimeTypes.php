@@ -90,6 +90,7 @@ return array(
 	'mp2'=>'audio/mpeg',
 	'mp3'=>'audio/mpeg',
 	'mpe'=>'video/mpeg',
+    'mp4'=>'video/mpeg',
 	'mpeg'=>'video/mpeg',
 	'mpg'=>'video/mpeg',
 	'mpga'=>'audio/mpeg',

@@ -19,4 +19,5 @@ $this->menu = array(
 $this->renderPartial('/zenTag/_form', array(
 		'model' => $model, 
 		'buttons' => Yii::t('app', 'Save')));
+
 ?>

@@ -15,13 +15,13 @@ class MGTags
 {
 
     /**
-     * This method gets the tags that have been used for the images identified by $images_ids.
+     * This method gets the tags that have been used for the medias identified by $medias_ids.
      * Only tag uses with a weight >=1 will be regarded.
      * <pre>
      * It will return an array of arrays
      *
      * array(
-     *  image_id = array(
+     *  media_id = array(
      *    tag_id => array(
      *      "tag" => "tag.tag" // the value of the tag column in the database
      *    )
@@ -31,11 +31,11 @@ class MGTags
      * )
      * </pre>
      *
-     * @param array $image_ids array of the image(s) which tags shall be retrieved
+     * @param array $media_ids array of the media(s) which tags shall be retrieved
      * @param int $user_id if set only tag that have been used by the user will be shown
-     * @return array the found tags for the image(s)
+     * @return array the found tags for the media(s)
      */
-    public static function getTags($image_ids, $user_id = null)
+    public static function getTags($media_ids, $user_id = null)
     {
         $tags = array();
         $used_tags = array();
@@ -45,22 +45,22 @@ class MGTags
         if ($user_id) {
 
             $used_tags = Yii::app()->db->createCommand()
-                ->select('tu.image_id, t.id as tag_id, t.tag')
+                ->select('tu.media_id, t.id as tag_id, t.tag')
                 ->from('{{tag_use}} tu')
                 ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
                 ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
                 ->leftJoin('{{session}} s', 's.id = gs.session_id')
-                ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))),
-                array(':userID' => $user_id))
+                ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.media_id', array_values($media_ids))),
+                    array(':userID' => $user_id))
                 ->queryAll();
 
         } else {
 
             $used_tags = Yii::app()->db->createCommand()
-                ->select('tu.image_id, t.id as tag_id, t.tag')
+                ->select('tu.media_id, t.id as tag_id, t.tag')
                 ->from('{{tag_use}} tu')
                 ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                ->where(array('and', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))))
+                ->where(array('and', 'tu.weight > 0', array('in', 'tu.media_id', array_values($media_ids))))
                 ->queryAll();
 
         }
@@ -73,23 +73,23 @@ class MGTags
                 continue;
             }
 
-            if (!isset($tags[$tag["image_id"]]))
-                $tags[$tag["image_id"]] = array();
+            if (!isset($tags[$tag["media_id"]]))
+                $tags[$tag["media_id"]] = array();
 
-            $tags[$tag["image_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"]);
+            $tags[$tag["media_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"]);
         }
 
         return $tags;
     }
 
     /**
-     * This method gets the tags that have been used for the images identified by $images_ids.
+     * This method gets the tags that have been used for the medias identified by $medias_ids.
      * Only tag uses with a weight >=1 will be regarded.
      * <pre>
      * It will return an array of arrays
      *
      * array(
-     *  image_id = array(
+     *  media_id = array(
      *    tag_id => array(
      *      "tag" => "tag.tag" // the value of the tag column in the database
      *    )
@@ -99,35 +99,35 @@ class MGTags
      * )
      * </pre>
      *
-     * @param array $image_ids array of the image(s) which tags shall be retrieved
+     * @param array $media_ids array of the media(s) which tags shall be retrieved
      * @param int $user_id if set only tag that have been used by the user will be shown
-     * @return array the found tags for the image(s)
+     * @return array the found tags for the media(s)
      */
-    public static function getUsersTags($image_ids, $user_id)
+    public static function getUsersTags($media_ids, $user_id)
     {
-        return self::getTags($image_ids, $user_id);
+        return self::getTags($media_ids, $user_id);
     }
 
     /**
-     * This method gets the tags with a certain compound weight that have been used for the images identified by $images_ids.
+     * This method gets the tags with a certain compound weight that have been used for the medias identified by $medias_ids.
      * <pre>
      * THE used SQL is:
      *
-     * SELECT tu.image_id, tu.tag_id, t.tag, SUM(tu.weight) as total
+     * SELECT tu.media_id, tu.tag_id, t.tag, SUM(tu.weight) as total
      * FROM tag_use tu
      * LEFT JOIN tag t ON t.id=tu.tag_id
-     * WHERE tu.weight > 0 AND tu.image_id IN ($image_ids)
-     * GROUP BY tu.image_id, tu.tag_id, t.tag
+     * WHERE tu.weight > 0 AND tu.media_id IN ($media_ids)
+     * GROUP BY tu.media_id, tu.tag_id, t.tag
      * HAVING total >= $weight
-     * ORDER BY tu.image_id, total
+     * ORDER BY tu.media_id, total
      *
      * It will return an array of arrays
      *
      * array(
-     *  image_id = array(
+     *  media_id = array(
      *    tag_id => array(
      *      "tag" => "tag.tag" // the value of the tag column in the database
-     *      "total" => "SUM(tu.weight)" // the total weight of tag uses for that tag and image
+     *      "total" => "SUM(tu.weight)" // the total weight of tag uses for that tag and media
      *    )
      *    ...
      *  )
@@ -135,12 +135,12 @@ class MGTags
      * )
      * </pre>
      *
-     * @param array $image_ids array of the image(s) which tags shall be retrieved
+     * @param array $media_ids array of the media(s) which tags shall be retrieved
      * @param int $weight return only tags that have a compound weight equal or great than this value
      * @param int $user_id if set only tag that have been used by the user will be shown
-     * @return array the found tags for the image(s)
+     * @return array the found tags for the media(s)
      */
-    public static function getTagsByWeightThreshold($image_ids, $weight, $user_id = null)
+    public static function getTagsByWeightThreshold($media_ids, $weight, $user_id = null)
     {
         $tags = array();
         $used_tags = array();
@@ -149,48 +149,48 @@ class MGTags
 
         if ($user_id) {
             $used_tags = Yii::app()->db->createCommand()
-                ->select('tu.image_id, tu.tag_id, t.tag, SUM(tu.weight) as total')
+                ->select('tu.media_id, tu.tag_id, t.tag, SUM(tu.weight) as total')
                 ->from('{{tag_use}} tu')
                 ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
                 ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
                 ->leftJoin('{{session}} s', 's.id = gs.session_id')
-                ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))),
-                array(':userID' => $user_id))
-                ->group('tu.image_id, tu.tag_id, t.tag')
+                ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.media_id', array_values($media_ids))),
+                    array(':userID' => $user_id))
+                ->group('tu.media_id, tu.tag_id, t.tag')
                 ->having('total >= :weight', array(":weight" => $weight))
-                ->order('tu.image_id, total DESC')
+                ->order('tu.media_id, total DESC')
                 ->queryAll();
 
         } else {
             $used_tags = Yii::app()->db->createCommand()
-                ->select('tu.image_id, tu.tag_id, t.tag, SUM(tu.weight) as total')
+                ->select('tu.media_id, tu.tag_id, t.tag, SUM(tu.weight) as total')
                 ->from('{{tag_use}} tu')
                 ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                ->where(array('and', 'tu.weight > 0', array('in', 'tu.image_id', array_values($image_ids))))
-                ->group('tu.image_id, tu.tag_id, t.tag')
+                ->where(array('and', 'tu.weight > 0', array('in', 'tu.media_id', array_values($media_ids))))
+                ->group('tu.media_id, tu.tag_id, t.tag')
                 ->having('total >= :weight', array(":weight" => $weight))
-                ->order('tu.image_id, total DESC')
+                ->order('tu.media_id, total DESC')
                 ->queryAll();
 
         }
         foreach ($used_tags as $tag) {
-            if (!isset($tags[$tag["image_id"]]))
-                $tags[$tag["image_id"]] = array();
+            if (!isset($tags[$tag["media_id"]]))
+                $tags[$tag["media_id"]] = array();
 
-            $tags[$tag["image_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"], "total" => $tag["total"]);
+            $tags[$tag["media_id"]][$tag["tag_id"]] = array("tag" => $tag["tag"], "total" => $tag["total"]);
         }
 
         return $tags;
     }
 
     /**
-     * Saves new tags and tag uses for one or more image(s)
+     * Saves new tags and tag uses for one or more media(s)
      *
      * <pre>
      * Please use the follwing structure for the $tags array:
      *
      * $tags = array(
-     *   "image_id" = array(
+     *   "media_id" = array(
      *     "tag" => array(
      *        "weight" => 3,
      *        "original_tag" => "" //optional if set an original version will be created/updated
@@ -211,16 +211,16 @@ class MGTags
      */
     public static function saveTags($tags, $game_submission_id)
     {
-        foreach ($tags as $image_id => $image_tags) {
+        foreach ($tags as $media_id => $media_tags) {
             $arr_tags = array();
 
             $all_tags_with_id = true;
-            foreach ($image_tags as $tag => $tag_info) {
+            foreach ($media_tags as $tag => $tag_info) {
 
-                if (!is_array($tags[$image_id][$tag]))
+                if (!is_array($tags[$media_id][$tag]))
                     throw new CHttpException(500, Yii::t('app', "The array passed must have arrays as it's leafs."));
 
-                if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag]["tag_id"] == 0) {
+                if (!array_key_exists("tag_id", $tags[$media_id][$tag]) || (int)$tags[$media_id][$tag]["tag_id"] == 0) {
                     $all_tags_with_id = false;
                     $arr_tags[] = $tag;
                 }
@@ -238,15 +238,15 @@ class MGTags
 
                     if ($known_tags) {
                         foreach ($known_tags as $known_tag) {
-                            $tags[$image_id][strtolower($known_tag["tag"])]["tag_id"] = $known_tag["id"];
+                            $tags[$media_id][strtolower($known_tag["tag"])]["tag_id"] = $known_tag["id"];
                         }
                     }
                 }
 
-                foreach ($tags[$image_id] as $tag => $tag_info) {
-                    if (!array_key_exists("tag_id", $tags[$image_id][$tag]) || (int)$tags[$image_id][$tag]["tag_id"] == 0) { // tag does not exist we have to create it
+                foreach ($tags[$media_id] as $tag => $tag_info) {
+                    if (!array_key_exists("tag_id", $tags[$media_id][$tag]) || (int)$tags[$media_id][$tag]["tag_id"] == 0) { // tag does not exist we have to create it
                         $tag_model = new Tag;
-                        $tag_model->tag = $tags[$image_id][$tag]["tag"];
+                        $tag_model->tag = $tags[$media_id][$tag]["tag"];
                         $tag_model->created = date('Y-m-d H:i:s');
                         $tag_model->modified = date('Y-m-d H:i:s');
 
@@ -254,7 +254,7 @@ class MGTags
                             try {
                                 $tag_model->save();
                             } catch (CDbException $e) {
-                                $tag_searched = Tag::model()->findByAttributes(array("tag" => $tags[$image_id][$tag]["tag"]));
+                                $tag_searched = Tag::model()->findByAttributes(array("tag" => $tags[$media_id][$tag]["tag"]));
                                 if (is_null($tag_searched)) {
                                     throw new CHttpException(500, Yii::t('app', 'Internal Server Error: - TAG SAVE: ' . json_encode($tag_model->errors)));
                                 } else {
@@ -264,15 +264,15 @@ class MGTags
                         } else {
                             throw new CHttpException(500, Yii::t('app', 'Internal Server Error.'));
                         }
-                        $tags[$image_id][$tag]["tag_id"] = $tag_model->id;
+                        $tags[$media_id][$tag]["tag_id"] = $tag_model->id;
                     }
 
                     // now we know all tags are registered and now all the id's let's add the tag_uses
                     $tag_use_model = new TagUse;
-                    $tag_use_model->tag_id = (int)$tags[$image_id][$tag]["tag_id"];
-                    $tag_use_model->image_id = (int)$image_id;
-                    $tag_use_model->weight = (int)$tags[$image_id][$tag]["weight"];
-                    $tag_use_model->type = (string)$tags[$image_id][$tag]["type"];
+                    $tag_use_model->tag_id = (int)$tags[$media_id][$tag]["tag_id"];
+                    $tag_use_model->media_id = (int)$media_id;
+                    $tag_use_model->weight = (int)$tags[$media_id][$tag]["weight"];
+                    $tag_use_model->type = (string)$tags[$media_id][$tag]["type"];
                     $tag_use_model->game_submission_id = (int)$game_submission_id;
                     $tag_use_model->created = date('Y-m-d H:i:s');
 
@@ -328,7 +328,7 @@ class MGTags
     }
 
     /**
-     * This method gets the tags that have been used for the image identified by $imageId and the correct length.
+     * This method gets the tags that have been used for the media identified by $mediaId and the correct length.
      * <pre>
      * It will return an array of array
      *
@@ -341,11 +341,11 @@ class MGTags
      *  )
      * </pre>
      *
-     * @param int $imageId tag id
+     * @param int $mediaId tag id
      * @param int $lenght tag length
-     * @return array the found tags for the image
+     * @return array the found tags for the media
      */
-    public static function getTagsByLength($imageId, $lenght = 3)
+    public static function getTagsByLength($mediaId, $lenght = 3)
     {
         $tags = array();
         $used_tags = array();
@@ -353,7 +353,7 @@ class MGTags
             ->select('t.id as tag_id, t.tag')
             ->from('{{tag_use}} tu')
             ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-            ->where('tu.weight > 0 and tu.image_id=:id and length(t.tag)=:l', array(':id' => $imageId, ':l' => $lenght))
+            ->where('tu.weight > 0 and tu.media_id=:id and length(t.tag)=:l', array(':id' => $mediaId, ':l' => $lenght))
             ->group('tag_id')
             ->queryAll();
 

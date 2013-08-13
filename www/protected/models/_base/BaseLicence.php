@@ -15,7 +15,7 @@
  * @property string $created
  * @property string $modified
  *
- * @property ImageSet[] $imageSets
+ * @property Collection[] $collections
  */
 abstract class BaseLicence extends GxActiveRecord {
 
@@ -47,7 +47,7 @@ abstract class BaseLicence extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'imageSets' => array(self::HAS_MANY, 'ImageSet', 'licence_id'),
+			'collections' => array(self::HAS_MANY, 'Collection', 'licence_id'),
 		);
 	}
 
@@ -63,7 +63,7 @@ abstract class BaseLicence extends GxActiveRecord {
 			'description' => Yii::t('app', 'Description'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
-			'imageSets' => null,
+			'collections' => null,
 		);
 	}
 

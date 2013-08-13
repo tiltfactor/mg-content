@@ -15,7 +15,7 @@
  * @property string $created
  * @property string $modified
  *
- * @property ImageSet[] $imageSets
+ * @property Collection[] $collections
  * @property User[] $users
  */
 abstract class BaseSubjectMatter extends GxActiveRecord {
@@ -48,14 +48,14 @@ abstract class BaseSubjectMatter extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'imageSets' => array(self::MANY_MANY, 'ImageSet', 'image_set_to_subject_matter(subject_matter_id, image_set_id)'),
+			'collections' => array(self::MANY_MANY, 'Collection', 'collection_to_subject_matter(subject_matter_id, collection_id)'),
 			'users' => array(self::MANY_MANY, 'User', 'user_to_subject_matter(subject_matter_id, user_id)'),
 		);
 	}
 
 	public function pivotModels() {
 		return array(
-			'imageSets' => 'ImageSetToSubjectMatter',
+			'collections' => 'CollectionToSubjectMatter',
 			'users' => 'UserToSubjectMatter',
 		);
 	}
@@ -67,7 +67,7 @@ abstract class BaseSubjectMatter extends GxActiveRecord {
 			'locked' => Yii::t('app', 'Locked'),
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
-			'imageSets' => null,
+			'collections' => null,
 			'users' => null,
 		);
 	}

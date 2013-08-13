@@ -6,15 +6,15 @@
 )); ?>
 
 	<div class="row">
-		<?php echo CHtml::label(Yii::t('app', 'Image ID'), 'image_id'); ?>
-		<?php echo $form->textField($model, 'image_id'); ?>
-		<div class="description"><?php echo Yii::t('app', " (you can find the ID of an image on its view page's URL. E.g. /admin/image/view/id/233 > ID = 233 )"); ?></div>
+		<?php echo CHtml::label(Yii::t('app', 'Media ID'), 'media_id'); ?>
+		<?php echo $form->textField($model, 'media_id'); ?>
+		<div class="description"><?php echo Yii::t('app', " (you can find the ID of an media on its view page's URL. E.g. /admin/media/view/id/233 > ID = 233 )"); ?></div>
 	</div>
 
 	<div class="row">
 		<?php echo CHtml::label(Yii::t('app', 'Tag ID'), 'tag_id'); ?>
 		<?php echo $form->textField($model, 'tag_id'); ?>
-		<div class="description"><?php echo Yii::t('app', " (you can find the ID of an image on its view page's URL. E.g. /admin/tag/view/id/321 > ID = 321 )"); ?></div>
+		<div class="description"><?php echo Yii::t('app', " (you can find the ID of an media on its view page's URL. E.g. /admin/tag/view/id/321 > ID = 321 )"); ?></div>
 	</div>
   
   <div class="row">
@@ -23,7 +23,7 @@
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'name'=>'TagUse[username]',
         'value'=> ((isset($_GET["TagUse"]) && isset($_GET["TagUse"]["username"]))? $_GET["TagUse"]["username"] : ''),
-        'source'=>$this->createUrl('/admin/image/searchUser'),
+        'source'=>$this->createUrl('/admin/media/searchUser'),
         'options'=>array(
                 'showAnim'=>'fold',
         ),

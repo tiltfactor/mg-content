@@ -3,7 +3,7 @@ MG_GAME_PYRAMID = function ($) {
         wordField:null,
         playOnceMoveOnFinalScreenWaitingTime:15000, // milliseconds
         submitButton:null,
-        image:null,
+        media:null,
         licence_info:[],
         more_info:null,
         levels:[],
@@ -56,8 +56,8 @@ MG_GAME_PYRAMID = function ($) {
             $("#image_container").html("");
 
             var turn_info = {
-                url:response.turn.images[0].full_size,
-                url_full_size:response.turn.images[0].full_size,
+                url:response.turn.medias[0].full_size,
+                url_full_size:response.turn.medias[0].full_size,
                 licence_info:MG_GAME_API.parseLicenceInfo(response.turn.licences)
             };
 
@@ -182,7 +182,7 @@ MG_GAME_PYRAMID = function ($) {
             if ($.trim(MG_GAME_PYRAMID.game.more_info_url) != "")
                 MG_GAME_PYRAMID.more_info = {url:MG_GAME_PYRAMID.game.more_info_url, name:MG_GAME_PYRAMID.game.name};
 
-            MG_GAME_PYRAMID.image = response.turn.images[0]
+            MG_GAME_PYRAMID.media = response.turn.medias[0]
 
             var accepted = {
                 level:1,
@@ -191,16 +191,16 @@ MG_GAME_PYRAMID = function ($) {
 
             var turn = response.turn;
             for (i_img in turn.tags.user) {
-                var image = turn.tags.user[i_img];
-                for (i_tag in image) {
+                var media = turn.tags.user[i_img];
+                for (i_tag in media) {
                     // PASSING: If we find the passing tag, we just skip it.
                     if (i_tag == MG_GAME_PYRAMID.passStringFiltered) {
                         continue;
                     }
-                    var tag = image[i_tag];
+                    var tag = media[i_tag];
 
-                    if (turn.images[0].tag_accepted) {
-                        accepted.level = turn.images[0].level;
+                    if (turn.medias[0].tag_accepted) {
+                        accepted.level = turn.medias[0].level;
                         accepted.tag = tag;
                         MG_GAME_PYRAMID.levels.push(accepted);
                         MG_GAME_PYRAMID.nextlevel();
@@ -280,7 +280,7 @@ MG_GAME_PYRAMID = function ($) {
                             played_game_id:MG_GAME_PYRAMID.game.played_game_id,
                             'submissions':[
                                 {
-                                    image_id:MG_GAME_PYRAMID.image.image_id,
+                                    media_id:MG_GAME_PYRAMID.media.media_id,
                                     tags:tags
                                 }
                             ]

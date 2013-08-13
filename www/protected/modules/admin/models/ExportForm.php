@@ -7,7 +7,7 @@
 class ExportForm extends CFormModel
 {
   public $filename;
-  public $imageSets;
+  public $collections;
   public $tags;
   public $tags_search_option = 'OR';
   public $players;
@@ -21,8 +21,8 @@ class ExportForm extends CFormModel
   
   public $option_list_user = 0;
   
-  public $affected_images = array();
-  public $active_image = 0;
+  public $affected_medias = array();
+  public $active_media = 0;
   /**
    * Declares the validation rules.
    */
@@ -32,7 +32,7 @@ class ExportForm extends CFormModel
       array('filename, tag_weight_min, tag_weight_sum', 'required'),
       array('tag_weight_min, tag_weight_sum', 'numerical', 'min'=>0),
       array('created_after, created_before', 'date', 'format' => array('yyyy-mm-dd hh:mm:ss', 'yyyy-mm-dd hh:mm', 'yyyy-mm-dd', 'yyyy-mm', 'yyyy')),
-      array('imageSets, tags, players, tags_search_option, players_search_option, created_after, created_before, option_list_user, active_image, affected_images', 'safe'),
+      array('collections, tags, players, tags_search_option, players_search_option, created_after, created_before, option_list_user, active_media, affected_medias', 'safe'),
     );
   }
 
@@ -45,7 +45,7 @@ class ExportForm extends CFormModel
   {
     return array(
       'filename'=> Yii::t('app', "Export File Name"),
-      'imageSets' => Yii::t('app', "Image Sets(s)"),
+      'collections' => Yii::t('app', "Collections(s)"),
       'tags'=> Yii::t('app', "Tag(s)"),
       'players'=> Yii::t('app', "Player Name(s)"),
       'tag_weight_min'=> Yii::t('app', "Tag Weight (minimum)"),

@@ -15,8 +15,8 @@
 	<?php echo $form->errorSummary($model); ?>
 
     <div class="row image">
-    <?php echo $form->labelEx($model,'image_id'); ?>
-    <?php echo GxHtml::link(CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->image), GxHtml::valueEx($model->image)) . " <span>" . GxHtml::valueEx($model->image) . "</span>", array('image/view', 'id' => GxActiveRecord::extractPkValue($model->image, true))); ?>
+    <?php echo $form->labelEx($model,'media_id'); ?>
+    <?php echo GxHtml::link(CHtml::image(Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. GxHtml::valueEx($model->media), GxHtml::valueEx($model->media)) . " <span>" . GxHtml::valueEx($model->media) . "</span>", array('image/view', 'id' => GxActiveRecord::extractPkValue($model->media, true))); ?>
     </div><!-- row -->
     <div class="row">
     <?php echo $form->labelEx($model,'tag_id'); ?> 

@@ -54,10 +54,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
       'value'=>'$data->getTagUseInfo()',
     ),
 		array(
-      'cssClassExpression' => "'top-images'",
-      'header' => Yii::t('app', 'Top Images'),
+      'cssClassExpression' => "'top-medias'",
+      'header' => Yii::t('app', 'Top Medias'),
       'type' => 'html',
-      'value'=>'$data->getTopImages(5)',
+      'value'=>'$data->getTopMedias(5)',
     ),
     array(
       'cssClassExpression' => "'top-users'",

@@ -41,7 +41,7 @@ class SubjectMatterController extends GxController {
 		if (isset($_POST['SubjectMatter'])) {
 			$model->setAttributes($_POST['SubjectMatter']);
 			$relatedData = array(
-				'imageSets' => $_POST['SubjectMatter']['imageSets'] === '' ? null : $_POST['SubjectMatter']['imageSets'],
+				'collections' => $_POST['SubjectMatter']['collections'] === '' ? null : $_POST['SubjectMatter']['collections'],
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
@@ -65,7 +65,7 @@ class SubjectMatterController extends GxController {
 		if (isset($_POST['SubjectMatter'])) {
 			$model->setAttributes($_POST['SubjectMatter']);
 			$relatedData = array(
-				'imageSets' => $_POST['SubjectMatter']['imageSets'] === '' ? null : $_POST['SubjectMatter']['imageSets'],
+				'collections' => $_POST['SubjectMatter']['collections'] === '' ? null : $_POST['SubjectMatter']['collections'],
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
