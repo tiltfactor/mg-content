@@ -82,6 +82,7 @@ EOD;
                         $job->executed_finished = $executed_at;
                         $job->execution_result = $e->getMessage();
                         $job->save();
+                        echo "CException:".$e->getMessage()."\r\n";
                     }
                 } else {
                     $executed_at = date("Y-m-d H:i:s");
@@ -89,17 +90,20 @@ EOD;
                     $job->succeeded = 0;
                     $job->execution_result = 'Action does not exist.';
                     $job->save();
+                    echo $job->action.": Action does not exist \r\n";
                 }
             }
             $jobs = $this->getJobs();
         }
+
+        echo "Finished at: " . date("Y-m-d H:i:s") . "\r\n";
         $this->releaseLock();
     }
 
     private function getJobs(){
-        $now = date("Y-m-d H:i:s");
+        $now = date("Y-m-d H:i:s",time()+10); //add 10 seconds in future to prevent race condition
         echo "Get jobs at: " . $now . "\r\n";
-        return CronJob::model()->findAll('execute_after <:now AND executed_finished IS NULL ORDER BY id ASC', array(':now' => $now));
+        return CronJob::model()->findAll('execute_after <=:now AND executed_finished IS NULL ORDER BY id ASC', array(':now' => $now));
     }
 
     /**
