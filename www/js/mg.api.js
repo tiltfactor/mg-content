@@ -199,7 +199,7 @@ MG_API = function ($) {
       var defaults = {
         url : MG_API.settings.api_url + path,
         // set needed shared secret header
-        headers : $.parseJSON('{"X_' + MG_API.settings.app_id + '_SHARED_SECRET" : "' + MG_API.settings.shared_secret + '"}'),
+        headers : $.parseJSON('{"X_' + MG_API.settings.app_id + '_SHARED_SECRET" : "'.replace("_", "-") + MG_API.settings.shared_secret + '"}'),
         success : callback,
         statusCode : {
           420 : MG_API.enhanceYourCalm,
