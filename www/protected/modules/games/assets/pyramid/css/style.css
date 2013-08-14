@@ -680,8 +680,16 @@ input#word.level_9 {
     background-size: auto auto;
   }
 }
-.toast-item-image {
-  margin-top: -7px !important;
+.toast-item-image,
+.toast-item-close {
+  display: none;
+}
+.toast-item {
+  border: 0 !important;
+  background: none !important;
+}
+.toast-item p {
+  color: black !important;
 }
 .toast-item p {
   color: white;
@@ -908,7 +916,6 @@ body.touch_device #sidepanel {
     margin: 0 20px 0 20px;
     max-width: 170px !important;
     height: 30px;
-    font-size: 15px;
   }
   .spacial_font.size_20 {
     font-size: 20px;

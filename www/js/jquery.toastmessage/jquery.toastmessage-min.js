@@ -1,4 +1,4 @@
-(function(c){var b={inEffect:{opacity:"show"},inEffectDuration:600,stayTime:3000,text:"",sticky:false,type:"notice",position:"top-right",closeText:"",close:null};
+(function(c){var b={inEffect:{opacity:"show"},inEffectDuration:600,stayTime:300,text:"",sticky:false,type:"notice",position:"top-right",closeText:"",close:null};
 var a={init:function(d){if(d){c.extend(b,d)
 }},showToast:function(f){var g={};
 c.extend(g,b,f);
@@ -21,11 +21,15 @@ return c().toastmessage("showToast",d)
 return c().toastmessage("showToast",d)
 },showWarningToast:function(e){var d={text:e,type:"warning"};
 return c().toastmessage("showToast",d)
-},removeToast:function(e,d){e.animate({opacity:"0"},600,function(){e.parent().animate({height:"0px"},300,function(){e.parent().remove()
-})
-});
-if(d&&d.close!==null){d.close()
-}}};
+},removeToast: function(e,d){
+        e.fadeIn('slow').animate({'bottom': '54%', opacity:"0"},400,function(){
+            e.parent().animate({height:"0px"},300,function(){
+                e.parent().remove()
+            })
+        });
+        if(d&&d.close!==null){d.close()}
+    }
+};
 c.fn.toastmessage=function(d){if(a[d]){return a[d].apply(this,Array.prototype.slice.call(arguments,1))
 }else{if(typeof d==="object"||!d){return a.init.apply(this,arguments)
 }else{c.error("Method "+d+" does not exist on jQuery.toastmessage")

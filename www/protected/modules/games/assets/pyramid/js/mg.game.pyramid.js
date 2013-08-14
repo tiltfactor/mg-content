@@ -203,7 +203,7 @@ MG_GAME_PYRAMID = function ($) {
                         MG_GAME_PYRAMID.nextlevel();
                     } else {
                         $().toastmessage("showToast", {
-                            text:"No match! Try again",
+                            text:"No match! Try again!",
                             position:"middle-center",
                             type:"notice"
                         });
@@ -243,16 +243,25 @@ MG_GAME_PYRAMID = function ($) {
                         type:"notice"
                     });
                     $('#try_again')[0].play();
-                } else if (tags.length != (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step)) {
+                } else if (tags.length < (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step)) {
                     $().toastmessage("showToast", {
-                        text:"That wasn't a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word!",
+                        text: "not enough letters!",//"That wasn't a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word!",
                         position:"middle-center",
                         type:"notice"
                     });
                     $('#try_again')[0].play();
-                } else if($.inArray(tags,MG_GAME_PYRAMID.words) !== -1){
+                }
+                else if (tags.length > (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step)) {
                     $().toastmessage("showToast", {
-                        text:"You already submitted this word!",
+                        text:"too many letters!",
+                        position:"middle-center",
+                        type:"notice"
+                    });
+                    $('#try_again')[0].play();
+                }
+                else if($.inArray(tags,MG_GAME_PYRAMID.words) !== -1){
+                    $().toastmessage("showToast", {
+                        text:"already tried that!",
                         position:"middle-center",
                         type:"notice"
                     });
@@ -319,7 +328,7 @@ MG_GAME_PYRAMID = function ($) {
             $("input#word").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
             $('#next_level')[0].play();
 
-            var myArray = ['Awesome!', "Bet you can't get this one!"];
+            var myArray = ['Awesome!', "Bet you can't get this one!", 'Nice!', 'Cool!'];
             $().toastmessage("showToast", {
                 text: myArray[Math.floor(Math.random() * myArray.length)],
                 position:"middle-center",

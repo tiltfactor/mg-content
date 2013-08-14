@@ -541,8 +541,19 @@ input#word {
   }
 }
 
-.toast-item-image {
-  margin-top: -7px !important;
+.toast-item-image, .toast-item-close {
+  //margin-top: -7px !important;
+  display: none;
+}
+
+.toast-item {
+  border: 0 !important;
+  background: none !important;
+
+  p {
+    color: black !important;
+  }
+
 }
 
 .toast-item p {
@@ -819,7 +830,7 @@ only screen and (            max-resolution: 2dppx)      and (max-height: 550px)
     margin: 0 20px 0 20px;
     max-width: 170px !important;
     height: 30px;
-    font-size: 15px;
+    //font-size: 15px;
   }
 
   .spacial_font {
