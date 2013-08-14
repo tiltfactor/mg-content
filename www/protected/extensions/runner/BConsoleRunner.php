@@ -15,19 +15,23 @@ class BConsoleRunner extends CComponent
      */
     public function run($cmd, $args)
     {
+        $logFile = Yii::app()->basePath . '/runtime/media_'. $now = date("Y-m-d_H-i-s").'.log';
         $consoleFile = Yii::app()->basePath . '/yiic.php';
-        $cmd = "php " . $consoleFile . " " . $cmd;
+        $cmd = 'php ' . $consoleFile .' '. $cmd;
         if (is_array($args)) {
             foreach ($args as $arg) {
-                $cmd .= " " . $arg;
+                $cmd .= ' '. $arg;
             }
         }
 
+        $cmd.= ' > "'.$logFile.'" 2>&1';
+
         if (substr(php_uname(), 0, 7) == "Windows") {
              $WshShell = new COM("WScript.Shell");
-             $oExec = $WshShell->Run($cmd, 0, false);
+             $oExec = $WshShell->Run("%comspec% /c ".$cmd, 0, false);
         } else {
-            exec($cmd . " > /dev/null &");
+            //exec($cmd . " > /dev/null &");
+            exec($cmd);
         }
 
         return true;

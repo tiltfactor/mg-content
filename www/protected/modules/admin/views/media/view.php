@@ -41,8 +41,8 @@ if($media_type === 'image') {
     $url_mp4 = Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/videos/'. urlencode(substr($model->name, 0, -4)."mp4");
     $url_poster = Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/videos/'. urlencode(substr($model->name, 0, -4)."jpeg");
     $media = '<video class="video" controls preload poster="'.$url_poster.'">
-            <source src="'.$url_mp4.'"></source>
             <source src="'.$url_webm.'"></source>
+            <source src="'.$url_mp4.'"></source>
         </video>';
 } else {
     $url_mp3 = Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/audios/'. urlencode($model->name);
