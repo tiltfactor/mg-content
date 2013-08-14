@@ -32,7 +32,7 @@
 
 <footer class="group footer_level_1">
     <div>
-        4 letters!
+        What's in this image?
     </div>
 </footer>
 <div style="height: 0px; padding: 0; margin: 0; overflow:scroll;">

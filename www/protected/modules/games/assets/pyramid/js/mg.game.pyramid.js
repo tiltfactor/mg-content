@@ -93,7 +93,7 @@ MG_GAME_PYRAMID = function ($) {
             $("#input_area").hide();
 
             var final_info = {
-                finalMsg:"You got to " + (MG_GAME_PYRAMID.level+MG_GAME_PYRAMID.level_step) + " letters! Amazing!"
+                finalMsg:"You score " + (MG_GAME_PYRAMID.level+MG_GAME_PYRAMID.level_step -1) + "! Amazing!"
             }
 
             $("#template-final-info").tmpl(final_info).appendTo($("#fieldholder"));
@@ -314,10 +314,18 @@ MG_GAME_PYRAMID = function ($) {
         nextlevel:function () {
             MG_GAME_PYRAMID.level++;
             MG_GAME_PYRAMID.wordField.attr("placeholder", "Enter a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letter word");
-            $("#content").find("footer").removeClass("footer_level_" + MG_GAME_PYRAMID.level -1).addClass("footer_level_" + MG_GAME_PYRAMID.level).find("div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " letters!");
+            $("#content").find("footer").removeClass("footer_level_" + MG_GAME_PYRAMID.level -1).addClass("footer_level_" + MG_GAME_PYRAMID.level); //.find("div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " letters!");
             //$("#content").find("footer").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
             $("input#word").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
             $('#next_level')[0].play();
+
+            var myArray = ['Awesome!', "Bet you can't get this one!"];
+            $().toastmessage("showToast", {
+                text: myArray[Math.floor(Math.random() * myArray.length)],
+                position:"middle-center",
+                type:"notice"
+            });
+            $('#try_again')[0].play();
         }
     });
 }(jQuery);

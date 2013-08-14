@@ -530,7 +530,7 @@ input#word.level_9 {
 }
 #input_area {
   bottom: 0px;
-  height: 60px;
+  height: 30px;
   float: left;
 }
 /* Style the Text Field inside the fieldholder DIV */
@@ -538,13 +538,13 @@ input#word.level_9 {
   max-width: 350px;
   /* 550 - 20px margin */
 
-  height: 60px;
+  height: 30px;
   /* Should be 40px, but seems to be taller than the form? */
 
   font-size: 14pt;
   border: none;
   background: transparent;
-  margin: 0px 0px 0px 20px;
+  margin: 16px 0px 0px 20px;
 }
 .spacial_font {
   font-family: Afbatterse;
