@@ -18,9 +18,6 @@ MG_GAME_PYRAMID = function ($) {
                 onResize ();
             });
 
-//            alert("height" + $(window).height());
-//            alert("width" + $(window).width());
-
             $('#countdown').countdown({until:'+2m', layout: '{mnn}{sep}{snn}', onExpiry:MG_GAME_PYRAMID.liftOff});
             var settings = $.extend(options, {
                 ongameinit:MG_GAME_PYRAMID.ongameinit
@@ -319,6 +316,7 @@ MG_GAME_PYRAMID = function ($) {
             MG_GAME_PYRAMID.wordField.attr("placeholder", "Enter a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letter word");
             $("#content").find("footer").removeClass("footer_level_" + MG_GAME_PYRAMID.level -1).addClass("footer_level_" + MG_GAME_PYRAMID.level).find("div").html(MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step + " letters!");
             //$("#content").find("footer").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
+            $("input#word").removeClass("level_" + MG_GAME_PYRAMID.level -1).addClass("level_" + MG_GAME_PYRAMID.level);
             $('#next_level')[0].play();
         }
     });

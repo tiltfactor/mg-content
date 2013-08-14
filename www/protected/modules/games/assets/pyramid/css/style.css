@@ -35,23 +35,23 @@ body input {
   font-size: 14px;
 }
 body ::-webkit-input-placeholder {
-  font-family: Afbatterse, Helvetica, Verdana, Arial, Sans-Serif;
+  font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
 }
 body :-moz-placeholder {
   /* Firefox 18- */
 
-  font-family: Afbatterse, Helvetica, Verdana, Arial, Sans-Serif;
+  font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
 }
 body ::-moz-placeholder {
   /* Firefox 19+ */
 
-  font-family: Afbatterse, Helvetica, Verdana, Arial, Sans-Serif;
+  font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
 }
 body :-ms-input-placeholder {
-  font-family: Afbatterse, Helvetica, Verdana, Arial, Sans-Serif;
+  font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
 }
 body header {
@@ -495,6 +495,38 @@ body .pyramid.level_9 {
 input:-ms-input-placeholder {
   font-style: italic;
   color: gray;
+}
+input#word {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+input#word.level_1 {
+  background: url('../images/underscore_1.png') 0px 0px no-repeat transparent;
+}
+input#word.level_2 {
+  background: url('../images/underscore_2.png') 0px 0px no-repeat transparent;
+}
+input#word.level_3 {
+  background: url('../images/underscore_3.png') 0px 0px no-repeat transparent;
+}
+input#word.level_4 {
+  background: url('../images/underscore_4.png') 0px 0px no-repeat transparent;
+}
+input#word.level_5 {
+  background: url('../images/underscore_5.png') 0px 0px no-repeat transparent;
+}
+input#word.level_6 {
+  background: url('../images/underscore_6.png') 0px 0px no-repeat transparent;
+}
+input#word.level_7 {
+  background: url('../images/underscore_7.png') 0px 0px no-repeat transparent;
+}
+input#word.level_8 {
+  background: url('../images/underscore_8.png') 0px 0px no-repeat transparent;
+}
+input#word.level_9 {
+  background: url('../images/underscore_9.png') 0px 0px no-repeat transparent;
 }
 #input_area {
   bottom: 0px;
