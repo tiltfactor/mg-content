@@ -37,22 +37,26 @@ body input {
 body ::-webkit-input-placeholder {
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
+  font-size: 11px;
 }
 body :-moz-placeholder {
   /* Firefox 18- */
 
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
+  font-size: 11px;
 }
 body ::-moz-placeholder {
   /* Firefox 19+ */
 
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
+  font-size: 11px;
 }
 body :-ms-input-placeholder {
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
+  font-size: 11px;
 }
 body header {
   background: #fefefe;
@@ -690,6 +694,7 @@ input#word.level_9 {
 }
 .toast-item p {
   color: black !important;
+  font-size: 24px !important;
 }
 .toast-item p {
   color: white;

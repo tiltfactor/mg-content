@@ -42,6 +42,9 @@ MG_GAME_PYRAMID = function ($) {
             MG_GAME_API.game_init(settings);
 
             $("#container").find("footer div").html("4 letters!");
+            $(":input").bind("keyup change", function(event) {
+                if (event.keyCode != '13') $('#key_up')[0].play();
+            })
         },
 
         /*
@@ -160,7 +163,7 @@ MG_GAME_PYRAMID = function ($) {
             $("#button-play-again").click(function (event) {
                 event.preventDefault();
                 //TODO fix sound
-                //$('#next_level')[0].play();
+                $('#next_level')[0].play();
                 location.reload();
             });
 

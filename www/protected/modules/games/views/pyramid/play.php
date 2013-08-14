@@ -46,6 +46,11 @@
         <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.mp3'?>" type="audio/mpeg">
         <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.wav'?>" type="audio/wav">
     </audio>
+    <audio id='key_up' style="height: 0px;">
+        <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.ogg'?>" type="audio/ogg">
+        <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.mp3'?>" type="audio/mpeg">
+        <source src="<?php echo GamesModule::getAssetsUrl() . '/pyramid/audio/tryagain.wav'?>" type="audio/wav">
+    </audio>
     <script id="template-licence" type="text/x-jquery-tmpl">
         <h4>${name}</h4>
 
