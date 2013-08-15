@@ -103,8 +103,8 @@
 <script id="template-turn-video" type="text/x-jquery-tmpl">
     <div style="text-align:center" class="clearfix">
         <video width="${width}" height="${height}" class="video" controls autoplay id="image_to_tag">
-            <source src="${url_webm}"></source>
             <source src="${url_mp4}"></source>
+            <source src="${url_webm}"></source>
         </video>
     </div>
 </script>
