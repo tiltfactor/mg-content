@@ -92,6 +92,8 @@ class m111119_234450_install_v2_0 extends CDbMigration
                 }
             }
         }
+
+        Yii::app()->fbvStorage->set("installed", true);
     }
 
     public function down()
