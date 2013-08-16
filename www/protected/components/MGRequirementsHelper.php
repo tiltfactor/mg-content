@@ -54,6 +54,8 @@ class MGRequirementsHelper {
       Yii::getPathOfAlias('application.runtime'),
       Yii::getPathOfAlias('application.config') . $ds . 'main.php',
       Yii::getPathOfAlias('application.data') . $ds . 'fbvsettings.php',
+      Yii::getPathOfAlias('application.commands.ffmpeg') . $ds . 'ffmpeg',
+      Yii::getPathOfAlias('application.commands.ffmpeg') . $ds . 'ffprobe',
     );
     
     foreach ($folder_files as $f) {
