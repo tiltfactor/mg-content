@@ -135,9 +135,9 @@ EOD;
                 copy($this->uploadPath . "/" . $params->filename, $this->videoPath . "/" . $params->filename);
                 $isMpeg4 = true;
             }
-            if ($info->streams[0]->display_aspect_ratio == "16:9") {
+            if (isset($info->streams[0]->display_aspect_ratio) && $info->streams[0]->display_aspect_ratio == "16:9") {
                 $resolution = "640x360";
-            } else if ($info->streams[0]->display_aspect_ratio == "4:3") {
+            } else if (isset($info->streams[0]->display_aspect_ratio) && $info->streams[0]->display_aspect_ratio == "4:3") {
                 $resolution = "640x480";
             }
             $duration = $info->format->duration;
@@ -207,11 +207,11 @@ EOD;
         $file = basename($params->filename, "." . $ext);
 
         if (isset($info) && isset($info->streams[0])) {
-            if ($info->streams[0]->codec_name == "mp3") {
+            if (isset($info->streams[0]->codec_name) && $info->streams[0]->codec_name == "mp3") {
                 copy($this->uploadPath . "/" . $params->filename, $this->audioPath . "/" . $params->filename);
                 $isMp3 = true;
             }
-            if ($info->streams[0]->codec_name == "vorbis") {
+            if (isset($info->streams[0]->codec_name) && $info->streams[0]->codec_name == "vorbis") {
                 copy($this->uploadPath . "/" . $params->filename, $this->audioPath . "/" . $params->filename);
                 $isOgg = true;
             }
