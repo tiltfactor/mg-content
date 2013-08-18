@@ -1,4 +1,5 @@
 <!-- The bounding-box around the text input and the button -->
+<input type="hidden" id="game_assets_uri" value="<?php echo GamesModule::getAssetsUrl() . '/pyramid/'; ?>" />
 <div class="wrap group">
     <header>
         <div class="center" align="center">
@@ -55,6 +56,13 @@
         <h4>${name}</h4>
 
         <p>${description}</p>
+    </script>
+
+    <script id="template-turn-ping" type="text/x-jquery-tmpl">
+        <audio id='turn_ping' style="height: 0px;">
+            <source src="${ogg_path}" type="audio/ogg">
+            <source src="${mp3_path}" type="audio/mpeg">
+        </audio>
     </script>
     <script id="template-turn" type="text/x-jquery-tmpl">
         <div style="text-align:center">

@@ -22,8 +22,8 @@ return c().toastmessage("showToast",d)
 },showWarningToast:function(e){var d={text:e,type:"warning"};
 return c().toastmessage("showToast",d)
 },removeToast: function(e,d){
-        e.fadeIn('slow').animate({'bottom': '54%', opacity:"0"},400,function(){
-            e.parent().animate({height:"0px"},300,function(){
+        e.fadeIn('slow').animate({'bottom': '94%', opacity:"0"}, 900, function() {
+            e.parent().animate({height:"0px"}, 300, function(){
                 e.parent().remove()
             })
         });

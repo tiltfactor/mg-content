@@ -13,6 +13,7 @@
 .toast-type-warning{color:white;border-color:#FCBD57;}
 .toast-type-error{color:white;border-color:#B32B2B;}
 .toast-position-top-left{position:fixed;left:20px;top:20px;}
+.toast-position-tops-center{position:fixed;left:50%;margin-left:-140px;top:25%;}
 .toast-position-top-center{position:fixed;top:20px;left:50%;margin-left:-140px;}
 .toast-position-top-right{position:fixed;top:20px;right:20px;}
 .toast-position-middle-left{position:fixed;left:20px;top:50%;margin-top:-40px;}

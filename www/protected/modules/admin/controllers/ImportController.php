@@ -549,7 +549,7 @@ class ImportController extends GxController
         $model->file = CUploadedFile::getInstance($model, 'file');
 
         if (isset($model->file) && isset($_POST["batch_id"]) && trim($_POST["batch_id"]) != "") {
-            $model->mime_type = $model->file->getType();
+            $model->mime_type = CFileHelper::getMimeType($model->file); // $model->file->getType(); - this have regular problems with ogg files
 
             $model->size = $model->file->getSize();
 

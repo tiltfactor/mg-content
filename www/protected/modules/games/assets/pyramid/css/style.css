@@ -15,12 +15,14 @@ body {
   list-style: none;
   background-color: #FFFFFF;
   background-image: url('../images/pyramid-background.jpg');
+  background-repeat: repeat;
   width: 100%;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body {
     background-image: url('../images/pyramid-background@2x.jpg');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body {
@@ -38,6 +40,7 @@ body ::-webkit-input-placeholder {
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
   font-size: 11px;
+  letter-spacing: 1px;
 }
 body :-moz-placeholder {
   /* Firefox 18- */
@@ -45,6 +48,7 @@ body :-moz-placeholder {
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
   font-size: 11px;
+  letter-spacing: 1px;
 }
 body ::-moz-placeholder {
   /* Firefox 19+ */
@@ -52,11 +56,13 @@ body ::-moz-placeholder {
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
   font-size: 11px;
+  letter-spacing: 1px;
 }
 body :-ms-input-placeholder {
   font-family: "Lucida Console", Monaco, monospace;
   color: #36454c;
   font-size: 11px;
+  letter-spacing: 1px;
 }
 body header {
   background: #fefefe;
@@ -133,83 +139,101 @@ body #content footer {
 }
 body #content footer.footer_level_1 {
   background-image: url('../images/level_1.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_1 {
     background-image: url('../images/level_1@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_2 {
   background-image: url('../images/level_2.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_2 {
     background-image: url('../images/level_2@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_3 {
   background-image: url('../images/level_3.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_3 {
     background-image: url('../images/level_3@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_4 {
   background-image: url('../images/level_4.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_4 {
     background-image: url('../images/level_4@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_5 {
   background-image: url('../images/level_5.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_5 {
     background-image: url('../images/level_5@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_6 {
   background-image: url('../images/level_6.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_6 {
     background-image: url('../images/level_6@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_7 {
   background-image: url('../images/level_7.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_7 {
     background-image: url('../images/level_7@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_8 {
   background-image: url('../images/level_8.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_8 {
     background-image: url('../images/level_8@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer.footer_level_9 {
   background-image: url('../images/level_9.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body #content footer.footer_level_9 {
     background-image: url('../images/level_9@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body #content footer div {
@@ -229,6 +253,7 @@ body .pyramid {
 }
 body .pyramid.word_level_1 {
   background-image: url('../images/pyramid_1.png');
+  background-repeat: repeat;
   height: 144px;
   line-height: 35px;
 }
@@ -236,10 +261,12 @@ body .pyramid.word_level_1 {
   body .pyramid.word_level_1 {
     background-image: url('../images/pyramid_1@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_2 {
   background-image: url('../images/pyramid_2.png');
+  background-repeat: repeat;
   height: 70px;
   line-height: 70px;
 }
@@ -247,10 +274,12 @@ body .pyramid.word_level_2 {
   body .pyramid.word_level_2 {
     background-image: url('../images/pyramid_2@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_3 {
   background-image: url('../images/pyramid_3.png');
+  background-repeat: repeat;
   height: 71px;
   line-height: 71px;
 }
@@ -258,10 +287,12 @@ body .pyramid.word_level_3 {
   body .pyramid.word_level_3 {
     background-image: url('../images/pyramid_3@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_4 {
   background-image: url('../images/pyramid_4.png');
+  background-repeat: repeat;
   height: 70px;
   line-height: 70px;
 }
@@ -269,10 +300,12 @@ body .pyramid.word_level_4 {
   body .pyramid.word_level_4 {
     background-image: url('../images/pyramid_4@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_5 {
   background-image: url('../images/pyramid_5.png');
+  background-repeat: repeat;
   height: 68px;
   line-height: 68px;
 }
@@ -280,50 +313,60 @@ body .pyramid.word_level_5 {
   body .pyramid.word_level_5 {
     background-image: url('../images/pyramid_5@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_6 {
   background-image: url('../images/pyramid_6.png');
+  background-repeat: repeat;
   line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_6 {
     background-image: url('../images/pyramid_6@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_7 {
   background-image: url('../images/pyramid_7.png');
+  background-repeat: repeat;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_7 {
     background-image: url('../images/pyramid_7@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_8 {
   background-image: url('../images/pyramid_8.png');
+  background-repeat: repeat;
   line-height: 67px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_8 {
     background-image: url('../images/pyramid_8@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.word_level_9 {
   background-image: url('../images/pyramid_9.png');
+  background-repeat: repeat;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.word_level_9 {
     background-image: url('../images/pyramid_9@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_1 {
   background-image: url('../images/pyramid_1.png');
+  background-repeat: repeat;
   height: 144px;
   line-height: 70px;
 }
@@ -331,86 +374,103 @@ body .pyramid.level_1 {
   body .pyramid.level_1 {
     background-image: url('../images/pyramid_1@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_2 {
   background-image: url('../images/pyramid_NA_2.png');
+  background-repeat: repeat;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_2 {
     background-image: url('../images/pyramid_NA_2@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_3 {
   background-image: url('../images/pyramid_NA_3.png');
+  background-repeat: repeat;
   line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_3 {
     background-image: url('../images/pyramid_NA_3@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_4 {
   background-image: url('../images/pyramid_NA_4.png');
+  background-repeat: repeat;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_4 {
     background-image: url('../images/pyramid_NA_4@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_5 {
   background-image: url('../images/pyramid_NA_5.png');
+  background-repeat: repeat;
   line-height: 68px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_5 {
     background-image: url('../images/pyramid_NA_5@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_6 {
   background-image: url('../images/pyramid_NA_6.png');
+  background-repeat: repeat;
   line-height: 71px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_6 {
     background-image: url('../images/pyramid_NA_6@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_7 {
   background-image: url('../images/pyramid_NA_7.png');
+  background-repeat: repeat;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_7 {
     background-image: url('../images/pyramid_NA_7@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_8 {
   background-image: url('../images/pyramid_NA_8.png');
+  background-repeat: repeat;
   line-height: 68px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_8 {
     background-image: url('../images/pyramid_NA_8@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 body .pyramid.level_9 {
   background-image: url('../images/pyramid_NA_9.png');
+  background-repeat: repeat;
   line-height: 70px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   body .pyramid.level_9 {
     background-image: url('../images/pyramid_NA_9@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 #content,
@@ -502,39 +562,110 @@ input:-ms-input-placeholder {
 }
 input#word {
   font-family: "Lucida Console", Monaco, monospace;
-  font-size: 20px;
-  letter-spacing: 1px;
+  font-size: 40px;
+  letter-spacing: 7px;
+  background: 0px 0px no-repeat transparent;
 }
 input#word.level_1 {
-  background: url('../images/underscore_1.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_1.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_1 {
+    background-image: url('../images/underscore_1@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_2 {
-  background: url('../images/underscore_2.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_2.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_2 {
+    background-image: url('../images/underscore_2@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_3 {
-  background: url('../images/underscore_3.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_3.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_3 {
+    background-image: url('../images/underscore_3@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_4 {
-  background: url('../images/underscore_4.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_4.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_4 {
+    background-image: url('../images/underscore_4@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_5 {
-  background: url('../images/underscore_5.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_5.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_5 {
+    background-image: url('../images/underscore_5@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_6 {
-  background: url('../images/underscore_6.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_6.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_6 {
+    background-image: url('../images/underscore_6@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_7 {
-  background: url('../images/underscore_7.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_7.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_7 {
+    background-image: url('../images/underscore_7@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_8 {
-  background: url('../images/underscore_8.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_8.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_8 {
+    background-image: url('../images/underscore_8@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 input#word.level_9 {
-  background: url('../images/underscore_9.png') 0px 0px no-repeat transparent;
+  background-image: url('../images/underscore_9.png');
+  background-repeat: no-repeat;
+}
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+  input#word.level_9 {
+    background-image: url('../images/underscore_9@2x.png');
+    background-size: 0 0;
+    background-repeat: no-repeat;
+  }
 }
 #input_area {
-  bottom: 0px;
-  height: 30px;
   float: left;
 }
 /* Style the Text Field inside the fieldholder DIV */
@@ -542,13 +673,12 @@ input#word.level_9 {
   max-width: 350px;
   /* 550 - 20px margin */
 
-  height: 30px;
+  height: 42px;
   /* Should be 40px, but seems to be taller than the form? */
 
-  font-size: 14pt;
   border: none;
   background: transparent;
-  margin: 16px 0px 0px 20px;
+  margin: 3px 0px 0px 20px;
 }
 .spacial_font {
   font-family: Afbatterse;
@@ -653,6 +783,7 @@ input#word.level_9 {
 }
 .new_game {
   background-image: url('../images/new_game.png');
+  background-repeat: repeat;
   background-repeat: no-repeat;
   background-position: center;
   height: 167px;
@@ -662,26 +793,31 @@ input#word.level_9 {
   .new_game {
     background-image: url('../images/new_game@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 .new_game:hover,
 .new_game:focus {
   background-image: url('../images/new_game_on.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   .new_game:hover,
   .new_game:focus {
     background-image: url('../images/new_game_on@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 .new_game:active {
   background-image: url('../images/new_game_on.png');
+  background-repeat: repeat;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   .new_game:active {
     background-image: url('../images/new_game_on@2x.png');
     background-size: auto auto;
+    background-repeat: repeat;
   }
 }
 .toast-item-image,
@@ -690,13 +826,13 @@ input#word.level_9 {
 }
 .toast-item {
   border: 0 !important;
-  background: none !important;
+  background: white !important;
+  border-radius: 5px;
+  padding: 6px !important;
 }
 .toast-item p {
   color: black !important;
-  font-size: 24px !important;
-}
-.toast-item p {
+  font-size: 25px !important;
   color: white;
 }
 #game_description {
@@ -891,6 +1027,55 @@ body.touch_device #sidepanel {
   #header {
     display: none;
   }
+  #input_area input {
+    margin: 3px 0px 0 0px;
+    max-width: 240px !important;
+    height: 30px;
+    font-size: 25px;
+    letter-spacing: 5px;
+    /*
+          &.level_1 {
+            background: url('../images/underscore_1.png') 0px 0px no-repeat transparent;
+          }
+          &.level_2 {
+            background: url('../images/underscore_2.png') 0px 0px no-repeat transparent;
+          }
+          &.level_3 {
+            background: url('../images/underscore_3.png') 0px 0px no-repeat transparent;
+          }
+          &.level_4 {
+            background: url('../images/underscore_4.png') 0px 0px no-repeat transparent;
+          }
+          &.level_5 {
+            background: url('../images/underscore_5.png') 0px 0px no-repeat transparent;
+          }
+          &.level_6 {
+            background: url('../images/underscore_6.png') 0px 0px no-repeat transparent;
+          }
+          &.level_7 {
+            background: url('../images/underscore_7.png') 0px 0px no-repeat transparent;
+          }
+          &.level_8 {
+            background: url('../images/underscore_8.png') 0px 0px no-repeat transparent;
+          }
+          &.level_9 {
+            background: url('../images/underscore_9.png') 0px 0px no-repeat transparent;
+          }
+      */
+  
+  }
+  .hasCountdown {
+    width: 70px !important;
+  }
+  #countdown {
+    font-size: 25px ;
+  }
+  #countdown,
+  #input_area {
+    top: 10px;
+    position: relative;
+    height: 30px;
+  }
   .spacial_font.size_20 {
     font-size: 17px;
   }
@@ -917,11 +1102,6 @@ body.touch_device #sidepanel {
   }
 }
 @media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-height: 550px), only screen and (max--moz-device-pixel-ratio: 2) and (max-height: 550px), only screen and (-o-max-device-pixel-ratio: 2/1) and (max-height: 550px), only screen and (max-device-pixel-ratio: 2) and (max-height: 550px), only screen and (max-resolution: 192dpi) and (max-height: 550px), only screen and (max-resolution: 2dppx) and (max-height: 550px) {
-  #input_area input {
-    margin: 0 20px 0 20px;
-    max-width: 170px !important;
-    height: 30px;
-  }
   .spacial_font.size_20 {
     font-size: 20px;
   }
@@ -935,15 +1115,6 @@ body.touch_device #sidepanel {
   }
   .splash_logo {
     padding-bottom: 10px;
-  }
-  #countdown {
-    font-size: 25px ;
-  }
-  #countdown,
-  #input_area {
-    top: 10px;
-    position: relative;
-    height: 30px;
   }
   #content footer {
     height: 85px !important;

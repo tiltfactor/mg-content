@@ -1,10 +1,12 @@
-.at2x(@path, @w: auto, @h: auto) {
+.at2x(@path, @w: auto, @h: auto, @repeat: repeat) {
   background-image: url(@path);
+  background-repeat: @repeat;
   @at2x_path: ~`"@{path}".split('.').slice(0, "@{path}".split('.').length - 1).join(".") + "@2x" + "." + "@{path}".split('.')["@{path}".split('.').length - 1]`;
 
   @media all and (-webkit-min-device-pixel-ratio : 1.5) {
     background-image: url(@at2x_path);
     background-size: @w @h;
+    background-repeat: @repeat;
   }
 }
 
@@ -43,24 +45,28 @@ body {
     font-family: "Lucida Console", Monaco, monospace;
     color: #36454c;
     font-size: 11px;
+    letter-spacing: 1px;
   }
 
   :-moz-placeholder { /* Firefox 18- */
     font-family: "Lucida Console", Monaco, monospace;
     color: #36454c;
     font-size: 11px;
+    letter-spacing: 1px;
   }
 
   ::-moz-placeholder {  /* Firefox 19+ */
     font-family: "Lucida Console", Monaco, monospace;
     color: #36454c;
     font-size: 11px;
+    letter-spacing: 1px;
   }
 
   :-ms-input-placeholder {
     font-family: "Lucida Console", Monaco, monospace;
     color: #36454c;
     font-size: 11px;
+    letter-spacing: 1px;
   }
 
   header {
@@ -352,59 +358,51 @@ input:-ms-input-placeholder /* placeholder only style */
 
 input#word {
   font-family: "Lucida Console", Monaco, monospace;
-  font-size: 20px;
-  letter-spacing: 1px;
+  font-size: 40px;
+  letter-spacing: 7px;
+  background: 0px 0px no-repeat transparent;
 
   &.level_1 {
-    background: url('../images/underscore_1.png') 0px 0px no-repeat transparent;
+    //background: url('../images/underscore_1@2x.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_1.png', 0, 0, no-repeat);
   }
   &.level_2 {
-    background: url('../images/underscore_2.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_2.png', 0, 0, no-repeat);
   }
   &.level_3 {
-    background: url('../images/underscore_3.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_3.png', 0, 0, no-repeat);
   }
   &.level_4 {
-    background: url('../images/underscore_4.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_4.png', 0, 0, no-repeat);
   }
   &.level_5 {
-    background: url('../images/underscore_5.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_5.png', 0, 0, no-repeat);
   }
   &.level_6 {
-    background: url('../images/underscore_6.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_6.png', 0, 0, no-repeat);
   }
   &.level_7 {
-    background: url('../images/underscore_7.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_7.png', 0, 0, no-repeat);
   }
   &.level_8 {
-    background: url('../images/underscore_8.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_8.png', 0, 0, no-repeat);
   }
   &.level_9 {
-    background: url('../images/underscore_9.png') 0px 0px no-repeat transparent;
+    .at2x('../images/underscore_9.png', 0, 0, no-repeat);
   }
 }
 
 #input_area {
-  //left: 0px;
-  bottom: 0px;
-  height: 30px;
   float: left;
-}
-
-#countdown, #input_area {
-//  top: 30px;
-//  position: relative;
 }
 
 /* Style the Text Field inside the fieldholder DIV */
 #input_area input {
-
   max-width: 350px;  /* 550 - 20px margin */
-  height: 30px; /* Should be 40px, but seems to be taller than the form? */
-  font-size: 14pt;
+  height: 42px; /* Should be 40px, but seems to be taller than the form? */
   border: none;
   background: transparent;
-  margin: 16px 0px 0px 20px;
+  margin: 3px 0px 0px 20px;
 }
 
 .spacial_font {
@@ -552,18 +550,16 @@ input#word {
 
 .toast-item {
   border: 0 !important;
-  background: none !important;
+  background: white !important;
+  border-radius: 5px;
+  padding: 6px !important;
 
   p {
     color: black !important;
-    font-size: 24px !important;
+    font-size: 25px !important;
     //background-color: white;
+    color: white;
   }
-
-}
-
-.toast-item p {
-  color: white;
 }
 
 #game_description {
@@ -791,6 +787,56 @@ only screen and (            min-resolution: 2dppx) {
     display: none;
   }
 
+  #input_area input {
+    margin: 3px 0px 0 0px;
+    max-width: 240px !important;
+    height: 30px;
+    font-size: 25px;
+    letter-spacing: 5px;
+    /*
+        &.level_1 {
+          background: url('../images/underscore_1.png') 0px 0px no-repeat transparent;
+        }
+        &.level_2 {
+          background: url('../images/underscore_2.png') 0px 0px no-repeat transparent;
+        }
+        &.level_3 {
+          background: url('../images/underscore_3.png') 0px 0px no-repeat transparent;
+        }
+        &.level_4 {
+          background: url('../images/underscore_4.png') 0px 0px no-repeat transparent;
+        }
+        &.level_5 {
+          background: url('../images/underscore_5.png') 0px 0px no-repeat transparent;
+        }
+        &.level_6 {
+          background: url('../images/underscore_6.png') 0px 0px no-repeat transparent;
+        }
+        &.level_7 {
+          background: url('../images/underscore_7.png') 0px 0px no-repeat transparent;
+        }
+        &.level_8 {
+          background: url('../images/underscore_8.png') 0px 0px no-repeat transparent;
+        }
+        &.level_9 {
+          background: url('../images/underscore_9.png') 0px 0px no-repeat transparent;
+        }
+    */
+  }
+
+  .hasCountdown {
+    width: 70px !important;
+  }
+  
+  #countdown {
+    font-size: 25px ;
+  }
+
+  #countdown, #input_area {
+    top: 10px;
+    position: relative;
+    height: 30px;
+  }
   .spacial_font {
     &.size_20 {
       font-size: 17px;
@@ -832,12 +878,6 @@ only screen and (     -o-max-device-pixel-ratio: 2/1)    and (max-height: 550px)
 only screen and (        max-device-pixel-ratio: 2)      and (max-height: 550px),
 only screen and (           max-resolution: 192dpi)      and (max-height: 550px),
 only screen and (            max-resolution: 2dppx)      and (max-height: 550px) {
-  #input_area input {
-    margin: 0 20px 0 20px;
-    max-width: 170px !important;
-    height: 30px;
-    //font-size: 15px;
-  }
 
   .spacial_font {
     &.size_20 {
@@ -859,15 +899,7 @@ only screen and (            max-resolution: 2dppx)      and (max-height: 550px)
     padding-bottom: 10px;
   }
 
-  #countdown {
-    font-size: 25px ;
-  }
 
-  #countdown, #input_area {
-    top: 10px;
-    position: relative;
-    height: 30px;
-  }
 
   #content footer {
     height: 85px !important;

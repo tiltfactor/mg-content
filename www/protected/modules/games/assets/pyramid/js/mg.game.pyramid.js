@@ -42,8 +42,20 @@ MG_GAME_PYRAMID = function ($) {
             MG_GAME_API.game_init(settings);
 
             $("#container").find("footer div").html("4 letters!");
+            var game_assets_uri = $("#game_assets_uri").val(),
+                num_sound,
+                sound_info;
             $(":input").bind("keyup change", function(event) {
-                if (event.keyCode != '13') $('#key_up')[0].play();
+                if (event.keyCode != '13' && event.keyCode != '8' && event.keyCode != '46') {
+                    sound_info = {};
+                    num_sound = (parseInt($("#word").val().length, 10) - 1) % 8 + 1;
+                    sound_info.ogg_path = game_assets_uri + 'audio/sound' + num_sound + '.ogg';
+                    sound_info.mp3_path = game_assets_uri + 'audio/sound' + num_sound + '.mp3';
+                    $("#turn_ping").remove();
+                    $("#template-turn-ping").tmpl(sound_info).appendTo($("body")).after(function () {
+                        $('#turn_ping')[0].play();
+                    });
+                }
             })
         },
 
@@ -162,7 +174,6 @@ MG_GAME_PYRAMID = function ($) {
 
             $("#button-play-again").click(function (event) {
                 event.preventDefault();
-                //TODO fix sound
                 $('#next_level')[0].play();
                 location.reload();
             });
@@ -207,7 +218,7 @@ MG_GAME_PYRAMID = function ($) {
                     } else {
                         $().toastmessage("showToast", {
                             text:"No match! Try again!",
-                            position:"middle-center",
+                            position:"tops-center",
                             type:"notice"
                         });
                         $('#try_again')[0].play();
@@ -242,14 +253,14 @@ MG_GAME_PYRAMID = function ($) {
                 if (tags == "") {
                     $().toastmessage("showToast", {
                         text:"<h1>Ooops</h1><p>Please enter at least one word</p>",
-                        position:"middle-center",
+                        position:"tops-center",
                         type:"notice"
                     });
                     $('#try_again')[0].play();
                 } else if (tags.length < (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step)) {
                     $().toastmessage("showToast", {
                         text: "not enough letters!",//"That wasn't a " + (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step) + " letters word!",
-                        position:"middle-center",
+                        position:"tops-center",
                         type:"notice"
                     });
                     $('#try_again')[0].play();
@@ -257,7 +268,7 @@ MG_GAME_PYRAMID = function ($) {
                 else if (tags.length > (MG_GAME_PYRAMID.level + MG_GAME_PYRAMID.level_step)) {
                     $().toastmessage("showToast", {
                         text:"too many letters!",
-                        position:"middle-center",
+                        position:"tops-center",
                         type:"notice"
                     });
                     $('#try_again')[0].play();
@@ -265,7 +276,7 @@ MG_GAME_PYRAMID = function ($) {
                 else if($.inArray(tags,MG_GAME_PYRAMID.words) !== -1){
                     $().toastmessage("showToast", {
                         text:"already tried that!",
-                        position:"middle-center",
+                        position:"tops-center",
                         type:"notice"
                     });
                     $('#try_again')[0].play();
@@ -334,7 +345,7 @@ MG_GAME_PYRAMID = function ($) {
             var myArray = ['Awesome!', "Bet you can't get this one!", 'Nice!', 'Cool!'];
             $().toastmessage("showToast", {
                 text: myArray[Math.floor(Math.random() * myArray.length)],
-                position:"middle-center",
+                position:"tops-center",
                 type:"notice"
             });
             $('#try_again')[0].play();
