@@ -785,7 +785,7 @@ input#word.level_9 {
 .new_game {
   background-image: url('../images/new_game.png');
   background-repeat: repeat;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat !important;
   background-position: center;
   height: 167px;
   margin-left: 0px;
