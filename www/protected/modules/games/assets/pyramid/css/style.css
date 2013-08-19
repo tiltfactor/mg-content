@@ -248,6 +248,7 @@ body #content footer div {
 body .pyramid {
   background-repeat: no-repeat;
   background-position: center top;
+  background-repeat: no-repeat !important;
   color: white;
   font-size: 20px;
 }

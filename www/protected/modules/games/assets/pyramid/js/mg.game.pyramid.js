@@ -48,7 +48,7 @@ MG_GAME_PYRAMID = function ($) {
             $(":input").bind("keyup change", function(event) {
                 if (event.keyCode != '13' && event.keyCode != '8' && event.keyCode != '46') {
                     sound_info = {};
-                    num_sound = (parseInt($("#word").val().length, 10) - 1) % 8 + 1;
+                    num_sound = (parseInt($("#word").val().length, 10) -1) % 8;
                     sound_info.ogg_path = game_assets_uri + 'audio/sound' + num_sound + '.ogg';
                     sound_info.mp3_path = game_assets_uri + 'audio/sound' + num_sound + '.mp3';
                     $("#turn_ping").remove();
