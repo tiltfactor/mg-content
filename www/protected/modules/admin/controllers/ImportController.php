@@ -411,7 +411,14 @@ class ImportController extends GxController
     {
         $this->layout = '//layouts/column1';
 
-        $dataProvider = new CActiveDataProvider('CronJob');
+        $criteria = new CDbCriteria;
+
+        if(!Yii::app()->request->isAjaxRequest)
+            $criteria->order = 'id DESC';
+
+        $dataProvider = new CActiveDataProvider('CronJob', array(
+            'criteria' => $criteria
+        ));
 
         $this->render('transcodingprocess', array(
             'dataProvider' => $dataProvider,
