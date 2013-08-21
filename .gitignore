@@ -3,3 +3,7 @@ www/protected/controllers/VVUTestController.php
 documentation/*.bak
 *~
 .DS_Store
+
+/.idea
+
+/*.iml
