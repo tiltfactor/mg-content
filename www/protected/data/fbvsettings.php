@@ -7,7 +7,7 @@ return array (
   array (
     'description' => 'This is a short description of the project',
   ),
-  'media' =>
+  'media' => 
   array (
     'formats' => 
     array (
@@ -29,7 +29,7 @@ return array (
   ),
   'admin-tools' => 
   array (
-    'tool-media' =>
+    'tool-media' => 
     array (
       'name' => 'Media',
       'description' => 'Manage media that have been imported and processed.',
@@ -37,14 +37,14 @@ return array (
       'role' => 'editor',
       'group' => 'Media & Tags',
     ),
-    'tool-tag' => 
+    /*'tool-tag' =>
     array (
       'name' => 'Tags',
       'description' => 'Manage tags that have been created by players.',
       'url' => '/admin/tag',
       'role' => 'editor',
       'group' => 'Media & Tags',
-    ),
+    ),*/
     'tool-import' => 
     array (
       'name' => 'Import',
@@ -53,7 +53,7 @@ return array (
       'role' => 'editor',
       'group' => 'Media & Tags',
     ),
-    'tool-collection' =>
+    'tool-collection' => 
     array (
       'name' => 'Collections',
       'description' => 'Group media and apply applicable licences.',
@@ -69,22 +69,22 @@ return array (
       'role' => 'editor',
       'group' => 'Media & Tags',
     ),
-    'tool-export' => 
+    /*'tool-export' =>
     array (
       'name' => 'Export',
       'description' => 'Export tags, tag uses, and tagged media.',
       'url' => '/admin/export',
       'role' => 'editor',
       'group' => 'Media & Tags',
-    ),
-    'tool-user' => 
+    ),*/
+    /*'tool-user' =>
     array (
       'name' => 'Players',
       'description' => 'Manage registered players and the tags they have created.',
       'url' => '/admin/user',
       'role' => 'dbmanager',
       'group' => 'Players',
-    ),
+    ),*/
     'tool-subject-matter' => 
     array (
       'name' => 'Subject Matters',
@@ -93,38 +93,38 @@ return array (
       'role' => 'editor',
       'group' => 'Players',
     ),
-    'tool-plugins' => 
+    /*'tool-plugins' =>
     array (
       'name' => 'Plugins',
       'description' => 'Plugins allow the flexible extension of functionality and can be managed here.',
       'url' => '/plugins',
       'role' => 'editor',
       'group' => 'Games & Plugins',
-    ),
-    'tool-games' => 
+    ),*/
+    /*'tool-games' =>
     array (
       'name' => 'Games',
       'description' => 'Manage games.',
       'url' => '/games',
       'role' => 'dbmanager',
       'group' => 'Games & Plugins',
-    ),
-    'tool-bages' => 
+    ),*/
+    /*'tool-bages' =>
     array (
       'name' => 'Badges',
       'description' => 'Manage badges that can be achieved by players.',
       'url' => '/admin/badge',
       'role' => 'editor',
       'group' => 'Games & Plugins',
-    ),
-    'tool-ip' => 
+    ),*/
+    /*'tool-ip' =>
     array (
       'name' => 'IP Blacklist',
       'description' => 'Restrict access to Metadata Games by whitelisting or blacklisting IP addresses.',
       'url' => '/admin/blockedIp',
       'role' => 'editor',
       'group' => 'Other',
-    ),
+    ),*/
     'tool-settings' => 
     array (
       'name' => 'Global Settings',
