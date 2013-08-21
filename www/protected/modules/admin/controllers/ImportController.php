@@ -63,7 +63,7 @@ class ImportController extends GxController
 
             $tools["import-zip"] = array(
                 "name" => Yii::t('app', "Import medias in a ZIP file from your computer"),
-                "description" => Yii::t('app', "Import .zip compressed archives of medias. Currently has a filesize limit of ".(int)(ini_get('upload_max_filesize'))." MB."),
+                "description" => Yii::t('app', "Import .zip compressed archives of medias. Currently has a filesize limit of " . (int)(ini_get('upload_max_filesize')) . " MB."),
                 "url" => $this->createUrl('/admin/import/uploadzip'),
             );
 
@@ -148,7 +148,7 @@ class ImportController extends GxController
                                     list($media_type, $extention) = explode('/', $mime_type);
 
                                     if ($media_type == "image") {
-                                        $item_path = $path . "/" . $this->subfolder ."/";
+                                        $item_path = $path . "/" . $this->subfolder . "/";
                                     } else {
                                         $item_path = $path . "/";
                                     }
@@ -307,9 +307,9 @@ class ImportController extends GxController
 
                                     if (($media_type == "image" || $media_type == "video" || $media_type == "audio") && $file_ok) {
                                         if ($media_type == "image") {
-                                            $item_path = $path . "/" . $this->subfolder ."/";
+                                            $item_path = $path . "/" . $this->subfolder . "/";
                                         } else {
-                                            $item_path = $path."/";
+                                            $item_path = $path . "/";
                                         }
 
                                         if (!is_dir($item_path)) {
@@ -407,10 +407,11 @@ class ImportController extends GxController
         ));
     }
 
-    public function actionTranscodingProcess () {
+    public function actionTranscodingProcess()
+    {
         $this->layout = '//layouts/column1';
 
-        $dataProvider=new CActiveDataProvider('CronJob');
+        $dataProvider = new CActiveDataProvider('CronJob');
 
         $this->render('transcodingprocess', array(
             'dataProvider' => $dataProvider,
@@ -545,11 +546,16 @@ class ImportController extends GxController
 
         $this->checkUploadFolder();
 
+        $file = $_FILES;
+
         $model = new XUploadForm;
         $model->file = CUploadedFile::getInstance($model, 'file');
 
         if (isset($model->file) && isset($_POST["batch_id"]) && trim($_POST["batch_id"]) != "") {
-            $model->mime_type = CFileHelper::getMimeType($model->file); // $model->file->getType(); - this have regular problems with ogg files
+            $model->mime_type = $model->file->getType(); //- this have regular problems with ogg files
+            if ($model->mime_type === "video/ogg") {
+                $model->mime_type = CFileHelper::getMimeTypeByExtension($model->file);
+            }
 
             $model->size = $model->file->getSize();
 
@@ -559,11 +565,10 @@ class ImportController extends GxController
             $model->name = trim(basename(stripslashes($model->file->getName())), ".\x00..\x20");
             $isMedia = false;
             $thumbUrl = "";
+            list($media_type, $extention) = explode('/', $model->mime_type);
 
-            //if ($model->validate()) {
-            if($this->_checkMedia($model->file, $model->mime_type)) {
-                list($media_type, $extention) = explode('/', $model->mime_type);
-
+//            if ($model->validate()) { for images only
+            if (($media_type == 'image' && $model->validate()) or (($media_type == 'audio' || $media_type == 'video') && $this->_checkMedia($model->file, $model->mime_type))) {
                 if ($media_type == 'image') {
                     $path = $this->path . "/" . $this->subfolder . "/";
                     if (!is_dir($path)) {
@@ -583,8 +588,7 @@ class ImportController extends GxController
                         $thumbUrl = Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . "/thumbs/" . $model->name;
                         $isMedia = true;
                     }
-                }
-                elseif ($media_type == "video" || $media_type == "audio") {
+                } elseif ($media_type == "video" || $media_type == "audio") {
                     $path = $this->path . "/";
                     $model->name = $this->checkFileName($path, $model->name);
                     $model->file->saveAs($path . $model->name);
@@ -705,7 +709,7 @@ class ImportController extends GxController
 
         $path_parts = pathinfo($file_name);
 
-        $result = glob (str_replace('.'.$path_parts['extension'], '', $path . $file_name) .".*");
+        $result = glob(str_replace('.' . $path_parts['extension'], '', $path . $file_name) . ".*");
 
         if (count($result) > 0) {
             $c = 1;
