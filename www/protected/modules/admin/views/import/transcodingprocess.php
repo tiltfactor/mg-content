@@ -45,8 +45,11 @@ function showStatus ($data) {
 
 function calcuateResult ($data) {
     if($data->executed_started == '') {
+        $return = 'Waiting';
+    } else if ($data->executed_started != '' && $data->executed_finished == '') {
         $return = 'Transcoding';
-    } else {
+    }
+    else {
         $return = $data->execution_result;
     }
     return $return;
