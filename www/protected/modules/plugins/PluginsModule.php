@@ -15,8 +15,8 @@ class PluginsModule extends CWebModule
 			'plugins.modules.dictionary.models.*',*/
 			'plugins.modules.import.components.*',
 			'plugins.modules.import.models.*',
-			'plugins.modules.export.components.*',
-			'plugins.modules.export.models.*',
+			/*'plugins.modules.export.components.*',
+			'plugins.modules.export.models.*',*/
 			/*'plugins.modules.weighting.components.*',
 			'plugins.modules.weighting.models.*',*/
 		));
