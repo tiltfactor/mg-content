@@ -43,6 +43,18 @@ function showStatus ($data) {
     return $return;
 }
 
+function calcuateResult ($data) {
+    if($data->executed_started == '') {
+        $return = 'Waiting';
+    } else if ($data->executed_started != '' && $data->executed_finished == '') {
+        $return = 'Transcoding';
+    }
+    else {
+        $return = $data->execution_result;
+    }
+    return $return;
+}
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
     'columns' => array(
@@ -62,7 +74,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type'=>'html',
             'value'=>'showStatus($data)',
         ),
-        'execution_result')
+        array(
+            'name' => 'execution_result',
+            'type'=>'html',
+            'value'=>'calcuateResult($data)',
+        )
+    )
 ));
 
 ?>

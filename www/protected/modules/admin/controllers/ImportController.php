@@ -143,6 +143,9 @@ class ImportController extends GxController
 
                                 if (!$file["folder"] && strpos($file['stored_filename'], "__MACOSX") === false) { // we don't want to process folder and MACOSX meta data file mirrors as the mirrored files also return the image/jpg mime type
                                     $mime_type = CFileHelper::getMimeType($file['filename']);
+                                    if (!isset($mime_type)) {
+                                        $mime_type = ImportController::getMimeTypeByExtension($file);
+                                    }
                                     $file_ok = $this->_checkMedia($file['filename'], $mime_type);
 
                                     list($media_type, $extention) = explode('/', $mime_type);
@@ -301,6 +304,10 @@ class ImportController extends GxController
                                 if ($file_info['basename'] != '.gitignore') {
                                     $mime_type = CFileHelper::getMimeType($file);
 
+                                    if (!isset($mime_type)) {
+                                        $mime_type = ImportController::getMimeTypeByExtension($file);
+                                    }
+
                                     $file_ok = $this->_checkMedia($file, $mime_type);
 
                                     list($media_type, $extention) = explode('/', $mime_type);
@@ -411,7 +418,14 @@ class ImportController extends GxController
     {
         $this->layout = '//layouts/column1';
 
-        $dataProvider = new CActiveDataProvider('CronJob');
+        $criteria = new CDbCriteria;
+
+        if (!Yii::app()->request->isAjaxRequest)
+            $criteria->order = 'id DESC';
+
+        $dataProvider = new CActiveDataProvider('CronJob', array(
+            'criteria' => $criteria
+        ));
 
         $this->render('transcodingprocess', array(
             'dataProvider' => $dataProvider,
@@ -694,6 +708,7 @@ class ImportController extends GxController
         // Turn on error reporting again
         error_reporting($ER);
 
+        if(!isset($media_info)) return false;
         // Make sure that the media is readable and valid
         if (!is_array($media_info) OR count($media_info) < 3)
             return false;
@@ -774,6 +789,31 @@ class ImportController extends GxController
         } else if (!is_writable($this->path)) {
             throw new CHttpException(500, "{$this->path} is not writable.");
         }
+    }
+
+
+    /**
+     * @static
+     * @param string $file
+     * @return string
+     */
+    public static function getMimeTypeByExtension($file)
+    {
+        static $extensions = array();
+
+        $extensions = require(Yii::getPathOfAlias('system.utils.mimeTypes') . '.php');
+        $extensions['mp4'] = "video/mpeg";
+        $extensions['webm'] = "video/webm";
+        $extensions['wmv'] = "video/x-ms-wmv";
+        $extensions['3gp'] = "video/3gpp";
+        $extensions['flac'] = "audio/flac";
+
+        if (($ext = pathinfo($file, PATHINFO_EXTENSION)) !== '') {
+            $ext = strtolower($ext);
+            if (isset($extensions[$ext]))
+                return $extensions[$ext];
+        }
+        return null;
     }
 
 }
