@@ -46,7 +46,7 @@ class Plugin extends BasePlugin
     $criteria = new CDbCriteria;
 
     $criteria->compare('active', 1);
-    $criteria->addInCondition('type', array('dictionary', 'weighting'));
+    //$criteria->addInCondition('type', array('dictionary', 'weighting'));
     return Plugin::model()->findAllAttributes(array('unique_id'), true, $criteria);
   }
   

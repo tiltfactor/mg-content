@@ -1,10 +1,10 @@
 <?php
 
-class BlockedIpController extends GxController {
+class BlockedIpController_ extends GxController {
 
   public function filters() {
   	return array(
-  	 'IPBlock',
+  	 /*'IPBlock',*/
   	 'accessControl', 
     );
   }
@@ -17,7 +17,7 @@ class BlockedIpController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
-  				'roles'=>array('editor', 'dbmanager', 'admin'),
+  				'roles'=>array('editor'/*, 'dbmanager'*/, 'admin'),
   				),
   			array('deny', 
   				'users'=>array('*'),

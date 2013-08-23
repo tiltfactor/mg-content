@@ -2,7 +2,7 @@
 
 Yii::import('application.models._base.BaseTagUse');
 
-class TagUse extends BaseTagUse
+class TagUse_ extends BaseTagUse
 {
   public $username;
   public $user_id;

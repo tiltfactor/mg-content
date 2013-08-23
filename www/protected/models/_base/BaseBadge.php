@@ -14,7 +14,7 @@
  * @property integer $points
  *
  */
-abstract class BaseBadge extends GxActiveRecord {
+abstract class BaseBadge_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

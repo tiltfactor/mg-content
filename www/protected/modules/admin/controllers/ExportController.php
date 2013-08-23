@@ -1,6 +1,6 @@
 <?php
 
-class ExportController extends GxController {
+class ExportController_ extends GxController {
   public $defaultAction = 'admin';
   
   /**
@@ -17,7 +17,7 @@ class ExportController extends GxController {
   
   public function filters() {
   	return array(
-      'IPBlock',
+      /*'IPBlock',*/
       'accessControl', 
       );
   }

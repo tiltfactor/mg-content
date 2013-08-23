@@ -16,7 +16,7 @@
  * @property string $modified
  *
  */
-abstract class BaseBlockedIp extends GxActiveRecord {
+abstract class BaseBlockedIp_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

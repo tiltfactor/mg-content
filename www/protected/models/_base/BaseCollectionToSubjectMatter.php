@@ -13,7 +13,7 @@
  * @property integer $subject_matter_id
  *
  */
-abstract class BaseCollectionToSubjectMatter extends GxActiveRecord {
+abstract class BaseCollectionToSubjectMatter_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

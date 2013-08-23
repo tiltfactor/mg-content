@@ -63,15 +63,15 @@ abstract class BaseUser extends GxActiveRecord {
 			'logs' => array(self::HAS_MANY, 'Log', 'user_id'),
 			'profile' => array(self::HAS_ONE, 'Profile', 'user_id'),
 			'sessions' => array(self::HAS_MANY, 'Session', 'user_id'),
-			'games' => array(self::MANY_MANY, 'Game', 'user_to_game(user_id, game_id)'),
-			'subjectMatters' => array(self::MANY_MANY, 'SubjectMatter', 'user_to_subject_matter(user_id, subject_matter_id)'),
+			/*'games' => array(self::MANY_MANY, 'Game', 'user_to_game(user_id, game_id)'),
+			'subjectMatters' => array(self::MANY_MANY, 'SubjectMatter', 'user_to_subject_matter(user_id, subject_matter_id)'),*/
 		);
 	}
 
 	public function pivotModels() {
 		return array(
-			'games' => 'UserToGame',
-			'subjectMatters' => 'UserToSubjectMatter',
+			/*'games' => 'UserToGame',
+			'subjectMatters' => 'UserToSubjectMatter',*/
 		);
 	}
 
@@ -91,8 +91,8 @@ abstract class BaseUser extends GxActiveRecord {
 			'logs' => null,
 			'profile' => null,
 			'sessions' => null,
-			'games' => null,
-			'subjectMatters' => null,
+			/*'games' => null,
+			'subjectMatters' => null,*/
 		);
 	}
 

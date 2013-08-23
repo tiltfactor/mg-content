@@ -1,4 +1,5 @@
 <?php
+Yii::log('Wrong call of contact', CLogger::LEVEL_WARNING);
 $this->pageTitle=Yii::app()->fbvStorage->get("settings.app_name") . ' - Contact Us';
 $this->breadcrumbs=array(
 	'Contact',

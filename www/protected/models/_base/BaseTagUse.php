@@ -22,7 +22,7 @@
  * @property Media $media
  * @property Tag $tag
  */
-abstract class BaseTagUse extends GxActiveRecord {
+abstract class BaseTagUse_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

@@ -4,8 +4,7 @@ class SiteController extends Controller
 {
 	public function filters() {
     return array( // add blocked IP filter here
-      'Installed',
-      'IPBlock',
+      'Installed'/*,'IPBlock',*/
     );
   }
 	
@@ -34,15 +33,20 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 		MGHelper::setFrontendTheme();
-    $this->layout = '//layouts/arcade';
+
+        if (Yii::app()->user->isGuest) {
+            $this->redirect(Yii::app()->baseUrl . '/index.php/user/login');
+        } else {
+            $this->redirect(Yii::app()->baseUrl . '/index.php/admin');
+        }
+        $this->layout = '//layouts/index';
     
-    $games = GamesModule::listActiveGames();
+       // $games = GamesModule::listActiveGames();
     
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index', array(
-		  'games' => $games,
-    ));
+        Yii::log('SiteController::actionIndex(44)', CLogger::LEVEL_ERROR);
+		$this->render('index', array( /*'games' => $games,*/ ));
 	}
 
 	/**
@@ -65,22 +69,20 @@ class SiteController extends Controller
 	/**
 	 * Displays the contact page
 	 */
-	public function actionContact()
-	{
+	public function actionContact() {
 		MGHelper::setFrontendTheme();
     
 		$model=new ContactForm;
 		if(isset($_POST['ContactForm'])) {
 			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
+			if($model->validate()) {
 				$headers="From: {$model->email}\r\nReply-To: {$model->email}";
 				mail(Yii::app()->fbvStorage->get("settings.app_email"),$model->subject,$model->body,$headers);
-        Flash::add('success', Yii::t('app', 'Thank you for contacting us. We will respond to you as soon as possible.'));
+                Flash::add('success', Yii::t('app', 'Thank you for contacting us. We will respond to you as soon as possible.'));
 				$this->refresh();
 			}
 		}
-		$this->render('contact',array('model'=>$model));
+		$this->render('contact', array('model' => $model));
 	}
 
 	/**

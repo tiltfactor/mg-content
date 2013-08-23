@@ -32,9 +32,9 @@ return array(
   'modules'=>array(
     'admin',
     'user',
-    'plugins',
+    /*'plugins',*/
     'api',
-    'games',
+    /*'games',*/
   ),
 
   // application components

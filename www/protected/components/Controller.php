@@ -31,7 +31,7 @@ class Controller extends CController
    * @param CFilterChain $filterChain the filter chain that the filter is on.
    * 
    */
-  public function filterIPBlock($filterChain)
+  public function filterIPBlock_($filterChain)
   {
     $user_ip = MGHelper::getUserHostAddress();
     if ($user_ip) {    

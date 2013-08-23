@@ -1,11 +1,10 @@
 <?php
 $this->breadcrumbs=array(
 	Yii::t('app', 'Admin')=>array('/admin'),
-	UserModule::t('Players'),
+	UserModule::t('Users'),
 );
 
 $this->menu = array(
-    array('label'=>UserModule::t('Manage Profile Fields'), 'url'=>array('/admin/profileField')),
     array('label'=>UserModule::t('Create') . ' ' . $model->label(), 'url'=>array('create')),
   );
 
@@ -65,12 +64,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
     'email',
     array(
-      'cssClassExpression' => "'tags'",
-      'header' => Yii::t('app', "Top $max_toptags Tags"),
-      'type' => 'html',
-      'value'=>'$data->getTopTags(' . $max_toptags . ')',
-    ),
-    array(
       'name'=>'role',
       'value'=>'$data->role',
       'filter'=>User::listRoles(),
@@ -107,8 +100,8 @@ $this->widget('ext.gridbatchaction.GridBatchAction', array(
       'checkBoxId'=>'users-ids',
       'ajaxGridId'=>'users-grid', 
       'items'=>array(
-          array('label'=>Yii::t('ui','Ban selected players'),'url'=>array('batch', 'op' => 'ban')),
-          array('label'=>Yii::t('ui','Delete selected players'),'url'=>array('batch', 'op' => 'delete'))
+          array('label'=>Yii::t('ui','Ban selected users'),'url'=>array('batch', 'op' => 'ban')),
+          array('label'=>Yii::t('ui','Delete selected users'),'url'=>array('batch', 'op' => 'delete'))
       ),
       'htmlOptions'=>array('class'=>'batchActions'),
   ));

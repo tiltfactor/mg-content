@@ -2,7 +2,7 @@
 
 Yii::import('application.models._base.BaseBadge');
 
-class Badge extends BaseBadge
+class Badge_ extends BaseBadge
 {
 	var $image_inactive;
   var $image_active;

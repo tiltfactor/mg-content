@@ -17,7 +17,7 @@
  */
 Yii::import('zii.widgets.CPortlet');
  
-class Top10Players extends CPortlet
+class Top10Players_ extends CPortlet
 {
   public function init() {
     $this->title=Yii::t('app', "Top 10 Players");

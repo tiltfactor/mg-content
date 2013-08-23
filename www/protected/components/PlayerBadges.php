@@ -17,7 +17,7 @@
  */
 Yii::import('zii.widgets.CPortlet');
  
-class PlayerBadges extends CPortlet
+class PlayerBadges_ extends CPortlet
 {
   public function init() {
     $this->title=Yii::t('app', "Your Badges");

@@ -84,7 +84,7 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `email` VARCHAR(128) NOT NULL ,
   `activekey` VARCHAR(128) NOT NULL DEFAULT '' ,
   `lastvisit` DATETIME NULL ,
-  `role` VARCHAR(45) NOT NULL DEFAULT 'player' ,
+  `role` VARCHAR(45) NOT NULL DEFAULT 'editor' ,
   `status` INT(1) NOT NULL DEFAULT '0' ,
   `edited_count` INT(1) NOT NULL DEFAULT 0 ,
   `created` DATETIME NOT NULL ,
@@ -775,9 +775,7 @@ COMMIT;
 -- Data for table `AuthItem`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('player', 2, 'A player can only record his or her games', NULL, NULL);
 INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('editor', 2, 'An editor has access to several tools in the system', NULL, NULL);
-INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('dbmanager', 2, 'A db manager has access to nearly all tools', NULL, NULL);
 INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES ('admin', 2, 'The admin can access everything', NULL, NULL);
 
 COMMIT;
@@ -786,12 +784,7 @@ COMMIT;
 -- Data for table `AuthItemChild`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('editor', 'player');
-INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('dbmanager', 'player');
-INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('dbmanager', 'editor');
-INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'player');
 INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'editor');
-INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES ('admin', 'dbmanager');
 
 COMMIT;
 

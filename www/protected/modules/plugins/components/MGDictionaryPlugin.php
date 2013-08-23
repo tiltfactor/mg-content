@@ -4,7 +4,7 @@
  * This is the base implementation of a dictionary plug-in 
  */
 
-class MGDictionaryPlugin extends MGPlugin {  
+class MGDictionaryPlugin_ extends MGPlugin {
   function init() {
     parent::init();
   }

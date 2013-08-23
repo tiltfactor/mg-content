@@ -19,7 +19,7 @@
  * @property TagUse $tagUse
  * @property User $user
  */
-abstract class BaseTagOriginalVersion extends GxActiveRecord {
+abstract class BaseTagOriginalVersion_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

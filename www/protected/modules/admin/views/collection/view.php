@@ -60,18 +60,4 @@ $this->menu=array(
 		echo GxHtml::closeTag('li');
 	}
 	echo GxHtml::closeTag('ul');
-?><h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->subjectMatters) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->subjectMatters as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('subjectMatter/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
 ?>

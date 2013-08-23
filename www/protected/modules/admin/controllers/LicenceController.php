@@ -4,7 +4,7 @@ class LicenceController extends GxController {
 
   public function filters() {
   	return array(
-      'IPBlock',
+      /*'IPBlock',*/
       'accessControl', 
       );
   }

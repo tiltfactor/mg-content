@@ -37,7 +37,7 @@
   </div><!-- row -->
   
   <div class="row">
-    <?php echo CHtml::label(Yii::t('app', "Player Name"), "Custom_username") ?>
+    <?php echo CHtml::label(Yii::t('app', "User Name"), "Custom_username") ?>
     <?php
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'name'=>'Custom[username]',

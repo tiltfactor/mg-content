@@ -4,7 +4,7 @@
  * ImportZipForm class.
  * ImportZipForm is the data structure for uploading a zip file to import into the system
  */
-class ExportForm extends CFormModel
+class ExportForm_ extends CFormModel
 {
   public $filename;
   public $collections;
@@ -47,12 +47,12 @@ class ExportForm extends CFormModel
       'filename'=> Yii::t('app', "Export File Name"),
       'collections' => Yii::t('app', "Collections(s)"),
       'tags'=> Yii::t('app', "Tag(s)"),
-      'players'=> Yii::t('app', "Player Name(s)"),
+      'players'=> Yii::t('app', "User Name(s)"),
       'tag_weight_min'=> Yii::t('app', "Tag Weight (minimum)"),
       'tag_weight_sum'=> Yii::t('app', "Tag Weight (sum)"),
       'created_after'=> Yii::t('app', "Submitted (from)"),
       'created_before'=> Yii::t('app', "Submitted (until)"),
-      'option_list_user' => Yii::t('app', "List Player Names"),
+      'option_list_user' => Yii::t('app', "List User Names"),
     );
   }
 

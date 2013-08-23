@@ -54,18 +54,18 @@ abstract class BaseCollection extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'games' => array(self::MANY_MANY, 'Game', 'game_to_collection(collection_id, game_id)'),
+			/*'games' => array(self::MANY_MANY, 'Game', 'game_to_collection(collection_id, game_id)'),*/
 			'licence' => array(self::BELONGS_TO, 'Licence', 'licence_id'),
 			'medias' => array(self::MANY_MANY, 'Media', 'collection_to_media(collection_id, media_id)'),
-			'subjectMatters' => array(self::MANY_MANY, 'SubjectMatter', 'collection_to_subject_matter(collection_id, subject_matter_id)'),
+			/*'subjectMatters' => array(self::MANY_MANY, 'SubjectMatter', 'collection_to_subject_matter(collection_id, subject_matter_id)'),*/
 		);
 	}
 
 	public function pivotModels() {
 		return array(
-			'games' => 'GameToCollection',
+			/*'games' => 'GameToCollection',*/
 			'medias' => 'CollectionToMedia',
-			'subjectMatters' => 'CollectionToSubjectMatter',
+			/*'subjectMatters' => 'CollectionToSubjectMatter',*/
 		);
 	}
 

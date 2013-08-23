@@ -22,7 +22,7 @@
  * @property PlayedGame[] $playedGames
  * @property User[] $users
  */
-abstract class BaseGame extends GxActiveRecord {
+abstract class BaseGame_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

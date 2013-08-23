@@ -20,7 +20,7 @@
  * @property Session $session
  * @property TagUse[] $tagUses
  */
-abstract class BaseGameSubmission extends GxActiveRecord {
+abstract class BaseGameSubmission_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

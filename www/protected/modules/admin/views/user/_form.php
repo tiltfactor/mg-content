@@ -84,10 +84,6 @@
 ?>
 
 <?php if ($model->id) : ?>
-  <div class="row clearfix">
-  <h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
-  <?php $this->widget('PlayerSubjectMatter', array('user_id' => $model->id, 'update' => true, 'admin' => true)); ?>
-  </div><!-- row -->
 <?php endif; ?>
 <?php
 echo GxHtml::submitButton(Yii::t('app', 'Save'));

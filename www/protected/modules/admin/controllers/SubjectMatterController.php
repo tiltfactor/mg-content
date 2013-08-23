@@ -1,10 +1,10 @@
 <?php
 
-class SubjectMatterController extends GxController {
+class SubjectMatterController_ extends GxController {
 
   public function filters() {
   	return array(
-      'IPBlock',
+      /*'IPBlock',*/
       'accessControl', 
       );
   }

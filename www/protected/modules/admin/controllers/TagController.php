@@ -1,11 +1,11 @@
 <?php
 
-class TagController extends GxController {
+class TagController_ extends GxController {
   public $defaultAction = 'admin';
   
   public function filters() {
   	return array(
-      'IPBlock',
+      /*'IPBlock',*/
       'accessControl', 
       );
   }

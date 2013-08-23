@@ -2,7 +2,7 @@
 
 Yii::import('application.models._base.BaseProfile');
 
-class Profile extends BaseProfile
+class Profile extends GxActiveRecord
 {
 	/**
    * Returns the static model of the specified AR class.
@@ -26,10 +26,10 @@ class Profile extends BaseProfile
   /**
    * @return string the associated database table name
    */
-  public function tableName()
+  /*public function tableName()
   {
     return Yii::app()->getModule('user')->tableProfiles;
-  }
+  }*/
 
   /**
    * @return array validation rules for model attributes.
@@ -178,7 +178,7 @@ class Profile extends BaseProfile
       return $this->_modelReg;
     } else {
       if (!$this->_model)
-        $this->_model=ProfileField::model()->forOwner()->findAll();
+        $this->_model=array();//ProfileField::model()->forOwner()->findAll();
       return $this->_model;
     }
   }

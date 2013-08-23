@@ -1,6 +1,6 @@
 <?php
 
-class ProfileFieldController extends Controller
+class ProfileFieldController_ extends Controller
 {
 
 	/**
@@ -17,7 +17,7 @@ class ProfileFieldController extends Controller
 	public function filters()
 	{
 		return CMap::mergeArray(parent::filters(),array(
-			'IPBlock',
+			/*'IPBlock',*/
 			'accessControl', // perform access control for CRUD operations
 		));
 	}

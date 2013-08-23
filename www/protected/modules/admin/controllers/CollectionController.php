@@ -4,7 +4,7 @@ class CollectionController extends GxController {
 
   public function filters() {
   	return array(
-      'IPBlock',
+      /*'IPBlock',*/
       'accessControl', 
       );
   }
@@ -41,8 +41,8 @@ class CollectionController extends GxController {
 		if (isset($_POST['Collection'])) {
 			$model->setAttributes($_POST['Collection']);
 			$relatedData = array(
-				'games' => $_POST['Collection']['games'] === '' ? null : $_POST['Collection']['games'],
-				'subjectMatters' => $_POST['Collection']['subjectMatters'] === '' ? null : $_POST['Collection']['subjectMatters'],
+				/*'games' => $_POST['Collection']['games'] === '' ? null : $_POST['Collection']['games'],
+				'subjectMatters' => $_POST['Collection']['subjectMatters'] === '' ? null : $_POST['Collection']['subjectMatters'],*/
 				);
 
 			if ($model->saveWithRelated($relatedData)) {

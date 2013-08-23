@@ -35,7 +35,7 @@ class Media extends BaseMedia
     // regardless if it has been tagged or not
     // used a join, group by and having but this would only show medias that had at least one tag use
     // to fix that we're now - sigh - using subselects is not the fastest way. Might need improvement in further versions
-    $criteria->select = 't.*, (SELECT COUNT(tcu.tag_id) FROM tag_use tcu WHERE tcu.media_id=t.id AND tcu.weight > 0) AS tag_count';
+    $criteria->select = 't.* ';
     $criteria->distinct = true;
     
     $criteria->compare('id', $this->id);
@@ -58,8 +58,8 @@ class Media extends BaseMedia
           $tags = null;
           if ($_GET["Custom"]["tags_search_option"] == "OR") {
             $tags = $cmd->selectDistinct('tu.media_id')
-                    ->from('{{tag_use}} tu')
-                    ->join('{{tag}} tag', 'tu.tag_id = tag.id')
+                    /*->from('{{tag_use}} tu')
+                    ->join('{{tag}} tag', 'tu.tag_id = tag.id')*/
                     ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
                     ->queryAll();
           } else {
@@ -91,9 +91,7 @@ class Media extends BaseMedia
       if (isset($_GET["Custom"]["username"]) && trim($_GET["Custom"]["username"]) != "") {
         $criteria->distinct = true;
         
-        $criteria->join .= "  LEFT JOIN {{tag_use}} tu ON tu.media_id=t.id
-                              LEFT JOIN {{game_submission}} gs ON gs.id=tu.game_submission_id
-                              LEFT JOIN {{session}} s ON s.id=gs.session_id
+        $criteria->join .= "  LEFT JOIN {{session}} s ON s.id=gs.session_id
                               LEFT JOIN {{user}} u ON u.id=s.user_id";
                               
         $criteria->addSearchCondition('u.username', $_GET["Custom"]["username"]);                    
@@ -120,7 +118,7 @@ class Media extends BaseMedia
           $op='=';
         
         //TODO: fix for use of subselect in media with tags filter
-        $criteria->condition .= " AND (SELECT COUNT(tcu.tag_id) FROM tag_use tcu WHERE tcu.media_id=t.id AND tcu.weight > 0) $op :tc";
+        $criteria->condition .= " $op :tc";
         $criteria->params[':tc'] = $value;
           
       }
@@ -212,12 +210,12 @@ class Media extends BaseMedia
    * @param int $user_id the user_id of the user for which the medias should be listed
    * @return object CArrayDataProvider the configured dataprovider that can list all medias that are tag by the given user
    */
-  public function searchUserMedias($user_id) {
+  public function searchUserMedias_($user_id) {
     $command = Yii::app()->db->createCommand()
                   ->select('COUNT(i.id) as counted, COUNT(DISTINCT tu.tag_id) as tag_counted, i.id, i.name')
                   ->from('{{session}} s')
-                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
-                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  /*->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')*/
                   ->join('{{media}} i', 'i.id = tu.media_id')
                   ->where(array('and', 'tu.weight > 0', 's.user_id=:userID'), array(":userID" => $user_id))
                   ->group('i.id, i.name')
@@ -247,8 +245,8 @@ class Media extends BaseMedia
     $command = Yii::app()->db->createCommand()
                   ->select('COUNT(i.id) as counted, COUNT(DISTINCT s.user_id) as user_counted, i.id, i.name')
                   ->from('{{session}} s')
-                  ->join('{{game_submission}} gs', 'gs.session_id=s.id')
-                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')
+                  /*->join('{{game_submission}} gs', 'gs.session_id=s.id')
+                  ->join('{{tag_use}} tu', 'tu.game_submission_id = gs.id')*/
                   ->join('{{media}} i', 'i.id = tu.media_id')
                   ->where(array('and', 'tu.weight > 0', 'tu.tag_id=:tagID'), array(":tagID" => $tag_id))
                   ->group('i.id, i.name')

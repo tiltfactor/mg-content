@@ -1,12 +1,12 @@
 <?php
 
-class RegistrationController extends Controller
+class RegistrationController_ extends Controller
 {
 	public $defaultAction = 'registration';
 	
   public function filters() {
     return array( // add blocked IP filter here
-       'IPBlock',
+       /*'IPBlock',*/
     );
   }
 

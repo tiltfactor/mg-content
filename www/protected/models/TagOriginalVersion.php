@@ -2,7 +2,7 @@
 
 Yii::import('application.models._base.BaseTagOriginalVersion');
 
-class TagOriginalVersion extends BaseTagOriginalVersion
+class TagOriginalVersion_ extends BaseTagOriginalVersion
 {
 	public $username;
   public $user_id;

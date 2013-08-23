@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu = array(
-  array('label'=>UserModule::t('Manage Players'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('dbmanager')),
+  array('label'=>UserModule::t('Manage Users'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('admin')),
   array('label' => UserModule::t('Edit Profile'), 'url'=>array('profile/edit')),
 );
 ?><h2><?php echo UserModule::t('Your profile'); ?></h2>
@@ -19,18 +19,6 @@ $this->menu = array(
     <td><?php echo CHtml::encode($model->email); ?>
 </td>
 </tr>
-<?php
-  $profileFields=ProfileField::model()->forOwner()->sort()->findAll();
-  if ($profileFields) {
-    foreach($profileFields as $field) { ?>
-<tr>
-  <th class="label"><?php echo CHtml::encode(UserModule::t($field->title)); ?></th>
-  <td><?php echo (($field->widgetView($profile))?$field->widgetView($profile):CHtml::encode((($field->range)?Profile::range($field->range,$profile->getAttribute($field->varname)):$profile->getAttribute($field->varname)))); ?></td>
-</tr>
-<?php
-    }
-  }
-?>
 <tr>
 	<th class="label"><?php echo CHtml::encode($model->getAttributeLabel('created')); ?></th>
     <td><?php echo $model->created; ?></td>
@@ -41,5 +29,3 @@ $this->menu = array(
 </tr>
 </table>
 
-<h2>Interests</h2>
-<?php $this->widget('PlayerSubjectMatter', array('user_id' => $model->id)); ?>

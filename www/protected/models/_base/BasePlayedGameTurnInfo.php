@@ -17,7 +17,7 @@
  * @property PlayedGame $playedGame
  * @property Session $createdBySession
  */
-abstract class BasePlayedGameTurnInfo extends GxActiveRecord {
+abstract class BasePlayedGameTurnInfo_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

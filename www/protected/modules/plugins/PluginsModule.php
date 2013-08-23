@@ -11,22 +11,22 @@ class PluginsModule extends CWebModule
 		$this->setImport(array(
 			'plugins.models.*',
 			'plugins.components.*',
-			'plugins.modules.dictionary.components.*',
-			'plugins.modules.dictionary.models.*',
+			/*'plugins.modules.dictionary.components.*',
+			'plugins.modules.dictionary.models.*',*/
 			'plugins.modules.import.components.*',
 			'plugins.modules.import.models.*',
 			'plugins.modules.export.components.*',
 			'plugins.modules.export.models.*',
-			'plugins.modules.weighting.components.*',
-			'plugins.modules.weighting.models.*',
+			/*'plugins.modules.weighting.components.*',
+			'plugins.modules.weighting.models.*',*/
 		));
     
     // loop through all active plugins and generate the list
     $this->setModules(array(
-      'dictionary',
+      /*'dictionary',*/
       'import',
       'export',
-      'weighting',
+      /*'weighting',*/
     ));
 	}
 

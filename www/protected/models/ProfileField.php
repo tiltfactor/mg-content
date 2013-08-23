@@ -2,7 +2,7 @@
 
 Yii::import('application.models._base.BaseProfileField');
 
-class ProfileField extends BaseProfileField
+class ProfileField_ extends BaseProfileField
 {
 	const VISIBLE_ALL=3;
   const VISIBLE_REGISTER_USER=2;

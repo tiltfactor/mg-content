@@ -21,7 +21,7 @@
  * @property Session $sessionId1
  * @property Session $sessionId2
  */
-abstract class BaseGamePartner extends GxActiveRecord {
+abstract class BaseGamePartner_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

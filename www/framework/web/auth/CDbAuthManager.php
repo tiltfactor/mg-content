@@ -371,6 +371,7 @@ class CDbAuthManager extends CAuthManager
 	 */
 	public function getAuthItems($type=null,$userId=null)
 	{
+        //Yii::log('CDbAuthManager $type ' . $type . ' $userId ' . $userId, CLogger::LEVEL_ERROR);
 		if($type===null && $userId===null)
 		{
 			$command=$this->db->createCommand()

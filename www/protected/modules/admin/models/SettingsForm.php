@@ -5,7 +5,8 @@
  * LoginForm is the data structure for keeping
  * user login form data. It is used by the 'login' action of 'SiteController'.
  */
-class SettingsForm extends Game
+Yii::import('application.models._base.BaseGame');
+class SettingsForm extends GxActiveRecord
 {
   public $app_name = "Metadata Games";  
   public $throttle_interval = 500; //interval in miliseconds
@@ -14,7 +15,15 @@ class SettingsForm extends Game
   public $pagination_size = 25;
   public $app_upload_path = "/../uploads";
   public $app_upload_url = "/uploads";
-  
+
+    public static function model($className=__CLASS__) {
+   		return parent::model($className);
+   	}
+
+   	public function tableName() {
+   		return 'user';
+   	}
+
   public function rules() {
     return array(
         array('app_name, throttle_interval, message_queue_interval, app_email, pagination_size, app_upload_path, app_upload_url', 'required'),

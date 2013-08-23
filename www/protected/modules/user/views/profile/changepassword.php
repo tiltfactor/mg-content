@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu = array(
-  array('label'=>UserModule::t('Manage Players'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('dbmanager')),
+  array('label'=>UserModule::t('Manage Users'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('admin')),
   array('label' => UserModule::t('View Profile'), 'url'=>array('/user/profile')),
   array('label' => UserModule::t('Edit Profile'), 'url'=>array('profile/edit')),
 );

@@ -13,7 +13,7 @@
  * @property integer $plugin_id
  *
  */
-abstract class BaseGameToPlugin extends GxActiveRecord {
+abstract class BaseGameToPlugin_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

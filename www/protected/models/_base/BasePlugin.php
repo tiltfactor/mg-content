@@ -48,13 +48,13 @@ abstract class BasePlugin extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'games' => array(self::MANY_MANY, 'Game', 'game_to_plugin(plugin_id, game_id)'),
+			//'games' => array(self::MANY_MANY, 'Game', 'game_to_plugin(plugin_id, game_id)'),
 		);
 	}
 
 	public function pivotModels() {
 		return array(
-			'games' => 'GameToPlugin',
+			//'games' => 'GameToPlugin',
 		);
 	}
 
@@ -65,8 +65,8 @@ abstract class BasePlugin extends GxActiveRecord {
 			'active' => Yii::t('app', 'Active'),
 			'unique_id' => Yii::t('app', 'Unique'),
 			'created' => Yii::t('app', 'Created'),
-			'modified' => Yii::t('app', 'Modified'),
-			'games' => null,
+			'modified' => Yii::t('app', 'Modified')/*,
+			'games' => null,*/
 		);
 	}
 

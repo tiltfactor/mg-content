@@ -15,7 +15,7 @@
  * @property integer $number_played
  *
  */
-abstract class BaseUserToGame extends GxActiveRecord {
+abstract class BaseUserToGame_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

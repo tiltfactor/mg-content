@@ -1,6 +1,6 @@
 <?php
 
-class GamesController extends ApiController {
+class GamesController_ extends ApiController {
   
   public function filters() {
     return array( // add blocked IP filter here

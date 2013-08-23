@@ -17,7 +17,7 @@
  */
 Yii::import('zii.widgets.CPortlet');
  
-class PlayerScores extends CPortlet
+class PlayerScores_ extends CPortlet
 {
   /**
    * @var int the user id of whom the scores should be retrieved.  

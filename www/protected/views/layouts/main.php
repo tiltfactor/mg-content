@@ -4,7 +4,7 @@
 <div id="mainmenu">
   <?php $this->widget('application.components.MGMenu',array(
     'items'=>array(
-      array('label'=>'Home', 'url'=>array('/site/index')),
+      /*array('label'=>'Home', 'url'=>array('/site/index')),*/
       /*array('label'=>'Contact', 'url'=>array('/site/contact')),*/
       array('url'=>Yii::app()->getModule('user')->loginUrl, 'label'=>Yii::app()->getModule('user')->t("Login"), 'visible'=>Yii::app()->user->isGuest),
       /*array('url'=>Yii::app()->getModule('user')->registrationUrl, 'label'=>Yii::app()->getModule('user')->t("Register"), 'visible'=>Yii::app()->user->isGuest),*/
@@ -39,12 +39,6 @@
 
   <div id="footer">
     &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
-    <div id="footerLogos">
-      <a href="http://www.dartmouth.edu" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/dartmouth_logo_20120116.jpg" /></a>
-      <a href="http://www.neh.gov" target="_blank">
-        <img src="<?php echo MGHelper::bu("/"); ?>images/neh_logo_horizontal_252x62.jpg" /></a>
-      <a href="http://www.acls.org/" target="_blank"><img src="<?php echo MGHelper::bu("/"); ?>images/acls-logo.gif" height="88" width="88" /></a>
-    </div>
   </div><!-- footer -->
 
 </div><!-- page -->

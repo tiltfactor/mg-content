@@ -1,6 +1,6 @@
 <?php
 
-class BadgeController extends GxController {
+class BadgeController_ extends GxController {
   /**
    * Full path of the main uploading folder.
    * @var string

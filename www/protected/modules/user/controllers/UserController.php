@@ -13,7 +13,7 @@ class UserController extends Controller
 	public function filters()
 	{
 		return CMap::mergeArray(parent::filters(),array(
-		  'IPBlock',
+		  /*'IPBlock',*/
 			'accessControl', // perform access control for CRUD operations
 		));
 	}

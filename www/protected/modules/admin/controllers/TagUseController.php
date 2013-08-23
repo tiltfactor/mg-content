@@ -1,6 +1,6 @@
 <?php
 
-class TagUseController extends GxController {
+class TagUseController_ extends GxController {
   public $defaultAction = 'admin';
   
   public function filters() {

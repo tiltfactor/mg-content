@@ -16,7 +16,7 @@
  * @property integer $interest
  *
  */
-abstract class BaseUserToSubjectMatter extends GxActiveRecord {
+abstract class BaseUserToSubjectMatter_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

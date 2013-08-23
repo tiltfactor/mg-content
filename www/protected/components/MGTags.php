@@ -11,7 +11,7 @@
  * @package MG
  */
 
-class MGTags
+class MGTags_
 {
 
     /**
@@ -46,9 +46,9 @@ class MGTags
 
             $used_tags = Yii::app()->db->createCommand()
                 ->select('tu.media_id, t.id as tag_id, t.tag')
-                ->from('{{tag_use}} tu')
+                /*->from('{{tag_use}} tu')
                 ->leftJoin('{{tag}} t', 't.id = tu.tag_id')
-                ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')
+                ->leftJoin('{{game_submission}} gs', 'gs.id = tu.game_submission_id')*/
                 ->leftJoin('{{session}} s', 's.id = gs.session_id')
                 ->where(array('and', 's.user_id=:userID', 'tu.weight > 0', array('in', 'tu.media_id', array_values($media_ids))),
                     array(':userID' => $user_id))

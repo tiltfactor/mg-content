@@ -1,5 +1,5 @@
 <?php $this->beginContent('//layouts/main'); ?>
-<div class="container" class="clearfix">
+<div class="container arcade">
   <div class="span-16">
     <div id="content">
       <?php echo $content; ?>

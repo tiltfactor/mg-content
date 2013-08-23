@@ -59,11 +59,6 @@
         array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
     </div><!-- row -->
 <?php endif;?>		
-		<h2><?php echo GxHtml::encode($model->getRelationLabel('subjectMatters')); ?></h2>
-		<div class="row clearfix">
-    <?php echo $form->checkBoxList($model, 'subjectMatters', GxHtml::encodeEx(GxHtml::listDataEx(SubjectMatter::model()->findAllAttributes(null, true)), false, true), 
-        array("template" => '<div class="checkbox">{input} {label}</div>', "separator" => "")); ?>
-    </div><!-- row -->
 <?php
 echo GxHtml::submitButton($buttons);
 $this->endWidget();

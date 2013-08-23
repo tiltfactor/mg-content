@@ -13,7 +13,7 @@
  * @property integer $collection_id
  *
  */
-abstract class BaseGameToCollection extends GxActiveRecord {
+abstract class BaseGameToCollection_ extends GxActiveRecord {
 
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
