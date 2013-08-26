@@ -52,7 +52,7 @@ class UserModule extends CWebModule
 	 */
 	public $autoLogin=true;
 	
-	public $registrationUrl = array("/user/registration");
+	//public $registrationUrl = array("/user/registration");
 	public $recoveryUrl = array("/user/login/restore-password");
 	public $loginUrl = array("/user/login");
 	public $logoutUrl = array("/user/logout");
@@ -86,8 +86,8 @@ class UserModule extends CWebModule
 	//public $cacheEnable = false;
 	
 	public $tableUsers = '{{user}}';
-	public $tableProfiles = '{{profile}}';
-	public $tableProfileFields = '{{profile_field}}';
+	/*public $tableProfiles = '{{profile}}';
+	public $tableProfileFields = '{{profile_field}}';*/
 	
 	static private $_user;
 	static private $_admin;
