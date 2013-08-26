@@ -44,20 +44,6 @@ $this->menu=array(
     'value' => '<b>' . Yii::t('app', 'This collection contains {count} medias: ', array("{count}" => count($model->medias))) . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . $model->id)) . '</b>',
   )
 	),
-)); ?>
+));
 
-<h2>Used by the following <?php echo GxHtml::encode($model->getRelationLabel('games')); ?></h2>
-<?php
-	echo GxHtml::openTag('ul');
-	
-	if (count($model->games) == 0) {
-    echo "<li>no item(s) assigned</li>";
-  }
-  
-	foreach($model->games as $relatedModel) {
-		echo GxHtml::openTag('li');
-		echo GxHtml::link(GxHtml::encode(GxHtml::valueEx($relatedModel)), array('game/view', 'id' => GxActiveRecord::extractPkValue($relatedModel, true)));
-		echo GxHtml::closeTag('li');
-	}
-	echo GxHtml::closeTag('ul');
 ?>
