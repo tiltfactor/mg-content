@@ -50,39 +50,7 @@ class Media extends BaseMedia
     
     if (isset($_GET["Custom"])) {
       
-      if (isset($_GET["Custom"]["tags"])) {
-        $parsed_tags = MGTags::parseTags($_GET["Custom"]["tags"]);
-        if (count($parsed_tags) > 0) {
-          $cmd =  Yii::app()->db->createCommand();
-          
-          $tags = null;
-          if ($_GET["Custom"]["tags_search_option"] == "OR") {
-            $tags = $cmd->selectDistinct('tu.media_id')
-                    /*->from('{{tag_use}} tu')
-                    ->join('{{tag}} tag', 'tu.tag_id = tag.id')*/
-                    ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
-                    ->queryAll();
-          } else {
-            $tags = $cmd->selectDistinct('tu.media_id, COUNT(DISTINCT tu.tag_id) as counted')
-                    ->from('{{tag_use}} tu')
-                    ->where(array('and', 'tu.weight > 0',array('in', 'tag.tag', array_values($parsed_tags))))
-                    ->group('tu.media_id')
-                    ->having('counted = :counted', array(':counted' => count($parsed_tags)))
-                    ->queryAll();
-          }
-          
-          if ($tags) {
-            $ids = array();
-            foreach ($tags as $tag) {
-              $ids[] = $tag["media_id"];
-            }
-            $criteria->addInCondition('t.id', array_values($ids));
-          } else {
-            $criteria->addInCondition('t.id', array(0));
-          }
-        }
-      }
-    
+
       if (isset($_GET["Custom"]["collections"]) && is_array($_GET["Custom"]["collections"])) {
         $criteria->join .= ' LEFT JOIN {{collection_to_media}} isi ON isi.media_id=t.id';
         $criteria->addInCondition('isi.collection_id', array_values($_GET["Custom"]["collections"]));
