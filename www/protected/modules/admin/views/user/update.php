@@ -22,4 +22,4 @@ $this->menu = array(
 <h1><?php echo  UserModule::t('Update user')." ".$model->username; ?></h1>
 
 <?php 
-	echo $this->renderPartial('_form', array('model'=>$model,'profile'=>$profile)); ?>
+	echo $this->renderPartial('_form', array('model'=>$model/*,'profile'=>$profile*/)); ?>

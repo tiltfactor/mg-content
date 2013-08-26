@@ -23,7 +23,7 @@ class ProfileController extends Controller {
         $model = $this->loadUser();
         $this->render('profile', array(
             'model' => $model,
-            'profile' => $model->profile,
+            //'profile' => $model->profile,
         ));
     }
 
@@ -35,10 +35,10 @@ class ProfileController extends Controller {
         $this->layout = '//layouts/column2';
         MGHelper::setFrontendTheme();
         $model = $this->loadUser();
-        $profile = $model->profile;
+        //$profile = $model->profile;
         // ajax validator
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'profile-form') {
-            echo UActiveForm::validate(array($model, $profile));
+            echo UActiveForm::validate(array($model/*, $profile*/));
             Yii::app()->end();
         }
         if (isset($_POST['User'])) {
@@ -46,22 +46,22 @@ class ProfileController extends Controller {
             $current_user_data = User::model()->notsafe()->findByPk($model->id);
             $model->password = $current_user_data->password;
             $model->activekey = $current_user_data->activekey;
-            if (isset($_POST['Profile']))
-                $profile->attributes = $_POST['Profile'];
+            /*if (isset($_POST['Profile']))
+                $profile->attributes = $_POST['Profile'];*/
             $model->modified = date('Y-m-d H:i:s');
-            if ($model->validate() && $profile->validate()) {
+            if ($model->validate() /*&& $profile->validate()*/) {
                 $model->save();
-                $profile->save();
+                /*$profile->save();*/
                 if (isset($_POST['User']['subjectMatters'])) {
                     UserToSubjectMatter::saveRelationShips($model->id, $_POST['User']['subjectMatters']);
                 }
                 Flash::add('success', UserModule::t("Profile saved."));
                 $this->redirect(array('/user/profile'));
-            } else $profile->validate();
+            } /*else $profile->validate();*/
         }
         $this->render('edit', array(
             'model' => $model,
-            'profile' => $profile,
+            /*'profile' => $profile,*/
         ));
     }
 

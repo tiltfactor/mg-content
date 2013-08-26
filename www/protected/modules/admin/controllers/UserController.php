@@ -64,7 +64,7 @@ class UserController extends Controller {
     public function actionCreate() {
         $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', ' Create User');
         $model = new User;
-        $profile = new Profile;
+        //$profile = new Profile;
         // how to enable ajax for users
         if (isset($_POST['User'])) {
             $model->attributes = $_POST['User'];
@@ -72,15 +72,15 @@ class UserController extends Controller {
             $model->created = date('Y-m-d H:i:s');
             $model->modified = date('Y-m-d H:i:s');
             $model->lastvisit = date('Y-m-d H:i:s');
-            if (isset($_POST['Profile']))
+            /*if (isset($_POST['Profile']))
                 $profile->attributes = $_POST['Profile'];
-            $profile->user_id = 0;
-            if ($model->validate() && $profile->validate()) {
+            $profile->user_id = 0;*/
+            if ($model->validate() /*&& $profile->validate()*/) {
                 $model->password = UserModule::encrypting($model->password);
                 $relatedData = array();
                 if ($model->saveWithRelated($relatedData)) {
-                    $profile->user_id = $model->id;
-                    $profile->save();
+                    /*$profile->user_id = $model->id;
+                    $profile->save();*/
                     MGHelper::log('create', 'Created user with ID(' . $model->id . ')');
                     Flash::add('success', Yii::t('app', "User created"));
                 }
@@ -88,11 +88,11 @@ class UserController extends Controller {
                     Yii::app()->end();
                 else
                     $this->redirect(array('view', 'id' => $model->id));
-            } else $profile->validate();
+            } /*else $profile->validate();*/
         }
         $this->render('create', array(
             'model' => $model,
-            'profile' => $profile,
+            //'profile' => $profile,
         ));
     }
 
@@ -103,14 +103,13 @@ class UserController extends Controller {
     public function actionUpdate() {
         $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', ' Update Player');
         $model = $this->loadModel();
-        $profile = $model->profile;
+        //$profile = $model->profile;
         if (isset($_POST['User'])) {
             if (isset($_POST['User']))
                 $model->attributes = $_POST['User'];
-            if (isset($_POST['Profile']))
-                $profile->attributes = $_POST['Profile'];
+            //if (isset($_POST['Profile'])) $profile->attributes = $_POST['Profile'];
             $model->modified = date('Y-m-d H:i:s');
-            if ($model->validate() && $profile->validate()) {
+            if ($model->validate() /*&& $profile->validate()*/) {
                 $old_password = User::model()->notsafe()->findByPk($model->id);
                 if ($old_password->password != $model->password) {
                     $model->password = UserModule::encrypting($model->password);
@@ -123,7 +122,7 @@ class UserController extends Controller {
                     if ($model->status == -1) {
                         $this->_banUser($model->id);
                     }
-                    $profile->save();
+                    //$profile->save();
                     /*if (isset($_POST['User']['subjectMatters'])) {
                         UserToSubjectMatter::saveRelationShips($model->id, $_POST['User']['subjectMatters']);
                     }*/
@@ -131,11 +130,11 @@ class UserController extends Controller {
                     Flash::add('success', Yii::t('app', "User updated"));
                     $this->redirect(array('view', 'id' => $model->id));
                 }
-            } else $profile->validate();
+            } /*else $profile->validate();*/
         }
         $this->render('update', array(
             'model' => $model,
-            'profile' => $profile,
+            //'profile' => $profile,
         ));
     }
 
@@ -148,8 +147,8 @@ class UserController extends Controller {
             // we only allow deletion via POST request
             $model = $this->loadModel();
             if ($model->canDelete()) { // a user can only be deleted if it is not the current session's user and if the user has not submitted any tags
-                $profile = Profile::model()->findByPk($model->id);
-                $profile->delete();
+                /*$profile = Profile::model()->findByPk($model->id);
+                $profile->delete();*/
                 $model->delete();
                 MGHelper::log('delete', 'Deleted User with ID(' . $model->id . ')');
                 Flash::add('success', Yii::t('app', "User deleted"));

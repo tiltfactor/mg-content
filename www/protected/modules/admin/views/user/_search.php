@@ -44,13 +44,7 @@
     <?php echo CHtml::dropDownList('User[role]', $model->role, User::listRoles(), array('prompt' => Yii::t('app', 'Please Choose'))); ?>
     <?php echo $form->error($model,'role'); ?>
   </div>
-  
-	<div class="row">
-		<?php echo $form->label($model, 'edited_count'); ?>
-		<?php echo $form->textField($model, 'edited_count'); ?>
-		<div class="description">(you can make use of < or > comparators. E.g > 5 will find all users that have more than 5 banned tags)</div>
-	</div>
-	
+
 	<div class="row">
     <?php echo $form->label($model, 'created'); ?>
     <?php echo $form->textField($model, 'created'); ?>

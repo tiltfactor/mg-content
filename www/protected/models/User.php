@@ -94,7 +94,7 @@ class User extends BaseUser {
             'lastvisit' => Yii::t('app', 'Lastvisit'),
             'role' => Yii::t('app', 'Role'),
             'status' => Yii::t('app', 'Status'),
-            'edited_count' => Yii::t('app', 'Banned Tags'),
+            /*'edited_count' => Yii::t('app', 'Banned Tags'),*/
             'created' => Yii::t('app', 'Created'),
             'modified' => Yii::t('app', 'Modified'),
             'logs' => null,
