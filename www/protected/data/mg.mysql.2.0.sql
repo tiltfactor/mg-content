@@ -155,23 +155,6 @@ ENGINE = InnoDB DEFAULT CHARSET=UTF8;
 
 
 -- -----------------------------------------------------
--- Table `profile`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `profile` ;
-
-CREATE  TABLE IF NOT EXISTS `profile` (
-  `user_id` INT(11) NOT NULL ,
-  INDEX `fk_profile_users1` (`user_id` ASC) ,
-  PRIMARY KEY (`user_id`) ,
-  CONSTRAINT `fk_profile_users1`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `user` (`id` )
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB DEFAULT CHARSET=UTF8;
-
-
--- -----------------------------------------------------
 -- Table `AuthItem`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `AuthItem` ;

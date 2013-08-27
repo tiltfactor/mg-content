@@ -1,7 +1,7 @@
 <?php
 return array (
   'api_id' => 'MG_API',
-  'installed' => true,
+  'installed' => false,
   'frontend_theme' => 'metadatagames',
   'arcade' => 
   array (
