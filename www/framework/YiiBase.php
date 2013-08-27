@@ -23,7 +23,7 @@ defined('YII_DEBUG') or define('YII_DEBUG', true);
  * Defaults to 0, meaning no backtrace information. If it is greater than 0,
  * at most that number of call stacks will be logged. Note, only user application call stacks are considered.
  */
-defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',1);
+defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',50);
 /**
  * This constant defines whether exception handling should be enabled. Defaults to true.
  */
@@ -265,6 +265,8 @@ class YiiBase
 		if(isset(self::$_imports[$alias]))  // previously imported
 			return self::$_imports[$alias];
 
+        //YiiBase::log('$alias:' . $alias, CLogger::LEVEL_ERROR);
+
 		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
 
@@ -382,6 +384,12 @@ class YiiBase
 			self::$_aliases[$alias]=rtrim($path,'\\/');
 	}
 
+    public static function addPluginsPath($className) {
+        static $added = false;
+        if ($added || $className != 'PluginsModule') return;
+        self::import('application.modules.plugins.*');
+        $added = true;
+    }
 	/**
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
@@ -390,6 +398,7 @@ class YiiBase
 	 */
 	public static function autoload($className)
 	{
+        self::addPluginsPath($className);
 		// use include so that the error PHP file may appear
 		if(isset(self::$classMap[$className]))
 			include(self::$classMap[$className]);
@@ -417,8 +426,15 @@ class YiiBase
 						}
 					}
 				}
-				else
-					include($className.'.php');
+				else {
+                    /*if ($className == 'PluginsModule') {
+                        YiiBase::log(var_export(array(
+                            'enableIncludePath'=>self::$enableIncludePath,
+                            '_includePaths'=>self::$_includePaths
+                        ), true),CLogger::LEVEL_ERROR);
+                    }*/
+                    include($className.'.php');
+                }
 			}
 			else  // class name with namespace in PHP 5.3
 			{
@@ -459,7 +475,7 @@ class YiiBase
 	{
 		if(self::$_logger===null)
 			self::$_logger=new CLogger;
-		if(YII_DEBUG && YII_TRACE_LEVEL>0 && $level!==CLogger::LEVEL_PROFILE)
+		//if(true || YII_DEBUG && YII_TRACE_LEVEL>0 && $level!==CLogger::LEVEL_PROFILE)
 		{
 			$traces=debug_backtrace();
 			$count=0;

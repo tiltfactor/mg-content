@@ -91,7 +91,7 @@ class PluginsModule extends CWebModule
     
     $list = array();
     
-    if (!isset($plugin_list)) {
+    /*if (!isset($plugin_list)) {
       $plugin_list = array();
       $plugins = Plugin::model()->findAll('active=1');
       
@@ -121,7 +121,7 @@ class PluginsModule extends CWebModule
     }
     if (array_key_exists($type, $plugin_list)) {
       $list = $plugin_list[$type];
-    }
+    }*/
     return $list;
   }
   
@@ -134,7 +134,7 @@ class PluginsModule extends CWebModule
    * @param string $type the plugin type that should be retrieved
    * @return array all active plugins of that category
    */
-  public static function getActiveGamePlugins($gid, $type) {
+  /*public static function getActiveGamePlugins($gid, $type) {
     static $game_plugin_list;
     
     $list = array();
@@ -177,7 +177,7 @@ class PluginsModule extends CWebModule
       $list = $game_plugin_list[$type];
     }
     return $list;
-  }
+  }*/
   
   /**
    * This method checks if a requested game is active for this game and returns a plugin instance 
@@ -188,7 +188,7 @@ class PluginsModule extends CWebModule
    * @param string $name the name of the plugin class
    * @return array all active plugins of that category
    */
-  public static function getActiveGamePlugin($gid, $type, $name) {
+  /*public static function getActiveGamePlugin($gid, $type, $name) {
     $return_plugin = null;
     $plugins = PluginsModule::getActiveGamePlugins($gid, $type);
     if (count($plugins) > 0) {
@@ -200,7 +200,7 @@ class PluginsModule extends CWebModule
       }
     }
     return $return_plugin;
-  }
+  }*/
   
   /**
    * This method lists all active plug-ins the current user has got access to.
@@ -210,9 +210,9 @@ class PluginsModule extends CWebModule
    * @return Array List of active plugins or empty
    */
   public static function getAccessiblePlugins($type=null, $active=1) {
-    $plugins = Plugin::model()->findAll('active=:a', array(':a'=>$active));
+    /*$plugins = Plugin::model()->findAll('active=:a', array(':a'=>$active));*/
     $list = array();
-    foreach ($plugins as $plugin) {
+    /*foreach ($plugins as $plugin) {
       try {
       
         $info = explode("-", $plugin->unique_id);
@@ -238,7 +238,7 @@ class PluginsModule extends CWebModule
           }
         }
       } catch (Exception $e) {}
-    }
+    }*/
     
     return $list;
   }
