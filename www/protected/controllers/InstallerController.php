@@ -23,7 +23,7 @@ class InstallerController extends Controller
    */
   public function filterAlreadyInstalled($filterChain)
   {
-      //YiiBase::log('set fbvsettings installed:' . Yii::app()->fbvStorage->get("installed") , CLogger::LEVEL_ERROR);
+      YiiBase::log('set fbvsettings installed:' . Yii::app()->fbvStorage->get("installed") , CLogger::LEVEL_ERROR);
     if (!Yii::app()->fbvStorage->get("installed", false)) {
       $filterChain->run(); 
     } else {
@@ -261,9 +261,9 @@ class InstallerController extends Controller
         
         if ($model->save()) {
           /*$profile->user_id=$model->id;
-          if ($profile->save()) {
+          if ($profile->save()) {*/
             $model->fbvSave();
-            
+
             // here you can finish off further things you need to do during installation
             CFileHelper::copyDirectory(Yii::getPathOfAlias('application.data.installer.badges'),Yii::getPathOfAlias('webroot.uploads.badges'),array(
               'level'=> -1,
@@ -271,8 +271,8 @@ class InstallerController extends Controller
               'newFileMode'=>0777,
             ));
             
-          }*/
             $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
+          /*}*/
         }
       }
     }
