@@ -65,19 +65,15 @@ class CollectionController extends GxController {
 
 		if (isset($_POST['Collection'])) {
 			$model->setAttributes($_POST['Collection']);
-			$relatedData = array(
-				'subjectMatters' => $_POST['Collection']['subjectMatters'] === '' ? null : $_POST['Collection']['subjectMatters'],
-				);
+			$relatedData = array();
       
-      if (isset($_POST['Collection']['games']))
-        $relatedData['games'] = $_POST['Collection']['games'] === '' ? null : $_POST['Collection']['games'];
-        
+
 			if ($model->saveWithRelated($relatedData)) {
-        MGHelper::log('update', 'Updated Collection with ID(' . $id . ')');
-        Flash::add('success', Yii::t('app', "Collection updated"));
+                MGHelper::log('update', 'Updated Collection with ID(' . $id . ')');
+                Flash::add('success', Yii::t('app', "Collection updated"));
 				$this->redirect(array('view', 'id' => $model->id));
-			}
-		}
+            }
+        }
 
 		$this->render('update', array(
 				'model' => $model,
