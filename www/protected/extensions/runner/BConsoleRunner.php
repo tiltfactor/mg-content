@@ -3,7 +3,7 @@
  * A component for execute console command of Yii console application in background
  *
  * @package
- * @author     Nikolay Kondikov<nikolay.kondikov@sirma.bg>
+ * @author
  */
 class BConsoleRunner extends CComponent
 {

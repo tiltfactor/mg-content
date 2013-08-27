@@ -3,7 +3,7 @@ Yii::import("application.commands.MediaParameters");
 /**
  *
  * @package
- * @author     Nikolay Kondikov<nikolay.kondikov@sirma.bg>
+ * @author
  */
 class MediaCommand extends CConsoleCommand
 {

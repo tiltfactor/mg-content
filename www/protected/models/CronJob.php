@@ -12,8 +12,7 @@
  * @property string $execution_result
  *
  * @package
- * @author     Nikolay Kondikov<nikolay.kondikov@sirma.bg>
- */
+  */
 class CronJob extends CActiveRecord
 {
     public static function model($className = __CLASS__)
