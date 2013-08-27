@@ -91,7 +91,7 @@ return array (
     'app_name' => 'Metadata Games',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
-    'app_email' => 'stephan@sirma.bg',
+    'app_email' => 'admin@admin.com',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',
