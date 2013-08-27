@@ -4,7 +4,7 @@
  * InstallConfigurationForm class.
  * Used by the installer. Collects the needed data to install MG
  */
-class InstallConfigurationForm_ extends User
+class InstallConfigurationForm extends User
 {
   public $app_name = "Metadata Games";  
   public $email = "";

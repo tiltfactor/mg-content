@@ -23,6 +23,7 @@ class InstallerController extends Controller
    */
   public function filterAlreadyInstalled($filterChain)
   {
+      //YiiBase::log('set fbvsettings installed:' . Yii::app()->fbvStorage->get("installed") , CLogger::LEVEL_ERROR);
     if (!Yii::app()->fbvStorage->get("installed", false)) {
       $filterChain->run(); 
     } else {
@@ -242,8 +243,8 @@ class InstallerController extends Controller
    */
   public function actionConfiguration() {
     $model = new InstallConfigurationForm;
-    $profile=new Profile;
-    $profile->regMode = true;
+   /* $profile=new Profile;
+    $profile->regMode = true;*/
             
     if(isset($_POST['InstallConfigurationForm'])) {
       $model->attributes=$_POST['InstallConfigurationForm'];
@@ -259,7 +260,7 @@ class InstallerController extends Controller
         $model->status = User::STATUS_ACTIVE;
         
         if ($model->save()) {
-          $profile->user_id=$model->id;
+          /*$profile->user_id=$model->id;
           if ($profile->save()) {
             $model->fbvSave();
             
@@ -270,8 +271,8 @@ class InstallerController extends Controller
               'newFileMode'=>0777,
             ));
             
+          }*/
             $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
-          }
         }
       }
     }

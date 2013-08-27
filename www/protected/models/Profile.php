@@ -2,7 +2,7 @@
 
 Yii::import('application.models._base.BaseProfile');
 
-class Profile extends GxActiveRecord
+class Profile_ extends GxActiveRecord
 {
 	/**
    * Returns the static model of the specified AR class.
