@@ -265,11 +265,11 @@ class InstallerController extends Controller
             $model->fbvSave();
 
             // here you can finish off further things you need to do during installation
-            CFileHelper::copyDirectory(Yii::getPathOfAlias('application.data.installer.badges'),Yii::getPathOfAlias('webroot.uploads.badges'),array(
+            /*CFileHelper::copyDirectory(Yii::getPathOfAlias('application.data.installer.badges'),Yii::getPathOfAlias('webroot.uploads.badges'),array(
               'level'=> -1,
               'newDirMode'=>0777,
               'newFileMode'=>0777,
-            ));
+            ));*/
             
             $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
           /*}*/
