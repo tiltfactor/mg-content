@@ -399,8 +399,17 @@ class ImportController extends GxController
         }
     }
 
+
+    public static function loadPluginsModule() {
+        static $added = false;
+        if ($added) return;
+        YiiBase::import('application.modules.plugins.*');
+        $added = true;
+    }
+
     public function actionUploadProcess()
     {
+        self::loadPluginsModule();
         $this->layout = '//layouts/column1';
 
         $model = new Media('search');
