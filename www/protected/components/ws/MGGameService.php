@@ -18,75 +18,134 @@ class MGGameService
 
     );
 
-    function __construct($url='http://localhost/mggameserver/index.php/ws/content/wsdl/')
+    function __construct()
     {
+        $url = Yii::app()->fbvStorage->get("mg-api-url");
         $this->soapClient = new SoapClient($url,array("classmap"=>self::$classmap,"trace" => true,"exceptions" => true));
     }
 
 
-    function register($string)
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @param string $name
+     * @param string $url
+     * @return RegisterResult
+     */
+    function register($username,$email,$password,$name,$url)
     {
-        $RegisterResult = $this->soapClient->register($string);
+        $RegisterResult = $this->soapClient->register($username,$email,$password,$name,$url);
         return $RegisterResult;
     }
 
-    function createCollection($string)
+    /**
+     * @param string $token
+     * @param CollectionDTO $collection
+     * @return Status
+     */
+    function createCollection($token, $collection)
     {
-        $Status = $this->soapClient->createCollection($string);
+        $Status = $this->soapClient->createCollection($token, $collection);
         return $Status;
     }
 
-    function updateCollection($string)
+    /**
+     * @param string $token
+     * @param CollectionDTO $collection
+     * @return Status
+     */
+    function updateCollection($token, $collection)
     {
-        $Status = $this->soapClient->updateCollection($string);
+        $Status = $this->soapClient->updateCollection($token, $collection);
         return $Status;
     }
 
-    function deleteCollection($string)
+    /**
+     * @param string $token
+     * @param integer $id
+     * @return Status
+     */
+    function deleteCollection($token, $id)
     {
-        $Status = $this->soapClient->deleteCollection($string);
+        $Status = $this->soapClient->deleteCollection($token, $id);
         return $Status;
     }
 
-    function createLicence($string)
+    /**
+     * @param string $token
+     * @param LicenceDTO $licence
+     * @return Status
+     */
+    function createLicence($token, $licence)
     {
-        $Status = $this->soapClient->createLicence($string);
+        $Status = $this->soapClient->createLicence($token, $licence);
         return $Status;
     }
 
-    function updateLicence($string)
+    /**
+     * @param string $token
+     * @param LicenceDTO $licence
+     * @return Status
+     */
+    function updateLicence($token, $licence)
     {
-        $Status = $this->soapClient->updateLicence($string);
+        $Status = $this->soapClient->updateLicence($token, $licence);
         return $Status;
     }
 
-    function deleteLicence($string)
+    /**
+     * @param string $token
+     * @param integer $id
+     * @return Status
+     */
+    function deleteLicence($token, $id)
     {
-        $Status = $this->soapClient->deleteLicence($string);
+        $Status = $this->soapClient->deleteLicence($token, $id);
         return $Status;
     }
 
-    function createMedia($string)
+    /**
+     * @param string $token
+     * @param MediaDTO $media
+     * @return Status
+     */
+    function createMedia($token, $media)
     {
-        $Status = $this->soapClient->createMedia($string);
+        $Status = $this->soapClient->createMedia($token, $media);
         return $Status;
     }
 
-    function deleteMedia($string)
+    /**
+     * @param string $token
+     * @param integer $id
+     * @return Status
+     */
+    function deleteMedia($token, $id)
     {
-        $Status = $this->soapClient->deleteMedia($string);
+        $Status = $this->soapClient->deleteMedia($token, $id);
         return $Status;
     }
 
-    function assignMediaToCollections($string)
+    /**
+     * @param string $token
+     * @param AssignMediaDTO $assign
+     * @return Status
+     */
+    function assignMediaToCollections($token, $assign)
     {
-        $Status = $this->soapClient->assignMediaToCollections($string);
+        $Status = $this->soapClient->assignMediaToCollections($token, $assign);
         return $Status;
     }
 
-    function assignMediasToCollections($string)
+    /**
+     * @param string $token
+     * @param AssignMediaDTO[] $assigns
+     * @return Status
+     */
+    function assignMediasToCollections($token, $assigns)
     {
-        $Status = $this->soapClient->assignMediasToCollections($string);
+        $Status = $this->soapClient->assignMediasToCollections($token, $assigns);
         return $Status;
     }
 }

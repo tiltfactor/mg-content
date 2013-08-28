@@ -6,16 +6,18 @@
  */
 class InstallConfigurationForm extends User
 {
-  public $app_name = "Metadata Games";  
+  public $app_name = "";
   public $email = "";
   public $verifyPassword;
-  
+  public $url;
+
   public function rules() {
     return array(
-        array('app_name, email, username, password, verifyPassword', 'required'),
+        array('app_name, email, username, password, verifyPassword,url', 'required'),
         array('username', 'length', 'max'=>20, 'min' => 3,'message' => UserModule::t("Incorrect username (length between 3 and 20 characters).")),
         array('password', 'length', 'max'=>128, 'min' => 4,'message' => UserModule::t("Incorrect password (minimal length 4 symbols).")),
         array('email', 'email'),
+        array('url', 'url'),
         array('username', 'unique', 'message' => UserModule::t("This user's name already exists.")),
         array('email', 'unique', 'message' => UserModule::t("This user's email address already exists.")),
         array('verifyPassword', 'compare', 'compareAttribute'=>'password', 'message' => UserModule::t("Retype Password is incorrect.")),
@@ -25,9 +27,10 @@ class InstallConfigurationForm extends User
   
   public function attributeLabels() {
     return array(
-      'app_name' => Yii::t('app', 'Application Name'), 
+      'app_name' => Yii::t('app', 'Application Name'),
+      'url' => Yii::t('app', 'Application URL'),
       'id' => Yii::t('app', 'ID'),
-      'username' => Yii::t('app', 'Administator/Player Name'),
+      'username' => Yii::t('app', 'Administator Username'),
       'password' => Yii::t('app', 'Password'),
       'verifyPassword' => Yii::t('app', 'Verify Password'),
       'email' => Yii::t('app', 'Email'),
