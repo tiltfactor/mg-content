@@ -34,7 +34,7 @@ class ImportController extends GxController
             ),
             array('allow',
                 'actions' => array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'transcodingprocess', 'uploadprocess', 'xuploadmedia', 'batch', 'delete'),
-                'roles' => array('editor', 'dbmanager', 'admin'),
+                'roles' => array('editor', 'admin'),
             ),
             array('deny',
                 'users' => array('*'),

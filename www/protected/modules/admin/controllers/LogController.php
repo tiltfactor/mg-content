@@ -17,7 +17,7 @@ class LogController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('index','view', 'batch','update', 'admin', 'delete'),
-  				'roles'=>array('editor', 'dbmanager', 'admin'), 
+  				'roles'=>array('editor', 'admin'),
   				),
   			array('deny', 
   				'users'=>array('*'),

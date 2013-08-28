@@ -13,7 +13,7 @@ class DefaultController extends Controller
     return array(
         array('allow', 
           'actions'=>array('index'),
-          'roles'=>array('editor', 'dbmanager', 'admin'),
+          'roles'=>array('editor', 'admin'),
           ),
         array('deny', 
           'users'=>array('*'),

@@ -17,7 +17,7 @@ class CollectionController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
-  				'roles'=>array('editor', 'dbmanager', 'admin'), 
+  				'roles'=>array('editor', 'admin'),
   				),
   			array('deny', 
   				'users'=>array('*'),
@@ -150,3 +150,9 @@ class CollectionController extends GxController {
     } 
   }
 }
+/*
+ALTER TABLE  `collection`
+ADD  `synchronized` INT( 1 ) NOT NULL DEFAULT  '0' AFTER  `last_access_interval` ,
+ADD  `delete_pending` INT( 1 ) NOT NULL DEFAULT  '0' AFTER  `synchronized` ;
+
+*/

@@ -20,7 +20,7 @@ class DefaultController extends GxController
     return array(
         array('allow',
           'actions'=>array('view', 'admin'),
-          'roles'=>array('editor', 'dbmanager', 'admin'),
+          'roles'=>array('editor', 'admin'),
           ),
         array('allow', 
           'actions'=>array('create', 'update','delete'),
