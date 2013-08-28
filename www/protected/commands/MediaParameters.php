@@ -2,7 +2,7 @@
 /**
  *
  * @package
- * @author     Nikolay Kondikov<nikolay.kondikov@sirma.bg>
+ * @author
  */
 class MediaParameters
 {

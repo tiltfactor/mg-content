@@ -317,3 +317,4 @@ INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('counter', 0);
 INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES ('yesterday', 0);
 
 COMMIT;
+
