@@ -30,6 +30,8 @@ CREATE  TABLE IF NOT EXISTS `collection` (
   `more_information` TEXT NULL ,
   `licence_id` INT(11) NULL ,
   `last_access_interval` INT(11) NOT NULL DEFAULT 0,
+  `synchronized` INT(1) NOT NULL DEFAULT 0,
+  `delete_pending` INT(1) NOT NULL DEFAULT 0,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,

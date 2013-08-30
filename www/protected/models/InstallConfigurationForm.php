@@ -38,14 +38,10 @@ class InstallConfigurationForm extends User
       'lastvisit' => Yii::t('app', 'Lastvisit'),
       'role' => Yii::t('app', 'Role'),
       'status' => Yii::t('app', 'Status'),
-      /*'edited_count' => Yii::t('app', 'Banned Tags'),*/
       'created' => Yii::t('app', 'Created'),
       'modified' => Yii::t('app', 'Modified'),
       'logs' => null,
-      'profile' => null,
       'sessions' => null,
-      'games' => null,
-      'subjectMatters' => null,
     );
   }
   
