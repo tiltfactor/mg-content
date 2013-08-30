@@ -15,6 +15,8 @@
  * @property string $more_information
  * @property integer $licence_id
  * @property integer $last_access_interval
+ * @property integer $synchronized
+ * @property integer $delete_pending
  * @property string $created
  * @property string $modified
  *
@@ -49,6 +51,7 @@ abstract class BaseCollection extends GxActiveRecord {
 			array('more_information', 'safe'),
 			array('locked, more_information, licence_id, last_access_interval', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, name, locked, more_information, licence_id, last_access_interval, created, modified', 'safe', 'on'=>'search'),
+			array('synchronized, delete_pending', 'default', 'setOnEmpty' => true, 'value'=>0)
 		);
 	}
 

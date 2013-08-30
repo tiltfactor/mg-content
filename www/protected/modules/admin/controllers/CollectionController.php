@@ -46,6 +46,21 @@ class CollectionController extends GxController {
 				);
 
 			if ($model->saveWithRelated($relatedData)) {
+                $token = Yii::app()->fbvStorage->get("token");
+                $service = new MGGameService();
+                $collection = new CollectionDTO();
+                $collection->id = $model->id;
+                $collection->name = $model->name;
+                $collection->licenceID = $model->licence_id;
+                $collection->lastAccessInterval = $model->last_access_interval;
+                $collection->moreInfo = $model->more_information;
+                $result = $service->createCollection($token, $collection);
+                switch($result->statusCode->name) {
+                    case $result->statusCode->_SUCCESS:
+                        $model->synchronized = 1;
+                        $model->save();
+                        break;
+                }
         MGHelper::log('create', 'Created Collection with ID(' . $model->id . ')');
 				Flash::add('success', Yii::t('app', "Collection created"));
         if (Yii::app()->getRequest()->getIsAjaxRequest())
@@ -68,7 +83,24 @@ class CollectionController extends GxController {
 			$relatedData = array();
       
 
+            $model->synchronized = 0;
 			if ($model->saveWithRelated($relatedData)) {
+                $token = Yii::app()->fbvStorage->get("token");
+                $service = new MGGameService();
+                $collection = new CollectionDTO();
+                $collection->id = $model->id;
+                $collection->name = $model->name;
+                $collection->licenceID = $model->licence_id;
+                $collection->lastAccessInterval = $model->last_access_interval;
+                $collection->moreInfo = $model->more_information;
+                $result = $service->updateCollection($token, $collection);
+                switch($result->statusCode->name) {
+                    case $result->statusCode->_SUCCESS:
+                        $model->synchronized = 1;
+                        $model->save();
+                        break;
+                }
+
                 MGHelper::log('update', 'Updated Collection with ID(' . $id . ')');
                 Flash::add('success', Yii::t('app', "Collection updated"));
 				$this->redirect(array('view', 'id' => $model->id));
@@ -86,7 +118,17 @@ class CollectionController extends GxController {
 			if ($model->hasAttribute("locked") && $model->locked) {
 			  throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
 			} else {
-			  $model->delete();
+                $model->delete_pending = 1;
+                if ($model->save()) {
+                    $token = Yii::app()->fbvStorage->get("token");
+                    $service = new MGGameService();
+                    $result = $service->deleteCollection($token, $model->id);
+                    switch($result->statusCode->name) {
+                        case $result->statusCode->_SUCCESS:
+                            $model->delete();
+                            break;
+                    }
+                }
 			  MGHelper::log('delete', 'Deleted Collection with ID(' . $id . ')');
         
         Flash::add('success', Yii::t('app', "Collection deleted"));
@@ -150,9 +192,3 @@ class CollectionController extends GxController {
     } 
   }
 }
-/*
-ALTER TABLE  `collection`
-ADD  `synchronized` INT( 1 ) NOT NULL DEFAULT  '0' AFTER  `last_access_interval` ,
-ADD  `delete_pending` INT( 1 ) NOT NULL DEFAULT  '0' AFTER  `synchronized` ;
-
-*/

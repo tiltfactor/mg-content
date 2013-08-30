@@ -23,14 +23,6 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
   
-    public static function setImport($resource) {
-        static $added = array();
-        if (array_key_exists($resource, $added)) return;
-        YiiBase::import($resource);
-        $added[$resource] = true;
-    }
-
-  
   /**
    * The filter method for 'ajaxOnly' filter.
    * If the current request is not an ajax request the user will be shown the API's index page

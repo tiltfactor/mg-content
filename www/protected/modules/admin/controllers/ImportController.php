@@ -401,7 +401,6 @@ class ImportController extends GxController
 
     public function actionUploadProcess()
     {
-        self::setImport('application.modules.plugins.*');
         $this->layout = '//layouts/column1';
 
         $model = new Media('search');

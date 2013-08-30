@@ -250,7 +250,6 @@ class InstallerController extends Controller
         if (isset($_POST['InstallConfigurationForm'])) {
             $model->attributes = $_POST['InstallConfigurationForm'];
             if ($model->validate()) {
-                self::setImport('application.components.ws.*');
                 $service = new MGGameService();
                 $result = $service->register($model->username, $model->email, $model->password, $model->app_name, $model->url);
                 //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
