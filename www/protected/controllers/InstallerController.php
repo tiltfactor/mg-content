@@ -250,6 +250,8 @@ class InstallerController extends Controller
         if (isset($_POST['InstallConfigurationForm'])) {
             $model->attributes = $_POST['InstallConfigurationForm'];
             if ($model->validate()) {
+                $model->url = $_POST['InstallConfigurationForm']['url'];
+                Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
                 $service = new MGGameService();
                 $result = $service->register($model->username, $model->email, $model->password, $model->app_name, $model->url);
                 //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
@@ -267,13 +269,14 @@ class InstallerController extends Controller
 
                         if ($model->save()) {
                             $model->fbvSave();
-                            Yii::app()->fbvStorage->set("token", $result->token);
+                            Yii::app()->fbvStorage->set('token', $result->token);
                             $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
                         }
                         break;
                     case $result->status->statusCode->_FATAL_ERROR:
                     case $result->status->statusCode->_ILLEGAL_ARGUMENT:
                         $error = $result->status->status;
+                        YiiBase::log(var_export($result,true), CLogger::LEVEL_ERROR);
                         break;
                 }
             }
