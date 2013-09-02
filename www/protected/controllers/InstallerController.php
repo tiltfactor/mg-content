@@ -276,7 +276,9 @@ class InstallerController extends Controller
                     case $result->status->statusCode->_FATAL_ERROR:
                     case $result->status->statusCode->_ILLEGAL_ARGUMENT:
                         $error = $result->status->status;
-                        YiiBase::log(var_export($result,true), CLogger::LEVEL_ERROR);
+                        //YiiBase::log(var_export(get_object_vars($model), true), CLogger::LEVEL_ERROR);
+                        YiiBase::log(var_export(get_class_methods($model->model()->findAllAttributes()), true), CLogger::LEVEL_ERROR);
+                        //YiiBase::log(var_export(get_class_methods($model), true), CLogger::LEVEL_ERROR);
                         break;
                 }
             }

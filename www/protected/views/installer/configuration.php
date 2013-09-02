@@ -64,6 +64,6 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     <div class="row submit">
         <?php echo CHtml::submitButton(UserModule::t("Save")); ?>
     </div>
-
+    <div class="flash-error"><?php echo $error; ?></div>
     <?php $this->endWidget(); ?>
 </div><!-- form -->
