@@ -16,6 +16,9 @@
  * @property string $batch_id
  * @property string $last_access
  * @property integer $locked
+ * @property integer $synchronized
+ * @property integer $delete_pending
+ * @property integer assignment_sync
  * @property string $created
  * @property string $modified
  *
@@ -49,6 +52,7 @@ abstract class BaseMedia extends GxActiveRecord {
 			array('last_access', 'safe'),
 			array('batch_id, last_access, locked', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, name, size, mime_type, batch_id, last_access, locked, created, modified', 'safe', 'on'=>'search'),
+            array('synchronized,delete_pending,assignment_sync', 'default', 'setOnEmpty' => true, 'value'=>0),
 		);
 	}
 
@@ -102,3 +106,8 @@ abstract class BaseMedia extends GxActiveRecord {
 		));
 	}
 }
+/*
+alter table media
+add `synchronized` int(1) NOT NULL DEFAULT '0',
+add  `delete_pending` int(1) NOT NULL DEFAULT '0'
+*/

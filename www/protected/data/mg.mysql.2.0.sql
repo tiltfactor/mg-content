@@ -12,6 +12,8 @@ CREATE  TABLE IF NOT EXISTS `licence` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(64) NOT NULL ,
   `description` TEXT NULL ,
+  `synchronized` int(1) NOT NULL DEFAULT '0',
+  `delete_pending` int(1) NOT NULL DEFAULT '0',
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -81,6 +83,9 @@ CREATE  TABLE IF NOT EXISTS `media` (
   `batch_id` VARCHAR(45) NOT NULL DEFAULT 'BATCH-001' ,
   `last_access` DATETIME NULL ,
   `locked` INT(1) NOT NULL DEFAULT 0 ,
+  `synchronized` int(1) NOT NULL DEFAULT '0',
+  `delete_pending` int(1) NOT NULL DEFAULT '0',
+  `assignment_sync` INT(1) NOT NULL DEFAULT  '0',
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )

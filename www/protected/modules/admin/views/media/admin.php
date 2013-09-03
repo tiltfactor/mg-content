@@ -72,19 +72,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'type'=>'html',
         'value'=>'generateImage($data)',
       ),
-    'tag_count',
-    array(
-      'cssClassExpression' => "'tags'",
-      'header' => Yii::t('app', "Top $max_toptags Tags"),
-      'type' => 'html',
-      'value'=>'$data->getTopTags(' . $max_toptags . ')',
-    ),
-    array(
-      'cssClassExpression' => "'tags'",
-      'header' => Yii::t('app', 'Collections'),
-      'type' => 'html',
-      'value'=>'$data->listCollections()',
-    ),
+
 		//'size',
 		'batch_id',
 		'last_access', 

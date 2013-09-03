@@ -524,6 +524,23 @@ class ImportController extends GxController
                     foreach ($medias as $media) {
                         $media->locked = 1;
                         $media->save();
+                        $token = Yii::app()->fbvStorage->get("token");
+                        $service = new MGGameService();
+                        $media = new MediaDTO();
+                        $media->id = $model->id;
+                        $media->name = $model->name;
+                        $media->size = $model->size;
+                        $media->mimeType = $model->mime_type;
+                        $media->batchId = $model->batch_id;
+                        $media->locked = $model->locked;
+                        $media->batchId = $model->batch_id;
+                        $result = $service->createMedia($token, $media);
+                        switch($result->statusCode->name) {
+                            case $result->statusCode->_SUCCESS:
+                                $model->synchronized = 1;
+                                $model->save();
+                                break;
+                        }
                         $processedIDs[] = $media->id;
                     }
                     MGHelper::log('batch-import-process', 'Batch processed Media with IDs(' . implode(',', $processedIDs) . ')');
