@@ -520,25 +520,36 @@ class ImportController extends GxController
                             }
                         }
                     }
-
+                    if (preg_match('/^(.*?)\\/index\\.php/i', $_SERVER['REQUEST_URI'], $matches)) {
+                        $httpBase = 'http://' . $_SERVER['SERVER_NAME'] . $matches[1];
+                    }
                     foreach ($medias as $media) {
                         $media->locked = 1;
                         $media->save();
                         $token = Yii::app()->fbvStorage->get("token");
                         $service = new MGGameService();
-                        $media = new MediaDTO();
-                        $media->id = $model->id;
-                        $media->name = $model->name;
-                        $media->size = $model->size;
-                        $media->mimeType = $model->mime_type;
-                        $media->batchId = $model->batch_id;
-                        $media->locked = $model->locked;
-                        $media->batchId = $model->batch_id;
-                        $result = $service->createMedia($token, $media);
+                        $model = new MediaDTO();
+                        $model->id = $media->id;
+                        $media_type = substr($media->mime_type, 0, 5);
+                        switch($media_type) {
+                            case 'video':
+                            case 'image':
+                            $folder = "/{$media_type}s/";
+                                break;
+                            default:
+                                $folder = '/audios/';
+                        }
+                        $model->name = $httpBase . Yii::app()->fbvStorage->get('settings.app_upload_url') . $folder . $media->name;
+                        $model->size = $media->size;
+                        $model->mimeType = $media->mime_type;
+                        $model->batchId = $media->batch_id;
+                        $model->locked = $media->locked;
+                        $model->batchId = $media->batch_id;
+                        $result = $service->createMedia($token, $model);
                         switch($result->statusCode->name) {
                             case $result->statusCode->_SUCCESS:
-                                $model->synchronized = 1;
-                                $model->save();
+                                $media->synchronized = 1;
+                                $media->save();
                                 break;
                         }
                         $processedIDs[] = $media->id;

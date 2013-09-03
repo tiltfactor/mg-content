@@ -172,8 +172,8 @@ EOD;
                         }
                     }
                 }
+                MGHelper::log('batch-addcollection', 'Batch assigned Medias with IDs(' . implode(',', $_POST['media-ids']) . ') to collection with the ID(' . $_GET['isid'] . ')');
             }
-            MGHelper::log('batch-addcollection', 'Batch assigned Medias with IDs(' . implode(',', $_POST['media-ids']) . ') to collection with the ID(' . $_GET['isid'] . ')');
         }
     }
 
