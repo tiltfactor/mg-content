@@ -533,13 +533,15 @@ class ImportController extends GxController
                         $media_type = substr($media->mime_type, 0, 5);
                         switch($media_type) {
                             case 'video':
+                                $folder = "/videos/";
+                                break;
                             case 'image':
-                            $folder = "/{$media_type}s/";
+                                $folder = "/images/";
                                 break;
                             default:
                                 $folder = '/audios/';
                         }
-                        $model->name = $httpBase . Yii::app()->fbvStorage->get('settings.app_upload_url') . $folder . $media->name;
+                        $model->name = $httpBase . UPLOAD_PATH . $folder . $media->name;
                         $model->size = $media->size;
                         $model->mimeType = $media->mime_type;
                         $model->batchId = $media->batch_id;
@@ -627,7 +629,7 @@ class ImportController extends GxController
                         $isMedia = false;
                     else {
                         $this->createMedia($model->name, $model->size, $_POST["batch_id"], $model->mime_type);
-                        $thumbUrl = Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . "/thumbs/" . $model->name;
+                        $thumbUrl = Yii::app()->getBaseUrl() . UPLOAD_PATH . "/thumbs/" . $model->name;
                         $isMedia = true;
                     }
                 } elseif ($media_type == "video" || $media_type == "audio") {

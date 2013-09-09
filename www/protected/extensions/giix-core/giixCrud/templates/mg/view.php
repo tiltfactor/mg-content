@@ -37,7 +37,7 @@ foreach ($this->tableSchema->columns as $column) {
         echo "\t\t array(
           'name' => 'Image',
           'type' => 'image',
-          'value' => Yii::app()->getBaseUrl() . Yii::app()->fbvStorage->get('settings.app_upload_url') . '/thumbs/'. \$model->{$column->name},
+          'value' => Yii::app()->getBaseUrl() . UPLOAD_PATH . '/thumbs/'. \$model->{$column->name},
         ),\n";
       } else {
         echo $this->generateDetailViewAttribute($this->modelClass, $column) . ",\n";
