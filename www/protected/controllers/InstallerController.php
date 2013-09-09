@@ -253,7 +253,7 @@ class InstallerController extends Controller
                 $model->url = $_POST['InstallConfigurationForm']['url'];
                 Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
                 $service = new MGGameService();
-                $result = $service->register($model->username, $model->email, $model->password, $model->app_name, $model->url);
+                $result = $service->register($model->username, $model->email, $model->password, $model->app_name, Yii::app()->getBaseUrl());
                 //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
                 switch ($result->status->statusCode->name) {
                     case $result->status->statusCode->_SUCCESS:
