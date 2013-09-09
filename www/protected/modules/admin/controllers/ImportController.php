@@ -530,18 +530,7 @@ class ImportController extends GxController
                         $service = new MGGameService();
                         $model = new MediaDTO();
                         $model->id = $media->id;
-                        $media_type = substr($media->mime_type, 0, 5);
-                        switch($media_type) {
-                            case 'video':
-                                $folder = "/videos/";
-                                break;
-                            case 'image':
-                                $folder = "/images/";
-                                break;
-                            default:
-                                $folder = '/audios/';
-                        }
-                        $model->name = $httpBase . UPLOAD_PATH . $folder . $media->name;
+                        $model->name = $media->name;
                         $model->size = $media->size;
                         $model->mimeType = $media->mime_type;
                         $model->batchId = $media->batch_id;
