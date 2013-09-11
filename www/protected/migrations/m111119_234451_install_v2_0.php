@@ -19,8 +19,8 @@ class m111119_234451_install_v2_0 extends CDbMigration
 	  CREATE TABLE IF NOT EXISTS `server_profile` (
 	    `id` int(11) NOT NULL AUTO_INCREMENT,
 	    `name` varchar(128) NOT NULL,
-	    `logo_url` int(11) NOT NULL,
-	    `description` int(11) NOT NULL,
+	    `logo_url` varchar(128) NOT NULL,
+	    `description` text,
 	    PRIMARY KEY (`id`)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	  ";
