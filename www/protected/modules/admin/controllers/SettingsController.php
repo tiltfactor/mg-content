@@ -27,7 +27,7 @@ class SettingsController extends GxController
 		return array(
 			array('allow', 
 				'actions'=>array('update','view'),
-				'roles'=>array('admin'),
+				'roles'=>array(ADMIN),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),

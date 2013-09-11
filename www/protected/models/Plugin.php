@@ -68,7 +68,7 @@ class Plugin extends BasePlugin
     if ($games) {
       $out = array();
       foreach ($games as $game) {
-        if (Yii::app()->user->checkAccess('admin')) {
+        if (Yii::app()->user->checkAccess(ADMIN)) {
           $out[] = CHtml::link($game["unique_id"], array("/games/" . $game["unique_id"] . "/view")); 
         } else {
           $out[] = $game["unique_id"];
@@ -98,7 +98,7 @@ class Plugin extends BasePlugin
     if ($plugins) {
       $out = array();
       foreach ($plugins as $plugin) {
-        if (Yii::app()->user->checkAccess('admin')) {
+        if (Yii::app()->user->checkAccess(ADMIN)) {
           $out[] = CHtml::link($plugin["unique_id"], array("/plugins/default/view/", "id" => $plugin["id"])); 
         } else {
           $out[] = $plugin["unique_id"];

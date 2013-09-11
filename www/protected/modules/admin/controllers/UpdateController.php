@@ -22,7 +22,7 @@ class UpdateController extends GxController {
   				),
   			array('allow', 
   				'actions'=>array('index','update'),
-  				'roles'=>array('admin'),
+  				'roles'=>array(ADMIN),
   				),
   			array('deny', 
   				'users'=>array('*'),

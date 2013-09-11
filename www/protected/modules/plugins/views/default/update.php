@@ -10,9 +10,9 @@ $this->breadcrumbs = array(
 if (($link = PluginsModule::pluginAdminLink($model->unique_id)) != "") {
   $arr_menu[] = array('label'=>$link, 'visible' => Yii::app()->user->checkAccess('admin'));
 } 
-$arr_menu[] = array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin'), 'visible' => Yii::app()->user->checkAccess('admin'));
-$arr_menu[] = array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin'));
-$arr_menu[] = array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?'), 'visible' => Yii::app()->user->checkAccess('admin'));
+$arr_menu[] = array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin'), 'visible' => Yii::app()->user->checkAccess(ADMIN));
+$arr_menu[] = array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess(ADMIN));
+$arr_menu[] = array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm'=>'Are you sure you want to delete this item?'), 'visible' => Yii::app()->user->checkAccess(ADMIN));
 
 $this->menu = $arr_menu;
 ?>

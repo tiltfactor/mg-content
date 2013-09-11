@@ -12,7 +12,7 @@
   				),
   			array('allow', 
   				'actions'=>array('index','view', 'batch', 'create','update', 'admin', 'delete'),
-  				'roles'=>array('editor', 'admin'), // ammend after creation
+  				'roles'=>array(EDITOR, ADMIN), // ammend after creation
   				),
   			array('deny', 
   				'users'=>array('*'),

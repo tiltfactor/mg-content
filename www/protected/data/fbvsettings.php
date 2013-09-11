@@ -36,7 +36,7 @@ return array (
       'name' => 'Media',
       'description' => 'Manage media that have been imported and processed.',
       'url' => '/admin/media',
-      'role' => 'editor',
+      'role' => EDITOR,
       'group' => 'Media & Tags',
     ),
     'tool-import' => 
@@ -44,7 +44,7 @@ return array (
       'name' => 'Import',
       'description' => 'Import and process media into the system.',
       'url' => '/admin/import',
-      'role' => 'editor',
+      'role' => EDITOR,
       'group' => 'Media & Tags',
     ),
     'tool-collection' => 
@@ -52,7 +52,7 @@ return array (
       'name' => 'Collections',
       'description' => 'Group media and apply applicable licences.',
       'url' => '/admin/collection',
-      'role' => 'editor',
+      'role' => EDITOR,
       'group' => 'Media & Tags',
     ),
     'tool-licence' => 
@@ -60,7 +60,7 @@ return array (
       'name' => 'Licences',
       'description' => 'Create licences under which media can be published in the system.',
       'url' => '/admin/licence',
-      'role' => 'editor',
+      'role' => EDITOR,
       'group' => 'Media & Tags',
     ),
     'tool-settings' => 
@@ -68,7 +68,7 @@ return array (
       'name' => 'Global Settings',
       'description' => 'Configure settings that are used globally in the system.',
       'url' => '/admin/settings',
-      'role' => 'admin',
+      'role' => ADMIN,
       'group' => 'Other',
     ),
     'tool-logs' => 
@@ -76,7 +76,7 @@ return array (
       'name' => 'Admin Log',
       'description' => 'Access records of changes made using admin tools.',
       'url' => '/admin/log',
-      'role' => 'admin',
+      'role' => ADMIN,
       'group' => 'Other',
     ),
     'update-code' => 
@@ -84,7 +84,7 @@ return array (
       'name' => 'Update DB',
       'description' => 'Please visit this tool after an update of the code base to make sure the database structure is up-to date.',
       'url' => '/admin/update',
-      'role' => 'admin',
+      'role' => ADMIN,
       'group' => 'Other',
     ),
   ),

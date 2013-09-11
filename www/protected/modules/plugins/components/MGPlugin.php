@@ -32,7 +32,7 @@ class MGPlugin extends CComponent {
   /**
    * The minimum role needed in order to access the plug-ins admin tools
    */
-  public $accessRole = "editor";
+  public $accessRole = EDITOR;
   
   /**
    * Called by the plugins on the plugin initialization 

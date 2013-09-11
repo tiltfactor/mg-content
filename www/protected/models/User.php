@@ -115,10 +115,10 @@ class User extends BaseUser {
                 'condition' => 'status=' . self::STATUS_BANNED,
             ),
             'editor' => array(
-                'condition' => 'role=\'editor\'',
+                'condition' => 'role=\''. EDITOR .'\'',
             ),
             'admin' => array(
-                'condition' => 'role=\'admin\'',
+                'condition' => 'role=\''. ADMIN .'\'',
             ),
             'notsafe' => array(
                 'select' => 'id, username, password, email, activekey, edited_count, created, modified, lastvisit, role, status',

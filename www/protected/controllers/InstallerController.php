@@ -220,7 +220,7 @@ class InstallerController extends Controller
                                 ob_start(); // yii migrate write a lot of feedback that we only want to show in error case
                                 $this->runMigrationTool();
                                 ob_end_clean();
-                                $this->redirect(Yii::app()->baseUrl . '/index.php/installer/Configuration');
+                                $this->redirect(Yii::app()->baseUrl . '/index.php/ServerProfile/Create');
                             } catch (Exception $e) {
                                 $log = ob_get_clean();
                                 throw new CHttpException(500, Yii::t('app', "Error! Can't create needed database structure: \n\n $log "));
@@ -232,6 +232,21 @@ class InstallerController extends Controller
                     }
                 }
             }
+        }
+        $this->render('database', array(
+            'model' => $model,
+            'error' => $error,
+        ));
+    }
+
+    /**
+     * Configure server information
+     */
+    public function actionServer(){
+        $error = "";
+        $model = new ServerProfile();
+        if (isset($_POST['ServerProfile'])) {
+
         }
         $this->render('database', array(
             'model' => $model,
@@ -264,7 +279,7 @@ class InstallerController extends Controller
                         $model->created = date('Y-m-d H:i:s');
                         $model->modified = date('Y-m-d H:i:s');
                         $model->lastvisit = NULL;
-                        $model->role = 'admin';
+                        $model->role = ADMIN;
                         $model->status = User::STATUS_ACTIVE;
 
                         if ($model->save()) {

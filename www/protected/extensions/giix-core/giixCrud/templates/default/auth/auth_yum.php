@@ -12,7 +12,7 @@ public function accessRules() {
         ),
       array('allow', 
         'actions'=>array('index','view', 'minicreate', 'create','update', 'admin','delete'),
-        'roles'=>array('editor', 'admin'),
+        'roles'=>array(EDITOR, ADMIN),
         ),
       array('deny', 
         'users'=>array('*'),

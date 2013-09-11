@@ -20,11 +20,11 @@ class DefaultController extends GxController
     return array(
         array('allow',
           'actions'=>array('view', 'admin'),
-          'roles'=>array('editor', 'admin'),
+          'roles'=>array(EDITOR, ADMIN),
           ),
         array('allow', 
           'actions'=>array('create', 'update','delete'),
-          'roles'=>array('admin'),
+          'roles'=>array(ADMIN),
           ),
         array('deny', 
           'users'=>array('*'),
@@ -80,7 +80,7 @@ class DefaultController extends GxController
     
     $model = new Plugin();
     
-    if (Yii::app()->user->checkAccess('admin')) {
+    if (Yii::app()->user->checkAccess(ADMIN)) {
       $types = array();
       $type_filter = array();
       $path = Yii::getPathOfAlias('application.modules.plugins.modules') . DIRECTORY_SEPARATOR;

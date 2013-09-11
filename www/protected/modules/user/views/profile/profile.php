@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu = array(
-  array('label'=>UserModule::t('Manage Users'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess('admin')),
+  array('label'=>UserModule::t('Manage Users'), 'url'=>array('/admin/user'), 'visible'=>Yii::app()->user->checkAccess(ADMIN)),
   array('label' => UserModule::t('Edit Profile'), 'url'=>array('profile/edit')),
 );
 ?><h2><?php echo UserModule::t('Your profile'); ?></h2>

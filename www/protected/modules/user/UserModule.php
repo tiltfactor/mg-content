@@ -170,7 +170,7 @@ class UserModule extends CWebModule
 	 * Return admin status.
 	 * @return boolean
 	 */
-	public static function isAssigned($role="editor") {
+	public static function isAssigned($role=EDITOR) {
 		if(Yii::app()->user->isGuest)
 			return false;
 		else {

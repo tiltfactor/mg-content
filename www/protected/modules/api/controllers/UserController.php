@@ -13,7 +13,7 @@ class UserController extends ApiController {
         ),
       array('allow', 
         'actions'=>array('profile', 'passwordchange', 'logout'),
-        'roles'=>array('admin'),
+        'roles'=>array(ADMIN),
         ),
       array('deny', 
         'users'=>array('*'),

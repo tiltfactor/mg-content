@@ -40,6 +40,6 @@ class Log extends BaseLog
   }
   
   public function canDelete() {
-    return Yii::app()->user->checkAccess("admin");
+    return Yii::app()->user->checkAccess(ADMIN);
   }
 } 

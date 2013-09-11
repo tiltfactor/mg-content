@@ -34,7 +34,7 @@ class ImportController extends GxController
             ),
             array('allow',
                 'actions' => array('index', 'uploadfromlocal', 'queueprocess', 'uploadzip', 'uploadftp', 'transcodingprocess', 'uploadprocess', 'xuploadmedia', 'batch', 'delete'),
-                'roles' => array('editor', 'admin'),
+                'roles' => array(EDITOR, ADMIN),
             ),
             array('deny',
                 'users' => array('*'),
@@ -46,7 +46,7 @@ class ImportController extends GxController
     {
         $this->layout = '//layouts/column1';
 
-        if (Yii::app()->user->checkAccess('editor')) {
+        if (Yii::app()->user->checkAccess(EDITOR)) {
             $tools = array();
 
             $tools["import-local"] = array(
