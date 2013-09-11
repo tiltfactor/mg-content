@@ -1,5 +1,4 @@
 <?php
-// TODO merge D:\portable\!pages\mgc with D:\portable\!pages\metadatagames\mgc
 class ServerProfileController extends GxController {
 
 

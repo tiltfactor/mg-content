@@ -5,6 +5,17 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
 <h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game Server Registration</h1>
 
 <div class="form">
+    <p><?php echo Yii::t('app', 'Upload Logo image file:'); ?></p>
+    <div class="row">
+               <?php
+               $this->widget('ext.xupload-0-5-1.XUpload', array(
+                   'url' => Yii::app()->createUrl("installer/xUploadLogo"),
+                   'model' => $xUpload,
+                   'attribute' => 'file',
+               ));
+               ?>
+           </div>
+
     <?php $form = $this->beginWidget('UActiveForm', array(
     'id' => 'installconfiguration-form',
     'enableAjaxValidation' => false,
@@ -32,6 +43,15 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
             <?php echo UserModule::t("Example: http://yourdomain.com/metadatagames/"); ?>
         </p>
     </div>
+
+    <div class="row">
+            <?php echo $form->labelEx($model, 'description'); ?>
+            <?php echo $form->textField($model, 'description'); ?>
+            <?php echo $form->error($model, 'description'); ?>
+            <p class="hint">
+                <?php echo UserModule::t("Server Description"); ?>
+            </p>
+        </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'username'); ?>

@@ -4,6 +4,8 @@
  *
  * @package MG
  */
+Yii::import("ext.xupload-0-5-1.models.XUploadForm");
+
 class InstallerController extends Controller
 {
     public $layout = '//layouts/installer';
@@ -220,7 +222,7 @@ class InstallerController extends Controller
                                 ob_start(); // yii migrate write a lot of feedback that we only want to show in error case
                                 $this->runMigrationTool();
                                 ob_end_clean();
-                                $this->redirect(Yii::app()->baseUrl . '/index.php/ServerProfile/Create');
+                                $this->redirect(Yii::app()->baseUrl . '/index.php/installer/Configuration');
                             } catch (Exception $e) {
                                 $log = ob_get_clean();
                                 throw new CHttpException(500, Yii::t('app', "Error! Can't create needed database structure: \n\n $log "));
@@ -240,21 +242,6 @@ class InstallerController extends Controller
     }
 
     /**
-     * Configure server information
-     */
-    public function actionServer(){
-        $error = "";
-        $model = new ServerProfile();
-        if (isset($_POST['ServerProfile'])) {
-
-        }
-        $this->render('database', array(
-            'model' => $model,
-            'error' => $error,
-        ));
-    }
-
-    /**
      * Configure first user
      */
     public function actionConfiguration()
@@ -265,8 +252,9 @@ class InstallerController extends Controller
         if (isset($_POST['InstallConfigurationForm'])) {
             $model->attributes = $_POST['InstallConfigurationForm'];
             if ($model->validate()) {
+                YiiBase::log('url:'.$model->url,CLogger::LEVEL_ERROR);
                 $model->url = $_POST['InstallConfigurationForm']['url'];
-                Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
+                //Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
                 $service = new MGGameService();
                 $result = $service->register($model->username, $model->email, $model->password, $model->app_name, Yii::app()->getBaseUrl());
                 //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
@@ -298,7 +286,90 @@ class InstallerController extends Controller
                 }
             }
         }
-        $this->render('configuration', array('model' => $model, 'error' => $error));
+        $xUpload = new XUploadForm;
+        $this->render('configuration', array('model' => $model, 'error' => $error, 'xUpload' => $xUpload));
+    }
+
+    public function actionXUploadLogo(){
+        $info = array();
+
+        $path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH);
+        if (!is_dir($path)) {
+            throw new CHttpException(500, "{$path} does not exists.");
+        } else if (!is_writable($path)) {
+            throw new CHttpException(500, "{$path} is not writable.");
+        }
+
+        $file = $_FILES;
+
+        $model = new XUploadForm;
+        $model->file = CUploadedFile::getInstance($model, 'file');
+
+        if (isset($model->file)) {
+            $model->mime_type = $model->file->getType(); //- this have regular problems with ogg files
+            $model->size = $model->file->getSize();
+            $model->name = trim(basename(stripslashes($model->file->getName())), ".\x00..\x20");
+            list($media_type, $extention) = explode('/', $model->mime_type);
+            if ($media_type == 'image' && $model->validate()) {
+                $path .= "/images/";
+                if (!is_dir($path)) {
+                    mkdir($path);
+                    chmod($path, 0777);
+                }
+
+                $model->file->saveAs($path . $model->name);
+                $format = Yii::app()->fbvStorage->get("media.formats.thumbnail",
+                    array(
+                        "width" => 70,
+                        "height" => 50,
+                        "quality" => FALSE, // set to integer 0 ... 100 to activate quality rendering
+                        "sharpen" => FALSE, // set to integer 0 ... 100 to activate sharpen
+                    ));
+                MGHelper::createScaledMedia($model->name, $model->name, 'thumbs', $format["width"], $format["height"], $format["quality"], $format["sharpen"]);
+                $thumbUrl = Yii::app()->getBaseUrl() . UPLOAD_PATH . "/thumbs/" . $model->name;
+                $info[] = array(
+                    'tmp_name' => $model->file->getName(),
+                    'name' => $model->name,
+                    'size' => $model->size,
+                    'type' => $model->mime_type,
+                    'thumbnail_url' => $thumbUrl,
+                    'error' => null
+                );
+            } else {
+                $info[] = array(
+                    'tmp_name' => $model->file->getName(),
+                    'name' => $model->name,
+                    'size' => $model->size,
+                    'type' => $model->mime_type,
+                    'error' => 'acceptFileTypes'
+                );
+            }
+        } else {
+            $error = 4;
+
+            $info[] = array(
+                'tmp_name' => null,
+                'name' => null,
+                'size' => null,
+                'type' => null,
+                'error' => $error
+            );
+        }
+        $this->jsonResponse($info);
+    }
+
+
+    private function checkUploadFolder()
+    {
+        if (!isset($this->path)) {
+            $this->path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH);
+        }
+
+        if (!is_dir($this->path)) {
+            throw new CHttpException(500, "{$this->path} does not exists.");
+        } else if (!is_writable($this->path)) {
+            throw new CHttpException(500, "{$this->path} is not writable.");
+        }
     }
 
     /**

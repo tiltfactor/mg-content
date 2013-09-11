@@ -10,6 +10,8 @@ class InstallConfigurationForm extends User
   public $email = "";
   public $verifyPassword;
   public $url;
+  public $description;
+  public $logo;
 
   public function rules() {
     return array(
@@ -18,11 +20,11 @@ class InstallConfigurationForm extends User
         array('password', 'length', 'max'=>128, 'min' => 4,'message' => UserModule::t("Incorrect password (minimal length 4 symbols).")),
         array('email', 'email'),
         //array('url', 'url'),
-        array('url', 'match', 'pattern' => '/^(http(?:s)?\:\/\/([a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*\.[a-zA-Z]{2,6}|localhost)(?:\/?|(?:\/[\w\-]+)*)(?:\/?|\/\w+\.[a-zA-Z]{2,4}(?:\?[\w]+\=[\w\-]+)?)?(?:\&[\w]+\=[\w\-]+)*)$/'),
+        //array('url', 'match', 'pattern' => '/^(http(?:s)?\:\/\/([a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*\.[a-zA-Z]{2,6}|localhost)(?:\/?|(?:\/[\w\-]+)*)(?:\/?|\/\w+\.[a-zA-Z]{2,4}(?:\?[\w]+\=[\w\-]+)?)?(?:\&[\w]+\=[\w\-]+)*)$/'),
         array('username', 'unique', 'message' => UserModule::t("This user's name already exists.")),
         array('email', 'unique', 'message' => UserModule::t("This user's email address already exists.")),
         array('verifyPassword', 'compare', 'compareAttribute'=>'password', 'message' => UserModule::t("Retype Password is incorrect.")),
-        array('username', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u','message' => UserModule::t("Incorrect symbols (A-z0-9).")),
+        array('username', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u','message' => UserModule::t("Incorrect symbols (A...z,0...9,_).")),
     );
   }
   
@@ -30,6 +32,8 @@ class InstallConfigurationForm extends User
     return array(
       'app_name' => Yii::t('app', 'Application Name'),
       'url' => Yii::t('app', 'Application URL'),
+      'description' => Yii::t('app', 'Application URL'),
+      'logo' => Yii::t('app', 'Application URL'),
       'id' => Yii::t('app', 'ID'),
       'username' => Yii::t('app', 'Administator Username'),
       'password' => Yii::t('app', 'Password'),
@@ -43,6 +47,8 @@ class InstallConfigurationForm extends User
       'modified' => Yii::t('app', 'Modified'),
       'logs' => null,
       'sessions' => null,
+        'description'=>Yii::t('app', 'Description'),
+        'logo'=>Yii::t('app', 'Logo'),
     );
   }
   

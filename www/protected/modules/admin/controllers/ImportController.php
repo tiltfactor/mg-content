@@ -800,7 +800,7 @@ class ImportController extends GxController
     private function checkUploadFolder()
     {
         if (!isset($this->path)) {
-            $this->path = realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
+            $this->path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH);
         }
 
         if (!is_dir($this->path)) {
