@@ -18,7 +18,7 @@ class m111119_234450_install_v2_0 extends CDbMigration
 	  $script = file_get_contents(Yii::getPathOfAlias('application.data') . DIRECTORY_SEPARATOR . 'mg.mysql.2.0.sql');
 
         if (trim($script) != "") {
-            $statements = explode(";\n", $script);
+            $statements = explode(';\n', $script);
 
             if (count($statements) > 0) {
                 foreach ($statements as $statement) {
@@ -27,8 +27,6 @@ class m111119_234450_install_v2_0 extends CDbMigration
                 }
             }
         }
-
-        //Yii::app()->fbvStorage->set("installed", true);
     }
 
     public function down()

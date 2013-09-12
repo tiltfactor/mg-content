@@ -20,7 +20,7 @@ class MGGameService
 
     function __construct()
     {
-        $url = Yii::app()->fbvStorage->get("mg-api-url");
+        $url = 'http://localhost/mggameserver/index.php/ws/content/wsdl/';//Yii::app()->fbvStorage->get("mg-api-url");
         $this->soapClient = new SoapClient($url,array("classmap"=>self::$classmap,"trace" => true,"exceptions" => true));
     }
 
