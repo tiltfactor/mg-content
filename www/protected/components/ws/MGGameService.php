@@ -26,12 +26,16 @@ class MGGameService
 
 
     /**
-     * @param InstitutionDTO $institution
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @param string $name
+     * @param string $url
      * @return RegisterResult
      */
-    function register($institution)
+    function register($username,$email,$password,$name,$url)
     {
-        $RegisterResult = $this->soapClient->register($institution);
+        $RegisterResult = $this->soapClient->register($username,$email,$password,$name,$url);
         return $RegisterResult;
     }
 
