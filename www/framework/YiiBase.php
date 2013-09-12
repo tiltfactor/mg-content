@@ -17,7 +17,7 @@ defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
 /**
  * This constant defines whether the application should be in debug mode or not. Defaults to false.
  */
-defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_DEBUG') or define('YII_DEBUG', false);
 /**
  * This constant defines how much call stack information (file name and line number) should be logged by Yii::trace().
  * Defaults to 0, meaning no backtrace information. If it is greater than 0,
