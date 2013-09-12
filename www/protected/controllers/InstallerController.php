@@ -4,7 +4,7 @@
  *
  * @package MG
  */
-Yii::import("ext.xupload-0-5-1.models.XUploadForm");
+Yii::import("ext.xupload.models.XUploadForm");
 
 class InstallerController extends Controller
 {

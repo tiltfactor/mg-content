@@ -66,7 +66,7 @@ class XUploadWidgetSimple extends CJuiInputWidget {
     echo "\t" . CHtml::tag("div", array("id"=> $this->htmlOptions['id'] . "_container"), FALSE, FALSE);
       echo "\t\t" . CHtml::beginForm($this->url, 'post', array("enctype" => $this->htmlOptions['enctype']));
         echo "\t\t\t" . CHtml::tag("div", array("class"=>"row"), '', FALSE);
-          echo "\t\t\t\t" . CHtml::tag("small", array(), Yii::t('app', 'Select Logo image file.'), TRUE);
+          echo "\t\t\t\t" . CHtml::tag("small", array(), Yii::t('app', 'Select Logo image file:'), TRUE);
         echo "\t\t\t" . "</div>";
         echo "\t\t\t" . CHtml::tag("div", array("class"=>"fileupload-buttonbar"), '', FALSE);
           echo "\t\t\t\t" . CHtml::tag("label", array("class"=>"fileinput-button"), '', FALSE);

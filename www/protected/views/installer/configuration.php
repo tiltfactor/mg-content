@@ -5,10 +5,10 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
 <h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game Server Registration</h1>
 
 <div class="form">
-    <p><?php echo Yii::t('app', 'Upload Logo image file:'); ?></p>
+    <p><?php echo Yii::t('app', 'Upload Logo image file'); ?></p>
     <div class="row">
                <?php
-               $this->widget('ext.xupload-0-5-1.XUpload', array(
+               $this->widget('ext.xupload.XUploadWidgetSimple', array(
                    'url' => Yii::app()->createUrl("installer/xUploadLogo"),
                    'model' => $xUpload,
                    'attribute' => 'file',
