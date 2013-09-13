@@ -20,30 +20,15 @@ class MGGameService
 
     function __construct()
     {
-        $url = 'http://localhost/mggameserver/www/index.php/ws/content/wsdl/';//Yii::app()->fbvStorage->get("mg-api-url");
+        $url = Yii::app()->fbvStorage->get("mg-api-url");
         $this->soapClient = new SoapClient($url,array("classmap"=>self::$classmap,"trace" => true,"exceptions" => true));
     }
 
-
     /**
-     * @param string $username
-     * @param string $email
-     * @param string $password
-     * @param string $name
-     * @param string $url
+     * @param InstitutionDTO $institution
      * @return RegisterResult
      */
-    function register($username,$email,$password,$name,$url)
-    {
-        $RegisterResult = $this->soapClient->register($username,$email,$password,$name,$url);
-        return $RegisterResult;
-    }
-
-    /**
-     * @param string InstitutionDTO $institution
-     * @return RegisterResult
-     */
-    function registerInstitution($institution)
+    function register($institution)
     {
         $RegisterResult = $this->soapClient->register($institution);
         return $RegisterResult;

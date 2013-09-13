@@ -18,12 +18,13 @@ class InstallerController extends Controller
         );
     }
 
+
     /**
      * The filter method for 'AlreadyInstalled' filter.
      * Checks whether the system is already installed
      *
      * @param CFilterChain $filterChain the filter chain that the filter is on.
-     *
+     * @throws CHttpException
      */
     public function filterAlreadyInstalled($filterChain)
     {
@@ -251,18 +252,17 @@ class InstallerController extends Controller
         $error = "";
 
         if (isset($_POST['InstallConfigurationForm'])) {
-             $model->attributes = $_POST['InstallConfigurationForm'];
-             $logoName =  Yii::app()->session['INSTITUTION_LOGO_NAME'];
+            $model->attributes = $_POST['InstallConfigurationForm'];
+            $logoName = Yii::app()->session['INSTITUTION_LOGO_NAME'];
             if ($logoName) {
                 $serverProfile = new ServerProfile();
-                $model->logo = Yii::app()->getBaseUrl() . UPLOAD_PATH . "/" . $logoName;
+                $model->logo = Yii::app()->getBaseUrl(true) . UPLOAD_PATH . "/" . $logoName;
                 if ($model->validate()) {
-                    //YiiBase::log('url:'.$model->url, CLogger::LEVEL_ERROR);
+
                     $model->url = $_POST['InstallConfigurationForm']['url'];
                     $model->description = $_POST['InstallConfigurationForm']['description'];
-                    //Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
-                    $service = new MGGameService();
-                    $institutionDto = new InstitutionDto;
+
+                    $institutionDto = new InstitutionDTO;
                     $institutionDto->name = $model->app_name;
                     $institutionDto->url = $model->url;
                     $institutionDto->username = $model->username;
@@ -270,13 +270,12 @@ class InstallerController extends Controller
                     $institutionDto->email = $model->email;
                     $institutionDto->description = $model->description;
                     $institutionDto->logoUrl = $model->logo;
-                    YiiBase::log('logoUrl:' . $institutionDto->logoUrl, CLogger::LEVEL_ERROR);
-                    $result = $service->registerInstitution($institutionDto, Yii::app()->getBaseUrl());
-                    //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
-                    YiiBase::log('register',CLogger::LEVEL_ERROR);
+
+                    $service = new MGGameService();
+                    $result = $service->register($institutionDto);
+
                     switch ($result->status->statusCode->name) {
                         case $result->status->statusCode->_SUCCESS:
-                            $soucePassword = $model->password;
                             $model->activekey = UserModule::encrypting(microtime() . $model->password);
                             $model->password = UserModule::encrypting($model->password);
                             $model->verifyPassword = UserModule::encrypting($model->verifyPassword);
@@ -286,31 +285,29 @@ class InstallerController extends Controller
                             $model->role = ADMIN;
                             $model->status = User::STATUS_ACTIVE;
 
-                            YiiBase::log('save user',CLogger::LEVEL_ERROR);
                             if ($model->save()) {
                                 $model->fbvSave();
                                 Yii::app()->fbvStorage->set('token', $result->token);
 
                                 $serverProfile->name = $model->app_name;
                                 $serverProfile->description = $model->description;
-                                $serverProfile->logo_url = $model->logo;
+                                $serverProfile->logo = $logoName;
                                 $serverProfile->synchronized = 1;
-                                YiiBase::log('save serverProfile app_name:' . $serverProfile->name, CLogger::LEVEL_ERROR);
+
                                 if ($serverProfile->save()) {
-                                    YiiBase::log('serverProfile saved' , CLogger::LEVEL_ERROR);
+                                    YiiBase::log('serverProfile saved', CLogger::LEVEL_ERROR);
                                     $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
                                 } else {
                                     $errors = $serverProfile->getErrors();
-                                    YiiBase::log(var_export($errors, true), CLogger::LEVEL_ERROR);
+                                    foreach ($errors as $field => $error) {
+                                        $error .= $error[0] . ";";
+                                    }
                                 }
                             }
                             break;
                         case $result->status->statusCode->_FATAL_ERROR:
                         case $result->status->statusCode->_ILLEGAL_ARGUMENT:
                             $error = $result->status->status;
-                            //YiiBase::log(var_export(get_object_vars($model), true), CLogger::LEVEL_ERROR);
-                            YiiBase::log(var_export(get_class_methods($model->model()->findAllAttributes()), true), CLogger::LEVEL_ERROR);
-                            //YiiBase::log(var_export(get_class_methods($model), true), CLogger::LEVEL_ERROR);
                             break;
                     }
                 }
@@ -318,11 +315,13 @@ class InstallerController extends Controller
                 $error = Yii::t('app', 'Logo file is missing.');
             }
         }
+
         $xUpload = new XUploadForm;
         $this->render('configuration', array('model' => $model, 'error' => $error, 'xUpload' => $xUpload));
     }
 
-    public function actionXUploadLogo(){
+    public function actionXUploadLogo()
+    {
         $info = array();
 
         $path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH);

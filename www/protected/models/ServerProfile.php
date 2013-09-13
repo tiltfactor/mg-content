@@ -7,4 +7,14 @@ class ServerProfile extends BaseServerProfile
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
+
+    public function canDelete()
+    {
+        return false;
+    }
+
+    public function canCreate()
+    {
+        return false;
+    }
 }
