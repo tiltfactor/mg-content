@@ -3,7 +3,7 @@ return array (
   'api_id' => 'MG_API',
   'installed' => false,
   'frontend_theme' => 'metadatagames',
-  'mg-api-url' => 'http://localhost/mggameserver/www/index.php/ws/content/wsdl/',
+  'mg-api-url' => 'http://localhost/mgg/index.php/ws/content/wsdl/',
   'token' => '',
   'arcade' => 
   array (
