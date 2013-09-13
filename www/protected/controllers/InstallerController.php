@@ -9,6 +9,7 @@ Yii::import("ext.xupload.models.XUploadForm");
 class InstallerController extends Controller
 {
     public $layout = '//layouts/installer';
+    public $logos = array();
 
     public function filters()
     {
@@ -250,40 +251,71 @@ class InstallerController extends Controller
         $error = "";
 
         if (isset($_POST['InstallConfigurationForm'])) {
-            $model->attributes = $_POST['InstallConfigurationForm'];
-            if ($model->validate()) {
-                YiiBase::log('url:'.$model->url,CLogger::LEVEL_ERROR);
-                $model->url = $_POST['InstallConfigurationForm']['url'];
-                //Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
-                $service = new MGGameService();
-                $result = $service->register($model->username, $model->email, $model->password, $model->app_name, Yii::app()->getBaseUrl());
-                //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
-                switch ($result->status->statusCode->name) {
-                    case $result->status->statusCode->_SUCCESS:
-                        $soucePassword = $model->password;
-                        $model->activekey = UserModule::encrypting(microtime() . $model->password);
-                        $model->password = UserModule::encrypting($model->password);
-                        $model->verifyPassword = UserModule::encrypting($model->verifyPassword);
-                        $model->created = date('Y-m-d H:i:s');
-                        $model->modified = date('Y-m-d H:i:s');
-                        $model->lastvisit = NULL;
-                        $model->role = ADMIN;
-                        $model->status = User::STATUS_ACTIVE;
+             $model->attributes = $_POST['InstallConfigurationForm'];
+             $logoName =  Yii::app()->session['INSTITUTION_LOGO_NAME'];
+            if ($logoName) {
+                $serverProfile = new ServerProfile();
+                $model->logo = Yii::app()->getBaseUrl() . UPLOAD_PATH . "/" . $logoName;
+                if ($model->validate()) {
+                    //YiiBase::log('url:'.$model->url, CLogger::LEVEL_ERROR);
+                    $model->url = $_POST['InstallConfigurationForm']['url'];
+                    $model->description = $_POST['InstallConfigurationForm']['description'];
+                    //Yii::app()->fbvStorage->set('mg-api-url', $model->url . '/www/index.php/ws/content/wsdl/');
+                    $service = new MGGameService();
+                    $institutionDto = new InstitutionDto;
+                    $institutionDto->name = $model->app_name;
+                    $institutionDto->url = $model->url;
+                    $institutionDto->username = $model->username;
+                    $institutionDto->password = $model->password;
+                    $institutionDto->email = $model->email;
+                    $institutionDto->description = $model->description;
+                    $institutionDto->logoUrl = $model->logo;
+                    YiiBase::log('logoUrl:' . $institutionDto->logoUrl, CLogger::LEVEL_ERROR);
+                    $result = $service->registerInstitution($institutionDto, Yii::app()->getBaseUrl());
+                    //YiiBase::log(var_export($result,true),CLogger::LEVEL_ERROR);
+                    YiiBase::log('register',CLogger::LEVEL_ERROR);
+                    switch ($result->status->statusCode->name) {
+                        case $result->status->statusCode->_SUCCESS:
+                            $soucePassword = $model->password;
+                            $model->activekey = UserModule::encrypting(microtime() . $model->password);
+                            $model->password = UserModule::encrypting($model->password);
+                            $model->verifyPassword = UserModule::encrypting($model->verifyPassword);
+                            $model->created = date('Y-m-d H:i:s');
+                            $model->modified = date('Y-m-d H:i:s');
+                            $model->lastvisit = NULL;
+                            $model->role = ADMIN;
+                            $model->status = User::STATUS_ACTIVE;
 
-                        if ($model->save()) {
-                            $model->fbvSave();
-                            Yii::app()->fbvStorage->set('token', $result->token);
-                            $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
-                        }
-                        break;
-                    case $result->status->statusCode->_FATAL_ERROR:
-                    case $result->status->statusCode->_ILLEGAL_ARGUMENT:
-                        $error = $result->status->status;
-                        //YiiBase::log(var_export(get_object_vars($model), true), CLogger::LEVEL_ERROR);
-                        YiiBase::log(var_export(get_class_methods($model->model()->findAllAttributes()), true), CLogger::LEVEL_ERROR);
-                        //YiiBase::log(var_export(get_class_methods($model), true), CLogger::LEVEL_ERROR);
-                        break;
+                            YiiBase::log('save user',CLogger::LEVEL_ERROR);
+                            if ($model->save()) {
+                                $model->fbvSave();
+                                Yii::app()->fbvStorage->set('token', $result->token);
+
+                                $serverProfile->name = $model->app_name;
+                                $serverProfile->description = $model->description;
+                                $serverProfile->logo_url = $model->logo;
+                                $serverProfile->synchronized = 1;
+                                YiiBase::log('save serverProfile app_name:' . $serverProfile->name, CLogger::LEVEL_ERROR);
+                                if ($serverProfile->save()) {
+                                    YiiBase::log('serverProfile saved' , CLogger::LEVEL_ERROR);
+                                    $this->redirect(Yii::app()->baseUrl . '/index.php/installer/todo');
+                                } else {
+                                    $errors = $serverProfile->getErrors();
+                                    YiiBase::log(var_export($errors, true), CLogger::LEVEL_ERROR);
+                                }
+                            }
+                            break;
+                        case $result->status->statusCode->_FATAL_ERROR:
+                        case $result->status->statusCode->_ILLEGAL_ARGUMENT:
+                            $error = $result->status->status;
+                            //YiiBase::log(var_export(get_object_vars($model), true), CLogger::LEVEL_ERROR);
+                            YiiBase::log(var_export(get_class_methods($model->model()->findAllAttributes()), true), CLogger::LEVEL_ERROR);
+                            //YiiBase::log(var_export(get_class_methods($model), true), CLogger::LEVEL_ERROR);
+                            break;
+                    }
                 }
+            } else {
+                $error = Yii::t('app', 'Logo file is missing.');
             }
         }
         $xUpload = new XUploadForm;
@@ -299,8 +331,6 @@ class InstallerController extends Controller
         } else if (!is_writable($path)) {
             throw new CHttpException(500, "{$path} is not writable.");
         }
-
-        $file = $_FILES;
 
         $model = new XUploadForm;
         $model->file = CUploadedFile::getInstance($model, 'file');
@@ -318,15 +348,8 @@ class InstallerController extends Controller
                 }
 
                 $model->file->saveAs($path . $model->name);
-                $format = Yii::app()->fbvStorage->get("media.formats.thumbnail",
-                    array(
-                        "width" => 70,
-                        "height" => 50,
-                        "quality" => FALSE, // set to integer 0 ... 100 to activate quality rendering
-                        "sharpen" => FALSE, // set to integer 0 ... 100 to activate sharpen
-                    ));
-                MGHelper::createScaledMedia($model->name, $model->name, 'thumbs', $format["width"], $format["height"], $format["quality"], $format["sharpen"]);
                 $thumbUrl = Yii::app()->getBaseUrl() . UPLOAD_PATH . "/thumbs/" . $model->name;
+                $this->logos[] = $model;
                 $info[] = array(
                     'tmp_name' => $model->file->getName(),
                     'name' => $model->name,
@@ -335,6 +358,8 @@ class InstallerController extends Controller
                     'thumbnail_url' => $thumbUrl,
                     'error' => null
                 );
+
+                Yii::app()->session['INSTITUTION_LOGO_NAME'] = $model->name;
             } else {
                 $info[] = array(
                     'tmp_name' => $model->file->getName(),
@@ -356,20 +381,6 @@ class InstallerController extends Controller
             );
         }
         $this->jsonResponse($info);
-    }
-
-
-    private function checkUploadFolder()
-    {
-        if (!isset($this->path)) {
-            $this->path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH);
-        }
-
-        if (!is_dir($this->path)) {
-            throw new CHttpException(500, "{$this->path} does not exists.");
-        } else if (!is_writable($this->path)) {
-            throw new CHttpException(500, "{$this->path} is not writable.");
-        }
     }
 
     /**

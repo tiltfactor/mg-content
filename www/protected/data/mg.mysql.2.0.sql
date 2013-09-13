@@ -259,6 +259,20 @@ CREATE TABLE IF NOT EXISTS `cron_jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Table `server_profile`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `server_profile` ;
+
+CREATE TABLE IF NOT EXISTS `server_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `logo_url` varchar(128) NULL,
+  `description` text,
+  `synchronized` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Table structure for table `tbl_migration`
 --
@@ -267,14 +281,6 @@ CREATE TABLE IF NOT EXISTS `tbl_migration` (
   `version` varchar(255) NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `server_profile` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `logo_url` int(11) NOT NULL,
-  `description` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
