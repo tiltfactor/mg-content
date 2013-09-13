@@ -3,7 +3,7 @@ return array (
   'api_id' => 'MG_API',
   'installed' => false,
   'frontend_theme' => 'metadatagames',
-  'mg-api-url' => 'http://localhost/mggameserver/www/index.php/ws/content/wsdl/',
+  'mg-api-url' => 'http://localhost/mggameserver/index.php/ws/content/wsdl/',
   'token' => '',
   'arcade' => 
   array (
@@ -87,6 +87,14 @@ return array (
       'role' => ADMIN,
       'group' => 'Other',
     ),
+	'tool-profile' =>
+      array (
+          'name' => 'Server Profile',
+          'description' => 'Manage MG Content Server profile',
+          'url' => '/admin/serverProfile',
+          'role' => 'admin',
+          'group' => 'Other',
+      ),
   ),
   'settings' => 
   array (
