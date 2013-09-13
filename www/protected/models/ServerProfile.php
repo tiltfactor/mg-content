@@ -8,6 +8,12 @@ class ServerProfile extends BaseServerProfile
 		return parent::model($className);
 	}
 
+    public function rules() {
+        $rules = parent::rules();
+
+        $rules = array_merge($rules,array(array('logo', 'file', 'types'=>'jpg, gif, png')));
+        return $rules;
+    }
     public function canDelete()
     {
         return false;

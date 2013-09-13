@@ -25,12 +25,22 @@ class MGGameService
     }
 
     /**
-     * @param InstitutionDTO $institution
-     * @return RegisterResult
-     */
+ * @param InstitutionDTO $institution
+ * @return RegisterResult
+ */
     function register($institution)
     {
         $RegisterResult = $this->soapClient->register($institution);
+        return $RegisterResult;
+    }
+
+    /**
+     * @param InstitutionDTO $institution
+     * @return RegisterResult
+     */
+    function updateProfile($institution)
+    {
+        $RegisterResult = $this->soapClient->updateProfile($institution);
         return $RegisterResult;
     }
 

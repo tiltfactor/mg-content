@@ -5,21 +5,11 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
 <h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game Server Registration</h1>
 
 <div class="form">
-    <p><?php echo Yii::t('app', 'Upload Logo image file'); ?></p>
-    <div class="row">
-               <?php
-               $this->widget('ext.xupload.XUploadWidgetSimple', array(
-                   'url' => Yii::app()->createUrl("installer/xUploadLogo"),
-                   'model' => $xUpload,
-                   'attribute' => 'file',
-               ));
-               ?>
-           </div>
-
     <?php $form = $this->beginWidget('UActiveForm', array(
     'id' => 'installconfiguration-form',
     'enableAjaxValidation' => false,
     'clientOptions' => array('validateOnSubmit' => false),
+    'htmlOptions' => array('enctype' => 'multipart/form-data'),
 )); ?>
 
     <p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
@@ -36,6 +26,12 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model,'logo'); ?>
+        <?php echo $form->fileField($model, 'logo'); ?>
+        <?php echo $form->error($model,'logo'); ?>
+    </div><!-- row -->
+
+    <div class="row">
         <?php echo $form->labelEx($model, 'url'); ?>
         <?php echo $form->textField($model, 'url'); ?>
         <?php echo $form->error($model, 'url'); ?>
@@ -46,7 +42,7 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
 
     <div class="row">
             <?php echo $form->labelEx($model, 'description'); ?>
-            <?php echo $form->textField($model, 'description'); ?>
+            <?php echo $form->textArea($model, 'description'); ?>
             <?php echo $form->error($model, 'description'); ?>
             <p class="hint">
                 <?php echo UserModule::t("Server Description"); ?>
