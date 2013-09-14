@@ -160,14 +160,14 @@ EOD;
                     if ($media->saveWithRelated($relatedData)) {
                         $assignment = new AssignMediaDTO();
                         $assignment->id = $media->id;
-                        $assignment->collections = join(',', $mediaCollection);
+                        $assignment->collections = $mediaCollection;
                         $service = new MGGameService();
                         $token = Yii::app()->fbvStorage->get("token");
                         $result = $service->assignMediaToCollections($token, $assignment);
                         switch($result->statusCode->name) {
                             case $result->statusCode->_SUCCESS:
                                 $media->assignment_sync = 1;
-                                $model->save();
+                                $media->save();
                                 break;
                         }
                     }
