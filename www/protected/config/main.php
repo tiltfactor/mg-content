@@ -19,7 +19,6 @@ return array(
   'import'=>array(
     'application.models.*',
     'application.components.*',
-    'application.components.ws.*',
     'ext.giix-components.*',
     'ext.components.*',
     'ext.yii-flash.*',
