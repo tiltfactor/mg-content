@@ -11,7 +11,7 @@ class ServerProfile extends BaseServerProfile
     public function rules() {
         $rules = parent::rules();
 
-        $rules = array_merge($rules,array(array('logo', 'file', 'types'=>'jpg, gif, png')));
+        $rules = array_merge($rules,array(array('logo', 'file', 'types'=>'jpg, gif, png','on' => 'create')));
         return $rules;
     }
     public function canDelete()

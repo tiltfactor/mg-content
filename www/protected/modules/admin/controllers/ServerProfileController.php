@@ -42,7 +42,8 @@ class ServerProfileController extends GxController
         if (isset($_POST['ServerProfile'])) {
             $model->setAttributes($_POST['ServerProfile']);
 
-            if ($model->save()) {
+            if ($model->validate('create')) {
+                $model->save(false);
                 if (Yii::app()->getRequest()->getIsAjaxRequest())
                     Yii::app()->end();
                 else
@@ -56,24 +57,36 @@ class ServerProfileController extends GxController
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id, 'ServerProfile');
-
+        $logoFileName = $model->logo;
 
         if (isset($_POST['ServerProfile'])) {
 
             $model->setAttributes($_POST['ServerProfile']);
 
-            $model->logo = CUploadedFile::getInstance($model, 'logo');
+            $logo = CUploadedFile::getInstance($model, 'logo');
+            if ($logo) {
+                $model->logo = $logo;
+            } else {
+                $model->logo = $logoFileName;
+            }
 
-            if ($model->save()) {
-                $path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH) . "/images/";
-                $name = trim(basename(stripslashes($model->logo->getName())), ".\x00..\x20");
-                $model->logo->saveAs($path . $name);
+            if ($model->validate()) {
+                $model->save(false);
+                $logoUrl = "";
+                if ($logo) {
+                    $path = realpath(Yii::app()->getBasePath() . '/..' . UPLOAD_PATH) . "/images/";
+                    $name = trim(basename(stripslashes($model->logo->getName())), ".\x00..\x20");
+                    $model->logo->saveAs($path . $name);
+                    $logoUrl = Yii::app()->getBaseUrl(true) . UPLOAD_PATH . "/images/" . $name;
+                } else {
+                    $logoUrl = Yii::app()->getBaseUrl(true) . UPLOAD_PATH . "/images/" . $model->logo;
+                }
 
                 $institutionDto = new InstitutionDTO;
                 $institutionDto->name = $model->name;
                 $institutionDto->url = $model->url;
                 $institutionDto->description = $model->description;
-                $institutionDto->logoUrl = Yii::app()->getBaseUrl(true) . UPLOAD_PATH . "/images/" . $name;
+                $institutionDto->logoUrl = $logoUrl;
                 $institutionDto->token = Yii::app()->fbvStorage->get("token");
 
 

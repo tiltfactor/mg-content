@@ -39,7 +39,7 @@ abstract class BaseServerProfile extends GxActiveRecord {
 		return array(
 			array('name, url', 'required'),
 			array('synchronized', 'numerical', 'integerOnly'=>true),
-			array('name, url, logo', 'length', 'max'=>128),
+			array('name, url', 'length', 'max'=>128),
 			array('description', 'safe'),
 			array('logo, description, synchronized', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id, name, url, logo, description, synchronized', 'safe', 'on'=>'search'),
