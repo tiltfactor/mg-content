@@ -72,6 +72,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'type'=>'html',
         'value'=>'generateImage($data)',
       ),
+      array(
+          'cssClassExpression' => "'tags'",
+          'header' => Yii::t('app', 'Collections'),
+          'type' => 'html',
+          'value' => '$data->listCollections()',
+      ),
 
 		//'size',
 		'batch_id',
