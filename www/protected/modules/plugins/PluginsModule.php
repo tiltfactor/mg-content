@@ -102,7 +102,7 @@ class PluginsModule extends CWebModule
                         $list[] = (object)array(
                             'type' => $plugin_type,
                             'name' => $component_name,
-                            'link' => self::pluginAdminLink($plugin->unique_id),
+                            'link' => self::pluginAdminLink($plugin),
                             'class' => $plugin_class,
                             'component' => $component
                         );
