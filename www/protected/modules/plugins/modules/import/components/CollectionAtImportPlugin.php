@@ -56,11 +56,39 @@ class CollectionAtImportPlugin extends MGImportPlugin
     function process($medias)
     {
         if (isset($_POST['Media']) && isset($_POST['Media']['collections'])) {
+            $service = new MGGameService();
+            $token = Yii::app()->fbvStorage->get("token");
             foreach ($medias as $media) {
+                $mediaCollection = $_POST['Media']['collections'] === '' ? array(1) : array_unique(array_merge($_POST['Media']['collections'], array(1)));
                 $relatedData = array(
-                    'collections' => $_POST['Media']['collections'] === '' ? array(1) : array_unique(array_merge($_POST['Media']['collections'], array(1))),
+                    'collections' => $mediaCollection,
                 );
                 $media->saveWithRelated($relatedData);
+
+                $model = new MediaDTO();
+                $model->id = $media->id;
+                $model->name = $media->name;
+                $model->size = $media->size;
+                $model->mimeType = $media->mime_type;
+                $model->batchId = $media->batch_id;
+                $model->locked = $media->locked;
+                $model->batchId = $media->batch_id;
+                $result = $service->createMedia($token, $model);
+                switch($result->statusCode->name) {
+                    case $result->statusCode->_SUCCESS:
+                        $media->synchronized = 1;
+                        $media->save();
+                        $assignment = new AssignMediaDTO();
+                        $assignment->id = $media->id;
+                        $assignment->collections = $mediaCollection;
+                        $service->assignMediaToCollections($token, $assignment);
+                        break;
+                    default:
+                        $media->assignment_sync = 0;
+                        $media->save();
+                        break;
+
+                }
             }
         }
     }

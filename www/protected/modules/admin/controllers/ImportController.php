@@ -513,6 +513,16 @@ class ImportController extends GxController
                 }
 
                 if (count($errors) == 0) {
+
+                    if (preg_match('/^(.*?)\\/index\\.php/i', $_SERVER['REQUEST_URI'], $matches)) {
+                        $httpBase = 'http://' . $_SERVER['SERVER_NAME'] . $matches[1];
+                    }
+                    foreach ($medias as $media) {
+                        $media->locked = 1;
+                        $media->save();
+                        $processedIDs[] = $media->id;
+                    }
+
                     if (count($plugins) > 0) {
                         foreach ($plugins as $plugin) {
                             if (method_exists($plugin->component, "process")) {
@@ -520,31 +530,7 @@ class ImportController extends GxController
                             }
                         }
                     }
-                    if (preg_match('/^(.*?)\\/index\\.php/i', $_SERVER['REQUEST_URI'], $matches)) {
-                        $httpBase = 'http://' . $_SERVER['SERVER_NAME'] . $matches[1];
-                    }
-                    foreach ($medias as $media) {
-                        $media->locked = 1;
-                        $media->save();
-                        $token = Yii::app()->fbvStorage->get("token");
-                        $service = new MGGameService();
-                        $model = new MediaDTO();
-                        $model->id = $media->id;
-                        $model->name = $media->name;
-                        $model->size = $media->size;
-                        $model->mimeType = $media->mime_type;
-                        $model->batchId = $media->batch_id;
-                        $model->locked = $media->locked;
-                        $model->batchId = $media->batch_id;
-                        $result = $service->createMedia($token, $model);
-                        switch($result->statusCode->name) {
-                            case $result->statusCode->_SUCCESS:
-                                $media->synchronized = 1;
-                                $media->save();
-                                break;
-                        }
-                        $processedIDs[] = $media->id;
-                    }
+
                     MGHelper::log('batch-import-process', 'Batch processed Media with IDs(' . implode(',', $processedIDs) . ')');
                     Flash::add('success', Yii::t('app', 'Processed {count} medias with the IDs({ids})', array("{count}" => count($processedIDs), "{ids}" => implode(',', $processedIDs))));
                 }
@@ -727,7 +713,7 @@ class ImportController extends GxController
         // Turn on error reporting again
         error_reporting($ER);
 
-        if(!isset($media_info)) return false;
+        if (!isset($media_info)) return false;
         // Make sure that the media is readable and valid
         if (!is_array($media_info) OR count($media_info) < 3)
             return false;
