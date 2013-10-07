@@ -26,10 +26,11 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'logo'); ?>
+        <?php echo $form->labelEx($model, 'logo'); ?>
         <?php echo $form->fileField($model, 'logo'); ?>
-        <?php echo $form->error($model,'logo'); ?>
-    </div><!-- row -->
+        <?php echo $form->error($model, 'logo'); ?>
+    </div>
+    <!-- row -->
 
     <div class="row">
         <?php echo $form->labelEx($model, 'url'); ?>
@@ -41,13 +42,13 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     </div>
 
     <div class="row">
-            <?php echo $form->labelEx($model, 'description'); ?>
-            <?php echo $form->textArea($model, 'description'); ?>
-            <?php echo $form->error($model, 'description'); ?>
-            <p class="hint">
-                <?php echo UserModule::t("Server Description"); ?>
-            </p>
-        </div>
+        <?php echo $form->labelEx($model, 'description'); ?>
+        <?php echo $form->textArea($model, 'description'); ?>
+        <?php echo $form->error($model, 'description'); ?>
+        <p class="hint">
+            <?php echo UserModule::t("Server Description"); ?>
+        </p>
+    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'username'); ?>
@@ -80,6 +81,6 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     <div class="row submit">
         <?php echo CHtml::submitButton(UserModule::t("Save")); ?>
     </div>
-    <div class="flash-error"><?php echo $error; ?></div>
+
     <?php $this->endWidget(); ?>
 </div><!-- form -->
