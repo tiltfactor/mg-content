@@ -77,6 +77,32 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
         <?php echo $form->error($model, 'email'); ?>
     </div>
 
+    <p>Institution's IP address range.<br>
+        You can make use of <b>*</b> as a placeholder for the number range from 0-254 and specify the IP addresses in
+        the following way:
+    <dl>
+        <dt>Single IP Address</dt>
+        <dd>123.123.123.123</dd>
+        <dt>Multiple IP Addresses</dt>
+        <dd>
+            <dl>
+                <dt>123.123.123.*</dt>
+                <dd>For all IP Addresses in the range from 123.123.123.1 to 123.123.123.254</dd>
+                <dt>123.123.*</dt>
+                <dd>For all IP Addresses between 123.123.0.1 and 123.123.254.254</dd>
+                <dt>123.123.123.123,124.124.124.124</dt>
+                <dd>You can enter multiple ip addresses separated by comma</dd>
+            </dl>
+        </dd>
+    </dl>
+    </p>
+
+    <div class="row">
+        <?php echo $form->labelEx($model, 'ip'); ?>
+        <?php echo $form->textField($model, 'ip'); ?>
+        <?php echo $form->error($model, 'ip'); ?>
+    </div>
+
 
     <div class="row submit">
         <?php echo CHtml::submitButton(UserModule::t("Save")); ?>

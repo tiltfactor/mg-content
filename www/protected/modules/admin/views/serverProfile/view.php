@@ -32,6 +32,7 @@ $this->widget('zii.widgets.CDetailView', array(
         'url',
 'description',
 'synchronized',
+'ip',
 	),
 )); ?>
 

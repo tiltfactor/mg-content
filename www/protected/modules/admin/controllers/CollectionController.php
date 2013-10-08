@@ -54,6 +54,7 @@ class CollectionController extends GxController {
                 $collection->licenceID = $model->licence_id;
                 $collection->lastAccessInterval = $model->last_access_interval;
                 $collection->moreInfo = $model->more_information;
+                $collection->ipRestrict = $model->ip_restrict;
                 $result = $service->createCollection($token, $collection);
                 switch($result->statusCode->name) {
                     case $result->statusCode->_SUCCESS:
@@ -93,6 +94,7 @@ class CollectionController extends GxController {
                 $collection->licenceID = $model->licence_id;
                 $collection->lastAccessInterval = $model->last_access_interval;
                 $collection->moreInfo = $model->more_information;
+                $collection->ipRestrict = $model->ip_restrict;
                 $result = $service->updateCollection($token, $collection);
                 switch($result->statusCode->name) {
                     case $result->statusCode->_SUCCESS:

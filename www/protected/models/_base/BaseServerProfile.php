@@ -14,6 +14,7 @@
  * @property string $url
  * @property string $logo
  * @property string $description
+ * @property string $ip
  * @property integer $synchronized
  *
  */
@@ -37,12 +38,13 @@ abstract class BaseServerProfile extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('name, url', 'required'),
+			array('name, url, ip', 'required'),
 			array('synchronized', 'numerical', 'integerOnly'=>true),
-			array('name, url', 'length', 'max'=>128),
+			array('name, url, logo', 'length', 'max'=>128),
+			array('ip', 'length', 'max'=>255),
 			array('description', 'safe'),
 			array('logo, description, synchronized', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, name, url, logo, description, synchronized', 'safe', 'on'=>'search'),
+			array('id, name, url, logo, description, ip, synchronized', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,6 +65,7 @@ abstract class BaseServerProfile extends GxActiveRecord {
 			'url' => Yii::t('app', 'Url'),
 			'logo' => Yii::t('app', 'Logo'),
 			'description' => Yii::t('app', 'Description'),
+			'ip' => Yii::t('app', 'Ip'),
 			'synchronized' => Yii::t('app', 'Synchronized'),
 		);
 	}
@@ -75,6 +78,7 @@ abstract class BaseServerProfile extends GxActiveRecord {
 		$criteria->compare('url', $this->url, true);
 		$criteria->compare('logo', $this->logo, true);
 		$criteria->compare('description', $this->description, true);
+		$criteria->compare('ip', $this->ip, true);
 		$criteria->compare('synchronized', $this->synchronized);
 
 		return new CActiveDataProvider($this, array(

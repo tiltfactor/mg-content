@@ -273,6 +273,7 @@ class InstallerController extends Controller
                 $institutionDto->email = $model->email;
                 $institutionDto->description = $model->description;
                 $institutionDto->logoUrl = Yii::app()->getBaseUrl(true) . UPLOAD_PATH . "/images/" . $logoName;
+                $institutionDto->ip = $model->ip;
 
                 $service = new MGGameService();
                 $result = $service->register($institutionDto);

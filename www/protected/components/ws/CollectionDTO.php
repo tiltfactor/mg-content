@@ -30,4 +30,9 @@ class CollectionDTO
      * @var integer
      */
     public $lastAccessInterval;
+    /**
+     * @var integer
+     */
+    public $ipRestrict;
+
 }

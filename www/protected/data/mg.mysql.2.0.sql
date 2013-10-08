@@ -34,6 +34,7 @@ CREATE  TABLE IF NOT EXISTS `collection` (
   `last_access_interval` INT(11) NOT NULL DEFAULT 0,
   `synchronized` INT(1) NOT NULL DEFAULT 0,
   `delete_pending` INT(1) NOT NULL DEFAULT 0,
+  `ip_restrict` INT(1) NOT NULL DEFAULT 0,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -270,6 +271,7 @@ CREATE TABLE IF NOT EXISTS `server_profile` (
   `url` varchar(128) NOT NULL,
   `logo` varchar(128) NULL,
   `description` text,
+  `ip` varchar(255) NOT NULL,
   `synchronized` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

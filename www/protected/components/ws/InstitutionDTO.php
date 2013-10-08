@@ -36,4 +36,8 @@ class InstitutionDTO
      * @var string
      */
     public $token;
+    /**
+     * @var string
+     */
+    public $ip;
 }
