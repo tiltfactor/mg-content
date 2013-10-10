@@ -3,11 +3,11 @@
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
 	Yii::t('app', 'Import') => array('index'),
-	Yii::t('app', 'Import Medias from your Computer'),
+	Yii::t('app', 'Import Media from your Computer'),
 );
 ?>
 
-<h1><?php echo Yii::t('app', 'Import Medias from your Computer'); ?></h1>
+<h1><?php echo Yii::t('app', 'Import Media from your Computer'); ?></h1>
 
 <p><?php echo Yii::t('app', 'Hint: You can drag & drop files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.'); ?></p>
 
@@ -19,4 +19,4 @@ $this->widget('ext.xupload.XUploadWidget', array(
 ));
 ?>
 
-<p><?php echo CHtml::link(Yii::t('app', "All uploads done? Click here to process uploaded medias"), "uploadprocess", array("id"=> "import-local-upload-process")); ?></p>
+<p><?php echo CHtml::link(Yii::t('app', "All uploads done? Click here to process uploaded media"), "uploadprocess", array("id"=> "import-local-upload-process")); ?></p>

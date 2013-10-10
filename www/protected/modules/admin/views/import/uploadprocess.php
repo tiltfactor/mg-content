@@ -3,12 +3,12 @@
 $this->breadcrumbs = array(
     Yii::t('app', 'Admin') => array('/admin'),
     Yii::t('app', 'Import') => array('index'),
-    Yii::t('app', 'Process Imported Medias'),
+    Yii::t('app', 'Process Imported Media'),
 );
 
 ?>
 
-<h1><?php echo Yii::t('app', 'Process Imported Medias'); ?></h1>
+<h1><?php echo Yii::t('app', 'Process Imported Media'); ?></h1>
 <p>
     You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&gt; or =) at the beginning of each of
     your filter values to specify how the comparison should be done.
@@ -83,12 +83,12 @@ $this->breadcrumbs = array(
             )),
     ));
 
-    echo CHtml::tag('button', array('id' => "import-process"), Yii::t('app', 'Process medias')); ?>
+    echo CHtml::tag('button', array('id' => "import-process"), Yii::t('app', 'Process media')); ?>
     <div style="float: right; margin-right: 15px"
     ?>
 
     <?php
-    echo Yii::t('app', 'Selected medias:');
+    echo Yii::t('app', 'Selected media:');
     echo " ";
     echo CHtml::dropDownList('massProcess', 0, array(0 => Yii::t('app', "manually (with the checkboxes in the table above)"), 50 => Yii::t('app', "first ") . 50, 100 => Yii::t('app', "first ") . 100, 150 => Yii::t('app', "first ") . 150, 175 => Yii::t('app', "first ") . 175, 200 => Yii::t('app', "first ") . 200, 225 => Yii::t('app', "first ") . 225, 250 => Yii::t('app', "first ") . 250, 275 => Yii::t('app', "first ") . 275, 300 => Yii::t('app', "first ") . 300));
     ?>

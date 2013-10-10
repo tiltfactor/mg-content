@@ -2,7 +2,7 @@
 
 $this->breadcrumbs = array(
 	Yii::t('app', 'Admin')=>array('/admin'),
-	$model->label(2),
+	$model->label(),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -19,7 +19,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1><?php echo Yii::t('app', 'Manage') . ' ' . GxHtml::encode($model->label(2)); ?></h1>
+<h1><?php echo Yii::t('app', 'Manage') . ' ' . GxHtml::encode($model->label(1)); ?></h1>
 
 <p>
 You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&gt; or =) at the beginning of each of your search values to specify how the comparison should be done.

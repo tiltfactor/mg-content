@@ -25,7 +25,7 @@
         'template' => '<div class="inline-radio">{input} {label}</div>',
         'separator' => '',
         )) ?>
-    <?php echo Yii::t('app', "(show medias that have at least one (OR) or all (AND) of the given tags)"); ?>
+    <?php echo Yii::t('app', "(show media that have at least one (OR) or all (AND) of the given tags)"); ?>
   </div><!-- row -->
   
   <div class="row">

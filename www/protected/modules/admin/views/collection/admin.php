@@ -65,9 +65,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'filter' => GxHtml::listDataEx(Licence::model()->findAllAttributes(null, true)),
         ),
         array(
-            'header' => Yii::t('app', 'Medias'),
+            'header' => Yii::t('app', 'Media'),
             'type' => 'raw',
-            'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Medias&nbsp;', array(\"{count}\" => count(\$data->medias))) . ((count(\$data->medias))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[medias][]=' . \$data->id)) . ')' : '') . '</b>'",
+            'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Media&nbsp;', array(\"{count}\" => count(\$data->medias))) . ((count(\$data->medias))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[medias][]=' . \$data->id)) . ')' : '') . '</b>'",
         ),
         //'created',
         /*
