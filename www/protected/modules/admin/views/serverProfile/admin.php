@@ -61,6 +61,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value'=>'generateImage($data)',
         ),
         'url',
+        'website',
         'description',
         'synchronized',
 

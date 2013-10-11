@@ -274,6 +274,7 @@ class InstallerController extends Controller
                 $institutionDto->description = $model->description;
                 $institutionDto->logoUrl = Yii::app()->getBaseUrl(true) . UPLOAD_PATH . "/images/" . $logoName;
                 $institutionDto->ip = $model->ip;
+                $institutionDto->website = $model->website;
 
                 $service = new MGGameService();
                 $result = $service->register($institutionDto);
@@ -298,6 +299,8 @@ class InstallerController extends Controller
                             $serverProfile->description = $model->description;
                             $serverProfile->logo = $model->logo;
                             $serverProfile->synchronized = 1;
+                            $serverProfile->ip = $model->ip;
+                            $serverProfile->website = $model->website;
 
                             if ($serverProfile->save()) {
                                 YiiBase::log('serverProfile saved', CLogger::LEVEL_ERROR);

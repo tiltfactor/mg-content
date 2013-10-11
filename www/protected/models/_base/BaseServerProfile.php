@@ -12,6 +12,7 @@
  * @property integer $id
  * @property string $name
  * @property string $url
+ * @property string $website
  * @property string $logo
  * @property string $description
  * @property string $ip
@@ -38,13 +39,13 @@ abstract class BaseServerProfile extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('name, url, ip', 'required'),
+			array('name, url, website, ip', 'required'),
 			array('synchronized', 'numerical', 'integerOnly'=>true),
 			array('name, url, logo', 'length', 'max'=>128),
-			array('ip', 'length', 'max'=>255),
+			array('website, ip', 'length', 'max'=>255),
 			array('description', 'safe'),
 			array('logo, description, synchronized', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, name, url, logo, description, ip, synchronized', 'safe', 'on'=>'search'),
+			array('id, name, url, website, logo, description, ip, synchronized', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,6 +64,7 @@ abstract class BaseServerProfile extends GxActiveRecord {
 			'id' => Yii::t('app', 'ID'),
 			'name' => Yii::t('app', 'Name'),
 			'url' => Yii::t('app', 'Url'),
+			'website' => Yii::t('app', 'Website'),
 			'logo' => Yii::t('app', 'Logo'),
 			'description' => Yii::t('app', 'Description'),
 			'ip' => Yii::t('app', 'Ip'),
@@ -76,6 +78,7 @@ abstract class BaseServerProfile extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('name', $this->name, true);
 		$criteria->compare('url', $this->url, true);
+		$criteria->compare('website', $this->website, true);
 		$criteria->compare('logo', $this->logo, true);
 		$criteria->compare('description', $this->description, true);
 		$criteria->compare('ip', $this->ip, true);

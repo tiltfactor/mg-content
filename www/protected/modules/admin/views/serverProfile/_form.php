@@ -34,6 +34,12 @@
     </div>
     <!-- row -->
     <div class="row">
+        <?php echo $form->labelEx($model, 'website'); ?>
+        <?php echo $form->textField($model, 'website'); ?>
+        <?php echo $form->error($model, 'website'); ?>
+    </div>
+    <!-- row -->
+    <div class="row">
         <?php echo $form->labelEx($model, 'description'); ?>
         <?php echo $form->textArea($model, 'description'); ?>
         <?php echo $form->error($model, 'description'); ?>

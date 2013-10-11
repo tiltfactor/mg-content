@@ -1,15 +1,15 @@
 <?php
 
 $this->breadcrumbs = array(
-	$model->label(2) => array('index'),
-	GxHtml::valueEx($model),
+    $model->label(2) => array('index'),
+    GxHtml::valueEx($model),
 );
 
-$this->menu=array(
-	array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index')),
-	array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create'),'visible' => $model->canCreate()),
-	array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id)),
-	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
+$this->menu = array(
+    array('label' => Yii::t('app', 'List') . ' ' . $model->label(2), 'url' => array('index')),
+    array('label' => Yii::t('app', 'Create') . ' ' . $model->label(), 'url' => array('create'), 'visible' => $model->canCreate()),
+    array('label' => Yii::t('app', 'Update') . ' ' . $model->label(), 'url' => array('update', 'id' => $model->id)),
+    array('label' => Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
 );
 ?>
 
@@ -17,22 +17,23 @@ $this->menu=array(
 
 <?php
 
-$logo = CHtml::image(Yii::app()->getBaseUrl() . UPLOAD_PATH . '/images/'. $model->logo);
+$logo = CHtml::image(Yii::app()->getBaseUrl() . UPLOAD_PATH . '/images/' . $model->logo);
 
 $this->widget('zii.widgets.CDetailView', array(
-	'data' => $model,
-	'attributes' => array(
-'id',
-'name',
+    'data' => $model,
+    'attributes' => array(
+        'id',
+        'name',
         array(
             'name' => 'logo',
             'type' => 'raw',
             'value' => $logo
         ),
         'url',
-'description',
-'synchronized',
-'ip',
-	),
+        'website',
+        'description',
+        'synchronized',
+        'ip',
+    ),
 )); ?>
 

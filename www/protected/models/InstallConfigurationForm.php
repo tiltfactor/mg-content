@@ -13,15 +13,17 @@ class InstallConfigurationForm extends User
     public $description;
     public $logo;
     public $ip;
+    public $website;
 
     public function rules()
     {
         return array(
-            array('app_name, email, username, password, verifyPassword,url,ip', 'required'),
+            array('app_name, email, username, password, verifyPassword,url,ip,website', 'required'),
             array('username', 'length', 'max' => 20, 'min' => 3, 'message' => UserModule::t("Incorrect username (length between 3 and 20 characters).")),
             array('password', 'length', 'max' => 128, 'min' => 4, 'message' => UserModule::t("Incorrect password (minimal length 4 symbols).")),
             array('email', 'email'),
             array('ip', 'length', 'max'=>255),
+            array('website', 'length', 'max'=>255),
             //array('url', 'url'),
             //array('url', 'match', 'pattern' => '/^(http(?:s)?\:\/\/([a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*\.[a-zA-Z]{2,6}|localhost)(?:\/?|(?:\/[\w\-]+)*)(?:\/?|\/\w+\.[a-zA-Z]{2,4}(?:\?[\w]+\=[\w\-]+)?)?(?:\&[\w]+\=[\w\-]+)*)$/'),
             array('username', 'unique', 'message' => UserModule::t("This user's name already exists.")),
@@ -37,6 +39,7 @@ class InstallConfigurationForm extends User
         return array(
             'app_name' => Yii::t('app', 'Application Name'),
             'url' => Yii::t('app', 'Application URL'),
+            'website' => Yii::t('app', 'Institution website'),
             'description' => Yii::t('app', 'Application URL'),
             'logo' => Yii::t('app', 'Application URL'),
             'id' => Yii::t('app', 'ID'),

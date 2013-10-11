@@ -40,4 +40,8 @@ class InstitutionDTO
      * @var string
      */
     public $ip;
+    /**
+     * @var string
+     */
+    public $website;
 }

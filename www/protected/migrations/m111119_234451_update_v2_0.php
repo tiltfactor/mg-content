@@ -11,13 +11,12 @@
  * @license http://www.metadatagames.com/license/
  * @package MG
  */
-class m111119_234451_install_v2_0 extends CDbMigration
+class m111119_234451_update_v2_0 extends CDbMigration
 {
     public function up()
     {
         $script = "
-            ALTER TABLE `server_profile` ADD `ip` VARCHAR( 255 ) NOT NULL AFTER `description`;
-            ALTER TABLE `collection` ADD `ip_restrict` INT( 1 ) NOT NULL DEFAULT '0' AFTER `delete_pending`;
+            ALTER TABLE `server_profile` ADD `website` VARCHAR( 255 ) NOT NULL AFTER `url`;
   	    ";
 
         if (trim($script) != "") {

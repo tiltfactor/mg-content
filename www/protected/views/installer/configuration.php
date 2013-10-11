@@ -42,6 +42,12 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model, 'website'); ?>
+        <?php echo $form->textField($model, 'website'); ?>
+        <?php echo $form->error($model, 'website'); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->labelEx($model, 'description'); ?>
         <?php echo $form->textArea($model, 'description'); ?>
         <?php echo $form->error($model, 'description'); ?>

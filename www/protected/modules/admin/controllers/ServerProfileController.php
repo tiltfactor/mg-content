@@ -89,6 +89,7 @@ class ServerProfileController extends GxController
                 $institutionDto->logoUrl = $logoUrl;
                 $institutionDto->token = Yii::app()->fbvStorage->get("token");
                 $institutionDto->ip = $model->ip;
+                $institutionDto->website = $model->website;
 
 
                 $service = new MGGameService();
