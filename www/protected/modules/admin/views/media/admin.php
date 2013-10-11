@@ -44,7 +44,8 @@ function generateImage ($data) {
     if($media_type === 'image') {
         $media = CHtml::image(Yii::app()->getBaseUrl() . UPLOAD_PATH . '/thumbs/'. $data->name, $data->name) . " <span>" . $data->name . "</span>";
     } else if($media_type === 'video') {
-        $media = CHtml::image(Yii::app()->getBaseUrl() . UPLOAD_PATH . '/videos/'. urlencode(substr($data->name, 0, -4)).'jpeg', $data->name) . " <span>" . $data->name . "</span>";
+        //$media = CHtml::image(Yii::app()->getBaseUrl() . UPLOAD_PATH . '/videos/'. urlencode(substr($data->name, 0, -4)).'jpeg', $data->name) . " <span>" . $data->name . "</span>";
+        $media = CHtml::image(Yii::app()->getBaseUrl() . UPLOAD_PATH . '/videos/'. urlencode(substr($data->name, 0, -4)).'jpeg', $data->name, array('height'=>60)) . " <span>" . $data->name . "</span>";
     } else {
         $media = CHtml::image(Yii::app()->getBaseUrl() . '/images/audio_ico.png', $data->name) . " <span>".$data->name."</span>";
     }
