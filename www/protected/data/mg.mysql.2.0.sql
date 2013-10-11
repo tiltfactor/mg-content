@@ -303,7 +303,7 @@ COMMIT;
 -- Data for table `collection`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `collection` (`id`, `name`, `locked`, `more_information`, `licence_id`, `last_access_interval`, `created`, `modified`) VALUES (1, 'All', 1, 'This is the default media set. All medias will be automatically assigned to it. It cannot be deleted.', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `collection` (`id`, `name`, `locked`, `more_information`, `licence_id`, `last_access_interval`, `created`, `modified`) VALUES (1, 'All', 1, 'This is the default media set. All media will be automatically assigned to it. It cannot be deleted.', 1, 0, '2011-01-01 12:00', '2011-01-01 12:00');
 
 COMMIT;
 

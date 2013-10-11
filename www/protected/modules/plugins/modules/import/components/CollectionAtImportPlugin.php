@@ -23,7 +23,7 @@ class CollectionAtImportPlugin extends MGImportPlugin
     function form(&$form)
     {
         $model = new Media;
-        $legend = CHtml::tag("legend", array(), Yii::t('app', 'Assign processed medias to the following collections'));
+        $legend = CHtml::tag("legend", array(), Yii::t('app', 'Assign processed media to the following collections'));
         $listing = CHtml::checkBoxList(
             "Media[collections]",
             ((isset($_POST['Media']) && isset($_POST['Media']['collections'])) ? $_POST['Media']['collections'] : '1'),

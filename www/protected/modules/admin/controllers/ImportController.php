@@ -50,32 +50,32 @@ class ImportController extends GxController
             $tools = array();
 
             $tools["import-local"] = array(
-                "name" => Yii::t('app', "Import medias from your computer"),
+                "name" => Yii::t('app', "Import media from your computer"),
                 "description" => Yii::t('app', "Select media(s). This includes the ability to click and drag files to import <strong>(good for small media sets)</strong>."),
                 "url" => $this->createUrl('/admin/import/uploadfromlocal'),
             );
 
             $tools["import-ftp"] = array(
-                "name" => Yii::t('app', "Import medias that can be found in the server's '/uploads/ftp' folder"),
-                "description" => Yii::t('app', "Place medias in this folder using a SFTP client and let the system do its work <strong>(recommended method for large media sets)</strong>."),
+                "name" => Yii::t('app', "Import media that can be found in the server's '/uploads/ftp' folder"),
+                "description" => Yii::t('app', "Place media in this folder using a SFTP client and let the system do its work <strong>(recommended method for large media sets)</strong>."),
                 "url" => $this->createUrl('/admin/import/uploadftp'),
             );
 
             $tools["import-zip"] = array(
-                "name" => Yii::t('app', "Import medias in a ZIP file from your computer"),
-                "description" => Yii::t('app', "Import .zip compressed archives of medias. Currently has a filesize limit of " . (int)(ini_get('upload_max_filesize')) . " MB."),
+                "name" => Yii::t('app', "Import media in a ZIP file from your computer"),
+                "description" => Yii::t('app', "Import .zip compressed archives of media. Currently has a filesize limit of " . (int)(ini_get('upload_max_filesize')) . " MB."),
                 "url" => $this->createUrl('/admin/import/uploadzip'),
             );
 
             $tools["transcoding-process"] = array(
-                "name" => Yii::t('app', "Transcoding process of imported medias"),
+                "name" => Yii::t('app', "Transcoding process of imported media"),
                 "description" => Yii::t('app', "Once you have imported upload audio and video files into the system, here you will see the transcoding progress."),
                 "url" => $this->createUrl('/admin/import/transcodingprocess'),
             );
 
             $tools["process"] = array(
-                "name" => Yii::t('app', "Process imported medias"),
-                "description" => Yii::t('app', "Once you have imported medias into the system, use this to process them."),
+                "name" => Yii::t('app', "Process imported media"),
+                "description" => Yii::t('app', "Once you have imported media into the system, use this to process them."),
                 "url" => $this->createUrl('/admin/import/uploadprocess'),
             );
 
@@ -198,7 +198,7 @@ class ImportController extends GxController
                                     }
                                 }
                             }
-                            Flash::add("success", Yii::t('app', '{total} files found, {num} medias imported, {num_skipped} other files skipped', array("{num}" => $cnt_added, "{total}" => $cnt_added + $cnt_skipped, "{num_skipped}" => $cnt_skipped)));
+                            Flash::add("success", Yii::t('app', '{total} files found, {num} media imported, {num_skipped} other files skipped', array("{num}" => $cnt_added, "{total}" => $cnt_added + $cnt_skipped, "{num_skipped}" => $cnt_skipped)));
                             $this->redirect("uploadprocess");
                         }
                     }
@@ -383,7 +383,7 @@ class ImportController extends GxController
         $data['status'] = 'done';
         $data['redirect'] = Yii::app()->createUrl('admin/import/uploadprocess');
 
-        Flash::add("success", Yii::t('app', '{total} files found in \'/uploads/ftp\' folder, {num} medias imported, {num_skipped} other files skipped', array("{total}" => $added + $skipped, "{num}" => $added, "{num_skipped}" => $skipped)));
+        Flash::add("success", Yii::t('app', '{total} files found in \'/uploads/ftp\' folder, {num} media imported, {num_skipped} other files skipped', array("{total}" => $added + $skipped, "{num}" => $added, "{num_skipped}" => $skipped)));
         if ($skipped > 0)
             Flash::add("warning", Yii::t('app', 'The {num_skipped} files that are still in the \'/uploads/ftp\' folder cannot be imported and should therfore be manually removed!', array("{total}" => $added + $skipped, "{num}" => $added, "{num_skipped}" => $skipped)), true);
 
@@ -481,7 +481,7 @@ class ImportController extends GxController
                     $media->delete();
                 }
             }
-            MGHelper::log('batch-delete', 'Batch deleted Medias with IDs(' . implode(',', $_POST['media-ids']) . ')');
+            MGHelper::log('batch-delete', 'Batch deleted Media with IDs(' . implode(',', $_POST['media-ids']) . ')');
         }
     }
 
@@ -532,7 +532,7 @@ class ImportController extends GxController
                     }
 
                     MGHelper::log('batch-import-process', 'Batch processed Media with IDs(' . implode(',', $processedIDs) . ')');
-                    Flash::add('success', Yii::t('app', 'Processed {count} medias with the IDs({ids})', array("{count}" => count($processedIDs), "{ids}" => implode(',', $processedIDs))));
+                    Flash::add('success', Yii::t('app', 'Processed {count} media with the IDs({ids})', array("{count}" => count($processedIDs), "{ids}" => implode(',', $processedIDs))));
                 }
             }
         } else {

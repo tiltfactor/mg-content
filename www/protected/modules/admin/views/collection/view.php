@@ -43,9 +43,9 @@ $this->menu = array(
             'value' => Collection::itemAlias("Ip Restrict", $model->ip_restrict),
         ),
         array(
-            'name' => Yii::t('app', 'Medias'),
+            'name' => Yii::t('app', 'Media'),
             'type' => 'html',
-            'value' => '<b>' . Yii::t('app', 'This collection contains {count} medias: ', array("{count}" => count($model->medias))) . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . $model->id)) . '</b>',
+            'value' => '<b>' . Yii::t('app', 'This collection contains {count} media: ', array("{count}" => count($model->medias))) . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . $model->id)) . '</b>',
         )
     ),
 ));

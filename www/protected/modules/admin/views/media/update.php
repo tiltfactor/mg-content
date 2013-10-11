@@ -2,13 +2,13 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
-	$model->label(2) => array('admin'),
+	$model->label() => array('admin'),
 	GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
 	Yii::t('app', 'Update'),
 );
 
 $this->menu = array(
-	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
+	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(), 'url'=>array('admin')),
 	array('label' => Yii::t('app', 'View') . ' ' . $model->label(), 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
   /*
 	array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 

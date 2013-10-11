@@ -3,11 +3,11 @@
 $this->breadcrumbs = array(
     Yii::t('app', 'Admin')=>array('/admin'),
     Yii::t('app', 'Import') => array('index'),
-    Yii::t('app', 'Transcoding Process of Medias'),
+    Yii::t('app', 'Transcoding Process of Media'),
 );
 
 ?>
-    <h1><?php echo Yii::t('app', 'Transcoding Process of Medias'); ?></h1>
+    <h1><?php echo Yii::t('app', 'Transcoding Process of Media'); ?></h1>
     <p>
         You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&gt; or =) at the beginning of each of your filter values to specify how the comparison should be done.
     </p>

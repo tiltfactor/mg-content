@@ -2,12 +2,12 @@
 
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
-	$model->label(2) => array('admin'),
+	$model->label() => array('admin'),
 	GxHtml::valueEx($model),
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
+	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(), 'url'=>array('admin')),
 	array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->id)),
   /*
 	array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 

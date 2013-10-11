@@ -38,7 +38,7 @@
   <?php echo $content; ?>
 
   <div id="footer">
-    &copy; <?php echo date('Y'); ?> <a href="http://www.tiltfactor.org/">tiltfactor</a>, all rights reserved
+    Powered by <a href="http://metadatagames.com/" target="_blank">Metadata Games</a> software developed by <a href="http://www.tiltfactor.org/" target="_blank">tiltfactor</a>
   </div><!-- footer -->
 
 </div><!-- page -->

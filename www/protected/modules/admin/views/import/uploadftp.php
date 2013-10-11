@@ -3,14 +3,14 @@
 $this->breadcrumbs = array(
   Yii::t('app', 'Admin')=>array('/admin'),
 	Yii::t('app', 'Import') => array('index'),
-	Yii::t('app', "Import medias that can be found on in the server's '/uploads/ftp' folder"),
+	Yii::t('app', "Import media that can be found on in the server's '/uploads/ftp' folder"),
 );
 ?>
 
-<h1><?php echo Yii::t('app', "Import medias that can be found on in the server's '/uploads/ftp' folder"); ?></h1>
+<h1><?php echo Yii::t('app', "Import media that can be found on in the server's '/uploads/ftp' folder"); ?></h1>
 <p><b><?php echo $count_files ?></b> files have been found in the /uploads/ftp folder. Please 
-  enter a batch id and click the button. Depending on the number of medias to be imported the process might take a while.
-  You can leave the page and return later to import further available medias.</p>
+  enter a batch id and click the button. Depending on the number of media to be imported the process might take a while.
+  You can leave the page and return later to import further available media.</p>
 
 <?php 
 if ($count_files > 0) : ?>
@@ -25,14 +25,14 @@ if ($count_files > 0) : ?>
     <div class="row">
     <?php echo $form->labelEx($model,'batch_id'); ?>
     <?php echo $form->textField($model, 'batch_id', array('maxlength' => 45)); ?>
-    <?php echo CHtml::tag("small", array(), Yii::t('app', 'The batch id will help you to distinguish medias on the import process page'), TRUE); ?>
+    <?php echo CHtml::tag("small", array(), Yii::t('app', 'The batch id will help you to distinguish media on the import process page'), TRUE); ?>
     <?php echo $form->error($model,'batch_id'); ?>
     <?php echo $form->hiddenField($model, 'import_per_request', array('maxlength' => 45)); ?>
     <?php echo $form->hiddenField($model, 'import_processed', array('maxlength' => 45)); ?>
     <?php echo $form->hiddenField($model, 'import_skipped', array('maxlength' => 45)); ?>
     </div><!-- row -->
   <?php
-  echo GxHtml::submitButton(Yii::t('app', 'Import Medias'));
+  echo GxHtml::submitButton(Yii::t('app', 'Import Media'));
   $this->endWidget();
   ?>
   </div><!-- form -->
@@ -70,7 +70,7 @@ if ($count_files > 0) : ?>
       if (!active) {
         active = true;
         $(window).bind('beforeunload', function () {return 'Leaving the page might disturb the uploading process.';});
-        MG_API.popup('<h1>Importing Medias</h1><p><span id="found"><?php echo $count_files ?></span> found, <span id="processed">0</span> imported, <span id="skipped">0</span> skipped, <span id="left">0</span> left</p>', {
+        MG_API.popup('<h1>Importing Media</h1><p><span id="found"><?php echo $count_files ?></span> found, <span id="processed">0</span> imported, <span id="skipped">0</span> skipped, <span id="left">0</span> left</p>', {
           onClosed : function () {active = false;$(window).unbind('beforeunload');$('#mg_popup').hide();}
         })
         $.post("<?php echo Yii::app()->createUrl('/admin/import/queueProcess'); ?>/action/ftp", $("#import-form").serialize(), onresponse);
