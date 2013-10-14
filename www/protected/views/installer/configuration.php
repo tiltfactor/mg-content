@@ -12,6 +12,10 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
     'htmlOptions' => array('enctype' => 'multipart/form-data'),
 )); ?>
 
+    <?php if($error){?>
+    <div class="flash-error"><?php echo $error; ?></div>
+    <?php }?>
+
     <p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
 
     <?php echo $form->errorSummary(array($model)); ?>

@@ -269,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `server_profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `url` varchar(128) NOT NULL,
+  `website` VARCHAR( 255 ) NOT NULL,
   `logo` varchar(128) NULL,
   `description` text,
   `ip` varchar(255) NOT NULL,
