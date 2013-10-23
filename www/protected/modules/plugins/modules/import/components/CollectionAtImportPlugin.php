@@ -15,7 +15,7 @@ class CollectionAtImportPlugin extends MGImportPlugin
 
 
     /**
-     * Add a the checkboxs to assign medias to collections on import process
+     * Add a the checkboxs to assign media to collections on import process
      *
      * @param GxActiveForm $form   Widget object to be manipulated
      * @return string
@@ -36,7 +36,7 @@ class CollectionAtImportPlugin extends MGImportPlugin
     }
 
     /**
-     * Make sure that the medias are at least added to the collection all
+     * Make sure that the media are at least added to the collection all
      *
      * @param Media $media Media model
      * @param Array $errors Array holding information of errors on each form field in the form
@@ -49,16 +49,16 @@ class CollectionAtImportPlugin extends MGImportPlugin
     }
 
     /**
-     * Process all medias and assign them to the selected collection.
+     * Process all media and assign them to the selected collection.
      *
-     * @param Array $medias List of models of the type Media
+     * @param Array $media List of models of the type Media
      */
-    function process($medias)
+    function process($media)
     {
         if (isset($_POST['Media']) && isset($_POST['Media']['collections'])) {
             $service = new MGGameService();
             $token = Yii::app()->fbvStorage->get("token");
-            foreach ($medias as $media) {
+            foreach ($media as $media) {
                 $mediaCollection = $_POST['Media']['collections'] === '' ? array(1) : array_unique(array_merge($_POST['Media']['collections'], array(1)));
                 $relatedData = array(
                     'collections' => $mediaCollection,

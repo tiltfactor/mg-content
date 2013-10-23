@@ -92,7 +92,7 @@ class ImportController extends GxController
     public function actionImportSettings()
     {
         $this->layout = '//layouts/column1';
-        $this->render('processimportedmedias', array());
+        $this->render('processimportedmedia', array());
     }
 
     public function actionUploadFromLocal()
@@ -474,10 +474,10 @@ class ImportController extends GxController
     private function _batchDelete()
     {
         if (isset($_POST['media-ids'])) {
-            $medias = Media::model()->findAllByPk($_POST['media-ids']);
+            $media = Media::model()->findAllByPk($_POST['media-ids']);
 
-            if ($medias) {
-                foreach ($medias as $media) {
+            if ($media) {
+                foreach ($media as $media) {
                     $media->delete();
                 }
             }
@@ -492,16 +492,16 @@ class ImportController extends GxController
 
         if (isset($_POST['media-ids']) || isset($_POST['massProcess'])) {
             if (isset($_POST['media-ids'])) {
-                $medias = Media::model()->findAllByPk($_POST['media-ids']);
+                $media = Media::model()->findAllByPk($_POST['media-ids']);
             } else {
                 $condition = new CDbCriteria;
                 $condition->limit = (int)$_POST['massProcess'];
                 $condition->order = 'created DESC';
-                $medias = Media::model()->findAllByAttributes(array('locked' => 0), $condition);
+                $media = Media::model()->findAllByAttributes(array('locked' => 0), $condition);
             }
 
-            if ($medias) {
-                $firstModel = $medias[0];
+            if ($media) {
+                $firstModel = $media[0];
 
                 $plugins = PluginsModule::getAccessiblePlugins("import");
                 if (count($plugins) > 0) {
@@ -517,7 +517,7 @@ class ImportController extends GxController
                     if (preg_match('/^(.*?)\\/index\\.php/i', $_SERVER['REQUEST_URI'], $matches)) {
                         $httpBase = 'http://' . $_SERVER['SERVER_NAME'] . $matches[1];
                     }
-                    foreach ($medias as $media) {
+                    foreach ($media as $media) {
                         $media->locked = 1;
                         $media->save();
                         $processedIDs[] = $media->id;
@@ -526,7 +526,7 @@ class ImportController extends GxController
                     if (count($plugins) > 0) {
                         foreach ($plugins as $plugin) {
                             if (method_exists($plugin->component, "process")) {
-                                $plugin->component->process($medias);
+                                $plugin->component->process($media);
                             }
                         }
                     }

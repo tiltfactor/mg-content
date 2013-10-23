@@ -67,7 +67,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'header' => Yii::t('app', 'Media'),
             'type' => 'raw',
-            'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Media&nbsp;', array(\"{count}\" => count(\$data->medias))) . ((count(\$data->medias))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . \$data->id)) . ')' : '') . '</b>'",
+            'value' => "'<b>' . Yii::t('app', '{count}&nbsp;Media&nbsp;', array(\"{count}\" => count(\$data->media))) . ((count(\$data->media))? '(' . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . \$data->id)) . ')' : '') . '</b>'",
         ),
         //'created',
         /*

@@ -1,10 +1,10 @@
 <?php
 return array (
   'api_id' => 'MG_API',
-  'installed' => false,
+  'installed' => true,
   'frontend_theme' => 'metadatagames',
-  'mg-api-url' => 'http://localhost/mggameserver/index.php/ws/content/wsdl/',
-  'token' => '',
+  'mg-api-url' => 'http://localhost/jack2684s-mgg/www/index.php/ws/content/wsdl/',
+  'token' => '13a6a83a7b678c2a27a3520c96dd0491',
   'arcade' => 
   array (
     'description' => 'This is a short description of the project',
@@ -36,7 +36,7 @@ return array (
       'name' => 'Media',
       'description' => 'Manage media that have been imported and processed.',
       'url' => '/admin/media',
-      'role' => EDITOR,
+      'role' => 'editor',
       'group' => 'Media & Tags',
     ),
     'tool-import' => 
@@ -44,7 +44,7 @@ return array (
       'name' => 'Import',
       'description' => 'Import and process media into the system.',
       'url' => '/admin/import',
-      'role' => EDITOR,
+      'role' => 'editor',
       'group' => 'Media & Tags',
     ),
     'tool-collection' => 
@@ -52,7 +52,7 @@ return array (
       'name' => 'Collections',
       'description' => 'Group media and apply applicable licences.',
       'url' => '/admin/collection',
-      'role' => EDITOR,
+      'role' => 'editor',
       'group' => 'Media & Tags',
     ),
     'tool-licence' => 
@@ -60,7 +60,7 @@ return array (
       'name' => 'Licences',
       'description' => 'Create licences under which media can be published in the system.',
       'url' => '/admin/licence',
-      'role' => EDITOR,
+      'role' => 'editor',
       'group' => 'Media & Tags',
     ),
     'tool-settings' => 
@@ -68,7 +68,7 @@ return array (
       'name' => 'Global Settings',
       'description' => 'Configure settings that are used globally in the system.',
       'url' => '/admin/settings',
-      'role' => ADMIN,
+      'role' => 'admin',
       'group' => 'Other',
     ),
     'tool-logs' => 
@@ -76,7 +76,7 @@ return array (
       'name' => 'Admin Log',
       'description' => 'Access records of changes made using admin tools.',
       'url' => '/admin/log',
-      'role' => ADMIN,
+      'role' => 'admin',
       'group' => 'Other',
     ),
     'update-code' => 
@@ -84,24 +84,24 @@ return array (
       'name' => 'Update DB',
       'description' => 'Please visit this tool after an update of the code base to make sure the database structure is up-to date.',
       'url' => '/admin/update',
-      'role' => ADMIN,
+      'role' => 'admin',
       'group' => 'Other',
     ),
-	'tool-profile' =>
-      array (
-          'name' => 'Server Profile',
-          'description' => 'Manage MG Content Server profile',
-          'url' => '/admin/serverProfile',
-          'role' => 'admin',
-          'group' => 'Other',
-      ),
+    'tool-profile' => 
+    array (
+      'name' => 'Server Profile',
+      'description' => 'Manage MG Content Server profile',
+      'url' => '/admin/serverProfile',
+      'role' => 'admin',
+      'group' => 'Other',
+    ),
   ),
   'settings' => 
   array (
-    'app_name' => 'Metadata Games',
+    'app_name' => 'content-jack',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
-    'app_email' => 'admin@admin.com',
+    'app_email' => 'jack@jackqrqw.com',
     'pagination_size' => '25',
     'app_upload_path' => '/../uploads',
     'app_upload_url' => '/uploads',

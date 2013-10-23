@@ -45,7 +45,7 @@ $this->menu = array(
         array(
             'name' => Yii::t('app', 'Media'),
             'type' => 'html',
-            'value' => '<b>' . Yii::t('app', 'This collection contains {count} media: ', array("{count}" => count($model->medias))) . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . $model->id)) . '</b>',
+            'value' => '<b>' . Yii::t('app', 'This collection contains {count} media: ', array("{count}" => count($model->media))) . CHtml::link(Yii::t('app', 'view'), array('/admin/media/?Custom[collections][]=' . $model->id)) . '</b>',
         )
     ),
 ));
