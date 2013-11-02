@@ -22,7 +22,7 @@
  * @property string $modified
  *
  * @property Licence $licence
- * @property Media[] $media
+ * @property Media[] $medias
  */
 abstract class BaseCollection extends GxActiveRecord {
 
@@ -56,13 +56,13 @@ abstract class BaseCollection extends GxActiveRecord {
 	public function relations() {
 		return array(
 			'licence' => array(self::BELONGS_TO, 'Licence', 'licence_id'),
-			'media' => array(self::MANY_MANY, 'Media', 'collection_to_media(collection_id, media_id)'),
+			'medias' => array(self::MANY_MANY, 'Media', 'collection_to_media(collection_id, media_id)'),
 		);
 	}
 
 	public function pivotModels() {
 		return array(
-			'media' => 'CollectionToMedia',
+			'medias' => 'CollectionToMedia',
 		);
 	}
 
@@ -80,7 +80,7 @@ abstract class BaseCollection extends GxActiveRecord {
 			'created' => Yii::t('app', 'Created'),
 			'modified' => Yii::t('app', 'Modified'),
 			'licence' => null,
-			'media' => null,
+			'medias' => null,
 		);
 	}
 

@@ -147,14 +147,14 @@ CREATE  TABLE IF NOT EXISTS `collection_to_media` (
   `collection_id` INT NOT NULL ,
   `media_id` INT(11) NOT NULL ,
   PRIMARY KEY (`collection_id`, `media_id`) ,
-  INDEX `fk_collections_has_media_media1` (`media_id` ASC) ,
-  INDEX `fk_collections_has_media_collections1` (`collection_id` ASC) ,
-  CONSTRAINT `fk_collections_has_media_collections1`
+  INDEX `fk_collections_has_medias_medias1` (`media_id` ASC) ,
+  INDEX `fk_collections_has_medias_collections1` (`collection_id` ASC) ,
+  CONSTRAINT `fk_collections_has_medias_collections1`
     FOREIGN KEY (`collection_id` )
     REFERENCES `collection` (`id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_collections_has_media_media1`
+  CONSTRAINT `fk_collections_has_medias_medias1`
     FOREIGN KEY (`media_id` )
     REFERENCES `media` (`id` )
     ON DELETE CASCADE
@@ -296,7 +296,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- Data for table `licence`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `licence` (`id`, `name`, `description`, `created`, `modified`) VALUES (1, 'Default Licence', 'This is the default licence. The media used are not licenced', '2011-01-01 12:00', '2011-01-01 12:00');
+INSERT INTO `licence` (`id`, `name`, `description`, `created`, `modified`) VALUES (1, 'Default Licence', 'This is the default licence. The medias used are not licenced', '2011-01-01 12:00', '2011-01-01 12:00');
 
 COMMIT;
 

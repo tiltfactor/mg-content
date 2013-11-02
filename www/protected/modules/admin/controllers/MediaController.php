@@ -137,10 +137,10 @@ EOD;
 
     private function _batchAddCollection($action) {
         if (isset($_POST['media-ids']) && isset($_GET['isid']) && (int)$_GET['isid'] > 0) {
-            $media = Media::model()->findAllByPk($_POST['media-ids']);
+            $medias = Media::model()->findAllByPk($_POST['media-ids']);
             $collection = Collection::model()->findByPk($_GET['isid']);
-            if ($media && $collection) {
-                foreach ($media as $media) {
+            if ($medias && $collection) {
+                foreach ($medias as $media) {
                     $mediaCollection = array();
                     foreach ($media->collections as $is) {
                         $mediaCollection[] = $is->id;

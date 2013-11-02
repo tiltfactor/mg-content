@@ -33,7 +33,7 @@ class Media extends BaseMedia
     $criteria->alias = 't';
     // TODO: we want to show the tag count for each media.
     // regardless if it has been tagged or not
-    // used a join, group by and having but this would only show media that had at least one tag use
+    // used a join, group by and having but this would only show medias that had at least one tag use
     // to fix that we're now - sigh - using subselects is not the fastest way. Might need improvement in further versions
     $criteria->select = 't.* ';
     $criteria->distinct = true;
@@ -115,7 +115,7 @@ class Media extends BaseMedia
   }
   
   /**
-   * Provides a CActiveDataProvider. Lists all media that are not processed via the import tool
+   * Provides a CActiveDataProvider. Lists all medias that are not processed via the import tool
    * 
    * @return object CActiveDataProvider the dataprovider for the import process screen
    */
@@ -144,7 +144,7 @@ class Media extends BaseMedia
   }
   
   /**
-   * As media have got files we have to make sure that all files are removed from the file system once an media
+   * As medias have got files we have to make sure that all files are removed from the file system once an media
    * has been deleted.
    * 
    * This method is automatically called as Yii behaviour
@@ -153,11 +153,11 @@ class Media extends BaseMedia
     $path = realpath(Yii::app()->getBasePath() . Yii::app()->fbvStorage->get("settings.app_upload_path"));
     $path_parts = pathinfo($this->name);
     
-    //remove file from .../uploads/media
+    //remove file from .../uploads/medias
     if (file_exists($path . "/images/" . $this->name) && is_writable($path . "/images/" . $this->name))
       unlink($path . "/images/" . $this->name);
     
-    //remove file from .../uploads/media
+    //remove file from .../uploads/medias
     if (file_exists($path . "/thumbs/" . $this->name) && is_writable($path . "/thumbs/" . $this->name)) 
       unlink($path . "/thumbs/" . $this->name);
     
@@ -175,8 +175,8 @@ class Media extends BaseMedia
   /**
    * Created the CArrayDataProvider for the media listing on a user/player detail view.
    * 
-   * @param int $user_id the user_id of the user for which the media should be listed
-   * @return object CArrayDataProvider the configured dataprovider that can list all media that are tag by the given user
+   * @param int $user_id the user_id of the user for which the medias should be listed
+   * @return object CArrayDataProvider the configured dataprovider that can list all medias that are tag by the given user
    */
   public function searchUserMedias_($user_id) {
     $command = Yii::app()->db->createCommand()
@@ -206,8 +206,8 @@ class Media extends BaseMedia
   /**
    * Created the CArrayDataProvider for the media listing on a tag detail view.
    * 
-   * @param int $tag_id the tag_id of the tag for which the media should be listed
-   * @return object CArrayDataProvider the configured dataprovider that can list all media that are tag with the identified tag
+   * @param int $tag_id the tag_id of the tag for which the medias should be listed
+   * @return object CArrayDataProvider the configured dataprovider that can list all medias that are tag with the identified tag
    */
   public function searchTagMedias($tag_id) {
     $command = Yii::app()->db->createCommand()
@@ -282,7 +282,7 @@ class Media extends BaseMedia
   /**
    * Updates the last_access time of each media identified by the ids in the passed array.
    * 
-   * @param array $media_ids array of integer - the ids of the media which last_access should be set to now
+   * @param array $media_ids array of integer - the ids of the medias which last_access should be set to now
    */
   public function setLastAccess($media_ids) {
     if (is_array($media_ids) && count($media_ids)) {
