@@ -21,7 +21,7 @@
 # <http://www.gnu.org/licenses/>.
 #
 # @END_LICENSE
-# 
+#
 
 # DESCRIPTION:
 #
@@ -57,6 +57,9 @@ echo Fixing perms
 FILES="www/protected/data/fbvsettings.php
 www/protected/config/main.php"
 
+TRANSCODES="www/protected/commands/ffmpeg/ffmpeg
+www/protected/commands/ffmpeg/ffprobe"
+
 DIRECTORIES="www/assets
 www/uploads
 www/protected/runtime"
@@ -69,6 +72,16 @@ do
 
   chgrp -v $webserver_user $FILE
   chmod -v g+w $FILE
+done
+
+for t in $TRANSCODES
+do
+  TRANSCODE=$ROOT_DIRECTORY$t
+
+  echo Processing $TRANSCODE
+
+  chgrp -v $webserver_user $TRANSCODE
+  chmod -v ug+wx $TRANSCODE
 done
 
 echo Now fixing perms on directories
@@ -85,7 +98,7 @@ done
 
 echo Done fixing perms.
 
-echo 
+echo
 echo "NOTE: If you have trouble changing perms, make sure that"
 echo  "(1) Your current user is in the $webserver_user group"
 echo  "(2) You've activated group access by logging-out and back in"
