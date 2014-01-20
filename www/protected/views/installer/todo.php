@@ -9,9 +9,8 @@
 <p><b>All links below will open in a new tab or window to allow you to return to this list.</b></p>
 <ol>
   <li><a href="<?php echo Yii::app()->baseUrl; ?>/index.php/user/login" target="_blank">Login</a> to gain access to the <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin" target="_blank">admin tool</a>. </li>
-  <li>Visit the <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/plugins" target="_blank">plugin tool</a>.</li>
+  <li>Create <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/license" target="_blank">licenses</a> to assign to media collections.</li>
   <li><a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/collection" target="_blank">Create collections</a> and <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/import" target="_blank">import media</a>.</li>
-  <li>Visit the <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/games" target="_blank">games tool</a> and activate the ones you want to use.</li>
-  <li>Go to the <a href="<?php echo Yii::app()->baseUrl; ?>" target="_blank">Arcade</a> and play!</li>
+  <li><a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/import/uploadprocess" target="_blank">Process media</a> (may need to wait for audio, video media to <a href="<?php echo Yii::app()->baseUrl; ?>/index.php/admin/import/transcodingprocess" target="_blank">finish transcoding</a>).</li>
 </ol>
 
