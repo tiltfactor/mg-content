@@ -9,7 +9,7 @@
 <body>
 	<?php echo $content; ?>
 	<p id="footer">
-      Powered by <a href="http://metadatagames.com/" target="_blank">Metadata Games</a> software developed by <a href="http://www.tiltfactor.org/" target="_blank">tiltfactor</a>
+      Powered by <a href="http://metadatagames.org/" target="_blank">Metadata Games</a> software developed by <a href="http://www.tiltfactor.org/" target="_blank">tiltfactor</a>
 	</p>
 </body>
 </html>
