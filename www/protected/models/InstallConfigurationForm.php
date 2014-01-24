@@ -18,7 +18,7 @@ class InstallConfigurationForm extends User
     public function rules()
     {
         return array(
-            array('app_name, email, username, password, verifyPassword,url,ip,website', 'required'),
+            array('app_name, logo, email, username, password, verifyPassword,url,ip,website', 'required'),
             array('username', 'length', 'max' => 20, 'min' => 3, 'message' => UserModule::t("Incorrect username (length between 3 and 20 characters).")),
             array('password', 'length', 'max' => 128, 'min' => 4, 'message' => UserModule::t("Incorrect password (minimal length 4 symbols).")),
             array('email', 'email'),

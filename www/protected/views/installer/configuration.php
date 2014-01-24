@@ -2,7 +2,7 @@
 $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
 ?>
 
-<h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game Server Registration</h1>
+<h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game Build Registration</h1>
 
 <div class="form">
     <?php $form = $this->beginWidget('UActiveForm', array(
@@ -41,7 +41,9 @@ $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
         <?php echo $form->textField($model, 'url'); ?>
         <?php echo $form->error($model, 'url'); ?>
         <p class="hint">
-            <?php echo UserModule::t("Example: http://yourdomain.com/metadatagames/"); ?>
+            <?php echo UserModule::t("Example: http://yourdomain.com/metadatagames/www/"); ?>
+            <br />
+            <?php echo UserModule::t("(don't forget to add www/ to your URL!)"); ?>
         </p>
     </div>
 
