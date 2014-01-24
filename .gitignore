@@ -7,3 +7,5 @@ documentation/*.bak
 /.idea
 
 /*.iml
+
+www/protected/data/fbvsettings.php
