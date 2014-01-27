@@ -130,7 +130,7 @@ Then click "Save".
 
 
 
-## Running Game Build over https ##
+## Running Content Build over https ##
 If running over https, check that your ServerProfile URL starts with https
 
 
