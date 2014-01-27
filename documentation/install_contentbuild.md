@@ -126,7 +126,7 @@ Then click "Save".
 
 >Congratulations! You have successfully installed the Content Build for Metadata >Games! Now to __[configure and import media](configure_contentbuild.md)!__ and then __[configure the Game Build](https://github.com/tiltfactor/mg-game/tree/development/documentation/configure_gamebuild.md)
 
-<img src ="images/mg-content_furtherSteps.png" title="Metadata Games - Installation Complete! Now to Configuration..." width=615 style="border: 1px solid #000;" />
+<img src ="images/mg-content_install_furtherSteps.png" title="Metadata Games - Installation Complete! Now to Configuration..." width=615 style="border: 1px solid #000;" />
 
 
 
