@@ -98,7 +98,7 @@ return array (
   ),
   'settings' =>
   array (
-    'app_name' => 'Metadata Games',
+    'app_name' => 'Metadata Games Content Build',
     'throttle_interval' => '500',
     'message_queue_interval' => '450',
     'app_email' => 'admin@admin.com',

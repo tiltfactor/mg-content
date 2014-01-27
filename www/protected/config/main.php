@@ -1,8 +1,8 @@
 <?php
 /*
  * This is the initial config file that strips Yii & MG down to the bare essentials
- * ensuring that the system allows to redirect to install.php. 
- * 
+ * ensuring that the system allows to redirect to install.php.
+ *
  * The installer will copy main.install.php over this file
  */
 // uncomment the following to define a path alias
@@ -12,8 +12,8 @@
 // CWebApplication properties can be configured here.
 return array(
   'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-  'name'=>'Meta Data Games', // no need to change as this is just the default the app is using a value retrieved from fbvStorage
-  
+  'name'=>'Meta Data Games Content Build', // no need to change as this is just the default the app is using a value retrieved from fbvStorage
+
   // preloading 'log' component
   'preload'=>array('fbvStorage'),
 
@@ -32,7 +32,7 @@ return array(
       'checkFile' => false
     ),
   ),
-  
+
   // application-level parameters that can be accessed
   // using Yii::app()->params['paramName']
   'params'=>array(

@@ -1,7 +1,7 @@
 <?php
 /*
  * This is the installers config file stripped down to the Yii & MG's bare essentials
- * ensuring that the installer can run. 
+ * ensuring that the installer can run.
  */
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -10,10 +10,10 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Metadata Games', // no need to change as this is just the default the app is using a value retrieved from fbvStorage
+	'name'=>'Metadata Games Content Build', // no need to change as this is just the default the app is using a value retrieved from fbvStorage
 
   'defaultController' => 'installer',
-  
+
 	// preloading 'log' component
 	'preload'=>array('fbvStorage'),
 
@@ -32,13 +32,13 @@ return array(
 		'errorHandler'=>array(
       'errorAction'=>'installer/error',
     ),
-		
+
     'fbvStorage'=>array(
       'class'=>'application.components.FBVStorage',
       'checkFile' => false
     ),
 	),
-  
+
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(),

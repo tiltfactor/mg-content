@@ -2,9 +2,9 @@
 
 <h1><?php echo CHtml::encode(Yii::app()->name); ?> - Further Steps</h1>
 
-<p><b>Success! The database has been set up and Metadata Games has been installed.</b></p>
+<p><b>Success! The database has been set up and Metadata Games - Content Build has been installed.</b></p>
 
-<p>Now to configure your install of Metadata Games:</p>
+<p>Now to configure your Content Build of Metadata Games:</p>
 
 <p><b>All links below will open in a new tab or window to allow you to return to this list.</b></p>
 <ol>
