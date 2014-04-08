@@ -27,13 +27,13 @@
         <?php echo $form->error($model, 'logo'); ?>
     </div>
     <!-- row -->
-    <div class="row">
+    <div class="row expanded">
         <?php echo $form->labelEx($model, 'url'); ?>
         <?php echo $form->textField($model, 'url'); ?>
         <?php echo $form->error($model, 'url'); ?>
     </div>
     <!-- row -->
-    <div class="row">
+    <div class="row expanded">
         <?php echo $form->labelEx($model, 'website'); ?>
         <?php echo $form->textField($model, 'website'); ?>
         <?php echo $form->error($model, 'website'); ?>
