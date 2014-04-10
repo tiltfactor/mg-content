@@ -1,6 +1,6 @@
 # Configuration #
 
-Once the MG Content Build is installed, it's time to configure it:
+Once the MG Content App is installed, it's time to configure it:
 
 1. Login to gain access to the admin tool.
 2. Create licences to assign to media collections.
@@ -12,10 +12,10 @@ Once the MG Content Build is installed, it's time to configure it:
 
 ## 1. Login ##
 
-Gain access to the Content Build admin tools by signing in with your newly-created account at the login screen.
+Gain access to the Content App admin tools by signing in with your newly-created account at the login screen.
 
 ```
-http://CONTENT_BUILD_URL/www/index.php/user/login
+http://CONTENT_APP_URL/www/index.php/user/login
 ```
 
 <img src ="images/mg_login.png" title="Metadata Games - Login Screen" style="border: 1px solid #000;" />
@@ -25,7 +25,7 @@ You can access the "Admin Overview" page by clicking on "Admin" in the Metadata 
 
 <img src ="images/mg-content_admin_overview.png" title="Metadata Games - Admin Overview" style="border: 1px solid #000;" width=615 />
 
-> __NOTE:__ For detailed information about all admin tools, see the [Site Administration](adminGuide_contentbuild.md) guide in the Metadata Games documentation/ folder.
+> __NOTE:__ For detailed information about all admin tools, see the [Site Administration](adminGuide_contentapp.md) guide in the Metadata Games documentation/ folder.
 
 
 ## 2. Create licences to assign to media collections. ##
@@ -57,7 +57,7 @@ Although not required, we recommend creating a collection. The process is simila
 <img src ="images/mg-content_admin_import.png" title="Metadata Games - Import" style="border: 1px solid #000;" width=615 />
 
 
-See the [Site Administration](adminGuide_contentbuild.md) guide in the Metadata Games documentation/ folder for more information.
+See the [Site Administration](adminGuide_contentapp.md) guide in the Metadata Games documentation/ folder for more information.
 
 
 4.Process media
@@ -70,5 +70,5 @@ Once your media has been imported or transcoded, click __Import__ / __Process__
 * check the collections you would like to put the media into
 * at bottom of page, click on __"Selected Media"__ drop-box and select "first 300", then click __Process_Media__
 
-> __Configuration is complete: now to [configure the Game Build]((https://github.com/tiltfactor/mg-content/blob/development/documentation/configure_gamebuild.md).__
+> __Configuration is complete: now to [configure the Game App]((https://github.com/tiltfactor/mg-content/blob/development/documentation/configure_gameapp.md).__
 

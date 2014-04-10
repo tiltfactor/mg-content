@@ -1,8 +1,8 @@
 # Installation #
 
 - [Requirements](#requirements)
-- [Install Content Build](#install-content-build)
-- [Running Content Build over https](#running-content-build-over-https)
+- [Install Content App](#install-content-app)
+- [Running Content App over https](#running-content-app-over-https)
 - [Troubleshooting](#troubleshooting)
 
 ## Requirements ##
@@ -36,16 +36,16 @@ Before installation, have a system administrator configure your server's php.ini
 
 
 
-## Install Content Build ##
+## Install Content App ##
 
-[Grab source code](../README.md#grabbing-the-game-build-code)
+[Grab source code](../README.md#grabbing-the-game-app-code)
 
 In www/protected/data folder, copy fbvsettings_default.php and save it as fbvsettings.php.
 
 In fbvsettings.php, edit the following line to reflect your current setup:
 
 ```
-'mg-api-url' => 'http://LOCATION_OF_GAME_BUILD/www/index.php/ws/content/wsdl/',
+'mg-api-url' => 'http://LOCATION_OF_GAME_APP/www/index.php/ws/content/wsdl/',
 ```
 
 
@@ -70,9 +70,9 @@ protected/commands/ffmpeg/ffprobe
 ```
 
 
-Go to web browser and open URL that you have pointed towards your game build.
+Go to web browser and open URL that you have pointed towards your game app.
 ```
-http://CONTENT_BUILD_LOCATION/www/
+http://CONTENT_APP_LOCATION/www/
 ```
 
 Click "Proceed with system requirement test" to run a test of server capabilities. This will ensure that your server can support the required Yii framework.
@@ -95,8 +95,8 @@ You will need to fill out the __Database Name, Database User Name, and Database 
 After entering the required information, click "Submit".
 
 
-### Admin Account and Game Build Registration ###
-On this page, you will register your Content Build with the Game build and create a Content Build admin account.
+### Admin Account and Game App Registration ###
+On this page, you will register your Content App with the Game app and create a Content App admin account.
 
 At the "Admin Account Setup" page, fill out the following fields:
 
@@ -104,7 +104,7 @@ At the "Admin Account Setup" page, fill out the following fields:
 
   * __Logo__ - Upload your Institution or Organization's logo. Although you can put in any size logo, a rectangular shaped graphic 120 pixels or less works best.
 
-  * __Application URL__ - URL for your Content Build. __Don't forget to add www/ to the end of your URL!__
+  * __Application URL__ - URL for your Content App. __Don't forget to add www/ to the end of your URL!__
 
   * __Institution Website__ - URL for your institution. In certain games, this is the link players select to find more information about your institution and your collections.
 
@@ -118,19 +118,19 @@ At the "Admin Account Setup" page, fill out the following fields:
 
   * __Email__ - A valid email address for the administrator.
 
-  * __Ip__ - IP range at your organization. This is for restricting access to collections. For more details on restricting collection access, see [Configuration](configure_contentbuild.md).
+  * __Ip__ - IP range at your organization. This is for restricting access to collections. For more details on restricting collection access, see [Configuration](configure_contentapp.md).
 
-<img src ="images/mg-content_install_adminAcct_registerGameBuild.png" title="Metadata Games - Admin Account Setup" width=615 style="border: 1px solid #000;" />
+<img src ="images/mg-content_install_adminAcct_registerGameApp.png" title="Metadata Games - Admin Account Setup" width=615 style="border: 1px solid #000;" />
 
 Then click "Save".
 
->Congratulations! You have successfully installed the Content Build for Metadata >Games! Now to __[configure and import media](configure_contentbuild.md)!__ and then __[configure the Game Build](https://github.com/tiltfactor/mg-game/tree/development/documentation/configure_gamebuild.md)
+>Congratulations! You have successfully installed the Content App for Metadata >Games! Now to __[configure and import media](configure_contentapp.md)!__ and then __[configure the Game App](https://github.com/tiltfactor/mg-game/tree/development/documentation/configure_gameapp.md)
 
 <img src ="images/mg-content_install_furtherSteps.png" title="Metadata Games - Installation Complete! Now to Configuration..." width=615 style="border: 1px solid #000;" />
 
 
 
-## Running Content Build over https ##
+## Running Content App over https ##
 If running over https, check that your ServerProfile URL starts with https
 
 
