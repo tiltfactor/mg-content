@@ -28,9 +28,9 @@ git checkout development
 * download
 (latest updates) https://github.com/tiltfactor/mg-content/zipball/development
 
-## [Installation](documentation/install_contentbuild.md) ##
+## [Installation](documentation/install_contentapp.md) ##
 
-## [Configuration](documentation/configure_contentbuild.md) ##
+## [Configuration](documentation/configure_contentapp.md) ##
 
 Rest of the docs can be found in the documentation/ folder.
 
