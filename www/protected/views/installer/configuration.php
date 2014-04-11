@@ -2,7 +2,7 @@
 $this->pageTitle = Yii::app()->name . ' - Admin Account Setup';
 ?>
 
-<h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game Build Registration</h1>
+<h1><?php echo CHtml::encode(Yii::app()->name); ?> - Admin Account Setup and MG Game App Registration</h1>
 
 <div class="form">
     <?php $form = $this->beginWidget('UActiveForm', array(
