@@ -49,7 +49,7 @@ In fbvsettings.php, edit the following line to reflect your current setup:
 ```
 
 
-In mg-game folder, go to tools and run fix-perms script.
+In mg-content folder, go to tools and run fix-perms script.
 
 ```
 cd tools
