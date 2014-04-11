@@ -5,7 +5,7 @@
 	'method' => 'get',
 )); ?>
 
-  <div class="row">
+ <!--  <div class="row">
     <?php echo CHtml::label(Yii::t('app', "Tag(s)"), "Custom_tags") ?>
     <?php
     $this->widget('MGJuiAutoCompleteMultiple', array(
@@ -17,16 +17,16 @@
         ),
     ));
     ?>
-  </div>
+  </div>  -->
   
-  <div class="row small">
+  <!-- <div class="row small">
     <?php echo CHtml::label(Yii::t('app', "&nbsp;"), "") ?>
     <?php echo CHtml::radioButtonList("Custom[tags_search_option]", ((isset($_GET["Custom"]) && isset($_GET["Custom"]["tags_search_option"]))? $_GET["Custom"]["tags_search_option"] : 'OR'), array("OR"=>"OR", "AND" => "AND"), array(
         'template' => '<div class="inline-radio">{input} {label}</div>',
         'separator' => '',
         )) ?>
     <?php echo Yii::t('app', "(show media that have at least one (OR) or all (AND) of the given tags)"); ?>
-  </div><!-- row -->
+  </div> --><!- row --> 
   
   <div class="row">
     <?php echo CHtml::label(Yii::t('app', "Collections(s)"), "Custom_collections") ?>
