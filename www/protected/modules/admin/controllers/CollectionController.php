@@ -182,15 +182,40 @@ class CollectionController extends GxController {
   }
 
   private function _batchDelete() {
+//    if (isset($_POST['collection-ids'])) {
+//      $criteria=new CDbCriteria;
+//      $criteria->addInCondition("id", $_POST['collection-ids']);
+//      $criteria->addInCondition("locked", array(0));
+//      MGHelper::log('batch-delete', 'Batch deleted Collection with IDs(' . implode(',', $_POST['collection-ids']) . ')');
+//
+//      $model = new Collection;
+//      $model->deleteAll($criteria);//more than one
+//
+//    }
     if (isset($_POST['collection-ids'])) {
-      $criteria=new CDbCriteria;
-      $criteria->addInCondition("id", $_POST['collection-ids']);
-      $criteria->addInCondition("locked", array(0));      
-      MGHelper::log('batch-delete', 'Batch deleted Collection with IDs(' . implode(',', $_POST['collection-ids']) . ')');
-        
-      $model = new Collection;
-      $model->deleteAll($criteria);
-        
-    } 
+        foreach($_POST['collection-ids'] as $id){
+            $model = $this->loadModel($id, 'Collection');
+            if ($model->hasAttribute("locked") && $model->locked) {
+                throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
+            } else {
+                $model->delete_pending = 1;
+                if ($model->save()) {
+                    $token = Yii::app()->fbvStorage->get("token");
+                    $service = new MGGameService();
+                    $result = $service->deleteCollection($token, $model->id);
+                    switch($result->statusCode->name) {
+                        case $result->statusCode->_SUCCESS:
+                            $model->delete();
+                            break;
+                    }
+                }
+                MGHelper::log('delete', 'Deleted Collection with ID(' . $id . ')');
+            }
+            Flash::add('success', Yii::t('app', "Collection deleted"));
+
+            if (!Yii::app()->getRequest()->getIsAjaxRequest())
+                $this->redirect(array('admin'));
+        }
+    }
   }
 }
